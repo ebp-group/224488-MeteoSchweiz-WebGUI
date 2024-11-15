@@ -41,20 +41,20 @@
             <mxRectangle y="20" width="40" height="730" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="77e6c97f196da883-8" value="&lt;p&gt;A&lt;br&gt;Bodenmessdaten&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
+        <mxCell id="77e6c97f196da883-8" value="&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-size: 1.25em; font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;span style=&quot;font-size: 1.25em; font-weight: var(--base-text-weight-semibold, 600);&quot;&gt;A&lt;/span&gt;&lt;/h3&gt;&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-size: 1.25em; font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;span style=&quot;font-size: 1.25em; font-weight: var(--base-text-weight-semibold, 600);&quot;&gt;Ground-based Measurements&lt;/span&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
           <mxGeometry x="30" y="41.25" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="77e6c97f196da883-9" value="Klimadaten" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
+        <mxCell id="77e6c97f196da883-9" value="&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;font style=&quot;font-size: 12.5px;&quot;&gt;C&lt;/font&gt;&lt;/h3&gt;&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;font style=&quot;font-size: 12.5px;&quot;&gt;Climate Data&lt;/font&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
           <mxGeometry x="30" y="301.25" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="77e6c97f196da883-10" value="Atmosphärendaten" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
-          <mxGeometry x="30" y="840" width="100" height="60" as="geometry" />
+        <mxCell id="77e6c97f196da883-10" value="&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;font style=&quot;font-size: 12.5px;&quot;&gt;Atmosphere Measurements&lt;/font&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
+          <mxGeometry x="30" y="570" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Gesd-R931Vldo4rdQ83H-10" value="Radardaten" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
-          <mxGeometry x="30" y="561.25" width="100" height="60" as="geometry" />
+        <mxCell id="Gesd-R931Vldo4rdQ83H-10" value="&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;font style=&quot;font-size: 12.5px;&quot;&gt;Radar Data&lt;/font&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
+          <mxGeometry x="30" y="716.25" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Gesd-R931Vldo4rdQ83H-11" value="Prognosedaten" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
-          <mxGeometry x="30" y="700" width="100" height="60" as="geometry" />
+        <mxCell id="Gesd-R931Vldo4rdQ83H-11" value="&lt;h3 style=&quot;box-sizing: border-box; margin-top: var(--base-size-24); margin-bottom: var(--base-size-16); font-weight: var(--base-text-weight-semibold, 600); line-height: 1.25; color: rgb(31, 35, 40); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; text-align: start; background-color: rgb(255, 255, 255);&quot; dir=&quot;auto&quot; class=&quot;heading-element&quot; tabindex=&quot;-1&quot;&gt;&lt;font style=&quot;font-size: 12.5px;&quot;&gt;Forecast Data&lt;/font&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-2" vertex="1">
+          <mxGeometry x="30" y="855" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="77e6c97f196da883-33" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;labelBackgroundColor=none;startArrow=none;startFill=0;startSize=5;endArrow=classicThin;endFill=1;endSize=5;jettySize=auto;orthogonalLoop=1;strokeWidth=1;fontFamily=Verdana;fontSize=8" parent="77e6c97f196da883-1" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -150,34 +150,34 @@
           <mxGeometry x="30" y="500" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-45" value="Erweiterte &lt;br&gt;Radardaten" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="580" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="735" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-46" value="&lt;p&gt;Grundlegende Radardaten&lt;br&gt;&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="550" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="705" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-47" value="&lt;p&gt;Komb. Niederschlags-berechnungen&lt;br&gt;&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="610" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="765" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-48" value="&lt;font color=&quot;#b3b3b3&quot;&gt;3D-Radardaten&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;strokeColor=#666666;fillColor=#f5f5f5;fontColor=#333333;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="640" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="795" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-53" value="ICON-CH1-Prognosedaten" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="720" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="875" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-54" value="&lt;p&gt;Kurzfristprognosedaten&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="690" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="845" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-55" value="&lt;p&gt;ICON-CH2-Prognosedaten&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="750" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="905" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-56" value="&lt;p&gt;Lokalprognosedaten&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#f8cecc;strokeColor=#b85450;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="780" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="935" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-61" value="Radiosondierungen" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="829" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="560" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-62" value="&lt;font color=&quot;#b3b3b3&quot;&gt;weitere Atmosphärendaten&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;strokeColor=#666666;fillColor=#f5f5f5;fontColor=#333333;" parent="77e6c97f196da883-3" vertex="1">
-          <mxGeometry x="30" y="859" width="100" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="590" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-175" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" parent="77e6c97f196da883-3" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -311,23 +311,23 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-101" value="POI &amp;amp; Station X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=6;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-4" vertex="1">
-          <mxGeometry x="30" y="751.25" width="60" height="20" as="geometry" />
+          <mxGeometry x="30" y="906.25" width="60" height="20" as="geometry" />
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-102" value="POI &amp;amp; Stations&lt;div style=&quot;font-size: 6px;&quot;&gt;im Rechteck X&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=6;align=center;verticalAlign=middle;spacing=2;fillColor=#f8cecc;strokeColor=#b85450;" parent="77e6c97f196da883-4" vertex="1">
-          <mxGeometry x="30" y="780" width="60" height="22.5" as="geometry" />
+          <mxGeometry x="30" y="935" width="60" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-104" value="PLZ X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=6;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-4" vertex="1">
-          <mxGeometry x="90" y="751.25" width="40" height="20" as="geometry" />
+          <mxGeometry x="90" y="906.25" width="40" height="20" as="geometry" />
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-105" value="PLZ&amp;nbsp; im Rechteck X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=6;align=center;verticalAlign=middle;spacing=2;fillColor=#f8cecc;strokeColor=#b85450;" parent="77e6c97f196da883-4" vertex="1">
-          <mxGeometry x="90" y="780" width="40" height="22.5" as="geometry" />
+          <mxGeometry x="90" y="935" width="40" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-108" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;" parent="77e6c97f196da883-4" target="oGBFjUHGQKqJgaGiteJu-102" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="10" y="761" as="sourcePoint" />
-            <mxPoint x="30" y="790" as="targetPoint" />
+            <mxPoint x="10" y="916" as="sourcePoint" />
+            <mxPoint x="30" y="945" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="10" y="791" />
+              <mxPoint x="10" y="946" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -425,10 +425,10 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-109" value="Parameter X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-5" vertex="1">
-          <mxGeometry x="30" y="750" width="100" height="20" as="geometry" />
+          <mxGeometry x="30" y="905" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-111" value="Parameter X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-5" vertex="1">
-          <mxGeometry x="30" y="690" width="100" height="20" as="geometry" />
+          <mxGeometry x="30" y="845" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-1" value="Aktualisierungszyklus" style="swimlane;html=1;startSize=20;" parent="77e6c97f196da883-1" vertex="1">
           <mxGeometry x="640" y="100" width="160" height="1020" as="geometry" />
@@ -999,9 +999,9 @@
         <mxCell id="oGBFjUHGQKqJgaGiteJu-106" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-56" target="oGBFjUHGQKqJgaGiteJu-101" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="290" y="890" />
-              <mxPoint x="300" y="890" />
-              <mxPoint x="300" y="861" />
+              <mxPoint x="290" y="1045" />
+              <mxPoint x="300" y="1045" />
+              <mxPoint x="300" y="1016" />
             </Array>
           </mxGeometry>
         </mxCell>
