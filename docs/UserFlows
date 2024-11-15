@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0" version="24.8.6">
   <diagram name="Page-1" id="74e2e168-ea6b-b213-b513-2b3c1d86103e">
-    <mxGraphModel dx="1377" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="998" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -24,7 +24,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="77e6c97f196da883-1" value="&lt;div align=&quot;left&quot; style=&quot;font-size: 12px;&quot;&gt;Download open data&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;div data-v-5ff86223=&quot;&quot; style=&quot;display:;&quot;&gt;&lt;p data-v-5ff86223=&quot;&quot;&gt;&lt;span data-v-5ff86223=&quot;&quot;&gt;From the&lt;/span&gt; Download open data -service&lt;strong data-v-5ff86223=&quot;&quot;&gt; you can download &lt;font color=&quot;#ff0000&quot;&gt;&lt;strike&gt;weather, radiation, sea and air quality observations&lt;/strike&gt;&lt;/font&gt; for free and without programming skills. &lt;/strong&gt;&lt;/p&gt;&lt;/div&gt; &lt;p data-v-5ff86223=&quot;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;You can also obtain the access URLs of the data files in order to access them programmatically.&lt;br&gt;&lt;/span&gt;&lt;/p&gt;&lt;ul data-v-5ff86223=&quot;&quot;&gt;&lt;li data-v-5ff86223=&quot;&quot;&gt;&lt;p data-v-5ff86223=&quot;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&lt;a href=&quot;https://github.com/MeteoSwiss/opendata-download/blob/main/README.md&quot;&gt;Frequently asked questions (FAQ)&lt;/a&gt; on accessing the data files&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li data-v-5ff86223=&quot;&quot;&gt;&lt;p data-v-5ff86223=&quot;&quot;&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;&lt;a href=&quot;https://github.com/MeteoSwiss/opendata/blob/main/README.md#understanding-meteoswiss-open-data&quot;&gt;Guidance on interpreting the data&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" style="swimlane;html=1;childLayout=stackLayout;startSize=100;rounded=0;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=left;spacingLeft=5;" parent="1" vertex="1">
-          <mxGeometry x="110" y="40" width="1280" height="1120" as="geometry" />
+          <mxGeometry x="100" y="40" width="1280" height="1120" as="geometry" />
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-87" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#CCCC00;endArrow=classic;endFill=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-133" target="Gesd-R931Vldo4rdQ83H-74" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -458,6 +458,18 @@
         </mxCell>
         <mxCell id="oGBFjUHGQKqJgaGiteJu-111" value="Parameter X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-5" vertex="1">
           <mxGeometry x="30" y="845" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-16" value="Parameter 1" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
+          <mxGeometry x="15" y="381" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-17" value="Parameter 2" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
+          <mxGeometry x="25" y="391" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-18" value="Parameter 3" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
+          <mxGeometry x="35" y="401" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-19" value="&lt;a href=&quot;https://sys-data.int.bgdi.ch/browser/index.html#/collections/ch.meteoschweiz.ogd-satellite-derived-grid/items/ch?.language=en&quot;&gt;Parameter&lt;/a&gt;&amp;nbsp;4" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
+          <mxGeometry x="45" y="411" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-1" value="Aktualisierungszyklus" style="swimlane;html=1;startSize=20;" parent="77e6c97f196da883-1" vertex="1">
           <mxGeometry x="640" y="100" width="160" height="1020" as="geometry" />
@@ -1079,6 +1091,33 @@
             <Array as="points">
               <mxPoint x="150" y="535" />
               <mxPoint x="150" y="491" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="491" />
+              <mxPoint x="470" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="491" />
+              <mxPoint x="470" y="511" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="GSX42df1p-JZIC4v4mxs-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-19">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="491" />
+              <mxPoint x="470" y="521" />
             </Array>
           </mxGeometry>
         </mxCell>
