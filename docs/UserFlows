@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0" version="24.8.6">
   <diagram name="Page-1" id="74e2e168-ea6b-b213-b513-2b3c1d86103e">
-    <mxGraphModel dx="998" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1238" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -460,16 +460,16 @@
           <mxGeometry x="30" y="845" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-16" value="Parameter 1" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
-          <mxGeometry x="15" y="381" width="100" height="20" as="geometry" />
+          <mxGeometry x="15" y="500" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-17" value="Parameter 2" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
-          <mxGeometry x="25" y="391" width="100" height="20" as="geometry" />
+          <mxGeometry x="25" y="510" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-18" value="Parameter 3" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
-          <mxGeometry x="35" y="401" width="100" height="20" as="geometry" />
+          <mxGeometry x="35" y="520" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-19" value="&lt;a href=&quot;https://sys-data.int.bgdi.ch/browser/index.html#/collections/ch.meteoschweiz.ogd-satellite-derived-grid/items/ch?.language=en&quot;&gt;Parameter&lt;/a&gt;&amp;nbsp;4" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
-          <mxGeometry x="45" y="411" width="100" height="20" as="geometry" />
+          <mxGeometry x="45" y="530" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-1" value="Aktualisierungszyklus" style="swimlane;html=1;startSize=20;" parent="77e6c97f196da883-1" vertex="1">
           <mxGeometry x="640" y="100" width="160" height="1020" as="geometry" />
@@ -1095,29 +1095,34 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-16">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="491" />
+              <mxPoint x="390" y="610" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-17">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="470" y="491" />
-              <mxPoint x="470" y="500" />
+              <mxPoint x="390" y="491" />
+              <mxPoint x="390" y="620" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-18">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="470" y="491" />
-              <mxPoint x="470" y="511" />
+              <mxPoint x="390" y="491" />
+              <mxPoint x="390" y="630" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="GSX42df1p-JZIC4v4mxs-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="77e6c97f196da883-1" source="Gesd-R931Vldo4rdQ83H-30" target="GSX42df1p-JZIC4v4mxs-19">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="470" y="491" />
-              <mxPoint x="470" y="521" />
+              <mxPoint x="390" y="491" />
+              <mxPoint x="390" y="640" />
             </Array>
           </mxGeometry>
         </mxCell>
