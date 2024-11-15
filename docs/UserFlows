@@ -163,7 +163,7 @@
         <mxCell id="Gesd-R931Vldo4rdQ83H-29" value="&lt;p&gt;Bodengestützte räumliche Klimadaten&lt;br&gt;&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
           <mxGeometry x="30" y="350" width="100" height="22.5" as="geometry" />
         </mxCell>
-        <mxCell id="Gesd-R931Vldo4rdQ83H-30" value="&lt;p&gt;Satellitengestützte räumliche Klimadaten&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
+        <mxCell id="Gesd-R931Vldo4rdQ83H-30" value="&lt;p&gt;&lt;a style=&quot;box-sizing: border-box; background-color: rgb(246, 248, 250); text-underline-offset: 0.2rem; margin-bottom: 0px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Noto Sans&amp;quot;, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; font-size: 16px; text-align: -webkit-left;&quot; href=&quot;https://github.com/MeteoSwiss/opendata-climate-data/blob/main/README.md#4-satellite-based-spatial-climate-data&quot;&gt;Satellite-based spatial climate data&lt;/a&gt;&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
           <mxGeometry x="30" y="380" width="100" height="22.5" as="geometry" />
         </mxCell>
         <mxCell id="Gesd-R931Vldo4rdQ83H-31" value="&lt;p&gt;Radargestützte räumliche Klimadaten&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="77e6c97f196da883-3" vertex="1">
@@ -459,7 +459,7 @@
         <mxCell id="oGBFjUHGQKqJgaGiteJu-111" value="Parameter X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-5" vertex="1">
           <mxGeometry x="30" y="845" width="100" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="GSX42df1p-JZIC4v4mxs-16" value="#1 - #4" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-5" vertex="1">
+        <mxCell id="GSX42df1p-JZIC4v4mxs-16" value="Global radiation" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" parent="77e6c97f196da883-5" vertex="1">
           <mxGeometry x="30" y="451.25" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="k2Lhby0HYx-40KxNeV9R-7" value="#1 - #20" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;verticalAlign=middle;spacing=2;" vertex="1" parent="77e6c97f196da883-5">
