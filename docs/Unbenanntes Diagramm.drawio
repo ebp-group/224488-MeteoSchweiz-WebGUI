@@ -79,13 +79,13 @@
         <mxCell id="77e6c97f196da883-4" value="Raumbezug" style="swimlane;html=1;startSize=20;" parent="77e6c97f196da883-1" vertex="1">
           <mxGeometry x="320" y="20" width="160" height="1290" as="geometry" />
         </mxCell>
-        <mxCell id="eP5LJyJmx2GyEUPEJtx5-101" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
+        <mxCell id="eP5LJyJmx2GyEUPEJtx5-101" value="Station X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
           <mxGeometry x="30" y="30" width="100" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="eP5LJyJmx2GyEUPEJtx5-102" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
+        <mxCell id="eP5LJyJmx2GyEUPEJtx5-102" value="alle Stationen" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
           <mxGeometry x="30" y="60" width="100" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="eP5LJyJmx2GyEUPEJtx5-103" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
+        <mxCell id="eP5LJyJmx2GyEUPEJtx5-103" value="Stationen im &lt;br&gt;Rechteck X" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
           <mxGeometry x="30" y="90" width="100" height="20" as="geometry" />
         </mxCell>
         <mxCell id="eP5LJyJmx2GyEUPEJtx5-108" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=8;align=center;" parent="77e6c97f196da883-4" vertex="1">
