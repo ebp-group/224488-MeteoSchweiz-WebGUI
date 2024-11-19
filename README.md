@@ -1,3 +1,5 @@
+Original Repository: https://github.com/MeteoSwiss/opendata-explorer
+
 # Open Data Explorer
 
 **Relevant resources**
