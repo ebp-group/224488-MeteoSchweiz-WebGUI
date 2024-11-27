@@ -5,7 +5,7 @@ Original Repository: https://github.com/MeteoSwiss/opendata-explorer
 **Relevant resources**
 - End-user flows dependent on OGD products
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
 
 ## Development server
 
