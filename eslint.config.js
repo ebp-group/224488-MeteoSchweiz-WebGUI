@@ -124,6 +124,7 @@ module.exports = tseslint.config(
       'prefer-template': 'warn',
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       'no-console': ['warn', {allow: ['warn', 'error']}],
+      'prettier/prettier': ['error', {endOfLine: 'auto'}],
     },
   },
   {
