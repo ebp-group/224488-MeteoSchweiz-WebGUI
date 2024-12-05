@@ -4,6 +4,19 @@ const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
 const prettierRecommended = require('eslint-plugin-prettier/recommended');
 const ngrx = require('@ngrx/eslint-plugin/v9');
+/**
+ * TODO: The following imports should be revisited once the following issues are resolved:
+ *  * eslint-plugin-rxjs-angular
+ *    Either it will be updated to support ESLint 9 or included into 'angular-eslint'
+ *    * https://github.com/cartant/eslint-plugin-rxjs-angular/issues/23
+ *    * https://github.com/angular-eslint/angular-eslint/discussions/2094
+ *  * eslint-plugin-rxjs
+ *    Either it will be updated to support ESLint 9 or included into 'rxjs'
+ *    * https://github.com/ReactiveX/rxjs/discussions/7492
+ */
+const rxjsAngular = require('eslint-plugin-rxjs-angular');
+const {fixupPluginRules} = require('@eslint/compat');
+const rxjsX = require('eslint-plugin-rxjs-x');
 
 module.exports = tseslint.config(
   {
@@ -15,7 +28,12 @@ module.exports = tseslint.config(
       ...angular.configs.tsRecommended,
       prettierRecommended,
       ...ngrx.configs.all,
+      rxjsX.configs.recommended,
     ],
+    plugins: {
+      rxjs: rxjsX,
+      'rxjs-angular': fixupPluginRules(rxjsAngular),
+    },
     processor: angular.processInlineTemplates,
     rules: {
       'rxjs-angular/prefer-composition': 'error',
@@ -84,7 +102,7 @@ module.exports = tseslint.config(
         },
       ],
       'arrow-parens': ['off', 'always'],
-      'rxjs/no-ignored-observable': 'warn',
+      'rxjs/no-floating-observables': 'warn',
       'dot-notation': 'off',
       '@typescript-eslint/dot-notation': [
         'error',
