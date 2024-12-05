@@ -1,5 +1,5 @@
 {
-  "name": "meteoschweiz-webgui",
+  "name": "meteoschweiz-opendata-explorer",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -25,6 +25,7 @@
     "@ngrx/effects": "^18.1.1",
     "@ngrx/operators": "^18.1.1",
     "@ngrx/store": "^18.1.1",
+    "immer": "^10.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

@@ -9,5 +9,5 @@ import {RouterOutlet} from '@angular/router';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  protected title = 'meteoschweiz-webgui';
+  protected title = 'meteoschweiz-opendata-explorer';
 }

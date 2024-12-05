@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "meteoschweiz-webgui": {
+    "meteoschweiz-opendata-explorer": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/meteoschweiz-webgui",
+            "outputPath": "dist/meteoschweiz-opendata-explorer",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -61,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "meteoschweiz-webgui:build:production"
+              "buildTarget": "meteoschweiz-opendata-explorer:build:production"
             },
             "development": {
-              "buildTarget": "meteoschweiz-webgui:build:development"
+              "buildTarget": "meteoschweiz-opendata-explorer:build:development"
             }
           },
           "defaultConfiguration": "development"

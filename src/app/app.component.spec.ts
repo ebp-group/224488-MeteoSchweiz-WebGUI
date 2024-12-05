@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'meteoschweiz-webgui' title`, () => {
+  it(`should have the 'meteoschweiz-opendata-explorer' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('meteoschweiz-webgui');
+    expect(app.title).toEqual('meteoschweiz-opendata-explorer');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, meteoschweiz-webgui');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, meteoschweiz-opendata-explorer');
   });
 });
