@@ -13,7 +13,7 @@ import {type Language} from './shared/types/language.types';
 export class AppComponent {
   private readonly translocoService = inject(TranslocoService);
 
-  protected title = 'meteoschweiz-opendata-explorer';
+  public title = 'meteoschweiz-opendata-explorer';
 
   public changeLanguage(language: Language): void {
     this.translocoService.setActiveLang(language);

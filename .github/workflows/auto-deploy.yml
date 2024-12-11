@@ -1,0 +1,27 @@
+name: Auto deploy main branch
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  test-application:
+    name: Test application
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/code-quality-checks.yml
+
+  deploy-main:
+    name: Deploy main branch
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - test-application
+    uses: ./.github/workflows/deploy.yml
