@@ -1,0 +1,7 @@
+dist
+docs
+junit
+node_modules
+public
+package-lock.json
+.angular/cache

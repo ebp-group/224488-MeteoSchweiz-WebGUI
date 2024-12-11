@@ -1,0 +1,9 @@
+<div class="fatal-error-page">
+  <!-- TODO: multi language -->
+  <h1>Fehler</h1>
+  <p>Die Applikation kann gerade nicht geladen werden. Laden Sie die Seite erneut oder versuchen Sie es später noch einmal.</p>
+  @if (errorMessage) {
+    <p class="fatal-error-page__error-message">Fehler: {{ errorMessage }}</p>
+  }
+  <button (click)="forceRefresh()">Zur Startseite</button>
+</div>
