@@ -1,0 +1,54 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  build:
+    name: Build production artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build -- --base-href "/224488-MeteoSchweiz-WebGUI/"
+          # Work around for SPAs on GitHub-Pages.
+          # More info https://github.com/orgs/community/discussions/64096
+          cp ./dist/meteoschweiz-opendata-explorer/browser/index.html ./dist/meteoschweiz-opendata-explorer/browser/404.html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist/meteoschweiz-opendata-explorer/browser
+
+  deploy:
+    name: Deploy to GitHub Pages
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
