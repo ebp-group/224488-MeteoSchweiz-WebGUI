@@ -64,9 +64,15 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
-## Naming conventions
+## Conventions
 
-Generally, we are orientating ourselves at the default Typescript naming conventions.
+### Naming conventions
+
+Generally, we are orientating ourselves at the default Typescript naming conventions. We try to avoid abbreviations.
+
+### Angular conventions
+
+We use private readonly properties with `inject` to inject a service rather than using a constructor where we would provide them as arguments.
 
 ### Branchname and commit message
 

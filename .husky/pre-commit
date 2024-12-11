@@ -14,3 +14,11 @@ else
     echo "✅  Branchname!"
 fi
 echo ""
+
+echo "🚀 Checking translation keys!"
+if ! npm run i18n:find >/dev/null 2>&1; then
+    printf "\033[31m⚠️ Translation keys missing or unused! \033[0m\n"
+else
+    echo "✅  Translation keys!"
+fi
+echo ""
