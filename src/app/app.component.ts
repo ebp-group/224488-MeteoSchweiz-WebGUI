@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
+import {LanguageIdentifier} from './shared/types/languages.types';
 
 @Component({
   selector: 'app-root',

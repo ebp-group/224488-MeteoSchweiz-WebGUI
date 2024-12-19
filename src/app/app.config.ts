@@ -9,6 +9,7 @@ import {ErrorHandlerService} from './error-handling/error-handler.service';
 import {provideHttpClient} from '@angular/common/http';
 import {TranslocoHttpLoader} from './transloco-loader';
 import {provideTransloco} from '@jsverse/transloco';
+import {supportedLanguages, defaultLanguage} from './shared/constants/languages.constants';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,8 +21,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideTransloco({
       config: {
-        availableLangs: ['de', 'fr', 'it', 'en'],
-        defaultLang: 'de',
+        availableLangs: [...supportedLanguages],
+        defaultLang: defaultLanguage,
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
       },
