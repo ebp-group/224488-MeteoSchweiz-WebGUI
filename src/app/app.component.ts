@@ -10,14 +10,15 @@ import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  private translocoService = inject(TranslocoService);
+  private readonly translocoService = inject(TranslocoService);
+
   protected title = 'meteoschweiz-opendata-explorer';
 
-  public changeLanguage(lang: string) {
-    this.translocoService.setActiveLang(lang);
+  public changeLanguage(language: string): void {
+    this.translocoService.setActiveLang(language);
   }
 
-  public testError() {
+  public testError(): void {
     throw new Error('Test');
   }
 }
