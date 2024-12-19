@@ -1,0 +1,5 @@
+{
+  "greeting": "Hallo, {{ title }}!",
+  "congraz": "Glückwunsch! Deine App funktioniert. 🎉",
+  "errorTest": "Fehler Test"
+}

@@ -10,7 +10,9 @@
     "test-ci": "ng test --no-watch --no-progress --code-coverage",
     "prepare": "husky",
     "format-all": "prettier --write ./src",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "i18n:extract": "transloco-keys-manager extract",
+    "i18n:find": "transloco-keys-manager find --translations-path public/i18n --emit-error-on-extra-keys"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +24,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@jsverse/transloco": "^7.5.0",
     "@ngrx/effects": "^18.1.1",
     "@ngrx/operators": "^18.1.1",
     "@ngrx/store": "^18.1.1",
@@ -36,6 +39,7 @@
     "@angular/compiler-cli": "^18.2.0",
     "@eslint/compat": "^1.2.4",
     "@eslint/js": "^9.16.0",
+    "@jsverse/transloco-keys-manager": "^6.0.0",
     "@ngrx/eslint-plugin": "^18.1.1",
     "@types/jasmine": "~5.1.0",
     "angular-eslint": "18.4.3",
