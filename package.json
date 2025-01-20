@@ -14,7 +14,8 @@
     "format": "prettier --write ./src",
     "format:check": "prettier --check ./src",
     "lint": "ng lint",
-    "type:check": "tsc --noEmit"
+    "type:check": "tsc --noEmit",
+    "generate-stac-api": "swagger-typescript-api -p https://sys-data.int.bgdi.ch/api/stac/static/spec/v0.9/openapi.yaml -o ./src/app/stac/generated -n stac-api.interfaces.ts  --extract-response-body --extract-request-body --extract-request-body"
   },
   "private": true,
   "dependencies": {
@@ -60,6 +61,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.1",
+    "swagger-typescript-api": "13.0.23",
     "typescript": "~5.5.2",
     "typescript-eslint": "8.16.0"
   },
