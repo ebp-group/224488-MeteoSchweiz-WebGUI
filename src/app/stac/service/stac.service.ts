@@ -1,6 +1,8 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {Station, StationParameter, StationParameterMapping} from '../shared/types/station.types';
+import {Station, StationParameter, StationParameterMapping} from '../../shared/types/station.types';
+import {Store} from '@ngrx/store';
+import {stationActions} from '../../state/station/actions/station.actions';
 
 interface CsvStation {
   stationAbbr: string;
@@ -64,20 +66,26 @@ export class StacService {
   // - get item
   //    need to be able to search based on date, interval etc
   // I guess we only need the ch.meteoschweiz.ogd-smn collection
+  private readonly store = inject(Store);
 
   private readonly meteoSchweizCollection = 'ch.meteoschweiz.ogd-smn';
   private readonly stacApiServer = 'sys-data.int.bgdi.ch';
 
   public fetchAll() {
     this.fetchCSV<CsvStation>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_stations.csv`, (result) =>
-      console.log(result.map(this.transformCsvStationToStation)),
+      this.store.dispatch(stationActions.setStations({stations: result.map(this.transformCsvStationToStation)})),
     );
     this.fetchCSV<CsvParameter>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_parameters.csv`, (result) =>
-      console.log(result.map(this.transformCsvParameterToStationParameter)),
+      this.store.dispatch(stationActions.setParameters({parameters: result.map(this.transformCsvParameterToStationParameter)})),
     );
     this.fetchCSV<CsvStationParameterMapping>(
       `https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_datainventory.csv`,
-      (result) => console.log(result.map(this.transformCsvStationParameterMappingToStationParameterMapping)),
+      (result) =>
+        this.store.dispatch(
+          stationActions.setStationParameterMappings({
+            mappings: result.map(this.transformCsvStationParameterMappingToStationParameterMapping),
+          }),
+        ),
     );
   }
 

@@ -1,0 +1,13 @@
+<div>
+  @for (station of stations; track $index) {
+    <div>
+      <h1>{{ station.name }} ({{ station.abbreviation }})</h1>
+      <p>{{ translateTranslatableLabel(station.expositionLabel) }}</p>
+    </div>
+  }
+</div>
+<div>
+  @for (parameter of parameters$ | async; track $index) {
+    <h1>{{ translateTranslatableLabel(parameter.description) }}</h1>
+  }
+</div>
