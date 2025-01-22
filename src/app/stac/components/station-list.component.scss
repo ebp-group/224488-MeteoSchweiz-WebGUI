@@ -1,0 +1,12 @@
+.station-item {
+  padding: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: ghostwhite;
+  }
+  &.selected {
+    border: solid black 1px;
+  }
+}

@@ -72,9 +72,43 @@ export class StacService {
   private readonly stacApiServer = 'sys-data.int.bgdi.ch';
 
   public fetchAll() {
-    this.fetchCSV<CsvStation>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_stations.csv`, (result) =>
-      this.store.dispatch(stationActions.setStations({stations: result.map(this.transformCsvStationToStation)})),
-    );
+    this.fetchCSV<CsvStation>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_stations.csv`, (result) => {
+      const stations = result.map(this.transformCsvStationToStation);
+      // Test station that has assets to link to
+      stations.push({
+        abbreviation: 'HAI',
+        canton: 'TG',
+        coordinatesLv95East: 2719099.786,
+        coordinatesLv95North: 1279046.619,
+        coordinatesWgs84Lat: 47.651242,
+        coordinatesWgs84Lon: 9.023911,
+        dataOwner: '',
+        dataSince: '',
+        expositionLabel: {
+          de: '',
+          en: '',
+          fr: '',
+          it: '',
+        },
+        heightBarometerMasl: '',
+        heightMasl: '',
+        name: 'Salen-Reutenen',
+        typeLabel: {
+          de: '',
+          en: '',
+          fr: '',
+          it: '',
+        },
+        url: {
+          de: '',
+          en: '',
+          fr: '',
+          it: '',
+        },
+        wigosId: '',
+      });
+      this.store.dispatch(stationActions.setStations({stations}));
+    });
     this.fetchCSV<CsvParameter>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_parameters.csv`, (result) => {
       const parameters = result.map(this.transformCsvParameterToStationParameter);
       const groups = this.processParameters(parameters);
@@ -102,7 +136,9 @@ export class StacService {
       }
       groups.get(parameter.group.en)?.parameters.push(parameter);
     }
-    return Array.from(groups.values());
+    const apiArray = Array.from(groups.values());
+    apiArray.push({name: {de: 'Test ohne parameter', en: 'Test without parameter', fr: 'Test', it: 'Test'}, parameters: []});
+    return apiArray;
   }
 
   private fetchCSV<T>(url: string, resultCallback: (result: T[]) => void) {

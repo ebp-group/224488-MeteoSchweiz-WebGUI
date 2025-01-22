@@ -1,6 +1,13 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- Linter rules disabled as this is a prototype that does not need to be accessible. Will be removed later-->
 <div style="display: grid; gap: 5px; grid-template-columns: auto auto auto">
   @for (station of stations$ | async; track $index) {
-    <div>
+    <div
+      class="station-item"
+      (click)="selectStation(station)"
+      [class.selected]="(selectedStationAbbreviation$ | async) === station.abbreviation"
+    >
       <h3>{{ station.name }} ({{ station.abbreviation }})</h3>
       <p>{{ translateTranslatableLabel(station.expositionLabel) }}</p>
     </div>

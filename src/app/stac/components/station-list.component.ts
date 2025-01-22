@@ -1,13 +1,14 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy} from '@angular/core';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
-import {Store} from '@ngrx/store';
-import {Station, StationParameter, StationParameterMapping} from '../../shared/types/station.types';
-import {Subscription, tap} from 'rxjs';
-import {StationState} from '../../state/station/state/station.state';
-import {initialState, stationFeature} from '../../state/station/reducers/station.reducer';
+import {createSelector, Store} from '@ngrx/store';
+import {Station, StationParameterMapping} from '../../shared/types/station.types';
+import {combineLatest, filter, map, Subscription, tap, withLatestFrom} from 'rxjs';
+import {stationFeature} from '../../state/station/reducers/station.reducer';
 import {AsyncPipe} from '@angular/common';
 import {TranslatableLabel} from '../../shared/types/translatable-label';
 import {Language} from '../../shared/types/language.types';
+import {formFeature} from '../../state/form/reducers/form.reducer';
+import {formActions} from '../../state/form/actions/form.actions';
 
 @Component({
   selector: 'app-station-list',
@@ -21,25 +22,34 @@ export class StationListComponent implements OnDestroy {
   private readonly translocoService = inject(TranslocoService);
 
   private readonly subscriptions: Subscription = new Subscription();
-  public readonly stations$ = this.store.select(stationFeature.selectStations);
+  private readonly selectedGroup$ = this.store.select(formFeature.selectSelectedParameterGroup);
+  private readonly stationParameterMappings$ = this.store.select(stationFeature.selectStationParameterMappings);
+  private stationAbbreviationSelector = createSelector(formFeature.selectSelectedStation, (station) => station?.abbreviation);
+
+  public readonly stations$ = combineLatest([this.store.select(stationFeature.selectStations), this.selectedGroup$]).pipe(
+    withLatestFrom(this.stationParameterMappings$),
+    map(([[stations, selectedGroup], mappings]) =>
+      stations.filter(
+        (station) =>
+          selectedGroup == null ||
+          mappings
+            .filter((mapping) => mapping.stationAbbreviation === station.abbreviation)
+            .some((mapping) => selectedGroup?.parameters.map((parameter) => parameter.shortname).includes(mapping.parameterShortname)),
+      ),
+    ),
+  );
+
+  public selectedStationAbbreviation$ = this.store.select(this.stationAbbreviationSelector);
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  public translateTranslatableLabel(label: TranslatableLabel) {
-    return label[this.translocoService.getActiveLang() as Language];
+  public selectStation(station: Station) {
+    this.store.dispatch(formActions.selectStation({station}));
   }
 
-  private combineMapping(mappings: StationParameterMapping[]): void {
-    // mappings.forEach((map) =>
-    //   this.stations.forEach(
-    //     (station) =>
-    //       map.stationAbbreviation === station.abbreviation &&
-    //       this.parameters.forEach(
-    //         (parameter) => map.parameterShortname === parameter.shortname && console.log(map, parameter.description.de),
-    //       ),
-    //   ),
-    // );
+  public translateTranslatableLabel(label: TranslatableLabel) {
+    return label[this.translocoService.getActiveLang() as Language];
   }
 }
