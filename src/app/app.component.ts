@@ -3,12 +3,13 @@ import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {type Language} from './shared/types/language.types';
 import {StacService} from './stac/service/stac.service';
-import {StationComponent} from './stac/components/station.component';
+import {StationListComponent} from './stac/components/station-list.component';
+import {ParameterListComponent} from './stac/components/parameterList.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TranslocoModule, StationComponent],
+  imports: [RouterOutlet, TranslocoModule, ParameterListComponent, StationListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

@@ -50,11 +50,22 @@ export interface StationParameter {
   // sometimes the interval part of the the description describes how a parameter distinguishes from other similar parameters
 
   description: TranslatableLabel;
+
+  // This has a more generic name for the parameters
   group: TranslatableLabel;
   granularity: 'T' | 'H' | 'D' | 'M' | 'Y';
   decimals: number;
   datatype: 'Integer' | 'Float';
   unit: string;
+
+  id?: string; // the first 6 characters of shortname
+  name?: TranslatableLabel;
+  measurementType?: '0' | '1' | '3' | 's' | 'v' | 'n' | 'x'; // this might be not needed in the end
+}
+
+export interface StationParameterGroup {
+  name: TranslatableLabel;
+  parameters: StationParameter[];
 }
 
 export interface StationParameterMapping {

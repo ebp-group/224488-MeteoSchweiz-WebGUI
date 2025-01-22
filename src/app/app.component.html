@@ -199,10 +199,19 @@
   <div>
     <button (click)="changeLanguage('en')">English</button>
     <button (click)="changeLanguage('de')">German</button>
+    <button (click)="changeLanguage('fr')">French</button>
+    <button (click)="changeLanguage('it')">Italian</button>
     <button (click)="testError()">{{ t('errorTest') }}</button>
     <button (click)="testStac()">CSV</button>
   </div>
-  <app-station></app-station>
+  <div style="margin: 20px 0px; width: 100%">
+    <h1>Parameters</h1>
+    <app-parameter-list></app-parameter-list>
+  </div>
+  <div style="margin: 20px 0px; width: 100%">
+    <h1>Stations</h1>
+    <app-station-list></app-station-list>
+  </div>
 </main>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

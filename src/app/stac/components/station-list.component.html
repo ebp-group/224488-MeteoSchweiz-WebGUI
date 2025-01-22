@@ -1,0 +1,8 @@
+<div style="display: grid; gap: 5px; grid-template-columns: auto auto auto">
+  @for (station of stations$ | async; track $index) {
+    <div>
+      <h3>{{ station.name }} ({{ station.abbreviation }})</h3>
+      <p>{{ translateTranslatableLabel(station.expositionLabel) }}</p>
+    </div>
+  }
+</div>

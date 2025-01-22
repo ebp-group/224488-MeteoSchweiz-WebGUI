@@ -1,0 +1,8 @@
+<div style="display: grid; gap: 5px; grid-template-columns: auto auto auto">
+  @for (group of parameterGroups$ | async; track $index) {
+    <div>
+      <input type="radio" [id]="group.name.en" name="parameterGroup" [value]="group.name.en" />
+      <label [for]="group.name.en" style="text-transform: capitalize">{{ translateTranslatableLabel(group.name) }}</label>
+    </div>
+  }
+</div>

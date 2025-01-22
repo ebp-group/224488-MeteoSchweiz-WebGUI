@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {Station, StationParameter, StationParameterMapping} from '../../shared/types/station.types';
+import {Station, StationParameter, StationParameterGroup, StationParameterMapping} from '../../shared/types/station.types';
 import {Store} from '@ngrx/store';
 import {stationActions} from '../../state/station/actions/station.actions';
 
@@ -75,9 +75,14 @@ export class StacService {
     this.fetchCSV<CsvStation>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_stations.csv`, (result) =>
       this.store.dispatch(stationActions.setStations({stations: result.map(this.transformCsvStationToStation)})),
     );
-    this.fetchCSV<CsvParameter>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_parameters.csv`, (result) =>
-      this.store.dispatch(stationActions.setParameters({parameters: result.map(this.transformCsvParameterToStationParameter)})),
-    );
+    this.fetchCSV<CsvParameter>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_parameters.csv`, (result) => {
+      const parameters = result.map(this.transformCsvParameterToStationParameter);
+      const groups = this.processParameters(parameters);
+      // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
+      this.store.dispatch(stationActions.setParameters({parameters: parameters}));
+      // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
+      this.store.dispatch(stationActions.setParameterGroups({groups: groups}));
+    });
     this.fetchCSV<CsvStationParameterMapping>(
       `https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_datainventory.csv`,
       (result) =>
@@ -89,26 +94,34 @@ export class StacService {
     );
   }
 
+  private processParameters(parameters: StationParameter[]): StationParameterGroup[] {
+    const groups = new Map<string, StationParameterGroup>();
+    for (const parameter of parameters) {
+      if (!groups.has(parameter.group.en)) {
+        groups.set(parameter.group.en, {name: parameter.group, parameters: []});
+      }
+      groups.get(parameter.group.en)?.parameters.push(parameter);
+    }
+    return Array.from(groups.values());
+  }
+
   private fetchCSV<T>(url: string, resultCallback: (result: T[]) => void) {
-    //TODO: decode windows-1252 characters
+    //TODO: decode windows-1252 characters or change the csv to utf-8
     papa.parse<T>(url, {
       download: true,
       delimiter: ';',
       header: true,
       skipEmptyLines: true,
-      beforeFirstChunk: () => {
-        // TODO: set loading indicator
-      },
       transformHeader: (header, index) => {
         if (header.includes('_')) {
           // Transform header is called multiple times for the same header. We only have to perform the transformation once
           header = header.toLowerCase().replace(/(_\w)/g, (group) => group[1].toUpperCase());
         }
-        console.log(header, index);
+        // console.log(header, index);
         return header;
       },
       complete: (result) => {
-        console.log(result);
+        // console.log(result);
         resultCallback(result.data);
       },
     });

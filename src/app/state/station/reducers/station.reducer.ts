@@ -8,6 +8,7 @@ export const initialState: StationState = {
   stations: [],
   stationParameters: [],
   stationParameterMappings: [],
+  stationParameterGroups: [],
 };
 
 export const stationFeature = createFeature({
@@ -17,5 +18,6 @@ export const stationFeature = createFeature({
     on(stationActions.setStations, (state, {stations}): StationState => ({...state, stations})),
     on(stationActions.setParameters, (state, {parameters}): StationState => ({...state, stationParameters: parameters})),
     on(stationActions.setStationParameterMappings, (state, {mappings}): StationState => ({...state, stationParameterMappings: mappings})),
+    on(stationActions.setParameterGroups, (state, {groups}): StationState => ({...state, stationParameterGroups: groups})),
   ),
 });
