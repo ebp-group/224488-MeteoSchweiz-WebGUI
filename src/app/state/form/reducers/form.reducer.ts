@@ -7,6 +7,7 @@ export const formFeatureKey = 'form';
 export const initialState: FormState = {
   selectedParameterGroup: null,
   selectedStation: null,
+  assetsFromSelectedStation: [],
 };
 
 export const formFeature = createFeature({
@@ -15,5 +16,6 @@ export const formFeature = createFeature({
     initialState,
     on(formActions.selectParameterGroup, (state, {group}): FormState => ({...state, selectedParameterGroup: group})),
     on(formActions.selectStation, (state, {station}): FormState => ({...state, selectedStation: station})),
+    on(formActions.selectAssetsFormSelectedStation, (state, {assets}): FormState => ({...state, assetsFromSelectedStation: assets})),
   ),
 });

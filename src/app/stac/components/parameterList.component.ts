@@ -23,9 +23,6 @@ export class ParameterListComponent implements OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
   public readonly parameterGroups$ = this.store.select(stationFeature.selectStationParameterGroups);
 
-  public stations: Station[] = [];
-  public parameters: StationParameter[] = [];
-
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

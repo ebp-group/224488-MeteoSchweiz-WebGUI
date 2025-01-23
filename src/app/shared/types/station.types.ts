@@ -10,10 +10,10 @@ export interface Station {
   dataSince: string;
   heightMasl: string;
   heightBarometerMasl: string;
-  coordinatesLv95East: string;
-  coordinatesLv95North: string;
-  coordinatesWgs84Lat: string;
-  coordinatesWgs84Lon: string;
+  coordinatesLv95East: number;
+  coordinatesLv95North: number;
+  coordinatesWgs84Lat: number;
+  coordinatesWgs84Lon: number;
   expositionLabel: TranslatableLabel;
   url: TranslatableLabel;
 }
@@ -75,4 +75,11 @@ export interface StationParameterMapping {
   sinceDate: string;
   tillDate: string;
   ownerOrganizationName: string;
+}
+
+export interface StationAsset {
+  name: string;
+  href: string;
+  description: string; // TODO: Should we use this? It's only english
+  // There's a checksum. That could also be provided maybe
 }

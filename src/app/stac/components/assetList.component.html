@@ -1,0 +1,13 @@
+@for (asset of assets$ | async; track $index) {
+  <div style="margin: 5px 0px">
+    <div>
+      <b>{{ asset.name }}</b>
+    </div>
+    <div style="padding-left: 5px">
+      <div>
+        <a [href]="asset.href">{{ asset.href }}</a>
+      </div>
+      <div>{{ asset.description }}</div>
+    </div>
+  </div>
+}

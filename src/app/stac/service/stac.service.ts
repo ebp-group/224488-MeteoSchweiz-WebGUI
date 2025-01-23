@@ -1,8 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {Station, StationParameter, StationParameterGroup, StationParameterMapping} from '../../shared/types/station.types';
+import {Station, StationAsset, StationParameter, StationParameterGroup, StationParameterMapping} from '../../shared/types/station.types';
 import {Store} from '@ngrx/store';
 import {stationActions} from '../../state/station/actions/station.actions';
+import {Api as StacApiClient} from '../generated/stac-api.generated';
+import {formFeature} from '../../state/form/reducers/form.reducer';
+import {formActions} from '../../state/form/actions/form.actions';
 
 interface CsvStation {
   stationAbbr: string;
@@ -17,10 +20,10 @@ interface CsvStation {
   stationDataSince: string;
   stationHeightMasl: string;
   stationHeightBarometerMasl: string;
-  stationCoordinatesLv95East: string;
-  stationCoordinatesLv95North: string;
-  stationCoordinatesWgs84Lat: string;
-  stationCoordinatesWgs84Lon: string;
+  stationCoordinatesLv95East: `${number}`;
+  stationCoordinatesLv95North: `${number}`;
+  stationCoordinatesWgs84Lat: `${number}`;
+  stationCoordinatesWgs84Lon: `${number}`;
   stationExpositionDe: string;
   stationExpositionFr: string;
   stationExpositionIt: string;
@@ -70,6 +73,28 @@ export class StacService {
 
   private readonly meteoSchweizCollection = 'ch.meteoschweiz.ogd-smn';
   private readonly stacApiServer = 'sys-data.int.bgdi.ch';
+
+  private readonly stacApiClient: StacApiClient<unknown>;
+
+  constructor() {
+    this.stacApiClient = new StacApiClient();
+    this.stacApiClient.baseUrl = 'https://sys-data.int.bgdi.ch/api/stac/v0.9';
+  }
+
+  public async fetchAssetsForStation(station: Station): Promise<void> {
+    console.log(station);
+    const feature = await this.stacApiClient.collections.getFeature(this.meteoSchweizCollection, station.abbreviation.toLowerCase(), {
+      format: 'json',
+    });
+    const results: StationAsset[] = [];
+    const assets = feature.data.assets;
+    for (const asset in assets) {
+      // TODO: null handling
+      results.push({name: asset, description: assets[asset].description!, href: assets[asset].href!});
+    }
+    console.log(assets);
+    this.store.dispatch(formActions.selectAssetsFormSelectedStation({assets: results}));
+  }
 
   public fetchAll() {
     this.fetchCSV<CsvStation>(`https://${this.stacApiServer}/${this.meteoSchweizCollection}/ogd-smn_meta_stations.csv`, (result) => {
@@ -167,10 +192,10 @@ export class StacService {
     return {
       abbreviation: csvStation.stationAbbr,
       canton: csvStation.stationCanton,
-      coordinatesLv95East: csvStation.stationCoordinatesLv95East,
-      coordinatesLv95North: csvStation.stationCoordinatesLv95North,
-      coordinatesWgs84Lat: csvStation.stationCoordinatesWgs84Lat,
-      coordinatesWgs84Lon: csvStation.stationCoordinatesWgs84Lon,
+      coordinatesLv95East: Number.parseFloat(csvStation.stationCoordinatesLv95East),
+      coordinatesLv95North: Number.parseFloat(csvStation.stationCoordinatesLv95North),
+      coordinatesWgs84Lat: Number.parseFloat(csvStation.stationCoordinatesWgs84Lat),
+      coordinatesWgs84Lon: Number.parseFloat(csvStation.stationCoordinatesWgs84Lon),
       dataOwner: csvStation.stationDataowner,
       dataSince: csvStation.stationDataSince,
       expositionLabel: {
