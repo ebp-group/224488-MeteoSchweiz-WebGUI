@@ -5,12 +5,13 @@ import {type Language} from './shared/types/language.types';
 import {StacService} from './stac/service/stac.service';
 import {StationListComponent} from './stac/components/station-list.component';
 import {ParameterListComponent} from './stac/components/parameter-list.component';
-import {AssetListComponent} from './stac/components/assetList.component';
+import {AssetListComponent} from './stac/components/asset-list.component';
+import {IntervalSelectionComponent} from './stac/components/interval-selection.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TranslocoModule, ParameterListComponent, StationListComponent, AssetListComponent],
+  imports: [RouterOutlet, TranslocoModule, ParameterListComponent, StationListComponent, AssetListComponent, IntervalSelectionComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

@@ -1,0 +1,22 @@
+<div style="display: grid; gap: 5px; grid-template-columns: auto" *transloco="let t">
+  <div>
+    <input type="radio" id="10min-interval" name="interval" (change)="setIntervalSelection('T')" />
+    <label for="10min-interval" style="text-transform: capitalize">{{ t('10min-interval-selection') }}</label>
+  </div>
+  <div>
+    <input type="radio" id="hour-interval" name="interval" (change)="setIntervalSelection('H')" />
+    <label for="hour-interval" style="text-transform: capitalize">{{ t('hour-interval-selection') }}</label>
+  </div>
+  <div>
+    <input type="radio" id="day-interval" name="interval" (change)="setIntervalSelection('D')" />
+    <label for="day-interval" style="text-transform: capitalize">{{ t('day-interval-selection') }}</label>
+  </div>
+  <div>
+    <input type="radio" id="month-interval" name="interval" (change)="setIntervalSelection('M')" />
+    <label for="month-interval" style="text-transform: capitalize">{{ t('month-interval-selection') }}</label>
+  </div>
+  <div>
+    <input type="radio" id="year-interval" name="interval" (change)="setIntervalSelection('Y')" />
+    <label for="year-interval" style="text-transform: capitalize">{{ t('year-interval-selection') }}</label>
+  </div>
+</div>

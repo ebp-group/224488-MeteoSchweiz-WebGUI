@@ -1,6 +1,13 @@
 import {inject, Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {Station, StationAsset, StationParameter, StationParameterGroup, StationParameterMapping} from '../../shared/types/station.types';
+import {
+  isAssetInterval,
+  Station,
+  StationAsset,
+  StationParameter,
+  StationParameterGroup,
+  StationParameterMapping,
+} from '../../shared/types/station.types';
 import {Store} from '@ngrx/store';
 import {stationActions} from '../../state/station/actions/station.actions';
 import {Api as StacApiClient} from '../generated/stac-api.generated';
@@ -88,9 +95,15 @@ export class StacService {
     });
     const results: StationAsset[] = [];
     const assets = feature.data.assets;
-    for (const asset in assets) {
+    for (const assetKey in assets) {
       // TODO: null handling
-      results.push({name: asset, description: assets[asset].description!, href: assets[asset].href!});
+      const asset = assets[assetKey];
+      const granularity = assetKey.split('_')[2].toUpperCase();
+      if (isAssetInterval(granularity)) {
+        results.push({name: assetKey, description: asset.description!, href: asset.href!, interval: granularity});
+      } else {
+        console.error('Could not parse asset granularity', asset);
+      }
     }
     console.log(assets);
     this.store.dispatch(formActions.selectAssetsFormSelectedStation({assets: results}));

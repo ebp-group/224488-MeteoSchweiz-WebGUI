@@ -8,6 +8,7 @@ export const initialState: FormState = {
   selectedParameterGroup: null,
   selectedStation: null,
   assetsFromSelectedStation: [],
+  intervalSelection: null,
 };
 
 export const formFeature = createFeature({
@@ -17,5 +18,6 @@ export const formFeature = createFeature({
     on(formActions.selectParameterGroup, (state, {group}): FormState => ({...state, selectedParameterGroup: group})),
     on(formActions.selectStation, (state, {station}): FormState => ({...state, selectedStation: station})),
     on(formActions.selectAssetsFormSelectedStation, (state, {assets}): FormState => ({...state, assetsFromSelectedStation: assets})),
+    on(formActions.setIntervalSelection, (state, {interval}): FormState => ({...state, intervalSelection: interval})),
   ),
 });

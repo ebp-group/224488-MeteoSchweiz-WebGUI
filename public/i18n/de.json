@@ -1,3 +1,8 @@
 {
-  "errorTest": "Fehler Test"
+  "errorTest": "Fehler Test",
+  "10min-interval-selection": "10 Minütlich",
+  "hour-interval-selection": "Stündlich",
+  "day-interval-selection": "Täglich",
+  "month-interval-selection": "Monatlich",
+  "year-interval-selection": "Jährlich"
 }

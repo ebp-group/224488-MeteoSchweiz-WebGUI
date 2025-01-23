@@ -18,6 +18,12 @@ export interface Station {
   url: TranslatableLabel;
 }
 
+const assetInterval = ['T', 'H', 'D', 'M', 'Y'] as const;
+export type AssetInterval = (typeof assetInterval)[number];
+export function isAssetInterval(value: string): value is AssetInterval {
+  return assetInterval.find((interval) => interval === value) != null;
+}
+
 export interface StationParameter {
   /*
     shortname has the form of <some id><interval><type of measurement>
@@ -53,7 +59,7 @@ export interface StationParameter {
 
   // This has a more generic name for the parameters
   group: TranslatableLabel;
-  granularity: 'T' | 'H' | 'D' | 'M' | 'Y';
+  granularity: AssetInterval;
   decimals: number;
   datatype: 'Integer' | 'Float';
   unit: string;
@@ -81,5 +87,6 @@ export interface StationAsset {
   name: string;
   href: string;
   description: string; // TODO: Should we use this? It's only english
+  interval: AssetInterval;
   // There's a checksum. That could also be provided maybe
 }

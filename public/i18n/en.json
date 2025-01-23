@@ -1,3 +1,8 @@
 {
-  "errorTest": "Test Error"
+  "errorTest": "Test Error",
+  "10min-interval-selection": "Missing value for '10min-interval-selection'",
+  "hour-interval-selection": "Missing value for 'hour-interval-selection'",
+  "day-interval-selection": "Missing value for 'day-interval-selection'",
+  "month-interval-selection": "Missing value for 'month-interval-selection'",
+  "year-interval-selection": "Missing value for 'year-interval-selection'"
 }
