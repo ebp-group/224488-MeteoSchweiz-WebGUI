@@ -4,7 +4,7 @@ import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {type Language} from './shared/types/language.types';
 import {StacService} from './stac/service/stac.service';
 import {StationListComponent} from './stac/components/station-list.component';
-import {ParameterListComponent} from './stac/components/parameterList.component';
+import {ParameterListComponent} from './stac/components/parameter-list.component';
 import {AssetListComponent} from './stac/components/assetList.component';
 
 @Component({

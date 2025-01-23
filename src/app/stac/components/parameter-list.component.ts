@@ -13,8 +13,8 @@ import {formActions} from '../../state/form/actions/form.actions';
   selector: 'app-parameter-list',
   standalone: true,
   imports: [TranslocoModule, AsyncPipe],
-  templateUrl: './parameterList.component.html',
-  styleUrl: './parameterList.component.scss',
+  templateUrl: './parameter-list.component.html',
+  styleUrl: './parameter-list.component.scss',
 })
 export class ParameterListComponent implements OnDestroy {
   private readonly store = inject(Store);
