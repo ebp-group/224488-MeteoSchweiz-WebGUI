@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {type Language} from './shared/types/language.types';
+import {ParameterService} from './stac/service/parameter.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import {type Language} from './shared/types/language.types';
 })
 export class AppComponent {
   private readonly translocoService = inject(TranslocoService);
+  private readonly parameterService = inject(ParameterService);
 
   public title = 'meteoschweiz-opendata-explorer';
 
@@ -21,5 +23,12 @@ export class AppComponent {
 
   public testError(): void {
     throw new Error('Test');
+  }
+
+  public async testCsv(): Promise<void> {
+    const paramsA1 = await this.parameterService.getParametersForCollection('ch.meteoschweiz.ogd-smn');
+    console.log(paramsA1);
+    const paramsA2 = await this.parameterService.getParametersForCollection('ch.meteoschweiz.ogd-smn-precip');
+    console.log(paramsA2);
   }
 }

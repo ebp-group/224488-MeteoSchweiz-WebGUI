@@ -14,7 +14,8 @@
     "format": "prettier --write ./src",
     "format:check": "prettier --check ./src",
     "lint": "ng lint",
-    "type:check": "tsc --noEmit"
+    "type:check": "tsc --noEmit",
+    "generate-stac-api": "swagger-typescript-api -p https://sys-data.int.bgdi.ch/api/stac/static/spec/v0.9/openapi.yaml -o ./src/app/stac/generated -n stac-api.generated.ts --clean-output --extract-response-body --extract-request-body --extract-request-body --api-class-name StacApiClient"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +32,7 @@
     "@ngrx/operators": "^18.1.1",
     "@ngrx/store": "^18.1.1",
     "immer": "^10.1.1",
+    "papaparse": "^5.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
@@ -44,6 +46,7 @@
     "@jsverse/transloco-keys-manager": "^6.0.0",
     "@ngrx/eslint-plugin": "^18.1.1",
     "@types/jasmine": "~5.1.0",
+    "@types/papaparse": "^5.3.15",
     "angular-eslint": "18.4.3",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
@@ -60,6 +63,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "lint-staged": "^15.2.10",
     "prettier": "^3.4.1",
+    "swagger-typescript-api": "^13.0.23",
     "typescript": "~5.5.2",
     "typescript-eslint": "8.16.0"
   },
