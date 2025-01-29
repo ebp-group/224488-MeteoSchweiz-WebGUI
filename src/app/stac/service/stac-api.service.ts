@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {Collection, ItemAssets, StacApiClient} from '../generated/stac-api.generated';
+import {StacApiClient} from '../generated/stac-api.generated';
 import {defaultStacClientConfig} from '../../shared/configs/stac.config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StacApiService {
-  private readonly stacApiClient = new StacApiClient(defaultStacClientConfig);
+  private readonly stacApiClient = new StacApiClient({baseUrl: defaultStacClientConfig.baseUrl});
 
   public async getCollectionMetaCsvFile<T>(collectionName: string, metaFile: 'stations' | 'parameters' | 'datainventory'): Promise<T[]> {
     const collectionResponse = await this.stacApiClient.collections.describeCollection(collectionName, {format: 'json'});
@@ -16,26 +16,23 @@ export class StacApiService {
       throw new Error(`Failed to get collection ${collectionName}`);
     }
 
-    // The OpenAPI specification does not yet support assets in collections, but the backend already does
-    const collection = collectionResponse.data as (Collection & {assets: ItemAssets}) | null;
+    const collection = collectionResponse.data;
     if (collection == null) {
       throw new Error('Collection was null');
     }
-
-    let metaDataFileUrl: string | undefined = undefined;
-    for (const metaFileKey in collection.assets) {
-      if (metaFileKey.includes(metaFile)) {
-        metaDataFileUrl = collection.assets[metaFileKey].href;
-        break;
-      }
+    if (collection.assets == null) {
+      throw new Error('Collection did not contain any assets');
     }
-    if (metaDataFileUrl == null) {
+
+    const metaDataFileUrl = Object.entries(collection.assets).find(([key]) => key.includes(metaFile))?.[1].href;
+    if (!metaDataFileUrl) {
       throw new Error('Could not find URL for meta data CSV');
     }
+
     const parsedResult = new Promise<T[]>((resolve) => {
       papa.parse<T>(metaDataFileUrl, {
         download: true,
-        delimiter: ';',
+        delimiter: defaultStacClientConfig.csvDelimiter,
         header: true,
         skipEmptyLines: true,
         transformHeader: (header) => {

@@ -15,7 +15,7 @@
     "format:check": "prettier --check ./src",
     "lint": "ng lint",
     "type:check": "tsc --noEmit",
-    "generate-stac-api": "swagger-typescript-api -p https://sys-data.int.bgdi.ch/api/stac/static/spec/v0.9/openapi.yaml -o ./src/app/stac/generated -n stac-api.generated.ts --clean-output --extract-response-body --extract-request-body --extract-request-body --api-class-name StacApiClient"
+    "generate-stac-api": "swagger-typescript-api -p https://sys-data.int.bgdi.ch/api/stac/static/spec/v1/openapi.yaml -o ./src/app/stac/generated -n stac-api.generated.ts --clean-output --extract-response-body --extract-request-body --extract-request-body --api-class-name StacApiClient"
   },
   "private": true,
   "dependencies": {

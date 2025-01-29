@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {Parameter} from '../../shared/models/parameter.types';
 import {CsvParameter, ParameterService} from './parameter.service';
 
-describe('StacApiService', () => {
+describe('ParameterService', () => {
   let service: ParameterService;
 
   beforeEach(() => {

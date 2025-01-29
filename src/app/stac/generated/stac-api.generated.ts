@@ -15,7 +15,7 @@
  * The following properties can be queried:
  * - `type`: query for assets with this specific media type
  * - `proj:epsg`: query for assets with this specific epsg
- * - `eo:gsd`: query for assets with this specific gsd
+ * - `gsd`: query for assets with this specific gsd
  * - `geoadmin:variant`: query for assets with this specific variant
  * @example {"type":{"eq":"image/tiff"}}
  */
@@ -29,7 +29,7 @@ export interface AssetQueryFilter {
    * The following properties can be queried:
    * - `type`: query for assets with this specific media type
    * - `proj:epsg`: query for assets with this specific epsg
-   * - `eo:gsd`: query for assets with this specific gsd
+   * - `gsd`: query for assets with this specific gsd
    * - `geoadmin:variant`: query for assets with this specific variant
    */
   assetQuery?: AssetQuery;
@@ -70,7 +70,9 @@ export interface AssetBase {
    */
   href?: Href;
   /** `sha2-256` checksum of the asset in [multihash](https://multiformats.io/multihash/) format. */
-  'checksum:multihash'?: ChecksumMultihashReadOnly;
+  'file:checksum'?: ChecksumMultihashReadOnly;
+  /** Purposes of the asset */
+  roles?: Roles;
   'geoadmin:variant'?: GeoadminVariant;
   'geoadmin:lang'?: GeoadminLang;
   /** A Coordinate Reference System (CRS) is the data reference system (sometimes called a 'projection') used by the asset data, and can usually be referenced using an EPSG code. If the asset data does not have a CRS, such as in the case of non-rectified imagery with Ground Control Points, proj:epsg should be set to null. It should also be set to null if a CRS exists, but for which there is no valid EPSG code. */
@@ -78,9 +80,9 @@ export interface AssetBase {
   /**
    * GSD is the nominal Ground Sample Distance for the data, as measured in meters on the ground.
    *
-   * There are many definitions of GSD. The value of this attribute should be related to the spatial resolution at the sensor, rather than the pixel size of images after ortho-rectification, pansharpening, or scaling. The GSD of a sensor can vary depending on off-nadir and wavelength, so it is at the discretion of the implementer to decide which value most accurately represents the GSD. For example, Landsat8 optical and short-wave IR bands are all 30 meters, but the panchromatic band is 15 meters. The eo:gsd should be 30 meters in this case because that is nominal spatial resolution at the sensor. The Planet PlanetScope Ortho Tile Product has an eo:gsd of 3.7 (or 4 if rounding), even though the pixel size of the images is 3.125. For example, one might choose for WorldView-2 the Multispectral 20° off-nadir value of 2.07 and for WorldView-3 the Multispectral 20° off-nadir value of 1.38.
+   * There are many definitions of GSD. The value of this attribute should be related to the spatial resolution at the sensor, rather than the pixel size of images after ortho-rectification, pansharpening, or scaling. The GSD of a sensor can vary depending on off-nadir and wavelength, so it is at the discretion of the implementer to decide which value most accurately represents the GSD. For example, Landsat8 optical and short-wave IR bands are all 30 meters, but the panchromatic band is 15 meters. The gsd should be 30 meters in this case because that is nominal spatial resolution at the sensor. The Planet PlanetScope Ortho Tile Product has an gsd of 3.7 (or 4 if rounding), even though the pixel size of the images is 3.125. For example, one might choose for WorldView-2 the Multispectral 20° off-nadir value of 2.07 and for WorldView-3 the Multispectral 20° off-nadir value of 1.38.
    */
-  'eo:gsd'?: EoGsd;
+  gsd?: EoGsd;
   /** RFC 3339 compliant datetime string, time when the object was created */
   created: Created;
   /** RFC 3339 compliant datetime string, time when the object was updated */
@@ -154,11 +156,13 @@ export interface BboxFilter {
 /**
  * sha256
  * `sha2-256` checksum
- * @format digest
+ * @format binary
+ * @minLength 64
+ * @maxLength 64
  * @pattern ^[a-f0-9]+$
  * @example "3dd6e1ead0760d278344394b0e7f017b5b6049e4fed3d2083b564fc268f07334"
  */
-export type Sha256 = string;
+export type Sha256 = File;
 
 /**
  * Multihash
@@ -209,6 +213,8 @@ export interface CollectionBase {
    * @default "Feature"
    */
   itemType?: string;
+  /** @example "Collection" */
+  type: string;
   /**
    * License(s) of the data as a SPDX [License identifier](https://spdx.org/licenses/). Alternatively, use `proprietary` if the license is not on the SPDX license list or `various` if multiple licenses apply. In these two cases links to the license texts SHOULD be added, see the `license` link relation type.
    *
@@ -220,7 +226,7 @@ export interface CollectionBase {
   stac_version: StacVersion;
   /**
    * Summaries are either a unique set of all available values *or* statistics. Statistics by default only specify the range (minimum and maximum values), but can optionally be accompanied by additional statistical values. The range can specify the potential range of values, but it is recommended to be as precise as possible. The set of values must contain at least one element and it is strongly recommended to list all values. It is recommended to list as many properties as reasonable so that consumers get a full overview of the Collection. Properties that are covered by the Collection specification (e.g. `providers` and `license`) may not be repeated in the summaries.
-   * @example {"eo:gsd":[10,20],"geoadmin:variant":["kgrel","komb","krel"],"geoadmin:lang":["de","fr"],"proj:epsg":[2056]}
+   * @example {"gsd":[10,20],"geoadmin:variant":["kgrel","komb","krel"],"geoadmin:lang":["de","fr"],"proj:epsg":[2056]}
    */
   summaries?: Record<
     string,
@@ -239,6 +245,8 @@ export interface CollectionBase {
   created: Created;
   /** RFC 3339 compliant datetime string, time when the object was updated */
   updated: Updated;
+  /** List of Assets attached to this feature. */
+  assets?: ItemAssets;
 }
 
 export type Collection = CollectionBase & {
@@ -274,6 +282,12 @@ export interface ConfClasses {
  * @example "2018-02-12T23:20:50.000Z"
  */
 export type Datetime = string;
+
+/**
+ * ISO 8601 compliant duration
+ * @example "P3DT6H"
+ */
+export type Duration = string;
 
 /**
  * Either a date-time or an interval, open or closed. Date and time expressions adhere to RFC 3339. Open intervals are expressed using double-dots.
@@ -317,7 +331,7 @@ export type Description = string;
  * Ground Sample Distance
  * GSD is the nominal Ground Sample Distance for the data, as measured in meters on the ground.
  *
- * There are many definitions of GSD. The value of this attribute should be related to the spatial resolution at the sensor, rather than the pixel size of images after ortho-rectification, pansharpening, or scaling. The GSD of a sensor can vary depending on off-nadir and wavelength, so it is at the discretion of the implementer to decide which value most accurately represents the GSD. For example, Landsat8 optical and short-wave IR bands are all 30 meters, but the panchromatic band is 15 meters. The eo:gsd should be 30 meters in this case because that is nominal spatial resolution at the sensor. The Planet PlanetScope Ortho Tile Product has an eo:gsd of 3.7 (or 4 if rounding), even though the pixel size of the images is 3.125. For example, one might choose for WorldView-2 the Multispectral 20° off-nadir value of 2.07 and for WorldView-3 the Multispectral 20° off-nadir value of 1.38.
+ * There are many definitions of GSD. The value of this attribute should be related to the spatial resolution at the sensor, rather than the pixel size of images after ortho-rectification, pansharpening, or scaling. The GSD of a sensor can vary depending on off-nadir and wavelength, so it is at the discretion of the implementer to decide which value most accurately represents the GSD. For example, Landsat8 optical and short-wave IR bands are all 30 meters, but the panchromatic band is 15 meters. The gsd should be 30 meters in this case because that is nominal spatial resolution at the sensor. The Planet PlanetScope Ortho Tile Product has an gsd of 3.7 (or 4 if rounding), even though the pixel size of the images is 3.125. For example, one might choose for WorldView-2 the Multispectral 20° off-nadir value of 2.07 and for WorldView-3 the Multispectral 20° off-nadir value of 1.38.
  * @example 2.5
  */
 export type EoGsd = number;
@@ -447,6 +461,8 @@ export interface ItemBase {
    */
   properties: ItemProperties;
   stac_version: StacVersion;
+  /** List of relevant extensions for an object */
+  stac_extensions?: StacExtensions;
   /** The GeoJSON type */
   type: ItemType;
 }
@@ -469,7 +485,7 @@ export interface Items {
 /**
  * Assets
  * List of Assets attached to this feature.
- * @example {"smr50-263-2016-2056-kgrs-2.5.tiff":{"checksum:multihash":"12200ADEC47F803A8CF1055ED36750B3BA573C79A3AF7DA6D6F5A2AED03EA16AF3BC","created":"2020-07-14T12:30:00Z","eo:gsd":2.5,"geoadmin:variant":"kgrs","href":"https://data.geo.admin.ch/ch.swisstopo.pixelkarte-farbe-pk50.noscale/smr50-263-2016-2056-kgrs-2.5.tiff","proj:epsg":2056,"type":"image/tiff; application=geotiff","updated":"2020-07-14T12:30:00Z"},"smr50-263-2016-2056-komb-2.5.tiff":{"checksum:multihash":"12200ADEC47F803A8CF1055ED36750B3BA573C79A3AF7DA6D6F5A2AED03EA16AF3BC","created":"2020-07-14T12:30:00Z","eo:gsd":2.5,"geoadmin:variant":"komb","href":"https://data.geo.admin.ch/ch.swisstopo.pixelkarte-farbe-pk50.noscale/smr50-263-2016-2056-komb-2.5.tiff","proj:epsg":"2056","type":"image/tiff; application=geotiff","updated":"2020-07-14T12:30:00Z"},"smr50-263-2016-2056-krel-2.5.tiff":{"checksum:multihash":"12200ADEC47F803A8CF1055ED36750B3BA573C79A3AF7DA6D6F5A2AED03EA16AF3BC","created":"2020-07-14T12:30:00Z","eo:gsd":2.5,"geoadmin:variant":"krel","href":"https://data.geo.admin.ch/ch.swisstopo.pixelkarte-farbe-pk50.noscale/smr50-263-2016-2056-krel-2.5.tiff","proj:epsg":"2056","type":"image/tiff; application=geotiff","updated":"2020-07-14T12:30:00Z"}}
+ * @example {"smr50-263-2016-2056-kgrs-2.5.tiff":{"file:checksum":"12200ADEC47F803A8CF1055ED36750B3BA573C79A3AF7DA6D6F5A2AED03EA16AF3BC","created":"2020-07-14T12:30:00Z","gsd":2.5,"geoadmin:variant":"kgrs","href":"https://data.geo.admin.ch/ch.swisstopo.pixelkarte-farbe-pk50.noscale/smr50-263-2016-2056-kgrs-2.5.tiff","proj:epsg":2056,"type":"image/tiff; application=geotiff","updated":"2020-07-14T12:30:00Z"},"smr50-263-2016-2056-komb-2.5.tiff":{"file:checksum":"12200ADEC47F803A8CF1055ED36750B3BA573C79A3AF7DA6D6F5A2AED03EA16AF3BC","created":"2020-07-14T12:30:00Z","gsd":2.5,"geoadmin:variant":"komb","href":"https://data.geo.admin.ch/ch.swisstopo.pixelkarte-farbe-pk50.noscale/smr50-263-2016-2056-komb-2.5.tiff","proj:epsg":"2056","type":"image/tiff; application=geotiff","updated":"2020-07-14T12:30:00Z"},"smr50-263-2016-2056-krel-2.5.tiff":{"file:checksum":"12200ADEC47F803A8CF1055ED36750B3BA573C79A3AF7DA6D6F5A2AED03EA16AF3BC","created":"2020-07-14T12:30:00Z","gsd":2.5,"geoadmin:variant":"krel","href":"https://data.geo.admin.ch/ch.swisstopo.pixelkarte-farbe-pk50.noscale/smr50-263-2016-2056-krel-2.5.tiff","proj:epsg":"2056","type":"image/tiff; application=geotiff","updated":"2020-07-14T12:30:00Z"}}
  */
 export type ItemAssets = Record<
   string,
@@ -514,7 +530,13 @@ export type ItemsSearchPostLinks = LinkPostSearch[];
  */
 export type ItemId = string;
 
-export type ItemGeometry = GeoJsonPolygon;
+export type ItemGeometry =
+  | GeoJsonPoint
+  | GeoJsonLineString
+  | GeoJsonPolygon
+  | GeoJsonMultiPoint
+  | GeoJsonMultiLineString
+  | GeoJsonMultiPolygon;
 
 /** GeoJSON Point */
 export interface GeoJsonPoint {
@@ -597,6 +619,8 @@ export interface ItemProperties {
   start_datetime?: Datetime;
   /** RFC 3339 compliant datetime string */
   end_datetime?: Datetime;
+  /** RFC 3339 compliant datetime string */
+  expires?: Datetime;
   /** RFC 3339 compliant datetime string, time when the object was updated */
   updated: Updated;
   /**
@@ -606,6 +630,16 @@ export interface ItemProperties {
    * @example "Feature title"
    */
   title?: string | null;
+  /** RFC 3339 compliant datetime string */
+  'forecast:reference_datetime'?: Datetime;
+  /** ISO 8601 compliant duration */
+  'forecast:horizon'?: Duration;
+  /** ISO 8601 compliant duration */
+  'forecast:duration'?: Duration;
+  /** Name of the model variable that corresponds to the data. The variables should correspond to the [CF Standard Names](https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html), e.g. `air_temperature` for the air temperature. */
+  'forecast:variable'?: ForecastVariable;
+  /** Denotes whether the data corresponds to the control run (`false`) or perturbed runs (`true`). The property needs to be specified in both cases as no default value is specified and as such the meaning is "unknown" in case it's missing. */
+  'forecast:perturbed'?: ForecastPerturbed;
 }
 
 /**
@@ -624,6 +658,9 @@ export interface LandingPage {
   stac_version: StacVersion;
   /** @example "Buildings in Bonn" */
   title?: string;
+  /** @example "Catalog" */
+  type: string;
+  conformsTo: string[];
 }
 
 /**
@@ -691,6 +728,11 @@ export interface Link {
    * @default "GET"
    */
   method?: 'GET' | 'POST';
+  /**
+   * The language of the link target
+   * @example "de-CH"
+   */
+  hreflang?: string;
 }
 
 export type LinkPostSearch = Link & {
@@ -806,7 +848,7 @@ export type Providers = {
 
 /**
  * Define which properties to query and the operations to apply
- * @example {"title":{"eq":"Swissregio","contains":"Swiss"},"created":{"lte":"2021-01-01T00:00:00.000Z"},"updated":{"gte":"2020-01-01T00:00:00.000Z"}}
+ * @example {"title":{"contains":"Swiss"},"created":{"lte":"2021-01-01T00:00:00.000Z"},"updated":{"gte":"2020-01-01T00:00:00.000Z"}}
  */
 export type Query = Record<string, QueryProp>;
 
@@ -815,6 +857,51 @@ export interface QueryFilter {
   /** Define which properties to query and the operations to apply */
   query?: Query;
 }
+
+export interface ForecastReferenceDatetimeFilter {
+  /**
+   * Either a date-time or an interval, open or closed. Date and time expressions adhere to RFC 3339. Open intervals are expressed using double-dots.
+   * Examples:
+   *
+   * * A date-time: "2018-02-12T23:20:50Z"
+   * * A closed interval: "2018-02-12T00:00:00Z/2018-03-18T12:31:12Z"
+   * * Open intervals: "2018-02-12T00:00:00Z/.." or "../2018-03-18T12:31:12Z"
+   *
+   * Only features that have a temporal property that intersects the value of `datetime` are selected.
+   *
+   * When used as URL query argument, the value must be correctly url-encoded.
+   */
+  'forecast:reference_datetime'?: DatetimeQuery;
+}
+
+export interface ForecastHorizonFilter {
+  /** ISO 8601 compliant duration */
+  'forecast:horizon'?: Duration;
+}
+
+export interface ForecastDurationFilter {
+  /** ISO 8601 compliant duration */
+  'forecast:duration'?: Duration;
+}
+
+export interface ForecastVariableFilter {
+  /** Name of the model variable that corresponds to the data. The variables should correspond to the [CF Standard Names](https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html), e.g. `air_temperature` for the air temperature. */
+  'forecast:variable'?: ForecastVariable;
+}
+
+/**
+ * Name of the model variable that corresponds to the data. The variables should correspond to the [CF Standard Names](https://cfconventions.org/Data/cf-standard-names/current/build/cf-standard-name-table.html), e.g. `air_temperature` for the air temperature.
+ * @example "air_temperature"
+ */
+export type ForecastVariable = string | null;
+
+export interface ForecastPerturbedFilter {
+  /** Denotes whether the data corresponds to the control run (`false`) or perturbed runs (`true`). The property needs to be specified in both cases as no default value is specified and as such the meaning is "unknown" in case it's missing. */
+  'forecast:perturbed'?: ForecastPerturbed;
+}
+
+/** Denotes whether the data corresponds to the control run (`false`) or perturbed runs (`true`). The property needs to be specified in both cases as no default value is specified and as such the meaning is "unknown" in case it's missing. */
+export type ForecastPerturbed = boolean | null;
 
 /** Apply query operations to a specific property. The following properties are currently supported: `created`, `updated`, `title`. */
 export type QueryProp = {
@@ -847,13 +934,30 @@ export type QueryProp = {
 export type Roles = string[];
 
 /** The search criteria */
-export type SearchBody = QueryFilter & BboxFilter & DatetimeFilter & IntersectsFilter & CollectionsFilter & IdsFilter & LimitFilter;
+export type SearchBody = QueryFilter &
+  BboxFilter &
+  DatetimeFilter &
+  IntersectsFilter &
+  CollectionsFilter &
+  IdsFilter &
+  LimitFilter &
+  ForecastReferenceDatetimeFilter &
+  ForecastHorizonFilter &
+  ForecastDurationFilter &
+  ForecastVariableFilter &
+  ForecastPerturbedFilter;
 
 /**
  * STAC version
  * @example "0.9.0"
  */
 export type StacVersion = string;
+
+/**
+ * List of relevant extensions for an object
+ * @example ["https://stac-extensions.github.io/forecast/v0.2.0/schema.json"]
+ */
+export type StacExtensions = string[];
 
 /**
  * This property indicates the time and date when the response was generated.
@@ -936,7 +1040,7 @@ export enum ContentType {
 }
 
 export class HttpClient<SecurityDataType = unknown> {
-  public baseUrl: string = 'http://data.geo.admin.ch/api/stac/v0.9';
+  public baseUrl: string = 'http://data.geo.admin.ch/api/stac/v1';
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>['securityWorker'];
   private abortControllers = new Map<CancelToken, AbortController>();
@@ -1100,9 +1204,9 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title The SpatioTemporal Asset Catalog API for data.geo.admin.ch
- * @version 0.9.0
- * @baseUrl http://data.geo.admin.ch/api/stac/v0.9
- * @contact API Specification (based on STAC) (http://data.geo.admin.ch/api/stac/v0.9/)
+ * @version 1.0.0
+ * @baseUrl http://data.geo.admin.ch/api/stac/v1
+ * @contact API Specification (based on STAC) (http://data.geo.admin.ch/api/stac/v1/)
  *
  * This is an OpenAPI definition of the API to query and access federal geodata on data.geo.admin.ch. The API is based on the core SpatioTemporal Asset Catalog API specification [STAC](http://stacspec.org) and adds two extensions for extended searching possibilities.
  */
@@ -1141,6 +1245,8 @@ export class StacApiClient<SecurityDataType extends unknown> extends HttpClient<
          * Minimum = 1. Maximum = 100. Default = 100.
          */
         limit?: Limit;
+        /** Filter collections by the name of the provider. Supports partial and case-insensitive matching. */
+        provider?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -1294,7 +1400,7 @@ export class StacApiClient<SecurityDataType extends unknown> extends HttpClient<
   };
   search = {
     /**
-     * @description Retrieve Items matching filters. Intended as a shorthand API for simple queries.
+     * @description Retrieve Items matching filters. Intended as a shorthand API for simple queries. To filter by forecast properties please use the [POST /search](#tag/STAC/operation/postSearchSTAC) request.
      *
      * @tags STAC
      * @name GetSearchStac

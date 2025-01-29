@@ -1,3 +1,6 @@
-export const defaultStacClientConfig = {
-  baseUrl: 'https://sys-data.int.bgdi.ch/api/stac/v0.9',
-} as const;
+import {StacClientConfig} from '../models/stac-config.types';
+
+export const defaultStacClientConfig: StacClientConfig = {
+  baseUrl: 'https://sys-data.int.bgdi.ch/api/stac/v1',
+  csvDelimiter: ';',
+};
