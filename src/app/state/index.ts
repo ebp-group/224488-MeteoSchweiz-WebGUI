@@ -1,8 +1,15 @@
+import {Type} from '@angular/core';
+import {FunctionalEffect} from '@ngrx/effects';
 import {ActionReducerMap, MetaReducer} from '@ngrx/store';
+import {loadCollectionParameters} from './parameters/effects/parameter.effects';
+import {parameterFeature, parameterFeatureKey} from './parameters/reducers/parameter.reducer';
+import {ParameterState} from './parameters/states/parameter.state';
 
-// This interface will be filled out later, then this eslint-disable line can be deleted
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface State {}
-export const reducers: ActionReducerMap<State> = {};
-export const effects = [];
+export interface State {
+  [parameterFeatureKey]: ParameterState;
+}
+export const reducers: ActionReducerMap<State> = {
+  [parameterFeatureKey]: parameterFeature.reducer,
+};
+export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [{loadCollectionParameters}];
 export const metaReducers: MetaReducer<State>[] = [];

@@ -1,7 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
-import {ParameterService} from './stac/service/parameter.service';
+import {Store} from '@ngrx/store';
+import {parameterActions} from './state/parameters/actions/parameter.action';
 import type {Language} from './shared/models/language';
 
 @Component({
@@ -13,7 +14,7 @@ import type {Language} from './shared/models/language';
 })
 export class AppComponent {
   private readonly translocoService = inject(TranslocoService);
-  private readonly parameterService = inject(ParameterService);
+  private readonly store = inject(Store);
 
   public title = 'meteoschweiz-opendata-explorer';
 
@@ -25,10 +26,9 @@ export class AppComponent {
     throw new Error('Test');
   }
 
-  public async testCsv(): Promise<void> {
-    const paramsA1 = await this.parameterService.getParametersForCollection('ch.meteoschweiz.ogd-smn');
-    console.log(paramsA1);
-    const paramsA2 = await this.parameterService.getParametersForCollection('ch.meteoschweiz.ogd-smn-precip');
-    console.log(paramsA2);
+  public testCsv(): void {
+    this.store.dispatch(
+      parameterActions.loadParameterForCollections({collections: ['ch.meteoschweiz.ogd-smn', 'ch.meteoschweiz.ogd-smn-precip']}),
+    );
   }
 }
