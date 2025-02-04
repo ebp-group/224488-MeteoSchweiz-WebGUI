@@ -2,7 +2,7 @@ import {ErrorHandler, Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
 import {OpendataExplorerRuntimeError, RecoverableError, SilentError} from '../shared/errors/base.error';
 import {Page} from '../shared/enums/page.enum';
-import {RouteParamConstants} from '../shared/constants/route-param.constants';
+import {routeParamConstants} from '../shared/constants/route-param.constants';
 import {AngularDevModeService} from '../shared/services/angular-dev-mode.service';
 
 @Injectable({
@@ -42,7 +42,7 @@ export class ErrorHandlerService implements ErrorHandler {
   private routeToErrorPage(message?: string) {
     // sometimes, the error handler is not yet tied to the Angular zone, so we make sure it is run *within* the angular zone.
     this.zone.run(() => {
-      void this.router.navigate([Page.Error], {queryParams: {[RouteParamConstants.ERROR]: message}, skipLocationChange: true});
+      void this.router.navigate([Page.Error], {queryParams: {[routeParamConstants.ERROR]: message}, skipLocationChange: true});
     });
   }
 }

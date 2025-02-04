@@ -24,7 +24,7 @@ export class StacApiService {
       throw new Error('Collection did not contain any assets');
     }
 
-    const metaDataFileUrl = Object.entries(collection.assets).find(([key]) => key.includes(metaFile))?.[1].href;
+    const metaDataFileUrl = Object.entries(collection.assets).find(([key]) => key.includes(metaFile))?.[1]?.href;
     if (!metaDataFileUrl) {
       throw new Error('Could not find URL for meta data CSV');
     }

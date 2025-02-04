@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription, tap} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {RouteParamConstants} from '../../../shared/constants/route-param.constants';
+import {routeParamConstants} from '../../../shared/constants/route-param.constants';
 import {provideTranslocoScope, TranslocoModule} from '@jsverse/transloco';
 
 @Component({
@@ -24,7 +24,7 @@ export class FatalErrorComponent implements OnInit, OnDestroy {
       this.route.queryParamMap
         .pipe(
           tap((params) => {
-            this.errorMessage = params.get(RouteParamConstants.ERROR);
+            this.errorMessage = params.get(routeParamConstants.ERROR);
           }),
         )
         .subscribe(),

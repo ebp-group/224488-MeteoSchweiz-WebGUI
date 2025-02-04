@@ -1,3 +1,3 @@
-import {Language} from './language.types';
+import {type Language} from './language';
 
 export type TranslatableString = Record<Language, string>;
