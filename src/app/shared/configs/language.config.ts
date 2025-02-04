@@ -1,4 +1,4 @@
-import {type LanguageConfig} from '../models/configs/language-config';
+import type {LanguageConfig} from '../models/configs/language-config';
 
 export const languageConfig = {
   defaultLanguage: 'de',

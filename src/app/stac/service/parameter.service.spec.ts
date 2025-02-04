@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
-import {CsvParameter, ParameterService} from './parameter.service';
 import {type Parameter} from '../../shared/models/parameter';
+import {CsvParameter, ParameterService} from './parameter.service';
 
 describe('ParameterService', () => {
   let service: ParameterService;

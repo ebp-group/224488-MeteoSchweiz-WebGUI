@@ -1,8 +1,8 @@
 import {ErrorHandler, Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
-import {OpendataExplorerRuntimeError, RecoverableError, SilentError} from '../shared/errors/base.error';
-import {Page} from '../shared/enums/page.enum';
 import {routeParamConstants} from '../shared/constants/route-param.constants';
+import {Page} from '../shared/enums/page.enum';
+import {OpendataExplorerRuntimeError, RecoverableError, SilentError} from '../shared/errors/base.error';
 import {AngularDevModeService} from '../shared/services/angular-dev-mode.service';
 
 @Injectable({

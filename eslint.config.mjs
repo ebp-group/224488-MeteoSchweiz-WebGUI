@@ -1,9 +1,9 @@
 // @ts-check
+import {fixupPluginRules} from '@eslint/compat';
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import ngrx from '@ngrx/eslint-plugin/v9/index.js';
 import angular from 'angular-eslint';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
-import ngrx from '@ngrx/eslint-plugin/v9/index.js';
 /**
  * TODO: The following imports should be revisited once the following issues are resolved:
  *  * eslint-plugin-rxjs-angular
@@ -15,8 +15,8 @@ import ngrx from '@ngrx/eslint-plugin/v9/index.js';
  *    * https://github.com/ReactiveX/rxjs/discussions/7492
  */
 import rxjsAngular from 'eslint-plugin-rxjs-angular';
-import {fixupPluginRules} from '@eslint/compat';
 import rxjsX from 'eslint-plugin-rxjs-x';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
