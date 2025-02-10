@@ -1,0 +1,14 @@
+<div *transloco="let t">
+  @for (interval of availableDataInterval; track $index) {
+    <div>
+      <input
+        type="radio"
+        name="interval"
+        id="{{ interval }}-interval"
+        [checked]="(selectedDataInterval$ | async) === interval"
+        (input)="setSelectedInterval(interval)"
+      />
+      <label for="{{ interval }}-interval">{{ t(interval + '-interval') }}</label>
+    </div>
+  }
+</div>

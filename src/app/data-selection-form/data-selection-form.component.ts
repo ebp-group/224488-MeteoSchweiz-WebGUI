@@ -4,13 +4,14 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {collectionActions} from '../state/collection/actions/collection.action';
+import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
 import type {Language} from '../shared/models/language';
 
 @Component({
   selector: 'app-data-selection-form',
   standalone: true,
-  imports: [TranslocoModule, MatButton, MatButtonToggleGroup, MatButtonToggle, ParameterListComponent],
+  imports: [TranslocoModule, MatButton, MatButtonToggleGroup, MatButtonToggle, ParameterListComponent, IntervalSelectionComponent],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
 })
