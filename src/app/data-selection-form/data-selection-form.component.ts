@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {collectionActions} from '../state/collection/actions/collection.action';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
+import {SelectionOverviewComponent} from './components/selection-overview/selection-overview.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
 import type {Language} from '../shared/models/language';
 
@@ -20,6 +21,7 @@ import type {Language} from '../shared/models/language';
     ParameterListComponent,
     IntervalSelectionComponent,
     TimeRangeSelectionComponent,
+    SelectionOverviewComponent,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
