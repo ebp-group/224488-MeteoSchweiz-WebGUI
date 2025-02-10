@@ -6,12 +6,21 @@ import {Store} from '@ngrx/store';
 import {collectionActions} from '../state/collection/actions/collection.action';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
+import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
 import type {Language} from '../shared/models/language';
 
 @Component({
   selector: 'app-data-selection-form',
   standalone: true,
-  imports: [TranslocoModule, MatButton, MatButtonToggleGroup, MatButtonToggle, ParameterListComponent, IntervalSelectionComponent],
+  imports: [
+    TranslocoModule,
+    MatButton,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    ParameterListComponent,
+    IntervalSelectionComponent,
+    TimeRangeSelectionComponent,
+  ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
 })

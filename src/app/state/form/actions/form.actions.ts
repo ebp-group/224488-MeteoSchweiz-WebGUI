@@ -6,5 +6,6 @@ export const formActions = createActionGroup({
   events: {
     'Set selected parameters': props<{parameterGroupId: FormState['selectedParameterGroupId']}>(),
     'Set selected dataInterval': props<{dataInterval: FormState['selectedDataInterval']}>(),
+    'Set selected time range': props<{timeRange: FormState['selectedTimeRange']}>(),
   },
 });

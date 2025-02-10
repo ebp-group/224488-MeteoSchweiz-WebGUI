@@ -1,0 +1,46 @@
+<div *transloco="let t">
+  <div>
+    <input
+      type="radio"
+      name="time-range"
+      id="now-time-range"
+      (input)="setSelectedTimeRange('current-day')"
+      [checked]="(selectedTimeRange$ | async) === 'current-day'"
+    />
+    <label for="now-time-range">{{ t('now-time-interval') }}</label>
+  </div>
+  <div>
+    <input
+      type="radio"
+      name="time-range"
+      id="recent-time-range"
+      (input)="setSelectedTimeRange('current-year')"
+      [checked]="(selectedTimeRange$ | async) === 'current-year'"
+    />
+    <label for="recent-time-range">{{ t('recent-time-interval') }}</label>
+  </div>
+  <div>
+    <p>{{ t('historical-time-range-explanation') }}</p>
+    <!-- TODO: Handle multiple historical intervals -->
+    <div>
+      <input
+        type="radio"
+        name="time-range"
+        id="historical-time-range1"
+        (input)="setSelectedTimeRange('all-time')"
+        [checked]="(selectedTimeRange$ | async) === 'all-time'"
+      />
+      <label for="historical-time-range1">xx.yy.zzzz - aa.bb.cccc</label>
+    </div>
+    <div>
+      <input
+        type="radio"
+        name="time-range"
+        id="historical-time-range2"
+        (input)="setSelectedTimeRange('all-time')"
+        [checked]="(selectedTimeRange$ | async) === 'all-time'"
+      />
+      <label for="historical-time-range2">xx.yy.zzzz - aa.bb.cccc</label>
+    </div>
+  </div>
+</div>

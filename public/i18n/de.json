@@ -1,4 +1,7 @@
 {
   "errorTest": "Fehler Test",
-  "parameter.load.error": "Fehler beim Laden der Parameter"
+  "parameter.load.error": "Fehler beim Laden der Parameter",
+  "now-time-interval": "Missing value for 'now-time-interval'",
+  "recent-time-interval": "Missing value for 'recent-time-interval'",
+  "historical-time-range-explanation": "Missing value for 'historical-time-range-explanation'"
 }
