@@ -4,6 +4,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {collectionActions} from '../state/collection/actions/collection.action';
+import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
 import {SelectionOverviewComponent} from './components/selection-overview/selection-overview.component';
@@ -22,6 +23,7 @@ import type {Language} from '../shared/models/language';
     IntervalSelectionComponent,
     TimeRangeSelectionComponent,
     SelectionOverviewComponent,
+    DownloadAssetComponent,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',

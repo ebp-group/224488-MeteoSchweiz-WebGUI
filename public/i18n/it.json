@@ -10,5 +10,7 @@
   "overview_time_range": "Missing value for 'overview_time_range'",
   "overview_file_type": "Missing value for 'overview_file_type'",
   "overview_file_size": "Missing value for 'overview_file_size'",
-  "Continue": "Missing value for 'Continue'"
+  "Continue": "Missing value for 'Continue'",
+  "download-asset": "Missing value for 'download-asset'",
+  "download-metadata": "Missing value for 'download-metadata'"
 }
