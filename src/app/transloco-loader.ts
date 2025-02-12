@@ -2,8 +2,8 @@ import {inject, Injectable} from '@angular/core';
 import {Translation, TranslocoLoader} from '@jsverse/transloco';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {type Language} from './shared/types/language.types';
 import {Location} from '@angular/common';
+import {type Language} from './shared/models/language';
 
 @Injectable({providedIn: 'root'})
 export class TranslocoHttpLoader implements TranslocoLoader {

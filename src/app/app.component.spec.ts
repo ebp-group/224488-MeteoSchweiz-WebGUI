@@ -1,7 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {provideTransloco} from '@jsverse/transloco';
-import {defaultLanguage, supportedLanguages} from './shared/constants/language.constants';
+import {languages} from './shared/models/language';
+import {languageConfig} from './shared/configs/language.config';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -10,8 +11,8 @@ describe('AppComponent', () => {
       providers: [
         provideTransloco({
           config: {
-            availableLangs: [...supportedLanguages],
-            defaultLang: defaultLanguage,
+            availableLangs: [...languages],
+            defaultLang: languageConfig.defaultLanguage,
             reRenderOnLangChange: true,
             prodMode: false,
             missingHandler: {

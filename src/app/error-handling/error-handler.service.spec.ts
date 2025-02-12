@@ -3,7 +3,7 @@ import {FatalError, RecoverableError, SilentError} from '../shared/errors/base.e
 import {ErrorHandlerService} from './error-handler.service';
 import {Router} from '@angular/router';
 import {Page} from '../shared/enums/page.enum';
-import {RouteParamConstants} from '../shared/constants/route-param.constants';
+import {routeParamConstants} from '../shared/constants/route-param.constants';
 import {AngularDevModeService} from '../shared/services/angular-dev-mode.service';
 import Spy = jasmine.Spy;
 
@@ -68,7 +68,7 @@ describe('ErrorHandlerService', () => {
     service.handleError(testError);
 
     expect(routerSpy.navigate).toHaveBeenCalledOnceWith([Page.Error], {
-      queryParams: {[RouteParamConstants.ERROR]: testErrorMessage},
+      queryParams: {[routeParamConstants.ERROR]: testErrorMessage},
       skipLocationChange: true,
     });
   });
@@ -80,7 +80,7 @@ describe('ErrorHandlerService', () => {
     service.handleError(testError);
 
     expect(routerSpy.navigate).toHaveBeenCalledOnceWith([Page.Error], {
-      queryParams: {[RouteParamConstants.ERROR]: testErrorMessage},
+      queryParams: {[routeParamConstants.ERROR]: testErrorMessage},
       skipLocationChange: true,
     });
   });

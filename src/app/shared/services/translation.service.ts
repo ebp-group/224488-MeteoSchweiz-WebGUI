@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {TranslocoService} from '@jsverse/transloco';
-import {TranslatableString} from '../types/translatable-string.types';
-import {Language} from '../types/language.types';
+import {type TranslatableString} from '../models/translatable-string';
+import {type Language} from '../models/language';
 
 @Injectable({
   providedIn: 'root',
