@@ -3,11 +3,12 @@ import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {ParameterService} from './stac/service/parameter.service';
 import {type Language} from './shared/models/language';
+import {MapContainerComponent} from './map/components/map-container/map-container.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TranslocoModule],
+  imports: [RouterOutlet, TranslocoModule, MapContainerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
