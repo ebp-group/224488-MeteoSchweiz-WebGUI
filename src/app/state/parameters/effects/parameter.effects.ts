@@ -2,7 +2,7 @@ import {inject} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
-import {filter, tap} from 'rxjs';
+import {catchError, filter, from, map, of, switchMap} from 'rxjs';
 import {ParameterService} from '../../../stac/service/parameter.service';
 import {parameterActions} from '../actions/parameter.action';
 import {parameterFeature} from '../reducers/parameter.reducer';
@@ -13,8 +13,13 @@ export const loadCollectionParameters = createEffect(
       ofType(parameterActions.loadParameterForCollections),
       concatLatestFrom(() => store.select(parameterFeature.selectLoadingState)),
       filter(([_, loadingState]) => loadingState !== 'loaded'),
-      tap(([{collections}]) => parameterService.loadParameterForCollections(collections)),
+      switchMap(([{collections}]) =>
+        from(parameterService.loadParameterForCollections(collections)).pipe(
+          map((parameters) => parameterActions.setLoadedParameters({parameters: parameters})),
+          catchError((error: unknown) => of(parameterActions.setParameterLoadingError({error}))),
+        ),
+      ),
     );
   },
-  {functional: true, dispatch: false},
+  {functional: true},
 );

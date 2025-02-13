@@ -1,7 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {Store} from '@ngrx/store';
 import {provideMockStore} from '@ngrx/store/testing';
-import {parameterActions} from '../../state/parameters/actions/parameter.action';
 import {CsvParameter, ParameterService} from './parameter.service';
 import type {Parameter} from '../../shared/models/parameter';
 
@@ -76,8 +75,8 @@ describe('ParameterService', () => {
     spyOn(service, 'getParametersForCollection').and.returnValue(new Promise((resolve) => resolve([aParameter])));
     spyOn(store, 'dispatch');
 
-    await service.loadParameterForCollections(collections);
+    const parameters = await service.loadParameterForCollections(collections);
 
-    expect(store.dispatch).toHaveBeenCalledWith(parameterActions.setLoadedParameters({parameters: [aParameter, aParameter, aParameter]}));
+    expect(parameters).toEqual(jasmine.arrayWithExactContents([aParameter, aParameter, aParameter]));
   });
 });

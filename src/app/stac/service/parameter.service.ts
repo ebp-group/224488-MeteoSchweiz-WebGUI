@@ -1,6 +1,4 @@
 import {inject, Injectable} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {parameterActions} from '../../state/parameters/actions/parameter.action';
 import {StacApiService} from './stac-api.service';
 import type {Parameter} from '../../shared/models/parameter';
 
@@ -25,11 +23,10 @@ export interface CsvParameter {
 })
 export class ParameterService {
   private readonly stacApiService = inject(StacApiService);
-  private readonly store = inject(Store);
 
-  public async loadParameterForCollections(collections: string[]): Promise<void> {
+  public async loadParameterForCollections(collections: string[]): Promise<Parameter[]> {
     const parameters = await Promise.all(collections.map((collection) => this.getParametersForCollection(collection)));
-    this.store.dispatch(parameterActions.setLoadedParameters({parameters: parameters.flat()}));
+    return parameters.flat();
   }
 
   public async getParametersForCollection(collection: string): Promise<Parameter[]> {

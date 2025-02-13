@@ -28,5 +28,8 @@ export const parameterFeature = createFeature({
         loadingState: 'loaded',
       }),
     ),
+    on(parameterActions.setParameterLoadingError, (state): ParameterState => {
+      return {...state, loadingState: 'error'};
+    }),
   ),
 });
