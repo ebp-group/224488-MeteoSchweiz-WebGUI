@@ -1,10 +1,11 @@
 import {TestBed} from '@angular/core/testing';
-import {FatalError, RecoverableError, SilentError} from '../shared/errors/base.error';
-import {ErrorHandlerService} from './error-handler.service';
 import {Router} from '@angular/router';
-import {Page} from '../shared/enums/page.enum';
 import {routeParamConstants} from '../shared/constants/route-param.constants';
+import {Page} from '../shared/enums/page.enum';
+import {FatalError, RecoverableError, SilentError} from '../shared/errors/base.error';
 import {AngularDevModeService} from '../shared/services/angular-dev-mode.service';
+import {ErrorHandlerService} from './error-handler.service';
+
 import Spy = jasmine.Spy;
 
 class TestSilentError extends SilentError {}

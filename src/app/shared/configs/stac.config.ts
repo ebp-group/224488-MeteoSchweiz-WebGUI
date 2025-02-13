@@ -1,4 +1,4 @@
-import {type StacClientConfig} from '../models/configs/stac-config';
+import type {StacClientConfig} from '../models/configs/stac-config';
 
 export const defaultStacClientConfig = {
   baseUrl: 'https://sys-data.int.bgdi.ch/api/stac/v1',

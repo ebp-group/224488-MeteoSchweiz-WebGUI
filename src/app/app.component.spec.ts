@@ -1,8 +1,8 @@
 import {TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
 import {provideTransloco} from '@jsverse/transloco';
-import {languages} from './shared/models/language';
+import {AppComponent} from './app.component';
 import {languageConfig} from './shared/configs/language.config';
+import {languages} from './shared/models/language';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

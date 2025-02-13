@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {StacApiService} from './stac-api.service';
-import {type Parameter} from '../../shared/models/parameter';
+import type {Parameter} from '../../shared/models/parameter';
 
 export interface CsvParameter {
   parameterShortname: string;

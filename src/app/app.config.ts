@@ -1,16 +1,15 @@
-import {ApplicationConfig, ErrorHandler, provideZoneChangeDetection, isDevMode} from '@angular/core';
-import {provideRouter} from '@angular/router';
-
-import {routes} from './app.routes';
-import {provideStore} from '@ngrx/store';
-import {provideEffects} from '@ngrx/effects';
-import {effects, metaReducers, reducers} from './state';
-import {ErrorHandlerService} from './error-handling/error-handler.service';
 import {provideHttpClient} from '@angular/common/http';
-import {TranslocoHttpLoader} from './transloco-loader';
+import {ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection} from '@angular/core';
+import {provideRouter} from '@angular/router';
 import {provideTransloco} from '@jsverse/transloco';
-import {languages} from './shared/models/language';
+import {provideEffects} from '@ngrx/effects';
+import {provideStore} from '@ngrx/store';
+import {routes} from './app.routes';
+import {ErrorHandlerService} from './error-handling/error-handler.service';
 import {languageConfig} from './shared/configs/language.config';
+import {languages} from './shared/models/language';
+import {effects, metaReducers, reducers} from './state';
+import {TranslocoHttpLoader} from './transloco-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -1,4 +1,4 @@
-import {type TranslatableString} from './translatable-string';
+import type {TranslatableString} from './translatable-string';
 
 export interface Parameter {
   id: string;

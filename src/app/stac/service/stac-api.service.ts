@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {StacApiClient} from '../generated/stac-api.generated';
 import {defaultStacClientConfig} from '../../shared/configs/stac.config';
+import {StacApiClient} from '../generated/stac-api.generated';
 
 @Injectable({
   providedIn: 'root',

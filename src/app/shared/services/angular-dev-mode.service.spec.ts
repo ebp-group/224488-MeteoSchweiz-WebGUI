@@ -1,6 +1,5 @@
 import {isDevMode} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
-
 import {AngularDevModeService} from './angular-dev-mode.service';
 
 describe('AngularDevModeService', () => {
