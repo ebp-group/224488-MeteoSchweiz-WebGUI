@@ -1,5 +1,6 @@
 import {ErrorHandler, Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
+import {TranslocoService} from '@jsverse/transloco';
 import {routeParamConstants} from '../shared/constants/route-param.constants';
 import {Page} from '../shared/enums/page.enum';
 import {OpendataExplorerRuntimeError, RecoverableError, SilentError} from '../shared/errors/base.error';
@@ -13,6 +14,7 @@ export class ErrorHandlerService implements ErrorHandler {
     private readonly router: Router,
     private readonly zone: NgZone,
     private readonly angularDevModeService: AngularDevModeService,
+    private readonly translocoService: TranslocoService,
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,12 +28,13 @@ export class ErrorHandlerService implements ErrorHandler {
       }
     }
 
+    const translatedMessage = this.translocoService.translate(error.message);
     if (error instanceof SilentError) {
       // these errors should only be logged to a frontend logging service, but not displayed.
     } else if (error instanceof RecoverableError) {
-      this.showRecoverableErrorMessage(error.message);
+      this.showRecoverableErrorMessage(translatedMessage);
     } else {
-      this.routeToErrorPage(error.message);
+      this.routeToErrorPage(translatedMessage);
     }
   }
 

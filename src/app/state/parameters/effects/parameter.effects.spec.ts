@@ -1,11 +1,12 @@
 import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import {Observable, of} from 'rxjs';
+import {catchError, EMPTY, Observable, of} from 'rxjs';
+import {ParameterError} from '../../../shared/errors/parameter.error';
 import {ParameterService} from '../../../stac/service/parameter.service';
 import {parameterActions} from '../actions/parameter.action';
 import {parameterFeature} from '../reducers/parameter.reducer';
-import {loadCollectionParameters} from './parameter.effects';
+import {failLoadingCollectionParameters, loadCollectionParameters} from './parameter.effects';
 
 describe('ParameterEffects', () => {
   let actions$: Observable<Action>;
@@ -44,5 +45,21 @@ describe('ParameterEffects', () => {
         expect(parameterService.loadParameterForCollections).not.toHaveBeenCalled();
       },
     });
+  });
+
+  it('should throw a Parameter error after dispatching setParameterLoadingError', (done: DoneFn) => {
+    const error = new Error('My cabbages!!!');
+    const expectedError = new ParameterError(error);
+
+    actions$ = of(parameterActions.setParameterLoadingError({error}));
+    failLoadingCollectionParameters(actions$)
+      .pipe(
+        catchError((caughtError: unknown) => {
+          expect(caughtError).toEqual(expectedError);
+          done();
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   });
 });

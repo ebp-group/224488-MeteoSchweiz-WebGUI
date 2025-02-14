@@ -1,5 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
+import {TranslocoService} from '@jsverse/transloco';
 import {routeParamConstants} from '../shared/constants/route-param.constants';
 import {Page} from '../shared/enums/page.enum';
 import {FatalError, RecoverableError, SilentError} from '../shared/errors/base.error';
@@ -31,7 +32,10 @@ describe('ErrorHandlerService', () => {
   beforeEach(() => {
     const routerSpyObj = jasmine.createSpyObj<Router>(['navigate']);
     TestBed.configureTestingModule({
-      providers: [{provide: Router, useValue: routerSpyObj}],
+      providers: [
+        {provide: Router, useValue: routerSpyObj},
+        {provide: TranslocoService, useValue: {translate: (message: string) => message}},
+      ],
     });
     service = TestBed.inject(ErrorHandlerService);
     routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
