@@ -1,4 +1,6 @@
 import {Component, inject} from '@angular/core';
+import {MatButton} from '@angular/material/button';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
@@ -8,7 +10,7 @@ import type {Language} from './shared/models/language';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TranslocoModule],
+  imports: [RouterOutlet, TranslocoModule, MatButton, MatButtonToggleGroup, MatButtonToggle],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
