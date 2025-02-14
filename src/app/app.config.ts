@@ -1,5 +1,6 @@
 import {provideHttpClient} from '@angular/common/http';
 import {ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection} from '@angular/core';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideRouter} from '@angular/router';
 import {provideTransloco} from '@jsverse/transloco';
 import {provideEffects} from '@ngrx/effects';
@@ -37,5 +38,6 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    provideAnimationsAsync(),
   ],
 };
