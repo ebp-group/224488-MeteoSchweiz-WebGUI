@@ -1,5 +1,6 @@
 {
   "greeting": "Missing value for 'greeting'",
   "congraz": "Missing value for 'congraz'",
-  "errorTest": "Missing value for 'Test Error'"
+  "errorTest": "Missing value for 'Test Error'",
+  "parameter.load.error": "Errore durante il caricamento dei parametri"
 }

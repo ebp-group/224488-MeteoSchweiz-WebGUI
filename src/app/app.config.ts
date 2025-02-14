@@ -2,7 +2,7 @@ import {provideHttpClient} from '@angular/common/http';
 import {ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 import {provideTransloco} from '@jsverse/transloco';
-import {provideEffects} from '@ngrx/effects';
+import {EFFECTS_ERROR_HANDLER, provideEffects} from '@ngrx/effects';
 import {provideStore} from '@ngrx/store';
 import {provideStoreDevtools} from '@ngrx/store-devtools';
 import {routes} from './app.routes';
@@ -10,6 +10,7 @@ import {ErrorHandlerService} from './error-handling/error-handler.service';
 import {languageConfig} from './shared/configs/language.config';
 import {languages} from './shared/models/language';
 import {effects, metaReducers, reducers} from './state';
+import {effectErrorHandler} from './state/effects-error-handler.effects';
 import {TranslocoHttpLoader} from './transloco-loader';
 
 export const appConfig: ApplicationConfig = {
@@ -37,5 +38,9 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    {
+      provide: EFFECTS_ERROR_HANDLER,
+      useValue: effectErrorHandler,
+    },
   ],
 };
