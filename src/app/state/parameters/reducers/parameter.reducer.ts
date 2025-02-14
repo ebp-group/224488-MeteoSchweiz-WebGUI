@@ -29,7 +29,7 @@ export const parameterFeature = createFeature({
       }),
     ),
     on(parameterActions.setParameterLoadingError, (state): ParameterState => {
-      return {...state, loadingState: 'error'};
+      return {...initialState, loadingState: 'error'};
     }),
   ),
 });
