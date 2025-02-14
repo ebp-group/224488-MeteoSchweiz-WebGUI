@@ -24,6 +24,11 @@ export interface CsvParameter {
 export class ParameterService {
   private readonly stacApiService = inject(StacApiService);
 
+  public async loadParameterForCollections(collections: string[]): Promise<Parameter[]> {
+    const parameters = await Promise.all(collections.map((collection) => this.getParametersForCollection(collection)));
+    return parameters.flat();
+  }
+
   public async getParametersForCollection(collection: string): Promise<Parameter[]> {
     const csvParameters: CsvParameter[] = await this.stacApiService.getCollectionMetaCsvFile<CsvParameter>(collection, 'parameters');
     return csvParameters.map(this.transformCsvParameter);

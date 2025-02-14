@@ -1,5 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 import {provideTransloco} from '@jsverse/transloco';
+import {provideMockStore} from '@ngrx/store/testing';
 import {AppComponent} from './app.component';
 import {languageConfig} from './shared/configs/language.config';
 import {languages} from './shared/models/language';
@@ -20,6 +21,7 @@ describe('AppComponent', () => {
             },
           },
         }),
+        provideMockStore(),
       ],
     }).compileComponents();
   });

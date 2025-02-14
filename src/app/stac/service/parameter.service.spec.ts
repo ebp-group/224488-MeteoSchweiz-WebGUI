@@ -1,13 +1,19 @@
 import {TestBed} from '@angular/core/testing';
-import {type Parameter} from '../../shared/models/parameter';
+import {Store} from '@ngrx/store';
+import {provideMockStore} from '@ngrx/store/testing';
 import {CsvParameter, ParameterService} from './parameter.service';
+import type {Parameter} from '../../shared/models/parameter';
 
 describe('ParameterService', () => {
   let service: ParameterService;
+  let store: Store;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideMockStore()],
+    });
     service = TestBed.inject(ParameterService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -47,5 +53,30 @@ describe('ParameterService', () => {
         it: 'vento',
       },
     } satisfies Parameter);
+  });
+
+  it('should get parameters for each collection and write data to store', async () => {
+    const collections = ['a', 'b', 'c'];
+    const aParameter: Parameter = {
+      id: 'test00',
+      description: {
+        de: 'Ein Text',
+        en: 'Some text',
+        fr: 'Some text but french',
+        it: 'Some text but Italian',
+      },
+      group: {
+        de: 'Wind',
+        en: 'wind',
+        fr: 'vent',
+        it: 'vento',
+      },
+    };
+    spyOn(service, 'getParametersForCollection').and.returnValue(new Promise((resolve) => resolve([aParameter])));
+    spyOn(store, 'dispatch');
+
+    const parameters = await service.loadParameterForCollections(collections);
+
+    expect(parameters).toEqual(jasmine.arrayWithExactContents([aParameter, aParameter, aParameter]));
   });
 });
