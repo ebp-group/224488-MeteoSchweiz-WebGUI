@@ -1,9 +1,4 @@
 // @ts-check
-import eslint from '@eslint/js';
-import ngrx from '@ngrx/eslint-plugin/v9/index.js';
-import angular from 'angular-eslint';
-import prettierRecommended from 'eslint-plugin-prettier/recommended';
-import tseslint from 'typescript-eslint';
 /**
  * TODO: The following imports should be revisited once the following issues are resolved:
  *  * eslint-plugin-rxjs-angular
@@ -14,10 +9,13 @@ import tseslint from 'typescript-eslint';
  *    Either it will be updated to support ESLint 9 or included into 'rxjs'
  *    * https://github.com/ReactiveX/rxjs/discussions/7492
  */
-// prettier-ignore
-import {fixupPluginRules} from '@eslint/compat';
-import rxjsAngular from 'eslint-plugin-rxjs-angular';
+import eslint from '@eslint/js';
+import ngrx from '@ngrx/eslint-plugin/v9/index.js';
+import angular from 'angular-eslint';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import rxjsAngularX from 'eslint-plugin-rxjs-angular-x';
 import rxjsX from 'eslint-plugin-rxjs-x';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
@@ -33,11 +31,11 @@ export default tseslint.config(
     ],
     plugins: {
       rxjs: rxjsX,
-      'rxjs-angular': fixupPluginRules(rxjsAngular),
+      'rxjs-angular-x': rxjsAngularX,
     },
     processor: angular.processInlineTemplates,
     rules: {
-      'rxjs-angular/prefer-composition': 'error',
+      'rxjs-angular-x/prefer-composition': 'error',
       '@typescript-eslint/ban-ts-comment': [
         'warn',
         {
