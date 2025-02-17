@@ -284,10 +284,12 @@
     </div>
   </div>
   <div style="position: absolute; bottom: 0">
-    <button (click)="changeLanguage('en')">English</button>
-    <button (click)="changeLanguage('de')">German</button>
-    <button (click)="testError()">{{ t('errorTest') }}</button>
-    <button (click)="testCsv()">csv</button>
+    <mat-button-toggle-group aria-label="Font Style">
+      <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
+      <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
+    </mat-button-toggle-group>
+    <button mat-stroked-button (click)="testCsv()">csv</button>
+    <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
   </div>
 </main>
 
