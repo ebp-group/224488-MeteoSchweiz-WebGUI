@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {Store} from '@ngrx/store';
 import {provideMockStore} from '@ngrx/store/testing';
 import {CsvParameter, ParameterService} from './parameter.service';
-import type {Parameter} from '../../shared/models/parameter';
+import type {Parameter, ParameterGroup} from '../../shared/models/parameter';
 
 describe('ParameterService', () => {
   let service: ParameterService;
@@ -78,5 +78,40 @@ describe('ParameterService', () => {
     const parameters = await service.loadParameterForCollections(collections);
 
     expect(parameters).toEqual(jasmine.arrayWithExactContents([aParameter, aParameter, aParameter]));
+  });
+
+  it('should extract all groups from all parameters', () => {
+    const groupA: Parameter['group'] = {de: 'A', en: 'A', fr: 'A', it: 'A'};
+    const groupB: Parameter['group'] = {de: 'B', en: 'B', fr: 'B', it: 'B'};
+    const groupC: Parameter['group'] = {de: 'C', en: 'C', fr: 'C', it: 'C'};
+    const parameterBase: Omit<Parameter, 'group'> = {
+      id: 'test00',
+      description: {
+        de: 'Ein Text',
+        en: 'Some text',
+        fr: 'Some text but french',
+        it: 'Some text but Italian',
+      },
+    };
+    const parameters: Parameter[] = [
+      {...parameterBase, group: groupB},
+      {...parameterBase, group: groupA},
+      {...parameterBase, group: groupC},
+      {...parameterBase, group: groupA},
+      {...parameterBase, group: groupB},
+      {...parameterBase, group: groupA},
+      {...parameterBase, group: groupB},
+      {...parameterBase, group: groupA},
+    ];
+
+    const groups: ParameterGroup[] = service.getParameterGroups(parameters);
+
+    expect(groups).toEqual(
+      jasmine.arrayWithExactContents([
+        {name: groupA, id: groupA.en},
+        {name: groupB, id: groupB.en},
+        {name: groupC, id: groupC.en},
+      ]),
+    );
   });
 });

@@ -1,11 +1,12 @@
 import {createActionGroup, props} from '@ngrx/store';
-import {Parameter} from '../../../shared/models/parameter';
 import {errorProps} from '../../utils/error-props.util';
+import type {Parameter, ParameterGroup} from '../../../shared/models/parameter';
 
 export const parameterActions = createActionGroup({
   source: 'Parameters',
   events: {
     'Set loaded parameters': props<{parameters: Parameter[]}>(),
+    'Set parameter groups': props<{groups: ParameterGroup[]}>(),
     'Load parameter for collections': props<{collections: string[]}>(),
     'Set parameter loading error': errorProps(),
   },
