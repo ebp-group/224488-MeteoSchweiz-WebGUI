@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {StacApiService} from './stac-api.service';
-import type {Parameter} from '../../shared/models/parameter';
+import type {Parameter, ParameterGroup} from '../../shared/models/parameter';
 
 export interface CsvParameter {
   parameterShortname: string;
@@ -50,5 +50,15 @@ export class ParameterService {
         it: csvParameter.parameterGroupIt,
       },
     };
+  }
+
+  public getParameterGroups(parameters: Parameter[]): ParameterGroup[] {
+    const groups = new Map<string, ParameterGroup>();
+    for (const group of parameters.map((parameter) => parameter.group)) {
+      if (!groups.has(group.en)) {
+        groups.set(group.en, {name: group, id: group.en});
+      }
+    }
+    return Array.from(groups.values());
   }
 }

@@ -1,11 +1,12 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {parameterActions} from '../actions/parameter.action';
-import {ParameterState} from '../states/parameter.state';
+import type {ParameterState} from '../states/parameter.state';
 
 export const parameterFeatureKey = 'parameters';
 
 export const initialState: ParameterState = {
   parameters: [],
+  groups: [],
   loadingState: undefined,
 };
 
@@ -28,8 +29,9 @@ export const parameterFeature = createFeature({
         loadingState: 'loaded',
       }),
     ),
-    on(parameterActions.setParameterLoadingError, (state): ParameterState => {
+    on(parameterActions.setParameterLoadingError, (): ParameterState => {
       return {...initialState, loadingState: 'error'};
     }),
+    on(parameterActions.setParameterGroups, (state, {groups}): ParameterState => ({...state, groups: groups})),
   ),
 });

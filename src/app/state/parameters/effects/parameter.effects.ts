@@ -36,3 +36,13 @@ export const failLoadingCollectionParameters = createEffect(
   },
   {functional: true, dispatch: false},
 );
+
+export const extractParameterGroups = createEffect(
+  (actions$ = inject(Actions), parameterService = inject(ParameterService)) => {
+    return actions$.pipe(
+      ofType(parameterActions.setLoadedParameters),
+      map(({parameters}) => parameterActions.setParameterGroups({groups: parameterService.getParameterGroups(parameters)})),
+    );
+  },
+  {functional: true},
+);
