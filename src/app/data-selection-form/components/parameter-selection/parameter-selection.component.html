@@ -1,0 +1,10 @@
+<div [class.selected]="isSelected()">
+  <input
+    type="radio"
+    name="parameter-selection"
+    [id]="parameterGroup().name.de"
+    [checked]="isSelected()"
+    (click)="setParameterGroupSelected()"
+  />
+  <label [for]="parameterGroup().name.de">{{ translationService.translate(parameterGroup().name) }}</label>
+</div>

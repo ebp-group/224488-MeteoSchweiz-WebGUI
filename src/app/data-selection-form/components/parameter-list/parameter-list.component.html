@@ -1,0 +1,7 @@
+@for (parameterGroup of parameterGroups$ | async; track $index) {
+  <app-parameter-selection
+    [parameterGroup]="parameterGroup"
+    [isSelected]="parameterGroup.id === (selectedParameterGroup$ | async)"
+    (selected)="setSelectedParameterGroup($event)"
+  ></app-parameter-selection>
+}
