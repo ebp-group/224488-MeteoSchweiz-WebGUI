@@ -1,19 +1,16 @@
 import {TestBed} from '@angular/core/testing';
-import {Store} from '@ngrx/store';
 import {provideMockStore} from '@ngrx/store/testing';
 import {CsvParameter, ParameterService} from './parameter.service';
 import type {Parameter} from '../../shared/models/parameter';
 
 describe('ParameterService', () => {
   let service: ParameterService;
-  let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideMockStore()],
     });
     service = TestBed.inject(ParameterService);
-    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -72,8 +69,7 @@ describe('ParameterService', () => {
         it: 'vento',
       },
     };
-    spyOn(service, 'getParametersForCollection').and.returnValue(new Promise((resolve) => resolve([aParameter])));
-    spyOn(store, 'dispatch');
+    spyOn(service, 'getParametersForCollection').and.resolveTo([aParameter]);
 
     const parameters = await service.loadParameterForCollections(collections);
 
