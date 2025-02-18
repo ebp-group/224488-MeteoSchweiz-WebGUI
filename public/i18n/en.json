@@ -1,6 +1,4 @@
 {
-  "greeting": "Hello, {{ title }}",
-  "congraz": "Congratulations! Your app is running. 🎉",
   "errorTest": "Test Error",
   "parameter.load.error": "Error loading parameters"
 }

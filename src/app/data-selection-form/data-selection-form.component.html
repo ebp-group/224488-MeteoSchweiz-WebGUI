@@ -1,0 +1,8 @@
+<div *transloco="let t">
+  <mat-button-toggle-group aria-label="Font Style">
+    <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
+    <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
+  </mat-button-toggle-group>
+  <button mat-stroked-button (click)="testCsv()">csv</button>
+  <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
+</div>
