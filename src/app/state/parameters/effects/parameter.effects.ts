@@ -2,7 +2,8 @@ import {inject} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
-import {catchError, filter, from, map, of, switchMap} from 'rxjs';
+import {catchError, filter, from, map, of, switchMap, tap} from 'rxjs';
+import {ParameterError} from '../../../shared/errors/parameter.error';
 import {ParameterService} from '../../../stac/service/parameter.service';
 import {parameterActions} from '../actions/parameter.action';
 import {parameterFeature} from '../reducers/parameter.reducer';
@@ -15,11 +16,23 @@ export const loadCollectionParameters = createEffect(
       filter(([_, loadingState]) => loadingState !== 'loaded'),
       switchMap(([{collections}]) =>
         from(parameterService.loadParameterForCollections(collections)).pipe(
-          map((parameters) => parameterActions.setLoadedParameters({parameters: parameters})),
+          map((parameters) => parameterActions.setLoadedParameters({parameters})),
           catchError((error: unknown) => of(parameterActions.setParameterLoadingError({error}))),
         ),
       ),
     );
   },
   {functional: true},
+);
+
+export const failLoadingCollectionParameters = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(parameterActions.setParameterLoadingError),
+      tap(() => {
+        throw new ParameterError();
+      }),
+    );
+  },
+  {functional: true, dispatch: false},
 );

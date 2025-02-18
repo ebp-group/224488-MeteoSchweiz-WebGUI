@@ -1,5 +1,6 @@
 {
   "greeting": "Hallo, {{ title }}!",
   "congraz": "Glückwunsch! Deine App funktioniert. 🎉",
-  "errorTest": "Fehler Test"
+  "errorTest": "Fehler Test",
+  "parameter.load.error": "Fehler beim Laden der Parameter"
 }
