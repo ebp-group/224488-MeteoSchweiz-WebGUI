@@ -6,7 +6,7 @@ export const stationActions = createActionGroup({
   source: 'Stations',
   events: {
     'Set loaded stations': props<{stations: Station[]}>(),
-    'Load station for collections': props<{collections: string[]}>(),
+    'Load stations for collections': props<{collections: string[]}>(),
     'Set station loading error': errorProps(),
   },
 });

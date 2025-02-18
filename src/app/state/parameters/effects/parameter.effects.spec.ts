@@ -31,14 +31,14 @@ describe('ParameterEffects', () => {
     const collections = ['collection'];
     actions$ = of(collectionActions.loadCollections({collections}));
     loadCollectionParameters(actions$).subscribe((action) => {
-      expect(action).toEqual(parameterActions.loadParameterForCollections({collections}));
+      expect(action).toEqual(parameterActions.loadParametersForCollections({collections}));
       done();
     });
   });
 
   it('should dispatch the SetParameter action when loading parameters for collections', (done: DoneFn) => {
     spyOn(parameterService, 'loadParameterForCollections').and.resolveTo([]);
-    actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
 
     loadParameters(actions$, store, parameterService).subscribe((action) => {
       expect(action).toEqual(parameterActions.setLoadedParameters({parameters: []}));
@@ -49,7 +49,7 @@ describe('ParameterEffects', () => {
   it('should not call the service if the data is already loaded', (done: DoneFn) => {
     spyOn(parameterService, 'loadParameterForCollections');
     store.overrideSelector(parameterFeature.selectLoadingState, 'loaded');
-    actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
 
     loadParameters(actions$, store, parameterService).subscribe({
       complete: () => {
@@ -78,7 +78,7 @@ describe('ParameterEffects', () => {
   it('should set loading error if the service throws an error', (done: DoneFn) => {
     const error = new Error('test');
     spyOn(parameterService, 'loadParameterForCollections').and.rejectWith(error);
-    actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
 
     loadParameters(actions$, store, parameterService).subscribe((action) => {
       expect(action).toEqual(parameterActions.setParameterLoadingError({error}));

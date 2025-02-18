@@ -12,7 +12,7 @@ describe('Station Reducer', () => {
 
   it('should set loadingState to loading when loadStationForCollections is dispatched and loading state is currently not loaded', () => {
     state = {...state, loadingState: 'error'};
-    const action = stationActions.loadStationForCollections({collections: ['test']});
+    const action = stationActions.loadStationsForCollections({collections: ['test']});
     const result = stationFeature.reducer(state, action);
 
     expect(result.loadingState).toBe('loading');
@@ -21,7 +21,7 @@ describe('Station Reducer', () => {
 
   it('should not change loadingState if it is already loaded when loadStationForCollections is dispatched', () => {
     state = {...state, loadingState: 'loaded'};
-    const action = stationActions.loadStationForCollections({collections: ['test']});
+    const action = stationActions.loadStationsForCollections({collections: ['test']});
     const result = stationFeature.reducer(state, action);
 
     expect(result.loadingState).toBe('loaded');

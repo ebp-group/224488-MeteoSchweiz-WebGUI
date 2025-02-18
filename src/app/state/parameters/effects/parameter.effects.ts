@@ -13,7 +13,7 @@ export const loadCollectionParameters = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(collectionActions.loadCollections),
-      map(({collections}) => parameterActions.loadParameterForCollections({collections})),
+      map(({collections}) => parameterActions.loadParametersForCollections({collections})),
     );
   },
   {functional: true},
@@ -22,7 +22,7 @@ export const loadCollectionParameters = createEffect(
 export const loadParameters = createEffect(
   (actions$ = inject(Actions), store = inject(Store), parameterService = inject(ParameterService)) => {
     return actions$.pipe(
-      ofType(parameterActions.loadParameterForCollections),
+      ofType(parameterActions.loadParametersForCollections),
       concatLatestFrom(() => store.select(parameterFeature.selectLoadingState)),
       filter(([_, loadingState]) => loadingState !== 'loaded'),
       switchMap(([{collections}]) =>

@@ -6,7 +6,7 @@ export const parameterActions = createActionGroup({
   source: 'Parameters',
   events: {
     'Set loaded parameters': props<{parameters: Parameter[]}>(),
-    'Load parameter for collections': props<{collections: string[]}>(),
+    'Load parameters for collections': props<{collections: string[]}>(),
     'Set parameter loading error': errorProps(),
   },
 });

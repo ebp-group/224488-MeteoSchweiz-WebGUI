@@ -30,14 +30,14 @@ describe('ParameterEffects', () => {
     const collections = ['collection'];
     actions$ = of(collectionActions.loadCollections({collections}));
     loadCollectionStations(actions$).subscribe((action) => {
-      expect(action).toEqual(stationActions.loadStationForCollections({collections}));
+      expect(action).toEqual(stationActions.loadStationsForCollections({collections}));
       done();
     });
   });
 
   it('should dispatch the setStations action when loading stations for collections', (done: DoneFn) => {
     spyOn(stationService, 'loadStationsForCollections').and.resolveTo([]);
-    actions$ = of(stationActions.loadStationForCollections({collections: ['collection']}));
+    actions$ = of(stationActions.loadStationsForCollections({collections: ['collection']}));
 
     loadStations(actions$, store, stationService).subscribe((action) => {
       expect(action).toEqual(stationActions.setLoadedStations({stations: []}));
@@ -48,7 +48,7 @@ describe('ParameterEffects', () => {
   it('should not call the service if the data is already loaded', (done: DoneFn) => {
     spyOn(stationService, 'loadStationsForCollections');
     store.overrideSelector(stationFeature.selectLoadingState, 'loaded');
-    actions$ = of(stationActions.loadStationForCollections({collections: ['collection']}));
+    actions$ = of(stationActions.loadStationsForCollections({collections: ['collection']}));
 
     loadStations(actions$, store, stationService).subscribe({
       complete: () => {
@@ -61,7 +61,7 @@ describe('ParameterEffects', () => {
   it('should set loading error if the service throws an error', (done: DoneFn) => {
     const error = new Error('test');
     spyOn(stationService, 'loadStationsForCollections').and.rejectWith(error);
-    actions$ = of(stationActions.loadStationForCollections({collections: ['collection']}));
+    actions$ = of(stationActions.loadStationsForCollections({collections: ['collection']}));
 
     loadStations(actions$, store, stationService).subscribe((action) => {
       expect(action).toEqual(stationActions.setStationLoadingError({error}));

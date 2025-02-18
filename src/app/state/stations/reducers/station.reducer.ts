@@ -14,7 +14,7 @@ export const stationFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      stationActions.loadStationForCollections,
+      stationActions.loadStationsForCollections,
       (state): StationState => ({
         ...state,
         loadingState: state.loadingState !== 'loaded' ? 'loading' : state.loadingState,

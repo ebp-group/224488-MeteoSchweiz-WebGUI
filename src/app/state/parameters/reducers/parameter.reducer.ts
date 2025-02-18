@@ -14,7 +14,7 @@ export const parameterFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      parameterActions.loadParameterForCollections,
+      parameterActions.loadParametersForCollections,
       (state): ParameterState => ({
         ...state,
         loadingState: state.loadingState !== 'loaded' ? 'loading' : state.loadingState,
