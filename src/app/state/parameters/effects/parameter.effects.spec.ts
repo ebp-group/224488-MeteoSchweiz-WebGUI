@@ -26,16 +26,17 @@ describe('ParameterEffects', () => {
     store.resetSelectors();
   });
 
-  it('should dispatch the SetParameter action when loading parameters for collections', () => {
+  it('should dispatch the SetParameter action when loading parameters for collections', (done) => {
     spyOn(parameterService, 'loadParameterForCollections').and.resolveTo([]);
     actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
 
-    loadCollectionParameters(actions$, store, parameterService).subscribe((action) =>
-      expect(action).toEqual(parameterActions.setLoadedParameters({parameters: []})),
-    );
+    loadCollectionParameters(actions$, store, parameterService).subscribe((action) => {
+      expect(action).toEqual(parameterActions.setLoadedParameters({parameters: []}));
+      done();
+    });
   });
 
-  it('should not call the service if the data is already loaded', () => {
+  it('should not call the service if the data is already loaded', (done) => {
     spyOn(parameterService, 'loadParameterForCollections');
     store.overrideSelector(parameterFeature.selectLoadingState, 'loaded');
     actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
@@ -43,6 +44,7 @@ describe('ParameterEffects', () => {
     loadCollectionParameters(actions$, store, parameterService).subscribe({
       complete: () => {
         expect(parameterService.loadParameterForCollections).not.toHaveBeenCalled();
+        done();
       },
     });
   });

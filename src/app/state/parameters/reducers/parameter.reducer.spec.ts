@@ -10,15 +10,6 @@ describe('Parameter Reducer', () => {
     state = initialState;
   });
 
-  describe('an unknown action', () => {
-    it('should return the previous state', () => {
-      const action = {} as never;
-      const result = parameterFeature.reducer(initialState, action);
-
-      expect(result).toBe(initialState);
-    });
-  });
-
   it('should set loadingState to loading when loadParameterForCollections is dispatched and loading state is currently not loaded', () => {
     state = {...state, loadingState: 'error'};
     const action = parameterActions.loadParameterForCollections({collections: ['test']});

@@ -8,8 +8,7 @@ import {catchError, Observable} from 'rxjs';
 // For more information see: https://ngrx.io/guide/effects/lifecycle#customizing-the-effects-error-handler
 export function effectErrorHandler<T extends Action>(observable$: Observable<T>, errorHandler: ErrorHandler): Observable<T> {
   return observable$.pipe(
-    // eslint-disable-next-line rxjs-x/no-implicit-any-catch
-    catchError((error, caught) => {
+    catchError((error: unknown, caught) => {
       errorHandler.handleError(error);
       return caught;
     }),
