@@ -34,7 +34,7 @@ describe('ErrorHandlerService', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: Router, useValue: routerSpyObj},
-        {provide: TranslocoService, useValue: {translate: (message: string) => message}},
+        {provide: TranslocoService, useValue: {translate: (message: string): string => message}},
       ],
     });
     service = TestBed.inject(ErrorHandlerService);

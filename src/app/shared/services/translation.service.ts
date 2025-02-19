@@ -7,9 +7,9 @@ import type {TranslatableString} from '../models/translatable-string';
   providedIn: 'root',
 })
 export class TranslatableStringService {
-  private translocoService = inject(TranslocoService);
+  private readonly translocoService = inject(TranslocoService);
 
-  public translate(translatableString: TranslatableString) {
+  public translate(translatableString: TranslatableString): string {
     return translatableString[this.translocoService.getActiveLang() as Language];
   }
 }

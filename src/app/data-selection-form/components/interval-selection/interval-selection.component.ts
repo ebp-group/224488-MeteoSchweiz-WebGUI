@@ -2,7 +2,7 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
-import {dataInterval} from '../../../shared/models/interval';
+import {dataIntervals} from '../../../shared/models/interval';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
 import type {DataInterval} from '../../../shared/models/interval';
@@ -18,9 +18,9 @@ export class IntervalSelectionComponent {
   private readonly store = inject(Store);
   protected readonly selectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
 
-  protected readonly availableDataInterval = dataInterval;
+  protected readonly availableDataIntervals = dataIntervals;
 
-  protected setSelectedInterval(interval: DataInterval) {
+  protected setSelectedInterval(interval: DataInterval): void {
     this.store.dispatch(formActions.setSelectedDataInterval({dataInterval: interval}));
   }
 }

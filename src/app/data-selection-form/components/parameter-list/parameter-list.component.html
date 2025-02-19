@@ -1,4 +1,4 @@
-@for (parameterGroup of parameterGroups$ | async; track $index) {
+@for (parameterGroup of parameterGroups$ | async; track parameterGroup.id) {
   <app-parameter-selection
     [parameterGroup]="parameterGroup"
     [isSelected]="parameterGroup.id === (selectedParameterGroup$ | async)"

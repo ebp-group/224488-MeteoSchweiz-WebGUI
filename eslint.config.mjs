@@ -124,6 +124,7 @@ export default tseslint.config(
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       'no-console': ['warn', {allow: ['warn', 'error']}],
       'prettier/prettier': ['error', {endOfLine: 'auto'}],
+      '@typescript-eslint/explicit-function-return-type': 'error',
     },
   },
   {

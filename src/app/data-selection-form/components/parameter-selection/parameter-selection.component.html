@@ -2,9 +2,9 @@
   <input
     type="radio"
     name="parameter-selection"
-    [id]="parameterGroup().name.de"
+    [id]="parameterGroup().id"
     [checked]="isSelected()"
     (click)="setParameterGroupSelected()"
   />
-  <label [for]="parameterGroup().name.de">{{ translationService.translate(parameterGroup().name) }}</label>
+  <label [for]="parameterGroup().id">{{ translationService.translate(parameterGroup().name) }}</label>
 </div>

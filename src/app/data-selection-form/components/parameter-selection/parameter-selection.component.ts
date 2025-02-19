@@ -12,11 +12,11 @@ import {TranslatableStringService} from '../../../shared/services/translation.se
 export class ParameterSelectionComponent {
   protected translationService = inject(TranslatableStringService);
 
-  public parameterGroup = input.required<ParameterGroup>();
-  public isSelected = input(false);
-  public selected = output<string | null>();
+  public readonly parameterGroup = input.required<ParameterGroup>();
+  public readonly isSelected = input(false);
+  public readonly selected = output<string | null>();
 
-  protected setParameterGroupSelected() {
+  protected setParameterGroupSelected(): void {
     const parameterGroupId = this.isSelected() ? null : this.parameterGroup().id;
     this.selected.emit(parameterGroupId);
   }
