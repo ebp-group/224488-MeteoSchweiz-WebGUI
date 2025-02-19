@@ -7,6 +7,6 @@ export interface Parameter {
 }
 
 export interface ParameterGroup {
+  id: string;
   name: TranslatableString;
-  parameters: Parameter[];
 }

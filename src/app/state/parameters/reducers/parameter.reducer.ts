@@ -1,6 +1,6 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {parameterActions} from '../actions/parameter.action';
-import {ParameterState} from '../states/parameter.state';
+import type {ParameterState} from '../states/parameter.state';
 
 export const parameterFeatureKey = 'parameters';
 
@@ -28,7 +28,7 @@ export const parameterFeature = createFeature({
         loadingState: 'loaded',
       }),
     ),
-    on(parameterActions.setParameterLoadingError, (state): ParameterState => {
+    on(parameterActions.setParameterLoadingError, (): ParameterState => {
       return {...initialState, loadingState: 'error'};
     }),
   ),

@@ -1,6 +1,6 @@
 import {createActionGroup, props} from '@ngrx/store';
-import {Parameter} from '../../../shared/models/parameter';
 import {errorProps} from '../../utils/error-props.util';
+import type {Parameter} from '../../../shared/models/parameter';
 
 export const parameterActions = createActionGroup({
   source: 'Parameters',
