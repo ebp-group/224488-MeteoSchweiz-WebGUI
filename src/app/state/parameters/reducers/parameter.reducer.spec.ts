@@ -12,7 +12,7 @@ describe('Parameter Reducer', () => {
 
   it('should set loadingState to loading when loadParameterForCollections is dispatched and loading state is currently not loaded', () => {
     state = {...state, loadingState: 'error'};
-    const action = parameterActions.loadParameterForCollections({collections: ['test']});
+    const action = parameterActions.loadParametersForCollections({collections: ['test']});
     const result = parameterFeature.reducer(state, action);
 
     expect(result.loadingState).toBe('loading');
@@ -21,7 +21,7 @@ describe('Parameter Reducer', () => {
 
   it('should not change loadingState if it is already loaded when loadParameterForCollections is dispatched', () => {
     state = {...state, loadingState: 'loaded'};
-    const action = parameterActions.loadParameterForCollections({collections: ['test']});
+    const action = parameterActions.loadParametersForCollections({collections: ['test']});
     const result = parameterFeature.reducer(state, action);
 
     expect(result.loadingState).toBe('loaded');

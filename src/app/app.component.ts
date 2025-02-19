@@ -4,7 +4,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {RouterOutlet} from '@angular/router';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
-import {parameterActions} from './state/parameters/actions/parameter.action';
+import {collectionActions} from './state/collection/actions/collection.action';
 import type {Language} from './shared/models/language';
 
 @Component({
@@ -29,8 +29,6 @@ export class AppComponent {
   }
 
   public testCsv(): void {
-    this.store.dispatch(
-      parameterActions.loadParameterForCollections({collections: ['ch.meteoschweiz.ogd-smn', 'ch.meteoschweiz.ogd-smn-precip']}),
-    );
+    this.store.dispatch(collectionActions.loadCollections({collections: ['ch.meteoschweiz.ogd-smn', 'ch.meteoschweiz.ogd-smn-precip']}));
   }
 }

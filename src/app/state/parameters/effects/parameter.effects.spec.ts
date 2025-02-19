@@ -4,9 +4,10 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
 import {ParameterError} from '../../../shared/errors/parameter.error';
 import {ParameterService} from '../../../stac/service/parameter.service';
+import {collectionActions} from '../../collection/actions/collection.action';
 import {parameterActions} from '../actions/parameter.action';
 import {parameterFeature} from '../reducers/parameter.reducer';
-import {failLoadingCollectionParameters, loadCollectionParameters} from './parameter.effects';
+import {failLoadingCollectionParameters, loadCollectionParameters, loadParameters} from './parameter.effects';
 
 describe('ParameterEffects', () => {
   let actions$: Observable<Action>;
@@ -26,22 +27,31 @@ describe('ParameterEffects', () => {
     store.resetSelectors();
   });
 
-  it('should dispatch the SetParameter action when loading parameters for collections', (done) => {
-    spyOn(parameterService, 'loadParameterForCollections').and.resolveTo([]);
-    actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
+  it('should dispatch loadParameter action when loadCollection is dispatched', (done: DoneFn) => {
+    const collections = ['collection'];
+    actions$ = of(collectionActions.loadCollections({collections}));
+    loadCollectionParameters(actions$).subscribe((action) => {
+      expect(action).toEqual(parameterActions.loadParametersForCollections({collections}));
+      done();
+    });
+  });
 
-    loadCollectionParameters(actions$, store, parameterService).subscribe((action) => {
+  it('should dispatch the SetParameter action when loading parameters for collections', (done: DoneFn) => {
+    spyOn(parameterService, 'loadParameterForCollections').and.resolveTo([]);
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
+
+    loadParameters(actions$, store, parameterService).subscribe((action) => {
       expect(action).toEqual(parameterActions.setLoadedParameters({parameters: []}));
       done();
     });
   });
 
-  it('should not call the service if the data is already loaded', (done) => {
+  it('should not call the service if the data is already loaded', (done: DoneFn) => {
     spyOn(parameterService, 'loadParameterForCollections');
     store.overrideSelector(parameterFeature.selectLoadingState, 'loaded');
-    actions$ = of(parameterActions.loadParameterForCollections({collections: ['collection']}));
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
 
-    loadCollectionParameters(actions$, store, parameterService).subscribe({
+    loadParameters(actions$, store, parameterService).subscribe({
       complete: () => {
         expect(parameterService.loadParameterForCollections).not.toHaveBeenCalled();
         done();
@@ -63,5 +73,16 @@ describe('ParameterEffects', () => {
         }),
       )
       .subscribe();
+  });
+
+  it('should set loading error if the service throws an error', (done: DoneFn) => {
+    const error = new Error('test');
+    spyOn(parameterService, 'loadParameterForCollections').and.rejectWith(error);
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
+
+    loadParameters(actions$, store, parameterService).subscribe((action) => {
+      expect(action).toEqual(parameterActions.setParameterLoadingError({error}));
+      done();
+    });
   });
 });
