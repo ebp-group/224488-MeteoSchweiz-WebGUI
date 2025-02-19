@@ -27,6 +27,10 @@ export class StationService {
     return {
       id: csvStation.stationAbbr,
       name: csvStation.stationName,
+      coordinates: {
+        lng: +csvStation.stationCoordinatesWgs84Lon,
+        lat: +csvStation.stationCoordinatesWgs84Lat,
+      },
     };
   }
 }
