@@ -6,7 +6,6 @@ export const parameterFeatureKey = 'parameters';
 
 export const initialState: ParameterState = {
   parameters: [],
-  groups: [],
   loadingState: undefined,
 };
 
@@ -32,6 +31,5 @@ export const parameterFeature = createFeature({
     on(parameterActions.setParameterLoadingError, (): ParameterState => {
       return {...initialState, loadingState: 'error'};
     }),
-    on(parameterActions.setParameterGroups, (state, {groups}): ParameterState => ({...state, groups: groups})),
   ),
 });
