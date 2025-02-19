@@ -23,7 +23,7 @@ export class StationService {
     return csvStations.map(this.transformCsvStation);
   }
 
-  private transformCsvStation(csvStation: CsvStation) {
+  private transformCsvStation(csvStation: CsvStation): Station {
     return {
       id: csvStation.stationAbbr,
       name: csvStation.stationName,

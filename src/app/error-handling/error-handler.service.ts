@@ -18,7 +18,7 @@ export class ErrorHandlerService implements ErrorHandler {
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public handleError(error: any) {
+  public handleError(error: any): void {
     // log errors to console for easier debugging in non-productive environments
     if (this.angularDevModeService.isDevMode()) {
       console.error(error);
@@ -38,11 +38,11 @@ export class ErrorHandlerService implements ErrorHandler {
     }
   }
 
-  private showRecoverableErrorMessage(message: string) {
+  private showRecoverableErrorMessage(message: string): void {
     // TODO show error notification
   }
 
-  private routeToErrorPage(message?: string) {
+  private routeToErrorPage(message?: string): void {
     // sometimes, the error handler is not yet tied to the Angular zone, so we make sure it is run *within* the angular zone.
     this.zone.run(() => {
       void this.router.navigate([Page.Error], {queryParams: {[routeParamConstants.ERROR]: message}, skipLocationChange: true});

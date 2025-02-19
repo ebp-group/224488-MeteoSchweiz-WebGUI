@@ -19,7 +19,7 @@ export class FatalErrorComponent implements OnInit, OnDestroy {
 
   constructor(private readonly route: ActivatedRoute) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.subscriptions.add(
       this.route.queryParamMap
         .pipe(
@@ -31,11 +31,11 @@ export class FatalErrorComponent implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  protected forceRefresh() {
+  protected forceRefresh(): void {
     window.location.href = '/';
   }
 }
