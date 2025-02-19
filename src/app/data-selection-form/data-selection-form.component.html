@@ -1,6 +1,6 @@
 <div *transloco="let t">
   <div>
-    <mat-button-toggle-group aria-label="Font Style">
+    <mat-button-toggle-group aria-label="Application language">
       <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
       <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
     </mat-button-toggle-group>
@@ -13,6 +13,7 @@
     <mat-step [completed]="(selectedParameterGroup$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
       <app-parameter-list></app-parameter-list>
+      <app-map-container class="map-container"></app-map-container>
       <div>
         <button mat-button matStepperNext type="button" [disabled]="(selectedParameterGroup$ | async) === null">
           {{ t('form.stepper.next') }}
