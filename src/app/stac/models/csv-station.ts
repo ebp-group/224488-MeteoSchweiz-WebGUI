@@ -11,10 +11,10 @@ export interface CsvStation {
   stationDataSince: string;
   stationHeightMasl: string;
   stationHeightBarometerMasl: string;
-  stationCoordinatesLv95East: `${number}`;
-  stationCoordinatesLv95North: `${number}`;
-  stationCoordinatesWgs84Lat: `${number}`;
-  stationCoordinatesWgs84Lon: `${number}`;
+  stationCoordinatesLv95East: string;
+  stationCoordinatesLv95North: string;
+  stationCoordinatesWgs84Lat: string;
+  stationCoordinatesWgs84Lon: string;
   stationExpositionDe: string;
   stationExpositionFr: string;
   stationExpositionIt: string;

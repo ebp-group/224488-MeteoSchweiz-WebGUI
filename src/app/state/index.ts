@@ -1,4 +1,5 @@
 import {formFeature, formFeatureKey} from './form/reducers/form.reducer';
+import {addStationsToMap, filterStationsOnMap} from './map/effects/map.effects';
 import {failLoadingCollectionParameters, loadCollectionParameters, loadParameters} from './parameters/effects/parameter.effects';
 import {parameterFeature, parameterFeatureKey} from './parameters/reducers/parameter.reducer';
 import {loadCollectionStations, loadStations} from './stations/effects/station.effects';
@@ -23,5 +24,6 @@ export const reducers: ActionReducerMap<State> = {
 export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   {loadCollectionParameters, loadParameters, failLoadingCollectionParameters},
   {loadStations, loadCollectionStations},
+  {addStationsToMap, filterStationsOnMap},
 ];
 export const metaReducers: MetaReducer<State>[] = [];
