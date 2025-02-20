@@ -6,4 +6,5 @@ export const mapConfig: MapConfig = {
     {lng: 6.02260949059, lat: 45.7769477403},
     {lng: 10.4427014502, lat: 47.8308275417},
   ],
+  enableRotation: false,
 } as const;

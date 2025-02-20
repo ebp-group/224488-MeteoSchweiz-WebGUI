@@ -1,5 +1,8 @@
-import {Injectable} from '@angular/core';
-import {CircleLayerSpecification, LayerSpecification, Map, Subscription} from 'maplibre-gl';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {StyleSpecification} from '@maplibre/maplibre-gl-style-spec';
+import {CircleLayerSpecification, LayerSpecification, Map} from 'maplibre-gl';
+import {firstValueFrom} from 'rxjs';
 import {MapConfig} from '../../shared/models/configs/map-config';
 import {Station} from '../../shared/models/station';
 
@@ -7,21 +10,24 @@ import {Station} from '../../shared/models/station';
   providedIn: 'root',
 })
 export class MapService {
+  private readonly http = inject(HttpClient);
+
   private map?: Map;
+  private readonly stationSourceId = 'stations' as const;
+  private readonly stationLayerId = 'stations' as const;
+  private readonly stationLabelLayerId = 'stations-label' as const;
 
   public async createMap(target: HTMLElement, mapConfig: MapConfig): Promise<Map> {
-    if (this.map) {
-      this.removeMap();
-    }
-    const map = new Map({
+    this.removeMap();
+    const style = await this.fetchStyle(mapConfig.styleUrl);
+    style.layers = this.filterUnnecessaryLayers(style.layers);
+    this.map = new Map({
       container: target,
-      style: mapConfig.styleUrl,
+      style,
       bounds: mapConfig.boundingBox,
+      dragRotate: mapConfig.enableRotation,
     });
-    await this.loadStyle(map);
-    this.removeUnnecessaryLayers(map);
-    this.map = map;
-    return map;
+    return this.map;
   }
 
   public removeMap(): void {
@@ -35,7 +41,7 @@ export class MapService {
       return;
     }
     this.removeStationsFromMap();
-    map.addSource('stations', {
+    map.addSource(this.stationSourceId, {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
@@ -48,14 +54,14 @@ export class MapService {
           properties: {
             id: station.id,
             name: station.name,
-          },
+          } satisfies Partial<Station>,
         })),
       },
     });
     map.addLayer({
-      id: 'stations',
+      id: this.stationLayerId,
       type: 'circle',
-      source: 'stations',
+      source: this.stationSourceId,
       paint: {
         'circle-radius': 6,
         'circle-color': '#fff',
@@ -64,9 +70,9 @@ export class MapService {
       } satisfies CircleLayerSpecification['paint'],
     });
     map.addLayer({
-      id: 'stations-label',
+      id: this.stationLabelLayerId,
       type: 'symbol',
-      source: 'stations',
+      source: this.stationSourceId,
       layout: {
         'text-field': ['get', 'name'],
         'text-font': ['Frutiger Neue Regular'],
@@ -82,7 +88,11 @@ export class MapService {
     if (!map) {
       return;
     }
-    map.setFilter('stations', ['in', 'id', ...stations.map((station) => station.id)]);
+    map.setFilter(this.stationSourceId, ['in', 'id', ...stations.map((station) => station.id)]);
+  }
+
+  private async fetchStyle(styleUrl: string): Promise<StyleSpecification> {
+    return firstValueFrom(this.http.get<StyleSpecification>(styleUrl));
   }
 
   private removeStationsFromMap(): void {
@@ -90,46 +100,22 @@ export class MapService {
     if (!map) {
       return;
     }
-    if (map.getLayer('stations')) {
-      map.removeLayer('stations');
+    if (map.getLayer(this.stationLayerId)) {
+      map.removeLayer(this.stationLayerId);
     }
-    if (map.getSource('stations')) {
-      map.removeSource('stations');
+    if (map.getLayer(this.stationLabelLayerId)) {
+      map.removeLayer(this.stationLabelLayerId);
     }
-    if (map.getLayer('stations-label')) {
-      map.removeLayer('stations-label');
+    if (map.getSource(this.stationSourceId)) {
+      map.removeSource(this.stationSourceId);
     }
   }
 
-  private loadStyle(map: Map): Promise<Map> {
-    const subscriptions: Subscription[] = [];
-    return new Promise<Map>((resolve, reject) => {
-      subscriptions.push(
-        map.on('load', () => {
-          resolve(map);
-        }),
-      );
-      subscriptions.push(
-        map.on('error', (error) => {
-          reject(error.error);
-        }),
-      );
-    }).finally(() => subscriptions.forEach((subscription) => subscription.unsubscribe()));
-  }
-
-  private removeUnnecessaryLayers(map: Map): void {
-    const layers = map.getStyle().layers;
-    const layerIdsToRemove = new Set(
-      [
-        ...layers.filter(
-          (layer: LayerSpecification) =>
-            !(layer.id === 'background' || layer.id.includes('hillshade') || layer.id.includes('water') || layer.id === 'boundary'),
-        ),
-        ...layers.filter((layer: LayerSpecification) => layer.type === 'symbol'),
-      ].map((layer: LayerSpecification) => layer.id),
-    );
-    layerIdsToRemove.forEach((symbolLayerId: string) => {
-      map.removeLayer(symbolLayerId);
-    });
+  private filterUnnecessaryLayers(layers: LayerSpecification[]): LayerSpecification[] {
+    return layers
+      .filter(
+        (layer) => layer.id === 'background' || layer.id.includes('hillshade') || layer.id.includes('water') || layer.id === 'boundary',
+      )
+      .filter((layer) => layer.type !== 'symbol');
   }
 }
