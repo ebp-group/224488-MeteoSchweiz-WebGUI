@@ -1,18 +1,55 @@
 <div *transloco="let t">
-  <mat-button-toggle-group aria-label="Font Style">
-    <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
-    <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
-  </mat-button-toggle-group>
-  <button mat-stroked-button (click)="testCsv()">csv</button>
-  <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
+  <div>
+    <mat-button-toggle-group aria-label="Font Style">
+      <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
+      <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
+    </mat-button-toggle-group>
+    <button mat-stroked-button (click)="testCsv()">csv</button>
+    <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
+  </div>
+  <hr />
+
+  <mat-vertical-stepper [linear]="true">
+    <mat-step [completed]="(selectedParameterGroup$ | async) !== null">
+      <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
+      <app-parameter-list></app-parameter-list>
+      <div>
+        <button mat-button matStepperNext type="button" [disabled]="(selectedParameterGroup$ | async) === null">
+          {{ t('form.stepper.next') }}
+        </button>
+      </div>
+    </mat-step>
+    <mat-step [completed]="(selectedSelectedDataInterval$ | async) !== null">
+      <ng-template matStepLabel>{{ t('form.stepper.interval.label') }}</ng-template>
+      <app-interval-selection></app-interval-selection>
+      <div>
+        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
+        <button mat-button matStepperNext type="button" [disabled]="(selectedSelectedDataInterval$ | async) === null">
+          {{ t('form.stepper.next') }}
+        </button>
+      </div>
+    </mat-step>
+    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
+      <ng-template matStepLabel>{{ t('form.stepper.time-range.label') }}</ng-template>
+      <app-time-range-selection></app-time-range-selection>
+      <div>
+        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
+        <button mat-button matStepperNext type="button" [disabled]="(selectedSelectedTimeRange$ | async) === null">
+          {{ t('form.stepper.next') }}
+        </button>
+      </div>
+    </mat-step>
+    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
+      <ng-template matStepLabel>{{ t('form.stepper.overview.label') }}</ng-template>
+      <app-selection-overview></app-selection-overview>
+      <div>
+        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
+        <button mat-button matStepperNext type="button">{{ t('form.stepper.next') }}</button>
+      </div>
+    </mat-step>
+    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
+      <ng-template matStepLabel>{{ t('form.stepper.download.label') }}</ng-template>
+      <app-download-asset> </app-download-asset>
+    </mat-step>
+  </mat-vertical-stepper>
 </div>
-<hr />
-<app-parameter-list></app-parameter-list>
-<hr />
-<app-interval-selection></app-interval-selection>
-<hr />
-<app-time-range-selection></app-time-range-selection>
-<hr />
-<app-selection-overview></app-selection-overview>
-<hr />
-<app-download-asset> </app-download-asset>
