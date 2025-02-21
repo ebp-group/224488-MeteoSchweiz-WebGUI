@@ -18,5 +18,6 @@
   "overview_file_size": "Missing value for 'overview_file_size'",
   "download-asset": "Missing value for 'download-asset'",
   "download-metadata": "Missing value for 'download-metadata'",
-  "parameter.load.error": "Erreur lors du chargement des paramètres"
+  "parameter.load.error": "Erreur lors du chargement des paramètres",
+  "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'"
 }
