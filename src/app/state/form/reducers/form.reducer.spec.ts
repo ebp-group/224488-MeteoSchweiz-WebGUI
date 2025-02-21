@@ -1,5 +1,5 @@
 import {formActions} from '../actions/form.actions';
-import {FormState} from '../state/form.state';
+import {FormState} from '../states/form.state';
 import {formFeature, initialState} from './form.reducer';
 
 describe('Parameter Reducer', () => {

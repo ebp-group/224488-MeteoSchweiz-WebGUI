@@ -1,6 +1,6 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {formActions} from '../actions/form.actions';
-import {FormState} from '../state/form.state';
+import {FormState} from '../states/form.state';
 
 export const formFeatureKey = 'form';
 

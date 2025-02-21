@@ -2,7 +2,8 @@ import {inject} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
-import {catchError, filter, from, map, of, switchMap} from 'rxjs';
+import {catchError, filter, from, map, of, switchMap, tap} from 'rxjs';
+import {StationError} from '../../../shared/errors/station.error';
 import {StationService} from '../../../stac/service/station.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {stationActions} from '../actions/station.action';
@@ -33,4 +34,16 @@ export const loadStations = createEffect(
     );
   },
   {functional: true},
+);
+
+export const failLoadingCollectionStations = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(stationActions.setStationLoadingError),
+      tap(({error}) => {
+        throw new StationError(error);
+      }),
+    );
+  },
+  {functional: true, dispatch: false},
 );
