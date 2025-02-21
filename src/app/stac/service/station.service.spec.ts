@@ -36,8 +36,8 @@ const testStation: Station = {
   id: 'TEST',
   name: 'Test station',
   coordinates: {
-    lng: 0,
-    lat: 0,
+    longitude: 0,
+    latitude: 0,
   },
 };
 

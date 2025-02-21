@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {StyleSpecification} from '@maplibre/maplibre-gl-style-spec';
-import {CircleLayerSpecification, LayerSpecification, Map} from 'maplibre-gl';
+import {CircleLayerSpecification, LayerSpecification, LngLat, LngLatBounds, Map, SymbolLayerSpecification} from 'maplibre-gl';
 import {firstValueFrom} from 'rxjs';
 import {MapConfig} from '../../shared/models/configs/map-config';
 import {Station} from '../../shared/models/station';
@@ -24,9 +24,15 @@ export class MapService {
     this.map = new Map({
       container: target,
       style,
-      bounds: mapConfig.boundingBox,
+      bounds: new LngLatBounds(
+        new LngLat(mapConfig.boundingBox[0].longitude, mapConfig.boundingBox[0].latitude),
+        new LngLat(mapConfig.boundingBox[1].longitude, mapConfig.boundingBox[1].latitude),
+      ),
       dragRotate: mapConfig.enableRotation,
     });
+    // TODO: Either make sure sure that the filters are applied to the map
+    //       or to change the `map` member into a BehaviorSubject and apply the filter
+    //       as soon as it is not `undefined` anymore.
     return this.map;
   }
 
@@ -49,7 +55,7 @@ export class MapService {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [station.coordinates.lng, station.coordinates.lat],
+            coordinates: [station.coordinates.longitude, station.coordinates.latitude],
           },
           properties: {
             id: station.id,
@@ -67,8 +73,8 @@ export class MapService {
         'circle-color': '#fff',
         'circle-stroke-color': '#069',
         'circle-stroke-width': 2,
-      } satisfies CircleLayerSpecification['paint'],
-    });
+      },
+    } satisfies CircleLayerSpecification);
     map.addLayer({
       id: this.stationLabelLayerId,
       type: 'symbol',
@@ -80,7 +86,7 @@ export class MapService {
         'text-offset': [0, 1.5],
       },
       minzoom: 8,
-    });
+    } satisfies SymbolLayerSpecification);
   }
 
   public filterStationsOnMap(stations: Station[]): void {

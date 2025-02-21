@@ -27,7 +27,7 @@ describe('MapEffects', () => {
   });
 
   it('should add stations to the map when stationActions.setLoadedStations is dispatched', (done) => {
-    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {lng: 0, lat: 0}}];
+    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
     actions$ = of(stationActions.setLoadedStations({stations}));
     addStationsToMap(actions$, mapService).subscribe(() => {
       expect(mapService.addStationsToMap).toHaveBeenCalledOnceWith(stations);
@@ -36,7 +36,7 @@ describe('MapEffects', () => {
   });
 
   it('should filter stations on the map when formActions.setSelectedParameters is dispatched', (done) => {
-    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {lng: 0, lat: 0}}];
+    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
     store.overrideSelector(stationFeature.selectStations, stations);
     actions$ = of(formActions.setSelectedParameters({parameterGroupId: 'test-group-id'}));
     filterStationsOnMap(actions$, store, mapService).subscribe(() => {

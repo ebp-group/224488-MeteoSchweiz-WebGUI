@@ -2,8 +2,9 @@ import {HttpClient, provideHttpClient} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
 import {Map} from 'maplibre-gl';
 import {of} from 'rxjs';
-import {styleSpecificationMock} from '../../../testing/data/style-specification.mock';
 import {MapConfig} from '../../shared/models/configs/map-config';
+import {Station} from '../../shared/models/station';
+import {styleSpecificationMock} from '../testing/data/style-specification.mock';
 import {MapService} from './map.service';
 
 describe('MapService', () => {
@@ -29,8 +30,8 @@ describe('MapService', () => {
     const mapConfig: MapConfig = {
       styleUrl: 'map-style-url',
       boundingBox: [
-        {lng: 0, lat: 0},
-        {lng: 1, lat: 1},
+        {longitude: 0, latitude: 0},
+        {longitude: 1, latitude: 1},
       ],
       enableRotation: true,
     };
@@ -49,8 +50,8 @@ describe('MapService', () => {
     const mapConfig: MapConfig = {
       styleUrl: 'map-style-url',
       boundingBox: [
-        {lng: 0, lat: 0},
-        {lng: 1, lat: 1},
+        {longitude: 0, latitude: 0},
+        {longitude: 1, latitude: 1},
       ],
       enableRotation: true,
     };
@@ -71,8 +72,8 @@ describe('MapService', () => {
       const mapConfig: MapConfig = {
         styleUrl: 'map-style-url',
         boundingBox: [
-          {lng: 0, lat: 0},
-          {lng: 1, lat: 1},
+          {longitude: 0, latitude: 0},
+          {longitude: 1, latitude: 1},
         ],
         enableRotation: true,
       };
@@ -88,11 +89,11 @@ describe('MapService', () => {
     });
 
     it('should add stations to the map', () => {
-      const stations = [
+      const stations: Station[] = [
         {
           id: 'station-id',
           name: 'station-name',
-          coordinates: {lng: 0, lat: 0},
+          coordinates: {longitude: 0, latitude: 0},
         },
       ];
       const mapAddSourceSpy = spyOn(map, 'addSource');
@@ -105,11 +106,11 @@ describe('MapService', () => {
     });
 
     it('should filter stations from the map', () => {
-      const stations = [
+      const stations: Station[] = [
         {
           id: 'station-id',
           name: 'station-name',
-          coordinates: {lng: 0, lat: 0},
+          coordinates: {longitude: 0, latitude: 0},
         },
       ];
       const mapFilterSpy = spyOn(map, 'setFilter');
