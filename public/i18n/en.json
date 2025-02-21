@@ -1,6 +1,12 @@
 {
   "errorTest": "Test Error",
-  "parameter.load.error": "Error loading parameters",
+  "form.stepper.station.label": "Missing value for 'form.stepper.station.label'",
+  "form.stepper.next": "Continue",
+  "form.stepper.interval.label": "Missing value for 'form.stepper.interval.label'",
+  "form.stepper.back": "Back",
+  "form.stepper.time-range.label": "Missing value for 'form.stepper.time-range.label'",
+  "form.stepper.overview.label": "Missing value for 'form.stepper.overview.label'",
+  "form.stepper.download.label": "Missing value for 'form.stepper.download.label'",
   "now-time-interval": "Missing value for 'now-time-interval'",
   "recent-time-interval": "Missing value for 'recent-time-interval'",
   "historical-time-range-explanation": "Missing value for 'historical-time-range-explanation'",
@@ -10,7 +16,7 @@
   "overview_time_range": "Missing value for 'overview_time_range'",
   "overview_file_type": "Missing value for 'overview_file_type'",
   "overview_file_size": "Missing value for 'overview_file_size'",
-  "Continue": "Missing value for 'Continue'",
   "download-asset": "Missing value for 'download-asset'",
-  "download-metadata": "Missing value for 'download-metadata'"
+  "download-metadata": "Missing value for 'download-metadata'",
+  "parameter.load.error": "Error loading parameters"
 }

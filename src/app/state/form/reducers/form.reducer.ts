@@ -19,6 +19,8 @@ export const formFeature = createFeature({
       (state, {parameterGroupId: parameterId}): FormState => ({
         ...state,
         selectedParameterGroupId: parameterId,
+        selectedDataInterval: null,
+        selectedTimeRange: null,
       }),
     ),
     on(
@@ -26,6 +28,7 @@ export const formFeature = createFeature({
       (state, {dataInterval}): FormState => ({
         ...state,
         selectedDataInterval: dataInterval,
+        selectedTimeRange: null,
       }),
     ),
     on(
