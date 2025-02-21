@@ -16,7 +16,7 @@ import {stationFeature, stationFeatureKey} from './stations/reducers/station.red
 import type {Type} from '@angular/core';
 import type {FunctionalEffect} from '@ngrx/effects';
 import type {ActionReducerMap, MetaReducer} from '@ngrx/store';
-import type {FormState} from './form/state/form.state';
+import type {FormState} from './form/states/form.state';
 import type {ParameterState} from './parameters/states/parameter.state';
 import type {StationState} from './stations/states/station.state';
 
