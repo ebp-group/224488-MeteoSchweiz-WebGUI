@@ -9,11 +9,10 @@ import {stationActions} from '../../stations/actions/station.action';
 import {stationFeature} from '../../stations/reducers/station.reducer';
 
 export const addStationsToMap = createEffect(
-  (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
+  (actions$ = inject(Actions), mapService = inject(MapService)) => {
     return actions$.pipe(
       ofType(stationActions.setLoadedStations),
-      concatLatestFrom(() => store.select(stationFeature.selectStations)),
-      tap(([, stations]) => mapService.addStationsToMap(stations)),
+      tap(({stations}) => mapService.addStationsToMap(stations)),
     );
   },
   {functional: true, dispatch: false},

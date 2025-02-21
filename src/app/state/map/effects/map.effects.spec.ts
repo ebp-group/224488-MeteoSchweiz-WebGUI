@@ -17,7 +17,7 @@ describe('MapEffects', () => {
   beforeEach(() => {
     mapService = jasmine.createSpyObj('MapService', ['addStationsToMap', 'filterStationsOnMap']);
     TestBed.configureTestingModule({
-      providers: [provideMockStore(), {provide: MapService, useValue: mapService}],
+      providers: [provideMockStore()],
     });
     store = TestBed.inject(MockStore);
   });
@@ -29,7 +29,7 @@ describe('MapEffects', () => {
   it('should add stations to the map when stationActions.setLoadedStations is dispatched', (done) => {
     const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {lng: 0, lat: 0}}];
     actions$ = of(stationActions.setLoadedStations({stations}));
-    addStationsToMap(actions$).subscribe(() => {
+    addStationsToMap(actions$, mapService).subscribe(() => {
       expect(mapService.addStationsToMap).toHaveBeenCalledOnceWith(stations);
       done();
     });
@@ -39,7 +39,7 @@ describe('MapEffects', () => {
     const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {lng: 0, lat: 0}}];
     store.overrideSelector(stationFeature.selectStations, stations);
     actions$ = of(formActions.setSelectedParameters({parameterGroupId: 'test-group-id'}));
-    filterStationsOnMap(actions$).subscribe(() => {
+    filterStationsOnMap(actions$, store, mapService).subscribe(() => {
       expect(mapService.filterStationsOnMap).toHaveBeenCalledOnceWith(stations);
       done();
     });
