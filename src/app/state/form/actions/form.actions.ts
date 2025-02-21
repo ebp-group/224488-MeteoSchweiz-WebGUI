@@ -1,5 +1,5 @@
 import {createActionGroup, props} from '@ngrx/store';
-import {FormState} from '../state/form.state';
+import {FormState} from '../states/form.state';
 
 export const formActions = createActionGroup({
   source: 'Form',

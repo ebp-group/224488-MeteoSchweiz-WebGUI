@@ -6,7 +6,7 @@ import {combineLatest, map} from 'rxjs';
 import {ParameterGroup} from '../../../shared/models/parameter';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
-import {selectParameterGroups} from '../../../state/parameters/selector/parameter.selector';
+import {selectParameterGroups} from '../../../state/parameters/selectors/parameter.selector';
 import {ParameterSelectionComponent} from '../parameter-selection/parameter-selection.component';
 import type {Language} from '../../../shared/models/language';
 
