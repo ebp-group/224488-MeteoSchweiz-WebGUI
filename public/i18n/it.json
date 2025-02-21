@@ -19,5 +19,6 @@
   "download-asset": "Missing value for 'download-asset'",
   "download-metadata": "Missing value for 'download-metadata'",
   "parameter.load.error": "Errore durante il caricamento dei parametri",
-  "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'"
+  "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
+  "station.load.error": "Missing value for 'station.load.error'"
 }

@@ -4,9 +4,9 @@ import {selectStationsFilteredByParameterGroups} from './station.selector';
 
 describe('Station Selectors', () => {
   describe('selectStationsFilteredByParameterGroups', () => {
-    const stationOne: Station = {id: 'stationId1', name: 'stationName1'};
-    const stationTwo: Station = {id: 'stationId2', name: 'stationName2'};
-    const stationThree: Station = {id: 'stationId3', name: 'stationName3'};
+    const stationOne: Station = {id: 'stationId1', name: 'stationName1', coordinates: {latitude: 0, longitude: 0}};
+    const stationTwo: Station = {id: 'stationId2', name: 'stationName2', coordinates: {latitude: 0, longitude: 0}};
+    const stationThree: Station = {id: 'stationId3', name: 'stationName3', coordinates: {latitude: 0, longitude: 0}};
 
     it('should return a filtered list of stations', () => {
       const stations: Station[] = [stationOne, stationTwo, stationThree];

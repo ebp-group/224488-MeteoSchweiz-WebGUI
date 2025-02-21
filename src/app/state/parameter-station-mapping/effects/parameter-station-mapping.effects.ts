@@ -40,8 +40,8 @@ export const failLoadingCollectionParameterStationMappings = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(parameterStationMappingActions.setParameterStationMappingLoadingError),
-      tap(() => {
-        throw new ParameterStationMappingError();
+      tap(({error}) => {
+        throw new ParameterStationMappingError(error);
       }),
     );
   },
