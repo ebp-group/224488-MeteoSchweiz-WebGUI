@@ -3,6 +3,7 @@ import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
 import {ParameterStationMappingError} from '../../../shared/errors/parameter-station-mapping.error';
+import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {DataInventoryService} from '../../../stac/service/data-inventory.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {parameterStationMappingActions} from '../actions/parameter-station-mapping.action';
@@ -71,7 +72,7 @@ describe('ParameterStationMappingEffects', () => {
     failLoadingCollectionParameterStationMappings(actions$)
       .pipe(
         catchError((caughtError: unknown) => {
-          expect(caughtError).toEqual(expectedError);
+          OpendataExplorerRuntimeErrorTestUtil.expectToDeepEqual(caughtError, expectedError);
           done();
           return EMPTY;
         }),
