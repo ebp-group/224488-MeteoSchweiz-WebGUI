@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {StationError} from '../../../shared/errors/station.error';
 import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {StationService} from '../../../stac/service/station.service';
@@ -11,6 +12,8 @@ import {stationFeature} from '../reducers/station.reducer';
 import {failLoadingCollectionStations, loadCollectionStations, loadStations} from './station.effects';
 
 describe('StationEffects', () => {
+  const measurementDataType = collectionConfig.defaultMeasurementDataType;
+
   let actions$: Observable<Action>;
   let store: MockStore;
   let stationService: StationService;
@@ -30,7 +33,7 @@ describe('StationEffects', () => {
 
   it('should dispatch loadStations action when loadCollection is dispatched', (done: DoneFn) => {
     const collections = ['collection'];
-    actions$ = of(collectionActions.loadCollections({collections}));
+    actions$ = of(collectionActions.loadCollections({collections, measurementDataType}));
     loadCollectionStations(actions$).subscribe((action) => {
       expect(action).toEqual(stationActions.loadStationsForCollections({collections}));
       done();

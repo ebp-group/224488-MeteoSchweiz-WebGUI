@@ -13,7 +13,7 @@ export const loadCollectionParameterStationMappings = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(collectionActions.loadCollections),
-      map(({collections}) => parameterStationMappingActions.loadParameterStationMappingsForCollections({collections})),
+      map(({measurementDataType, collections}) => parameterStationMappingActions.loadParameterStationMappingsForCollections({collections})),
     );
   },
   {functional: true},

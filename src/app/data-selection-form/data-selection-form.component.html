@@ -4,12 +4,22 @@
       <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
       <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
     </mat-button-toggle-group>
-    <button mat-stroked-button (click)="testCsv()">csv</button>
     <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
   </div>
   <hr />
+  <div>
+    <mat-button-toggle-group
+      aria-label="Data measurement"
+      (change)="setSelectedMeasurementDataType($event.value); stepper.reset()"
+      [value]="selectedMeasurementDataType$ | async"
+      hideSingleSelectionIndicator="true"
+    >
+      <mat-button-toggle value="normal">{{ t('form.measurementDataType.normal') }}</mat-button-toggle>
+      <mat-button-toggle value="homogenous">{{ t('form.measurementDataType.homogenous') }}</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-  <mat-vertical-stepper [linear]="true">
+  <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step [completed]="(selectedParameterGroup$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
       <app-parameter-list></app-parameter-list>

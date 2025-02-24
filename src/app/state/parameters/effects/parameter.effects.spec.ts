@@ -30,7 +30,7 @@ describe('ParameterEffects', () => {
 
   it('should dispatch loadParameter action when loadCollection is dispatched', (done: DoneFn) => {
     const collections = ['collection'];
-    actions$ = of(collectionActions.loadCollections({collections}));
+    actions$ = of(collectionActions.loadCollections({collections, measurementDataType}));
     loadCollectionParameters(actions$).subscribe((action) => {
       expect(action).toEqual(parameterActions.loadParametersForCollections({collections}));
       done();

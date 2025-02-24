@@ -13,7 +13,7 @@ export const loadCollectionStations = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(collectionActions.loadCollections),
-      map(({collections}) => stationActions.loadStationsForCollections({collections})),
+      map(({measurementDataType, collections}) => stationActions.loadStationsForCollections({collections})),
     );
   },
   {functional: true},

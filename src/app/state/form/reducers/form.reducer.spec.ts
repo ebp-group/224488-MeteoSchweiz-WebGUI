@@ -28,4 +28,12 @@ describe('Parameter Reducer', () => {
     expect(result.selectedDataInterval).toBe('monthly');
     expect(result.selectedTimeRange).toBe(null);
   });
+
+  it('should reset the form state when a measurement data type is selected', () => {
+    state = {...state, selectedParameterGroupId: 'A', selectedDataInterval: 'daily', selectedTimeRange: 'all-time'};
+    const action = formActions.setSelectedMeasurementDataType({measurementDataType: 'homogenous'});
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({...initialState, selectedMeasurementDataType: 'homogenous'});
+  });
 });

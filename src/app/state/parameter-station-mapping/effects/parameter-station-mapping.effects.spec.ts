@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {ParameterStationMappingError} from '../../../shared/errors/parameter-station-mapping.error';
 import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {DataInventoryService} from '../../../stac/service/data-inventory.service';
@@ -15,6 +16,8 @@ import {
 } from './parameter-station-mapping.effects';
 
 describe('ParameterStationMappingEffects', () => {
+  const measurementDataType = collectionConfig.defaultMeasurementDataType;
+
   let actions$: Observable<Action>;
   let store: MockStore;
   let dataInventoryService: DataInventoryService;
@@ -34,7 +37,7 @@ describe('ParameterStationMappingEffects', () => {
 
   it('should dispatch loadParameterStationMapping action when loadCollection is dispatched', (done: DoneFn) => {
     const collections = ['collection'];
-    actions$ = of(collectionActions.loadCollections({collections}));
+    actions$ = of(collectionActions.loadCollections({collections, measurementDataType}));
     loadCollectionParameterStationMappings(actions$).subscribe((action) => {
       expect(action).toEqual(parameterStationMappingActions.loadParameterStationMappingsForCollections({collections}));
       done();

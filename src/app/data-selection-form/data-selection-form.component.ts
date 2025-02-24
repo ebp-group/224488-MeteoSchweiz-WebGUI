@@ -1,12 +1,14 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {MapContainerComponent} from '../map/components/map-container/map-container.component';
-import {collectionActions} from '../state/collection/actions/collection.action';
+import {collectionConfig} from '../shared/configs/collections.config';
+import {MeasurementDataType} from '../shared/models/measurement-data-type';
+import {formActions} from '../state/form/actions/form.actions';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
@@ -35,13 +37,18 @@ import type {Language} from '../shared/models/language';
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
 })
-export class DataSelectionFormComponent {
+export class DataSelectionFormComponent implements OnInit {
   private readonly translocoService = inject(TranslocoService);
   private readonly store = inject(Store);
 
   protected readonly selectedParameterGroup$ = this.store.select(formFeature.selectSelectedParameterGroupId);
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
+  protected readonly selectedMeasurementDataType$ = this.store.select(formFeature.selectSelectedMeasurementDataType);
+
+  public ngOnInit(): void {
+    this.store.dispatch(formActions.setSelectedMeasurementDataType({measurementDataType: collectionConfig.defaultMeasurementDataType}));
+  }
 
   protected changeLanguage(language: Language): void {
     this.translocoService.setActiveLang(language);
@@ -51,7 +58,7 @@ export class DataSelectionFormComponent {
     throw new Error('Test');
   }
 
-  protected testCsv(): void {
-    this.store.dispatch(collectionActions.loadCollections({collections: ['ch.meteoschweiz.ogd-smn', 'ch.meteoschweiz.ogd-smn-precip']}));
+  protected setSelectedMeasurementDataType(measurementDataType: MeasurementDataType): void {
+    this.store.dispatch(formActions.setSelectedMeasurementDataType({measurementDataType}));
   }
 }
