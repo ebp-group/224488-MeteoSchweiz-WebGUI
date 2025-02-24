@@ -35,6 +35,10 @@ const testCsvStation: CsvStation = {
 const testStation: Station = {
   id: 'TEST',
   name: 'Test station',
+  coordinates: {
+    longitude: 0,
+    latitude: 0,
+  },
 };
 
 describe('StationService', () => {

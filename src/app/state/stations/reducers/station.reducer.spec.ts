@@ -33,6 +33,7 @@ describe('Station Reducer', () => {
       {
         id: 'test-station-id',
         name: 'Test station name',
+        coordinates: {longitude: 0, latitude: 0},
       },
     ];
     const action = stationActions.setLoadedStations({stations});

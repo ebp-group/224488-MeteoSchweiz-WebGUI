@@ -5,6 +5,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
+import {MapContainerComponent} from '../map/components/map-container/map-container.component';
 import {collectionActions} from '../state/collection/actions/collection.action';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
@@ -29,6 +30,7 @@ import type {Language} from '../shared/models/language';
     DownloadAssetComponent,
     MatStepperModule,
     AsyncPipe,
+    MapContainerComponent,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',

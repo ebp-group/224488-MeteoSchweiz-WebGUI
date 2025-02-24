@@ -35,6 +35,7 @@
     "@ngrx/store": "^18.1.1",
     "@ngrx/store-devtools": "^18.1.1",
     "immer": "^10.1.1",
+    "maplibre-gl": "^5.1.1",
     "papaparse": "^5.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
