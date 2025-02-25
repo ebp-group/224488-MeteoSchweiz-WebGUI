@@ -3,6 +3,7 @@ import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
 import {ParameterError} from '../../../shared/errors/parameter.error';
+import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {ParameterService} from '../../../stac/service/parameter.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {parameterActions} from '../actions/parameter.action';
@@ -67,7 +68,7 @@ describe('ParameterEffects', () => {
     failLoadingCollectionParameters(actions$)
       .pipe(
         catchError((caughtError: unknown) => {
-          expect(caughtError).toEqual(expectedError);
+          OpendataExplorerRuntimeErrorTestUtil.expectToDeepEqual(caughtError, expectedError);
           done();
           return EMPTY;
         }),

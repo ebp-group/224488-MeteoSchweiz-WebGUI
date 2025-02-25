@@ -40,8 +40,8 @@ export const failLoadingCollectionParameters = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(parameterActions.setParameterLoadingError),
-      tap(() => {
-        throw new ParameterError();
+      tap(({error}) => {
+        throw new ParameterError(error);
       }),
     );
   },

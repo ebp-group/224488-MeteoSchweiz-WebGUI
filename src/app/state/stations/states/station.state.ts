@@ -1,7 +1,6 @@
-import {LoadingState} from '../../../shared/models/loading-state';
+import {LoadableState} from '../../../shared/models/loadable-state';
 import {Station} from '../../../shared/models/station';
 
-export interface StationState {
+export interface StationState extends LoadableState {
   stations: Station[];
-  loadingState: LoadingState;
 }

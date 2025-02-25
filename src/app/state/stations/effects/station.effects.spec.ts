@@ -1,14 +1,16 @@
 import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import {Observable, of} from 'rxjs';
+import {catchError, EMPTY, Observable, of} from 'rxjs';
+import {StationError} from '../../../shared/errors/station.error';
+import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {StationService} from '../../../stac/service/station.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {stationActions} from '../actions/station.action';
 import {stationFeature} from '../reducers/station.reducer';
-import {loadCollectionStations, loadStations} from './station.effects';
+import {failLoadingCollectionStations, loadCollectionStations, loadStations} from './station.effects';
 
-describe('ParameterEffects', () => {
+describe('StationEffects', () => {
   let actions$: Observable<Action>;
   let store: MockStore;
   let stationService: StationService;
@@ -67,5 +69,21 @@ describe('ParameterEffects', () => {
       expect(action).toEqual(stationActions.setStationLoadingError({error}));
       done();
     });
+  });
+
+  it('should throw a Station error after dispatching setStationLoadingError', (done: DoneFn) => {
+    const error = new Error('My cabbages!!!');
+    const expectedError = new StationError(error);
+
+    actions$ = of(stationActions.setStationLoadingError({error}));
+    failLoadingCollectionStations(actions$)
+      .pipe(
+        catchError((caughtError: unknown) => {
+          OpendataExplorerRuntimeErrorTestUtil.expectToDeepEqual(caughtError, expectedError);
+          done();
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   });
 });

@@ -1,7 +1,6 @@
-import type {LoadingState} from '../../../shared/models/loading-state';
+import {LoadableState} from '../../../shared/models/loadable-state';
 import type {Parameter} from '../../../shared/models/parameter';
 
-export interface ParameterState {
+export interface ParameterState extends LoadableState {
   parameters: Parameter[];
-  loadingState: LoadingState;
 }
