@@ -12,11 +12,11 @@ export const selectParameterGroupStationMappings = createSelector(
       const parameterGroup = parameters.find((parameter) => parameter.id === mapping.parameterId)?.group;
       if (parameterGroup) {
         const parameterGroupId = ParameterService.extractGroupIdFromGroupName(parameterGroup);
-        const existMapping = uniqueGroupMappings.some(
+        const mappingExists = uniqueGroupMappings.some(
           (uniqueGroupMapping) =>
             uniqueGroupMapping.parameterGroupId === parameterGroupId && uniqueGroupMapping.stationId === mapping.stationId,
         );
-        return existMapping ? uniqueGroupMappings : [...uniqueGroupMappings, {parameterGroupId, stationId: mapping.stationId}];
+        return mappingExists ? uniqueGroupMappings : [...uniqueGroupMappings, {parameterGroupId, stationId: mapping.stationId}];
       }
       return uniqueGroupMappings;
     }, []),

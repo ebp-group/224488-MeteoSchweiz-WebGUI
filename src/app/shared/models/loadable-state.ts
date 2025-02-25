@@ -1,5 +1,5 @@
 import {LoadingState} from './loading-state';
 
-export interface HasLoadingState {
+export interface LoadableState {
   loadingState: LoadingState;
 }
