@@ -1,15 +1,15 @@
 import {createSelector} from '@ngrx/store';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {ParameterService} from '../../../stac/service/parameter.service';
-import {parameterFeature} from '../../parameters/reducers/parameter.reducer';
+import {selectCurrentParameterState} from '../../parameters/selectors/parameter.selector';
 import {parameterStationMappingFeature} from '../reducers/parameter-station-mapping.reducer';
 
 export const selectParameterGroupStationMappings = createSelector(
   parameterStationMappingFeature.selectParameterStationMappings,
-  parameterFeature.selectParameters,
-  (parameterStationMappings, parameters): ParameterGroupStationMapping[] =>
+  selectCurrentParameterState,
+  (parameterStationMappings, parameterState): ParameterGroupStationMapping[] =>
     parameterStationMappings.reduce((uniqueGroupMappings: ParameterGroupStationMapping[], mapping) => {
-      const parameterGroup = parameters.find((parameter) => parameter.id === mapping.parameterId)?.group;
+      const parameterGroup = parameterState.parameters.find((parameter) => parameter.id === mapping.parameterId)?.group;
       if (parameterGroup) {
         const parameterGroupId = ParameterService.extractGroupIdFromGroupName(parameterGroup);
         const mappingExists = uniqueGroupMappings.some(

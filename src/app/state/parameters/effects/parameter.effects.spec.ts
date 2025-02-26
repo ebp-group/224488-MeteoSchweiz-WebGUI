@@ -2,15 +2,18 @@ import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {ParameterError} from '../../../shared/errors/parameter.error';
 import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {ParameterService} from '../../../stac/service/parameter.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {parameterActions} from '../actions/parameter.action';
-import {parameterFeature} from '../reducers/parameter.reducer';
+import {selectCurrentParameterState} from '../selectors/parameter.selector';
 import {failLoadingCollectionParameters, loadCollectionParameters, loadParameters} from './parameter.effects';
 
 describe('ParameterEffects', () => {
+  const measurementDataType = collectionConfig.defaultMeasurementDataType;
+
   let actions$: Observable<Action>;
   let store: MockStore;
   let parameterService: ParameterService;
@@ -32,25 +35,26 @@ describe('ParameterEffects', () => {
     const collections = ['collection'];
     actions$ = of(collectionActions.loadCollections({collections, measurementDataType}));
     loadCollectionParameters(actions$).subscribe((action) => {
-      expect(action).toEqual(parameterActions.loadParametersForCollections({collections}));
+      expect(action).toEqual(parameterActions.loadParametersForCollections({collections, measurementDataType}));
       done();
     });
   });
 
   it('should dispatch the SetParameter action when loading parameters for collections', (done: DoneFn) => {
     spyOn(parameterService, 'loadParameterForCollections').and.resolveTo([]);
-    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
+    store.overrideSelector(selectCurrentParameterState, {parameters: [], loadingState: undefined});
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection'], measurementDataType}));
 
     loadParameters(actions$, store, parameterService).subscribe((action) => {
-      expect(action).toEqual(parameterActions.setLoadedParameters({parameters: []}));
+      expect(action).toEqual(parameterActions.setLoadedParameters({parameters: [], measurementDataType}));
       done();
     });
   });
 
   it('should not call the service if the data is already loaded', (done: DoneFn) => {
     spyOn(parameterService, 'loadParameterForCollections');
-    store.overrideSelector(parameterFeature.selectLoadingState, 'loaded');
-    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
+    store.overrideSelector(selectCurrentParameterState, {parameters: [], loadingState: 'loaded'});
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection'], measurementDataType}));
 
     loadParameters(actions$, store, parameterService).subscribe({
       complete: () => {
@@ -64,7 +68,7 @@ describe('ParameterEffects', () => {
     const error = new Error('My cabbages!!!');
     const expectedError = new ParameterError(error);
 
-    actions$ = of(parameterActions.setParameterLoadingError({error}));
+    actions$ = of(parameterActions.setParameterLoadingError({error, measurementDataType}));
     failLoadingCollectionParameters(actions$)
       .pipe(
         catchError((caughtError: unknown) => {
@@ -79,10 +83,11 @@ describe('ParameterEffects', () => {
   it('should set loading error if the service throws an error', (done: DoneFn) => {
     const error = new Error('test');
     spyOn(parameterService, 'loadParameterForCollections').and.rejectWith(error);
-    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection']}));
+    store.overrideSelector(selectCurrentParameterState, {parameters: [], loadingState: undefined});
+    actions$ = of(parameterActions.loadParametersForCollections({collections: ['collection'], measurementDataType}));
 
     loadParameters(actions$, store, parameterService).subscribe((action) => {
-      expect(action).toEqual(parameterActions.setParameterLoadingError({error}));
+      expect(action).toEqual(parameterActions.setParameterLoadingError({error, measurementDataType}));
       done();
     });
   });

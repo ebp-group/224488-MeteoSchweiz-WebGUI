@@ -36,7 +36,7 @@ describe('ParameterGroupStationMapping Selectors', () => {
         {parameterId: 'nonExistingParam', stationId: 'stationId1'},
       ];
 
-      const result = selectParameterGroupStationMappings.projector(parameterStationMappings, parameters);
+      const result = selectParameterGroupStationMappings.projector(parameterStationMappings, {parameters, loadingState: 'loaded'});
 
       expect(result).toEqual(
         jasmine.arrayWithExactContents([
@@ -50,7 +50,7 @@ describe('ParameterGroupStationMapping Selectors', () => {
       const parameterStationMappings: ParameterStationMapping[] = [];
       const parameters: Parameter[] = [parameterOne];
 
-      const result = selectParameterGroupStationMappings.projector(parameterStationMappings, parameters);
+      const result = selectParameterGroupStationMappings.projector(parameterStationMappings, {parameters, loadingState: 'loaded'});
 
       expect(result).toEqual([]);
     });
@@ -59,7 +59,7 @@ describe('ParameterGroupStationMapping Selectors', () => {
       const parameterStationMappings: ParameterStationMapping[] = [{parameterId: 'nonExistingParam', stationId: 'stationId1'}];
       const parameters: Parameter[] = [];
 
-      const result = selectParameterGroupStationMappings.projector(parameterStationMappings, parameters);
+      const result = selectParameterGroupStationMappings.projector(parameterStationMappings, {parameters, loadingState: 'loaded'});
 
       expect(result).toEqual([]);
     });
