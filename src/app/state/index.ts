@@ -1,17 +1,14 @@
 import {formFeature, formFeatureKey} from './form/reducers/form.reducer';
-import {addStationsToMap, filterStationsOnMap} from './map/effects/map.effects';
-import {
-  loadCollectionParameterStationMappings,
-  loadParameterStationMappings,
-} from './parameter-station-mapping/effects/parameter-station-mapping.effects';
+import * as mapEffects from './map/effects/map.effects';
+import * as parameterStationMappingEffects from './parameter-station-mapping/effects/parameter-station-mapping.effects';
 import {
   parameterStationMappingFeature,
   parameterStationMappingFeatureKey,
 } from './parameter-station-mapping/reducers/parameter-station-mapping.reducer';
 import {ParameterStationMappingState} from './parameter-station-mapping/states/parameter-station-mapping.state';
-import {failLoadingCollectionParameters, loadCollectionParameters, loadParameters} from './parameters/effects/parameter.effects';
+import * as parameterEffects from './parameters/effects/parameter.effects';
 import {parameterFeature, parameterFeatureKey} from './parameters/reducers/parameter.reducer';
-import {failLoadingCollectionStations, loadCollectionStations, loadStations} from './stations/effects/station.effects';
+import * as stationEffects from './stations/effects/station.effects';
 import {stationFeature, stationFeatureKey} from './stations/reducers/station.reducer';
 import type {Type} from '@angular/core';
 import type {FunctionalEffect} from '@ngrx/effects';
@@ -33,9 +30,9 @@ export const reducers: ActionReducerMap<State> = {
   [parameterStationMappingFeatureKey]: parameterStationMappingFeature.reducer,
 };
 export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
-  {loadCollectionParameters, loadParameters, failLoadingCollectionParameters},
-  {loadStations, loadCollectionStations, failLoadingCollectionStations},
-  {addStationsToMap, filterStationsOnMap},
-  {loadParameterStationMappings, loadCollectionParameterStationMappings},
+  parameterEffects,
+  stationEffects,
+  mapEffects,
+  parameterStationMappingEffects,
 ];
 export const metaReducers: MetaReducer<State>[] = [];
