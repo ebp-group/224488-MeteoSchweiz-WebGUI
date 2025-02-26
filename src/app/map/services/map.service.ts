@@ -1,12 +1,14 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {StyleSpecification} from '@maplibre/maplibre-gl-style-spec';
+import {Store} from '@ngrx/store';
 import {CircleLayerSpecification, LayerSpecification, LngLat, LngLatBounds, Map, MapOptions, SymbolLayerSpecification} from 'maplibre-gl';
-import {firstValueFrom} from 'rxjs';
+import {firstValueFrom, Subscription} from 'rxjs';
 import {MapNotInitializedError} from '../../shared/errors/map.error';
 import {MapConfig} from '../../shared/models/configs/map-config';
 import {Coordinates} from '../../shared/models/coordinates';
 import {Station} from '../../shared/models/station';
+import {mapActions} from '../../state/map/actions/map.action';
 import {MapViewport} from '../models/map-viewport';
 
 @Injectable({
@@ -14,8 +16,10 @@ import {MapViewport} from '../models/map-viewport';
 })
 export class MapService {
   private readonly http = inject(HttpClient);
+  private readonly store = inject(Store);
 
   private map?: Map;
+  private mapSubscriptions?: Subscription;
   private readonly stationSourceId = 'stations' as const;
   private readonly stationLayerId = 'stations' as const;
   private readonly stationLabelLayerId = 'stations-label' as const;
@@ -60,9 +64,12 @@ export class MapService {
     style.layers = this.filterUnnecessaryLayers(style.layers);
     map.setStyle(style);
     await map.once('load');
+    this.subscribeToMapEvents();
   }
 
   public removeMap(): void {
+    this.mapSubscriptions?.unsubscribe();
+    this.mapSubscriptions = undefined;
     this.map?.remove();
     this.map = undefined;
   }
@@ -131,6 +138,27 @@ export class MapService {
       throw new MapNotInitializedError();
     }
     map.setFilter(this.stationSourceId, ['in', 'id', ...stationIds]);
+  }
+
+  private subscribeToMapEvents(): void {
+    const map = this.map;
+    if (!map) {
+      throw new MapNotInitializedError();
+    }
+    if (this.mapSubscriptions) {
+      this.mapSubscriptions.unsubscribe();
+    }
+    this.mapSubscriptions = new Subscription();
+    this.mapSubscriptions.add(map.on('zoom', () => this.dispatchZoomChanges(map.getZoom())));
+    this.mapSubscriptions.add(map.on('move', () => this.dispatchCenterChanges(map.getCenter())));
+  }
+
+  private dispatchZoomChanges(zoom: number): void {
+    this.store.dispatch(mapActions.setZoom({zoom}));
+  }
+
+  private dispatchCenterChanges(center: LngLat): void {
+    this.store.dispatch(mapActions.setCenter({center: {latitude: center.lat, longitude: center.lng}}));
   }
 
   private async fetchStyle(styleUrl: string): Promise<StyleSpecification> {
