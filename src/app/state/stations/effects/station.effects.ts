@@ -7,13 +7,13 @@ import {StationError} from '../../../shared/errors/station.error';
 import {StationService} from '../../../stac/service/station.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {stationActions} from '../actions/station.action';
-import {stationFeature} from '../reducers/station.reducer';
+import {selectCurrentStationState} from '../selectors/station.selector';
 
 export const loadCollectionStations = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(collectionActions.loadCollections),
-      map(({measurementDataType, collections}) => stationActions.loadStationsForCollections({collections})),
+      map(({measurementDataType, collections}) => stationActions.loadStationsForCollections({collections, measurementDataType})),
     );
   },
   {functional: true},
@@ -23,12 +23,12 @@ export const loadStations = createEffect(
   (actions$ = inject(Actions), store = inject(Store), stationService = inject(StationService)) => {
     return actions$.pipe(
       ofType(stationActions.loadStationsForCollections),
-      concatLatestFrom(() => store.select(stationFeature.selectLoadingState)),
-      filter(([_, loadingState]) => loadingState !== 'loaded'),
-      switchMap(([{collections}]) =>
+      concatLatestFrom(() => store.select(selectCurrentStationState)),
+      filter(([_, stationState]) => stationState.loadingState !== 'loaded'),
+      switchMap(([{collections, measurementDataType}]) =>
         from(stationService.loadStationsForCollections(collections)).pipe(
-          map((stations) => stationActions.setLoadedStations({stations})),
-          catchError((error: unknown) => of(stationActions.setStationLoadingError({error}))),
+          map((stations) => stationActions.setLoadedStations({stations, measurementDataType})),
+          catchError((error: unknown) => of(stationActions.setStationLoadingError({error, measurementDataType}))),
         ),
       ),
     );

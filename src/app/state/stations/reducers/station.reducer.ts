@@ -1,13 +1,16 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
+import {produce} from 'immer';
+import {measurementDataTypes} from '../../../shared/models/measurement-data-type';
 import {stationActions} from '../actions/station.action';
-import {StationState} from '../states/station.state';
+import {StationState, StationStateEntry} from '../states/station.state';
 
 export const stationFeatureKey = 'stations';
 
-export const initialState: StationState = {
+export const initialEntryState: StationStateEntry = {
   stations: [],
   loadingState: undefined,
 };
+export const initialState: StationState = Object.fromEntries(measurementDataTypes.map((k) => [k, initialEntryState])) as StationState;
 
 export const stationFeature = createFeature({
   name: stationFeatureKey,
@@ -15,24 +18,23 @@ export const stationFeature = createFeature({
     initialState,
     on(
       stationActions.loadStationsForCollections,
-      (state): StationState => ({
-        ...state,
-        loadingState: state.loadingState !== 'loaded' ? 'loading' : state.loadingState,
+      produce((draft, {measurementDataType}) => {
+        const state = draft[measurementDataType];
+        state.loadingState = state.loadingState !== 'loaded' ? 'loading' : state.loadingState;
       }),
     ),
     on(
       stationActions.setLoadedStations,
-      (state, {stations}): StationState => ({
-        ...state,
-        loadingState: 'loaded',
-        stations: stations,
+      produce((draft, {measurementDataType, stations}) => {
+        const state = draft[measurementDataType];
+        state.stations = stations;
+        state.loadingState = 'loaded';
       }),
     ),
     on(
       stationActions.setStationLoadingError,
-      (): StationState => ({
-        ...initialState,
-        loadingState: 'error',
+      produce((draft, {measurementDataType}) => {
+        draft[measurementDataType] = {...initialEntryState, loadingState: 'error'};
       }),
     ),
   ),

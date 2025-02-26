@@ -1,9 +1,13 @@
+import {produce} from 'immer';
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {stationActions} from '../actions/station.action';
 import {initialState, stationFeature} from './station.reducer';
 import type {Station} from '../../../shared/models/station';
 import type {StationState} from '../states/station.state';
 
 describe('Station Reducer', () => {
+  const measurementDataType = collectionConfig.defaultMeasurementDataType;
+
   let state: StationState;
 
   beforeEach(() => {
@@ -11,21 +15,25 @@ describe('Station Reducer', () => {
   });
 
   it('should set loadingState to loading when loadStationForCollections is dispatched and loading state is currently not loaded', () => {
-    state = {...state, loadingState: 'error'};
-    const action = stationActions.loadStationsForCollections({collections: ['test']});
+    state = produce(state, (draft) => {
+      draft[measurementDataType].loadingState = 'error';
+    });
+    const action = stationActions.loadStationsForCollections({collections: ['test'], measurementDataType});
     const result = stationFeature.reducer(state, action);
 
-    expect(result.loadingState).toBe('loading');
-    expect(result.stations).toEqual([]);
+    expect(result[measurementDataType].loadingState).toBe('loading');
+    expect(result[measurementDataType].stations).toEqual([]);
   });
 
   it('should not change loadingState if it is already loaded when loadStationForCollections is dispatched', () => {
-    state = {...state, loadingState: 'loaded'};
-    const action = stationActions.loadStationsForCollections({collections: ['test']});
+    state = produce(state, (draft) => {
+      draft[measurementDataType].loadingState = 'loaded';
+    });
+    const action = stationActions.loadStationsForCollections({collections: ['test'], measurementDataType});
     const result = stationFeature.reducer(state, action);
 
-    expect(result.loadingState).toBe('loaded');
-    expect(result.stations).toEqual([]);
+    expect(result[measurementDataType].loadingState).toBe('loaded');
+    expect(result[measurementDataType].stations).toEqual([]);
   });
 
   it('should set stations and loadingState to loaded when setLoadedStations is dispatched', () => {
@@ -36,17 +44,20 @@ describe('Station Reducer', () => {
         coordinates: {longitude: 0, latitude: 0},
       },
     ];
-    const action = stationActions.setLoadedStations({stations});
+    const action = stationActions.setLoadedStations({stations, measurementDataType});
     const result = stationFeature.reducer(state, action);
 
-    expect(result.loadingState).toBe('loaded');
-    expect(result.stations).toEqual(stations);
+    expect(result[measurementDataType].loadingState).toBe('loaded');
+    expect(result[measurementDataType].stations).toEqual(stations);
   });
 
   it('should reset to initialState and set loadingState to error when setStationLoadingError is dispatched', () => {
-    const action = stationActions.setStationLoadingError({});
+    const action = stationActions.setStationLoadingError({measurementDataType});
     const result = stationFeature.reducer(state, action);
 
-    expect(result).toEqual({...initialState, loadingState: 'error'});
+    expect(result).toEqual({
+      ...initialState,
+      [measurementDataType]: {...initialState[measurementDataType], loadingState: 'error'},
+    });
   });
 });
