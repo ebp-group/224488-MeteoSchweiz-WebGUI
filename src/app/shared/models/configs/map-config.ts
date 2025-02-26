@@ -1,7 +1,8 @@
-import {Coordinates} from '../coordinates';
+import {BoundingBox, CenterAndZoom} from '../../../map/models/map-viewport';
 
 export interface MapConfig {
   styleUrl: string;
-  boundingBox: [Coordinates, Coordinates];
   enableRotation: boolean;
+  defaultBoundingBox: BoundingBox;
+  defaultZoomAndCenter: CenterAndZoom;
 }

@@ -10,6 +10,8 @@
   "form.stepper.time-range.label": "Missing value for 'form.stepper.time-range.label'",
   "form.stepper.overview.label": "Missing value for 'form.stepper.overview.label'",
   "form.stepper.download.label": "Missing value for 'form.stepper.download.label'",
+  "map.load.error": "Missing value for 'map.load.error'",
+  "map.not.initialized.error": "Missing value for 'map.not.initialized.error'",
   "now-time-interval": "Missing value for 'now-time-interval'",
   "recent-time-interval": "Missing value for 'recent-time-interval'",
   "historical-time-range-explanation": "Missing value for 'historical-time-range-explanation'",
