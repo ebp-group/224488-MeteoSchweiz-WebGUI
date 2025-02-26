@@ -1,14 +1,23 @@
 import {createSelector} from '@ngrx/store';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {ParameterService} from '../../../stac/service/parameter.service';
+import {formFeature} from '../../form/reducers/form.reducer';
 import {selectCurrentParameterState} from '../../parameters/selectors/parameter.selector';
 import {parameterStationMappingFeature} from '../reducers/parameter-station-mapping.reducer';
+import {ParameterStationMappingStateEntry} from '../states/parameter-station-mapping.state';
+
+export const selectCurrentParameterStationMappingState = createSelector(
+  parameterStationMappingFeature.selectParameterStationMappingsState,
+  formFeature.selectSelectedMeasurementDataType,
+  (parameterStationMappingState, measurementDataType): ParameterStationMappingStateEntry =>
+    parameterStationMappingState[measurementDataType],
+);
 
 export const selectParameterGroupStationMappings = createSelector(
-  parameterStationMappingFeature.selectParameterStationMappings,
+  selectCurrentParameterStationMappingState,
   selectCurrentParameterState,
-  (parameterStationMappings, parameterState): ParameterGroupStationMapping[] =>
-    parameterStationMappings.reduce((uniqueGroupMappings: ParameterGroupStationMapping[], mapping) => {
+  (parameterStationMappingState, parameterState): ParameterGroupStationMapping[] =>
+    parameterStationMappingState.parameterStationMappings.reduce((uniqueGroupMappings: ParameterGroupStationMapping[], mapping) => {
       const parameterGroup = parameterState.parameters.find((parameter) => parameter.id === mapping.parameterId)?.group;
       if (parameterGroup) {
         const parameterGroupId = ParameterService.extractGroupIdFromGroupName(parameterGroup);
