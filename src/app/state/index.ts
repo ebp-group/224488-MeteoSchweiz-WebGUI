@@ -1,3 +1,4 @@
+import * as formEffects from './form/effects/form.effects';
 import {formFeature, formFeatureKey} from './form/reducers/form.reducer';
 import * as mapEffects from './map/effects/map.effects';
 import {mapFeature, mapFeatureKey} from './map/reducers/map.reducer';
@@ -38,5 +39,6 @@ export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   stationEffects,
   mapEffects,
   parameterStationMappingEffects,
+  formEffects,
 ];
 export const metaReducers: MetaReducer<State>[] = [];

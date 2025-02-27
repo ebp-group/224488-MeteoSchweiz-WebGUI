@@ -11,5 +11,6 @@ export const mapActions = createActionGroup({
     'Reset state': emptyProps(),
     'Set zoom': props<{zoom: number}>(),
     'Set center': props<{center: Coordinates}>(),
+    'Toggle station selection': props<{stationId: string}>(),
   },
 });

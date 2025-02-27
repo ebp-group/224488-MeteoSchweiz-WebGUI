@@ -39,7 +39,7 @@ export class DataSelectionFormComponent {
   private readonly translocoService = inject(TranslocoService);
   private readonly store = inject(Store);
 
-  protected readonly selectedParameterGroup$ = this.store.select(formFeature.selectSelectedParameterGroupId);
+  protected readonly selectSelectedStationId$ = this.store.select(formFeature.selectSelectedStationId);
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
 

@@ -7,6 +7,7 @@ import {MapService} from '../../../map/services/map.service';
 import {mapConfig} from '../../../shared/configs/map.config';
 import {MapError} from '../../../shared/errors/map.error';
 import {formActions} from '../../form/actions/form.actions';
+import {formFeature} from '../../form/reducers/form.reducer';
 import {stationActions} from '../../stations/actions/station.action';
 import {stationFeature} from '../../stations/reducers/station.reducer';
 import {selectStationIdsFilteredBySelectedParameterGroups} from '../../stations/selectors/station.selector';
@@ -75,6 +76,42 @@ export const filterStationsOnMap = createEffect(
       filter(([, loadingState]) => loadingState === 'loaded'),
       concatLatestFrom(() => store.select(selectStationIdsFilteredBySelectedParameterGroups)),
       tap(([, stationIds]) => mapService.filterStationsOnMap(stationIds)),
+    );
+  },
+  {functional: true, dispatch: false},
+);
+
+export const toggleStationSelection = createEffect(
+  (actions$ = inject(Actions), store = inject(Store)) => {
+    return actions$.pipe(
+      ofType(mapActions.toggleStationSelection),
+      concatLatestFrom(() => store.select(formFeature.selectSelectedStationId)),
+      map(([{stationId}, selectedStationId]) => {
+        if (stationId === selectedStationId) {
+          return formActions.setSelectedStationId({stationId: null});
+        }
+        return formActions.setSelectedStationId({stationId});
+      }),
+    );
+  },
+  {functional: true},
+);
+
+export const highlightSelectedStationOnMap = createEffect(
+  (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
+    return actions$.pipe(
+      ofType(formActions.setSelectedStationId, mapActions.setMapAsLoaded),
+      concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
+      filter(([, loadingState]) => loadingState === 'loaded'),
+      concatLatestFrom(() => store.select(formFeature.selectSelectedStationId)),
+      map(([_, selectedStationId]) => selectedStationId),
+      tap((selectedStationId) => {
+        if (selectedStationId) {
+          mapService.highlightStation(selectedStationId);
+        } else {
+          mapService.removeHighlight();
+        }
+      }),
     );
   },
   {functional: true, dispatch: false},
