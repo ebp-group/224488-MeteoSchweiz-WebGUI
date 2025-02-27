@@ -5,4 +5,5 @@ export interface MapConfig {
   enableRotation: boolean;
   defaultBoundingBox: BoundingBox;
   defaultZoomAndCenter: CenterAndZoom;
+  minZoom: number;
 }

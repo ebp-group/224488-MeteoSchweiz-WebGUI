@@ -43,20 +43,18 @@ export class MapService {
     const mapOptions: MapOptions = {
       container: target,
       dragRotate: mapConfig.enableRotation,
+      rollEnabled: mapConfig.enableRotation,
       bounds: new LngLatBounds(
         new LngLat(mapConfig.defaultBoundingBox.southWest.longitude, mapConfig.defaultBoundingBox.southWest.latitude),
         new LngLat(mapConfig.defaultBoundingBox.northEast.longitude, mapConfig.defaultBoundingBox.northEast.latitude),
       ),
+      minZoom: mapConfig.minZoom,
     };
     this.map = new Map(mapOptions);
   }
 
   public async initializeMap(mapConfig: MapConfig, initialMapViewport: MapViewport): Promise<void> {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
-
+    const map = this.getMap();
     switch (initialMapViewport.type) {
       case 'boundingBox': {
         map.fitBounds(
@@ -99,10 +97,7 @@ export class MapService {
   }
 
   public addStationsToMap(stations: Station[]): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     this.removeStationsFromMap();
     map.addSource(this.stationSourceId, {
       type: 'geojson',
@@ -151,10 +146,7 @@ export class MapService {
   }
 
   public filterStationsOnMap(stationIds: string[]): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     map.setFilter(this.stationLayerId, ['in', 'id', ...stationIds]);
   }
 
@@ -167,22 +159,36 @@ export class MapService {
     this.setHighlight(this.currentlyHighlightedStationId, false);
   }
 
+  public zoomIn(): void {
+    const map = this.getMap();
+    map.zoomIn();
+  }
+
+  public zoomOut(): void {
+    const map = this.getMap();
+    map.zoomOut();
+  }
+
+  public resetExtent(mapConfig: MapConfig): void {
+    const map = this.getMap();
+    map.fitBounds(
+      new LngLatBounds(
+        new LngLat(mapConfig.defaultBoundingBox.southWest.longitude, mapConfig.defaultBoundingBox.southWest.latitude),
+        new LngLat(mapConfig.defaultBoundingBox.northEast.longitude, mapConfig.defaultBoundingBox.northEast.latitude),
+      ),
+    );
+  }
+
   private setHighlight(stationId: string | undefined, isHighlighted: boolean): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
     if (stationId) {
+      const map = this.getMap();
       map.setFeatureState({source: this.stationSourceId, id: stationId}, {isHighlighted});
     }
     this.currentlyHighlightedStationId = isHighlighted ? stationId : undefined;
   }
 
   private subscribeToMapEvents(): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     if (this.mapSubscriptions) {
       this.mapSubscriptions.unsubscribe();
     }
@@ -211,10 +217,7 @@ export class MapService {
   }
 
   private removeStationsFromMap(): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     if (map.getLayer(this.stationLayerId)) {
       map.removeLayer(this.stationLayerId);
     }
@@ -242,5 +245,13 @@ export class MapService {
     if (stationId && typeof stationId === 'string') {
       this.store.dispatch(mapActions.toggleStationSelection({stationId}));
     }
+  }
+
+  private getMap(): Map {
+    const map = this.map;
+    if (!map) {
+      throw new MapNotInitializedError();
+    }
+    return map;
   }
 }

@@ -1,5 +1,18 @@
 .map-container {
-  flex-grow: 1;
+  position: relative;
   height: 300px;
-  overflow: hidden;
+  min-width: 600px;
+
+  .map {
+    height: 100%;
+    width: 100%;
+  }
+
+  .map-controls {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+  }
 }

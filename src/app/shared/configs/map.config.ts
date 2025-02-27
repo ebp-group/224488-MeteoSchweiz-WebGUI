@@ -13,4 +13,5 @@ export const mapConfig = {
     center: {longitude: 8.231974, latitude: 46.818187},
     zoom: 6,
   },
+  minZoom: 6,
 } as const satisfies MapConfig;
