@@ -6,7 +6,7 @@ import {tap} from 'rxjs';
 import {MapService} from '../../../map/services/map.service';
 import {formActions} from '../../form/actions/form.actions';
 import {stationActions} from '../../stations/actions/station.action';
-import {stationFeature} from '../../stations/reducers/station.reducer';
+import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 
 export const addStationsToMap = createEffect(
   (actions$ = inject(Actions), mapService = inject(MapService)) => {
@@ -23,8 +23,8 @@ export const filterStationsOnMap = createEffect(
     return actions$.pipe(
       ofType(formActions.setSelectedParameters),
       // TODO the following selector has to be replaced with one that returns stations filtered by the current parameter group selection
-      concatLatestFrom(() => store.select(stationFeature.selectStations)),
-      tap(([, stations]) => mapService.filterStationsOnMap(stations)),
+      concatLatestFrom(() => store.select(selectCurrentStationState)),
+      tap(([, stationState]) => mapService.filterStationsOnMap(stationState.stations)),
     );
   },
   {functional: true, dispatch: false},

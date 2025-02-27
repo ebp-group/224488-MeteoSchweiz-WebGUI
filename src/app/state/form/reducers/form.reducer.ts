@@ -1,4 +1,5 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {formActions} from '../actions/form.actions';
 import {FormState} from '../states/form.state';
 
@@ -8,6 +9,7 @@ export const initialState: FormState = {
   selectedParameterGroupId: null,
   selectedDataInterval: null,
   selectedTimeRange: null,
+  selectedMeasurementDataType: collectionConfig.defaultMeasurementDataType,
 };
 
 export const formFeature = createFeature({
@@ -37,6 +39,10 @@ export const formFeature = createFeature({
         ...state,
         selectedTimeRange: timeRange,
       }),
+    ),
+    on(
+      formActions.setSelectedMeasurementDataType,
+      (_, {measurementDataType}): FormState => ({...initialState, selectedMeasurementDataType: measurementDataType}),
     ),
   ),
 });

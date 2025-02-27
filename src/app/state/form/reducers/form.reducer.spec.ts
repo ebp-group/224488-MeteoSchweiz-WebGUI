@@ -6,7 +6,7 @@ describe('Parameter Reducer', () => {
   let state: FormState;
 
   beforeEach(() => {
-    state = initialState;
+    state = structuredClone(initialState);
   });
 
   it('should reset selection of upcoming steps if parameter is selected', () => {
@@ -27,5 +27,13 @@ describe('Parameter Reducer', () => {
     expect(result.selectedParameterGroupId).toBe('A');
     expect(result.selectedDataInterval).toBe('monthly');
     expect(result.selectedTimeRange).toBe(null);
+  });
+
+  it('should reset the form state when a measurement data type is selected', () => {
+    state = {...state, selectedParameterGroupId: 'A', selectedDataInterval: 'daily', selectedTimeRange: 'all-time'};
+    const action = formActions.setSelectedMeasurementDataType({measurementDataType: 'homogenous'});
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({...initialState, selectedMeasurementDataType: 'homogenous'});
   });
 });

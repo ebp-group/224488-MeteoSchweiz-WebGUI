@@ -3,10 +3,11 @@ import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {Observable, of} from 'rxjs';
 import {MapService} from '../../../map/services/map.service';
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {Station} from '../../../shared/models/station';
 import {formActions} from '../../form/actions/form.actions';
 import {stationActions} from '../../stations/actions/station.action';
-import {stationFeature} from '../../stations/reducers/station.reducer';
+import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {addStationsToMap, filterStationsOnMap} from './map.effects';
 
 describe('MapEffects', () => {
@@ -28,7 +29,7 @@ describe('MapEffects', () => {
 
   it('should add stations to the map when stationActions.setLoadedStations is dispatched', (done) => {
     const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
-    actions$ = of(stationActions.setLoadedStations({stations}));
+    actions$ = of(stationActions.setLoadedStations({stations, measurementDataType: collectionConfig.defaultMeasurementDataType}));
     addStationsToMap(actions$, mapService).subscribe(() => {
       expect(mapService.addStationsToMap).toHaveBeenCalledOnceWith(stations);
       done();
@@ -37,7 +38,7 @@ describe('MapEffects', () => {
 
   it('should filter stations on the map when formActions.setSelectedParameters is dispatched', (done) => {
     const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
-    store.overrideSelector(stationFeature.selectStations, stations);
+    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
     actions$ = of(formActions.setSelectedParameters({parameterGroupId: 'test-group-id'}));
     filterStationsOnMap(actions$, store, mapService).subscribe(() => {
       expect(mapService.filterStationsOnMap).toHaveBeenCalledOnceWith(stations);
