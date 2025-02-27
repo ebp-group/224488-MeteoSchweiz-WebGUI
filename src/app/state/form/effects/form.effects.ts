@@ -16,3 +16,13 @@ export const loadCollectionsForSelectedMeasurementDataType = createEffect(
   },
   {functional: true},
 );
+
+export const removeStationSelectionOnSelectedParameterChange = createEffect(
+  (actions$ = inject(Actions)) => {
+    return actions$.pipe(
+      ofType(formActions.setSelectedParameters),
+      map(() => formActions.setSelectedStationId({stationId: null})),
+    );
+  },
+  {functional: true},
+);

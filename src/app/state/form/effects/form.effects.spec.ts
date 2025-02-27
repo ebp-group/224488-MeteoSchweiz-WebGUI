@@ -1,3 +1,4 @@
+import {provideHttpClient} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
@@ -5,7 +6,7 @@ import {Observable, of} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {formActions} from '../actions/form.actions';
-import {loadCollectionsForSelectedMeasurementDataType} from './form.effects';
+import {loadCollectionsForSelectedMeasurementDataType, removeStationSelectionOnSelectedParameterChange} from './form.effects';
 
 describe('FormEffects', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
@@ -16,7 +17,7 @@ describe('FormEffects', () => {
   beforeEach(() => {
     actions$ = new Observable<Action>();
     TestBed.configureTestingModule({
-      providers: [provideMockStore()],
+      providers: [provideMockStore(), provideHttpClient()],
     });
     store = TestBed.inject(MockStore);
   });
@@ -32,6 +33,14 @@ describe('FormEffects', () => {
       expect(action).toEqual(
         collectionActions.loadCollections({collections: collectionConfig.collections[measurementDataType], measurementDataType}),
       );
+      done();
+    });
+  });
+
+  it('should dispatch the setSelectedStationId action with `null` when the selected parameter changes', (done: DoneFn) => {
+    actions$ = of(formActions.setSelectedParameters({parameterGroupId: 'newParameterGroupId'}));
+    removeStationSelectionOnSelectedParameterChange(actions$).subscribe((action) => {
+      expect(action).toEqual(formActions.setSelectedStationId({stationId: null}));
       done();
     });
   });

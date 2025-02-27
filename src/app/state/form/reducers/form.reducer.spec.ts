@@ -9,6 +9,8 @@ describe('Parameter Reducer', () => {
     state = structuredClone(initialState);
   });
 
+  // TODO: Add more tests after merging PR #19
+
   it('should reset selection of upcoming steps if parameter is selected', () => {
     state = {...state, selectedParameterGroupId: 'A', selectedDataInterval: 'daily', selectedTimeRange: 'all-time'};
     const action = formActions.setSelectedParameters({parameterGroupId: 'test'});
