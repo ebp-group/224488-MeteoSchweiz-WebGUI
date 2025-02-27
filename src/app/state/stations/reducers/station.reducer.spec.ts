@@ -1,4 +1,3 @@
-import {produce} from 'immer';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {stationActions} from '../actions/station.action';
 import {initialState, stationFeature} from './station.reducer';
@@ -11,14 +10,13 @@ describe('Station Reducer', () => {
   let state: StationState;
 
   beforeEach(() => {
-    state = initialState;
+    state = structuredClone(initialState);
   });
 
   it('should set loadingState to loading when loadStationForCollections is dispatched and loading state is currently not loaded', () => {
-    state = produce(state, (draft) => {
-      draft[measurementDataType].loadingState = 'error';
-    });
+    state[measurementDataType].loadingState = 'error';
     const action = stationActions.loadStationsForCollections({collections: ['test'], measurementDataType});
+
     const result = stationFeature.reducer(state, action);
 
     expect(result[measurementDataType].loadingState).toBe('loading');
@@ -26,10 +24,9 @@ describe('Station Reducer', () => {
   });
 
   it('should not change loadingState if it is already loaded when loadStationForCollections is dispatched', () => {
-    state = produce(state, (draft) => {
-      draft[measurementDataType].loadingState = 'loaded';
-    });
+    state[measurementDataType].loadingState = 'loaded';
     const action = stationActions.loadStationsForCollections({collections: ['test'], measurementDataType});
+
     const result = stationFeature.reducer(state, action);
 
     expect(result[measurementDataType].loadingState).toBe('loaded');
@@ -45,6 +42,7 @@ describe('Station Reducer', () => {
       },
     ];
     const action = stationActions.setLoadedStations({stations, measurementDataType});
+
     const result = stationFeature.reducer(state, action);
 
     expect(result[measurementDataType].loadingState).toBe('loaded');
@@ -53,6 +51,7 @@ describe('Station Reducer', () => {
 
   it('should reset to initialState and set loadingState to error when setStationLoadingError is dispatched', () => {
     const action = stationActions.setStationLoadingError({measurementDataType});
+
     const result = stationFeature.reducer(state, action);
 
     expect(result).toEqual({

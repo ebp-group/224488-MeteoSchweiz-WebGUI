@@ -6,7 +6,6 @@ export const collectionConfig = {
       'ch.meteoschweiz.ogd-smn',
       'ch.meteoschweiz.ogd-smn-precip',
       'ch.meteoschweiz.ogd-smn-tower',
-      // 'ch.meteoschweiz.ogd-smn-soil', // Does not yet have datainventory.csv
       'ch.meteoschweiz.ogd-nime',
       'ch.meteoschweiz.ogd-tot',
       'ch.meteoschweiz.ogd-pollen',
@@ -16,4 +15,4 @@ export const collectionConfig = {
     homogenous: ['ch.meteoschweiz.ogd-nbcn', 'ch.meteoschweiz.ogd-nbcn-precip'],
   },
   defaultMeasurementDataType: 'normal',
-} satisfies CollectionsConfig;
+} as const satisfies CollectionsConfig;

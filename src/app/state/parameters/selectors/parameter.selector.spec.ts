@@ -1,4 +1,3 @@
-import {produce} from 'immer';
 import {initialState} from '../reducers/parameter.reducer';
 import {ParameterState} from '../states/parameter.state';
 import {selectCurrentParameterState, selectParameterGroups} from './parameter.selector';
@@ -50,14 +49,12 @@ describe('Parameter Selectors', () => {
   describe('selectCurrentParameterState', () => {
     let state: ParameterState;
     beforeEach(() => {
-      state = initialState;
+      state = structuredClone(initialState);
     });
     it('should return the current parameter state based on the selected measurement data type', () => {
       const measurementDataType = 'normal';
-      state = produce(state, (draft) => {
-        draft[measurementDataType].parameters = parameters;
-        draft[measurementDataType].loadingState = 'loaded';
-      });
+      state[measurementDataType].parameters = parameters;
+      state[measurementDataType].loadingState = 'loaded';
 
       const result = selectCurrentParameterState.projector(state, measurementDataType);
 

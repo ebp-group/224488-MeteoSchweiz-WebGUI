@@ -9,13 +9,13 @@
   <hr />
   <div>
     <mat-button-toggle-group
-      aria-label="Data measurement"
+      [attr.aria-label]="t('form.measurement-data-type.aria-label')"
       (change)="setSelectedMeasurementDataType($event.value); stepper.reset()"
       [value]="selectedMeasurementDataType$ | async"
       hideSingleSelectionIndicator="true"
     >
-      <mat-button-toggle value="normal">{{ t('form.measurementDataType.normal') }}</mat-button-toggle>
-      <mat-button-toggle value="homogenous">{{ t('form.measurementDataType.homogenous') }}</mat-button-toggle>
+      <mat-button-toggle value="normal">{{ t('form.measurement-data-type.normal') }}</mat-button-toggle>
+      <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 

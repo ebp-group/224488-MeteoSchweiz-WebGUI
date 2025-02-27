@@ -1,12 +1,14 @@
 import {createActionGroup, props} from '@ngrx/store';
-import {FormState} from '../states/form.state';
+import type {DataInterval} from '../../../shared/models/interval';
+import type {MeasurementDataType} from '../../../shared/models/measurement-data-type';
+import type {TimeRange} from '../../../shared/models/time-range';
 
 export const formActions = createActionGroup({
   source: 'Form',
   events: {
-    'Set selected parameters': props<{parameterGroupId: FormState['selectedParameterGroupId']}>(),
-    'Set selected dataInterval': props<{dataInterval: FormState['selectedDataInterval']}>(),
-    'Set selected time range': props<{timeRange: FormState['selectedTimeRange']}>(),
-    'Set selected measurement data type': props<{measurementDataType: FormState['selectedMeasurementDataType']}>(),
+    'Set selected parameters': props<{parameterGroupId: string | null}>(),
+    'Set selected dataInterval': props<{dataInterval: DataInterval}>(),
+    'Set selected time range': props<{timeRange: TimeRange}>(),
+    'Set selected measurement data type': props<{measurementDataType: MeasurementDataType}>(),
   },
 });

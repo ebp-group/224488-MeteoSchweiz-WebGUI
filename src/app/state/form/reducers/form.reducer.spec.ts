@@ -6,7 +6,7 @@ describe('Parameter Reducer', () => {
   let state: FormState;
 
   beforeEach(() => {
-    state = initialState;
+    state = structuredClone(initialState);
   });
 
   it('should reset selection of upcoming steps if parameter is selected', () => {

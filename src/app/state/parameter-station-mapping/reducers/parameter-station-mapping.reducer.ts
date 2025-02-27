@@ -1,6 +1,5 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {produce} from 'immer';
-import {measurementDataTypes} from '../../../shared/models/measurement-data-type';
 import {parameterStationMappingActions} from '../actions/parameter-station-mapping.action';
 import {ParameterStationMappingState, ParameterStationMappingStateEntry} from '../states/parameter-station-mapping.state';
 
@@ -11,9 +10,10 @@ export const initialEntryState: ParameterStationMappingStateEntry = {
   loadingState: undefined,
 };
 
-export const initialState: ParameterStationMappingState = Object.fromEntries(
-  measurementDataTypes.map((k) => [k, initialEntryState]),
-) as ParameterStationMappingState;
+export const initialState: ParameterStationMappingState = {
+  homogenous: {...initialEntryState},
+  normal: {...initialEntryState},
+};
 
 export const parameterStationMappingFeature = createFeature({
   name: parameterStationMappingFeatureKey,

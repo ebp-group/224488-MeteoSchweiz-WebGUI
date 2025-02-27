@@ -1,4 +1,3 @@
-import {produce} from 'immer';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {measurementDataTypes} from '../../../shared/models/measurement-data-type';
 import {Parameter} from '../../../shared/models/parameter';
@@ -18,7 +17,7 @@ describe('Parameter Reducer', () => {
   ];
 
   beforeEach(() => {
-    state = initialState;
+    state = structuredClone(initialState);
   });
 
   it('should not affect other measurement types', () => {
@@ -28,6 +27,7 @@ describe('Parameter Reducer', () => {
       return;
     }
     const action = parameterActions.setLoadedParameters({parameters, measurementDataType});
+
     const result = parameterFeature.reducer(state, action);
 
     expect(result[otherMeasurementDataType].parameters).toEqual(initialState[otherMeasurementDataType].parameters);
@@ -35,10 +35,9 @@ describe('Parameter Reducer', () => {
   });
 
   it('should set loadingState to loading when loadParameterForCollections is dispatched and loading state is currently not loaded', () => {
-    state = produce(state, (draft) => {
-      draft[measurementDataType].loadingState = 'error';
-    });
+    state[measurementDataType].loadingState = 'error';
     const action = parameterActions.loadParametersForCollections({collections: ['test'], measurementDataType});
+
     const result = parameterFeature.reducer(state, action);
 
     expect(result[measurementDataType].loadingState).toBe('loading');
@@ -46,10 +45,9 @@ describe('Parameter Reducer', () => {
   });
 
   it('should not change loadingState if it is already loaded when loadParameterForCollections is dispatched', () => {
-    state = produce(state, (draft) => {
-      draft[measurementDataType].loadingState = 'loaded';
-    });
+    state[measurementDataType].loadingState = 'loaded';
     const action = parameterActions.loadParametersForCollections({collections: ['test'], measurementDataType});
+
     const result = parameterFeature.reducer(state, action);
 
     expect(result[measurementDataType].loadingState).toBe('loaded');
@@ -58,6 +56,7 @@ describe('Parameter Reducer', () => {
 
   it('should set parameters and loadingState to loaded when setLoadedParameters is dispatched', () => {
     const action = parameterActions.setLoadedParameters({parameters, measurementDataType});
+
     const result = parameterFeature.reducer(state, action);
 
     expect(result[measurementDataType].parameters).toEqual(parameters);
@@ -66,6 +65,7 @@ describe('Parameter Reducer', () => {
 
   it('should reset to initialState and set loadingState to error when setParameterLoadingError is dispatched', () => {
     const action = parameterActions.setParameterLoadingError({measurementDataType});
+
     const result = parameterFeature.reducer(state, action);
 
     expect(result).toEqual({

@@ -5,7 +5,7 @@ import {collectionConfig} from '../../../shared/configs/collections.config';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {formActions} from '../actions/form.actions';
 
-export const updateCollectionsForMeasurementDataType = createEffect(
+export const loadCollectionsForSelectedMeasurementDataType = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(formActions.setSelectedMeasurementDataType),
