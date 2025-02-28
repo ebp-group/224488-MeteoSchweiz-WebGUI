@@ -23,7 +23,9 @@
   "overview_file_size": "Missing value for 'overview_file_size'",
   "download-asset": "Missing value for 'download-asset'",
   "download-metadata": "Missing value for 'download-metadata'",
-  "station.load.error": "Missing value for 'station.load.error'",
   "parameter.load.error": "Errore durante il caricamento dei parametri",
-  "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'"
+  "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
+  "station.name": "Stazione",
+  "station.load.error": "Missing value for 'station.load.error'",
+  "station.search.placeholder": "Stazione di ricerca"
 }
