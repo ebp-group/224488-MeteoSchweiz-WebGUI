@@ -7,13 +7,15 @@ import {ParameterStationMappingError} from '../../../shared/errors/parameter-sta
 import {DataInventoryService} from '../../../stac/service/data-inventory.service';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {parameterStationMappingActions} from '../actions/parameter-station-mapping.action';
-import {parameterStationMappingFeature} from '../reducers/parameter-station-mapping.reducer';
+import {selectCurrentParameterStationMappingState} from '../selectors/parameter-group-station-mapping.selector';
 
 export const loadCollectionParameterStationMappings = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(collectionActions.loadCollections),
-      map(({collections}) => parameterStationMappingActions.loadParameterStationMappingsForCollections({collections})),
+      map(({measurementDataType, collections}) =>
+        parameterStationMappingActions.loadParameterStationMappingsForCollections({collections, measurementDataType}),
+      ),
     );
   },
   {functional: true},
@@ -23,12 +25,16 @@ export const loadParameterStationMappings = createEffect(
   (actions$ = inject(Actions), store = inject(Store), dataInventoryService = inject(DataInventoryService)) => {
     return actions$.pipe(
       ofType(parameterStationMappingActions.loadParameterStationMappingsForCollections),
-      concatLatestFrom(() => store.select(parameterStationMappingFeature.selectLoadingState)),
-      filter(([_, loadingState]) => loadingState !== 'loaded'),
-      switchMap(([{collections}]) =>
+      concatLatestFrom(() => store.select(selectCurrentParameterStationMappingState)),
+      filter(([_, parameterStationMappingState]) => parameterStationMappingState.loadingState !== 'loaded'),
+      switchMap(([{collections, measurementDataType}]) =>
         from(dataInventoryService.loadParameterStationMappingsForCollections(collections)).pipe(
-          map((parameterStationMappings) => parameterStationMappingActions.setLoadedParameterStationMappings({parameterStationMappings})),
-          catchError((error: unknown) => of(parameterStationMappingActions.setParameterStationMappingLoadingError({error}))),
+          map((parameterStationMappings) =>
+            parameterStationMappingActions.setLoadedParameterStationMappings({parameterStationMappings, measurementDataType}),
+          ),
+          catchError((error: unknown) =>
+            of(parameterStationMappingActions.setParameterStationMappingLoadingError({error, measurementDataType})),
+          ),
         ),
       ),
     );

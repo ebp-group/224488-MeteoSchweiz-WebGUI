@@ -1,12 +1,18 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
+import {produce} from 'immer';
 import {parameterActions} from '../actions/parameter.action';
-import type {ParameterState} from '../states/parameter.state';
+import type {ParameterState, ParameterStateEntry} from '../states/parameter.state';
 
 export const parameterFeatureKey = 'parameters';
 
-export const initialState: ParameterState = {
+const initialEntryState: ParameterStateEntry = {
   parameters: [],
   loadingState: undefined,
+};
+
+export const initialState: ParameterState = {
+  homogenous: {...initialEntryState},
+  normal: {...initialEntryState},
 };
 
 export const parameterFeature = createFeature({
@@ -15,21 +21,24 @@ export const parameterFeature = createFeature({
     initialState,
     on(
       parameterActions.loadParametersForCollections,
-      (state): ParameterState => ({
-        ...state,
-        loadingState: state.loadingState !== 'loaded' ? 'loading' : state.loadingState,
+      produce((draft, {measurementDataType}) => {
+        const state = draft[measurementDataType];
+        state.loadingState = state.loadingState !== 'loaded' ? 'loading' : state.loadingState;
       }),
     ),
     on(
       parameterActions.setLoadedParameters,
-      (state, {parameters}): ParameterState => ({
-        ...state,
-        parameters,
-        loadingState: 'loaded',
+      produce((draft, {measurementDataType, parameters}) => {
+        const state = draft[measurementDataType];
+        state.parameters = parameters;
+        state.loadingState = 'loaded';
       }),
     ),
-    on(parameterActions.setParameterLoadingError, (): ParameterState => {
-      return {...initialState, loadingState: 'error'};
-    }),
+    on(
+      parameterActions.setParameterLoadingError,
+      produce((draft, {measurementDataType}) => {
+        draft[measurementDataType] = {...initialEntryState, loadingState: 'error'};
+      }),
+    ),
   ),
 });

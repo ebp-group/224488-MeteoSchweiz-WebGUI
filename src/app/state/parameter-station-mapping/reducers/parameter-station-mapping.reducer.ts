@@ -1,12 +1,18 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
+import {produce} from 'immer';
 import {parameterStationMappingActions} from '../actions/parameter-station-mapping.action';
-import {ParameterStationMappingState} from '../states/parameter-station-mapping.state';
+import {ParameterStationMappingState, ParameterStationMappingStateEntry} from '../states/parameter-station-mapping.state';
 
 export const parameterStationMappingFeatureKey = 'parameterStationMappings';
 
-export const initialState: ParameterStationMappingState = {
+export const initialEntryState: ParameterStationMappingStateEntry = {
   parameterStationMappings: [],
   loadingState: undefined,
+};
+
+export const initialState: ParameterStationMappingState = {
+  homogenous: {...initialEntryState},
+  normal: {...initialEntryState},
 };
 
 export const parameterStationMappingFeature = createFeature({
@@ -15,21 +21,24 @@ export const parameterStationMappingFeature = createFeature({
     initialState,
     on(
       parameterStationMappingActions.loadParameterStationMappingsForCollections,
-      (state): ParameterStationMappingState => ({
-        ...state,
-        loadingState: state.loadingState !== 'loaded' ? 'loading' : state.loadingState,
+      produce((draft, {measurementDataType}) => {
+        const state = draft[measurementDataType];
+        state.loadingState = state.loadingState !== 'loaded' ? 'loading' : state.loadingState;
       }),
     ),
     on(
       parameterStationMappingActions.setLoadedParameterStationMappings,
-      (state, {parameterStationMappings}): ParameterStationMappingState => ({
-        ...state,
-        parameterStationMappings,
-        loadingState: 'loaded',
+      produce((draft, {measurementDataType, parameterStationMappings}) => {
+        const state = draft[measurementDataType];
+        state.parameterStationMappings = parameterStationMappings;
+        state.loadingState = 'loaded';
       }),
     ),
-    on(parameterStationMappingActions.setParameterStationMappingLoadingError, (): ParameterStationMappingState => {
-      return {...initialState, loadingState: 'error'};
-    }),
+    on(
+      parameterStationMappingActions.setParameterStationMappingLoadingError,
+      produce((draft, {measurementDataType}) => {
+        draft[measurementDataType] = {...initialEntryState, loadingState: 'error'};
+      }),
+    ),
   ),
 });

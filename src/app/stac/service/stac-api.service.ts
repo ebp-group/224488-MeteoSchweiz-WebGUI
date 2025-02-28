@@ -18,15 +18,15 @@ export class StacApiService {
 
     const collection = collectionResponse.data;
     if (collection == null) {
-      throw new Error('Collection was null');
+      throw new Error(`Collection was null. Collection: ${collectionName}, metaFile: ${metaFile}`);
     }
     if (collection.assets == null) {
-      throw new Error('Collection did not contain any assets');
+      throw new Error(`Collection did not contain any assets. Collection: ${collectionName}, metaFile: ${metaFile}`);
     }
 
     const metaDataFileUrl = Object.entries(collection.assets).find(([key]) => key.includes(metaFile))?.[1]?.href;
     if (!metaDataFileUrl) {
-      throw new Error('Could not find URL for meta data CSV');
+      throw new Error(`Could not find URL for meta data CSV. Collection: ${collectionName}, metaFile: ${metaFile}`);
     }
 
     const parsedResult = new Promise<T[]>((resolve) => {
