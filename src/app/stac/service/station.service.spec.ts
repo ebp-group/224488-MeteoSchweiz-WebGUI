@@ -5,6 +5,8 @@ import {StationService} from './station.service';
 import type {Station} from '../../shared/models/station';
 import type {CsvStation} from '../models/csv-station';
 
+const testCollection = 'collection';
+
 const testCsvStation: CsvStation = {
   stationAbbr: 'TEST',
   stationName: 'Test station',
@@ -40,6 +42,7 @@ const testStation: Station = {
     longitude: 0,
     latitude: 0,
   },
+  collections: [testCollection],
 };
 
 describe('StationService', () => {
@@ -64,13 +67,7 @@ describe('StationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should transform csvStations to internal type representation', () => {
-    // eslint-disable-next-line @typescript-eslint/dot-notation -- transformCsvStation is private. To access it we need to use property access else TypeScript complains
-    const result = service['transformCsvStation'](testCsvStation);
-    expect(result).toEqual(testStation);
-  });
-
-  it('should get stations for each collection and write data to store', async () => {
+  it('should get stations for each collection', async () => {
     const collections = ['a', 'b', 'c'];
     const aStation: CsvStation = {
       ...testCsvStation,
@@ -96,9 +93,9 @@ describe('StationService', () => {
 
     expect(parameters).toEqual(
       jasmine.arrayWithExactContents([
-        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`},
-        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`},
-        {...testStation, id: cStation.stationAbbr, displayName: `${testStation.name} (${cStation.stationAbbr})`},
+        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`, collections: ['a']},
+        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`, collections: ['b']},
+        {...testStation, id: cStation.stationAbbr, displayName: `${testStation.name} (${cStation.stationAbbr})`, collections: ['c']},
       ]),
     );
   });
@@ -110,6 +107,36 @@ describe('StationService', () => {
 
     const parameters = await service.loadStationsForCollections(collections);
 
-    expect(parameters).toEqual(jasmine.arrayWithExactContents([testStation]));
+    expect(parameters).toEqual(jasmine.arrayWithExactContents([{...testStation, collections}]));
+  });
+
+  it('should not merge stations with different ids for the same collection', async () => {
+    const aStation: CsvStation = {
+      ...testCsvStation,
+      stationAbbr: 'test a',
+    };
+    const bStation: CsvStation = {
+      ...testCsvStation,
+      stationAbbr: 'test b',
+    };
+
+    stacApiService.getCollectionMetaCsvFile.and.resolveTo([aStation, bStation]);
+
+    const parameters = await service.loadStationsForCollections([testCollection]);
+
+    expect(parameters).toEqual(
+      jasmine.arrayWithExactContents([
+        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`},
+        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`},
+      ]),
+    );
+  });
+
+  it('should merge stations with the same ids for the same collection', async () => {
+    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
+
+    const parameters = await service.loadStationsForCollections([testCollection]);
+
+    expect(parameters).toEqual(jasmine.arrayWithExactContents([{...testStation}]));
   });
 });

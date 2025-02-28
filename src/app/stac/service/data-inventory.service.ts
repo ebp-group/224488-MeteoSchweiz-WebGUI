@@ -22,13 +22,14 @@ export class DataInventoryService {
       collection,
       'datainventory',
     );
-    return csvDataInventory.map(this.transformCsvDataInventory);
+    return csvDataInventory.map((dataInventory) => this.transformCsvDataInventory(dataInventory, collection));
   }
 
-  private transformCsvDataInventory(csvDataInventory: CsvDataInventory): ParameterStationMapping {
+  private transformCsvDataInventory(csvDataInventory: CsvDataInventory, collection: string): ParameterStationMapping {
     return {
       parameterId: ParameterService.extractIdFromShortname(csvDataInventory.paramShortNameTx),
       stationId: csvDataInventory.stationNatAbbrTx,
+      collection,
     };
   }
 }

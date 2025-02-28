@@ -7,7 +7,6 @@ describe('Parameter Selectors', () => {
   const parameters: Parameter[] = [
     {
       id: 'test-parameter-id',
-      description: {de: 'test-description', en: 'test-description', fr: 'test-description', it: 'test-description'},
       group: {de: 'test-group', en: 'test-group', fr: 'test-group', it: 'test-group'},
     },
   ];
@@ -15,7 +14,6 @@ describe('Parameter Selectors', () => {
     it('should extract all unique parameter groups from stored parameters', () => {
       const baseParameter: Omit<Parameter, 'group'> = {
         id: 'test-parameter-id',
-        description: {de: 'test-description', en: 'test-description', fr: 'test-description', it: 'test-description'},
       };
       const groupA: Parameter['group'] = {de: 'A', en: 'A', fr: 'A', it: 'A'};
       const groupB: Parameter['group'] = {de: 'B', en: 'B', fr: 'B', it: 'B'};

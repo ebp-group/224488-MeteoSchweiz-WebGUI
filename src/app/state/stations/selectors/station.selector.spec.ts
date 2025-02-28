@@ -9,31 +9,34 @@ describe('Station Selectors', () => {
       name: 'stationName1',
       displayName: 'stationDisplayName1',
       coordinates: {latitude: 0, longitude: 0},
+      collections: [],
     };
     const stationTwo: Station = {
       id: 'stationId2',
       name: 'stationName2',
       displayName: 'stationDisplayName2',
       coordinates: {latitude: 0, longitude: 0},
+      collections: [],
     };
     const stationThree: Station = {
       id: 'stationId3',
       name: 'stationName3',
       displayName: 'stationDisplayName3',
       coordinates: {latitude: 0, longitude: 0},
+      collections: [],
     };
 
     it('should return a filtered list of stations', () => {
       const stations: Station[] = [stationOne, stationTwo, stationThree];
       const selectedParameterGroupId = 'groupId1';
       const parameterGroupStationMappings: ParameterGroupStationMapping[] = [
-        {parameterGroupId: 'groupId1', stationId: stationOne.id},
+        {parameterGroupId: 'groupId1', stationId: stationOne.id, collections: []},
         // duplicated entry => should be filtered out
-        {parameterGroupId: 'groupId1', stationId: stationOne.id},
-        {parameterGroupId: 'groupId1', stationId: stationTwo.id},
-        {parameterGroupId: 'groupId2', stationId: stationThree.id},
-        {parameterGroupId: 'groupId2', stationId: 'nonExistingStationId'},
-        {parameterGroupId: 'groupId3', stationId: stationOne.id},
+        {parameterGroupId: 'groupId1', stationId: stationOne.id, collections: []},
+        {parameterGroupId: 'groupId1', stationId: stationTwo.id, collections: []},
+        {parameterGroupId: 'groupId2', stationId: stationThree.id, collections: []},
+        {parameterGroupId: 'groupId2', stationId: 'nonExistingStationId', collections: []},
+        {parameterGroupId: 'groupId3', stationId: stationOne.id, collections: []},
       ];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
@@ -49,7 +52,7 @@ describe('Station Selectors', () => {
       const stations: Station[] = [];
       const selectedParameterGroupId = 'groupId1';
       const parameterGroupStationMappings: ParameterGroupStationMapping[] = [
-        {parameterGroupId: 'groupId1', stationId: 'nonExistingStationId'},
+        {parameterGroupId: 'groupId1', stationId: 'nonExistingStationId', collections: []},
       ];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
@@ -78,7 +81,9 @@ describe('Station Selectors', () => {
     it('should return all stations if the selected parameter group ID is null', () => {
       const stations: Station[] = [stationOne, stationTwo, stationThree];
       const selectedParameterGroupId = null;
-      const parameterGroupStationMappings: ParameterGroupStationMapping[] = [{parameterGroupId: 'groupId1', stationId: stationOne.id}];
+      const parameterGroupStationMappings: ParameterGroupStationMapping[] = [
+        {parameterGroupId: 'groupId1', stationId: stationOne.id, collections: []},
+      ];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
         {stations, loadingState: 'loaded'},
@@ -97,12 +102,14 @@ describe('Station Selectors', () => {
         name: 'stationName1',
         displayName: 'stationDisplayName1',
         coordinates: {latitude: 0, longitude: 0},
+        collections: [],
       };
       const stationTwo: Station = {
         id: 'stationId2',
         name: 'stationName2',
         displayName: 'stationDisplayName2',
         coordinates: {latitude: 0, longitude: 0},
+        collections: [],
       };
 
       const result = selectStationIdsFilteredBySelectedParameterGroups.projector([stationOne, stationTwo]);

@@ -2,7 +2,6 @@ import type {TranslatableString} from './translatable-string';
 
 export interface Parameter {
   id: string;
-  description: TranslatableString;
   group: TranslatableString;
 }
 

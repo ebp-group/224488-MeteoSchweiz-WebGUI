@@ -11,7 +11,6 @@ describe('Parameter Reducer', () => {
   const parameters: Parameter[] = [
     {
       id: 'test-parameter-id',
-      description: {de: 'test-description', en: 'test-description', fr: 'test-description', it: 'test-description'},
       group: {de: 'test-group', en: 'test-group', fr: 'test-group', it: 'test-group'},
     },
   ];

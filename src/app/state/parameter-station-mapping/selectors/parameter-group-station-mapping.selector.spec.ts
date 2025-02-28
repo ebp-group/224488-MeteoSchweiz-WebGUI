@@ -1,4 +1,5 @@
 import {Parameter} from '../../../shared/models/parameter';
+import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {ParameterStationMapping} from '../../../shared/models/parameter-station-mapping';
 import {selectParameterGroupStationMappings} from './parameter-group-station-mapping.selector';
 
@@ -7,33 +8,29 @@ describe('ParameterGroupStationMapping Selectors', () => {
     const parameterOne: Parameter = {
       id: 'paramId1',
       group: {en: 'groupId1', de: '', fr: '', it: ''},
-      description: {en: '', de: '', fr: '', it: ''},
     };
     const parameterTwo: Parameter = {
       id: 'paramId2',
       group: {en: 'groupId1', de: '', fr: '', it: ''},
-      description: {en: '', de: '', fr: '', it: ''},
     };
     const parameterThree: Parameter = {
       id: 'paramId3',
       group: {en: 'groupId2', de: '', fr: '', it: ''},
-      description: {en: '', de: '', fr: '', it: ''},
     };
     const parameterFour: Parameter = {
       id: 'paramId4',
       group: {en: 'groupId2', de: '', fr: '', it: ''},
-      description: {en: '', de: '', fr: '', it: ''},
     };
 
     it('should return unique parameter group station mappings', () => {
       const parameters: Parameter[] = [parameterOne, parameterTwo, parameterThree, parameterFour];
       const parameterStationMappings: ParameterStationMapping[] = [
-        {parameterId: 'paramId1', stationId: 'stationId1'},
+        {parameterId: 'paramId1', stationId: 'stationId1', collection: 'a'},
         // duplicated entry => should be filtered out
-        {parameterId: 'paramId1', stationId: 'stationId1'},
-        {parameterId: 'paramId2', stationId: 'stationId1'},
-        {parameterId: 'paramId3', stationId: 'stationId2'},
-        {parameterId: 'nonExistingParam', stationId: 'stationId1'},
+        {parameterId: 'paramId1', stationId: 'stationId1', collection: 'b'},
+        {parameterId: 'paramId2', stationId: 'stationId1', collection: 'a'},
+        {parameterId: 'paramId3', stationId: 'stationId2', collection: 'a'},
+        {parameterId: 'nonExistingParam', stationId: 'stationId1', collection: 'a'},
       ];
 
       const result = selectParameterGroupStationMappings.projector(
@@ -43,9 +40,9 @@ describe('ParameterGroupStationMapping Selectors', () => {
 
       expect(result).toEqual(
         jasmine.arrayWithExactContents([
-          {parameterGroupId: 'groupId1', stationId: 'stationId1'},
-          {parameterGroupId: 'groupId2', stationId: 'stationId2'},
-        ]),
+          {parameterGroupId: 'groupId1', stationId: 'stationId1', collections: ['a', 'b']},
+          {parameterGroupId: 'groupId2', stationId: 'stationId2', collections: ['a']},
+        ] satisfies ParameterGroupStationMapping[]),
       );
     });
 
@@ -62,7 +59,9 @@ describe('ParameterGroupStationMapping Selectors', () => {
     });
 
     it('should return empty array if no parameters were given', () => {
-      const parameterStationMappings: ParameterStationMapping[] = [{parameterId: 'nonExistingParam', stationId: 'stationId1'}];
+      const parameterStationMappings: ParameterStationMapping[] = [
+        {parameterId: 'nonExistingParam', stationId: 'stationId1', collection: ''},
+      ];
       const parameters: Parameter[] = [];
 
       const result = selectParameterGroupStationMappings.projector(
