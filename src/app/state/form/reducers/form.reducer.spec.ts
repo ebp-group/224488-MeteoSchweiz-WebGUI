@@ -6,36 +6,73 @@ describe('Parameter Reducer', () => {
   let state: FormState;
 
   beforeEach(() => {
-    state = structuredClone(initialState);
-  });
-
-  // TODO: Add more tests after merging PR #19
-
-  it('should reset selection of upcoming steps if parameter is selected', () => {
-    state = {...state, selectedParameterGroupId: 'A', selectedDataInterval: 'daily', selectedTimeRange: 'all-time'};
-    const action = formActions.setSelectedParameters({parameterGroupId: 'test'});
-    const result = formFeature.reducer(state, action);
-
-    expect(result.selectedParameterGroupId).toBe('test');
-    expect(result.selectedDataInterval).toBe(null);
-    expect(result.selectedTimeRange).toBe(null);
-  });
-
-  it('should reset selection of upcoming steps if dataInterval is selected', () => {
-    state = {...state, selectedParameterGroupId: 'A', selectedDataInterval: 'daily', selectedTimeRange: 'all-time'};
-    const action = formActions.setSelectedDataInterval({dataInterval: 'monthly'});
-    const result = formFeature.reducer(state, action);
-
-    expect(result.selectedParameterGroupId).toBe('A');
-    expect(result.selectedDataInterval).toBe('monthly');
-    expect(result.selectedTimeRange).toBe(null);
+    state = {
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'A',
+      selectedStationId: 'ALT',
+      selectedDataInterval: 'daily',
+      selectedTimeRange: 'all-time',
+    };
   });
 
   it('should reset the form state when a measurement data type is selected', () => {
-    state = {...state, selectedParameterGroupId: 'A', selectedDataInterval: 'daily', selectedTimeRange: 'all-time'};
     const action = formActions.setSelectedMeasurementDataType({measurementDataType: 'homogenous'});
+
     const result = formFeature.reducer(state, action);
 
     expect(result).toEqual({...initialState, selectedMeasurementDataType: 'homogenous'});
+  });
+
+  it('should reset selection of upcoming steps if parameter group ID is selected', () => {
+    const action = formActions.setSelectedParameters({parameterGroupId: 'test'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...initialState,
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'test',
+    });
+  });
+
+  it('should reset selection of upcoming steps if station ID is selected', () => {
+    const action = formActions.setSelectedStationId({stationId: 'test'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...initialState,
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'A',
+      selectedStationId: 'test',
+    });
+  });
+
+  it('should reset selection of upcoming steps if dataInterval is selected', () => {
+    const action = formActions.setSelectedDataInterval({dataInterval: 'monthly'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...initialState,
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'A',
+      selectedStationId: 'ALT',
+      selectedDataInterval: 'monthly',
+    });
+  });
+
+  it('should just set time range if it is selected', () => {
+    const action = formActions.setSelectedTimeRange({timeRange: 'current-day'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'A',
+      selectedStationId: 'ALT',
+      selectedDataInterval: 'daily',
+      selectedTimeRange: 'current-day',
+    });
   });
 });

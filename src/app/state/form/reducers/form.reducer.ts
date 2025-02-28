@@ -6,17 +6,21 @@ import {FormState} from '../states/form.state';
 export const formFeatureKey = 'form';
 
 export const initialState: FormState = {
+  selectedMeasurementDataType: collectionConfig.defaultMeasurementDataType,
   selectedParameterGroupId: null,
   selectedStationId: null,
   selectedDataInterval: null,
   selectedTimeRange: null,
-  selectedMeasurementDataType: collectionConfig.defaultMeasurementDataType,
 };
 
 export const formFeature = createFeature({
   name: formFeatureKey,
   reducer: createReducer(
     initialState,
+    on(
+      formActions.setSelectedMeasurementDataType,
+      (_, {measurementDataType}): FormState => ({...initialState, selectedMeasurementDataType: measurementDataType}),
+    ),
     on(
       formActions.setSelectedParameters,
       (state, {parameterGroupId}): FormState => ({
@@ -50,10 +54,6 @@ export const formFeature = createFeature({
         ...state,
         selectedTimeRange: timeRange,
       }),
-    ),
-    on(
-      formActions.setSelectedMeasurementDataType,
-      (_, {measurementDataType}): FormState => ({...initialState, selectedMeasurementDataType: measurementDataType}),
     ),
   ),
 });
