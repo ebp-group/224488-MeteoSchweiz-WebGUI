@@ -9,6 +9,7 @@
  *    Either it will be updated to support ESLint 9 or included into 'rxjs'
  *    * https://github.com/ReactiveX/rxjs/discussions/7492
  */
+import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import eslint from '@eslint/js';
 import ngrx from '@ngrx/eslint-plugin/v9/index.js';
 import angular from 'angular-eslint';
@@ -32,7 +33,9 @@ export default tseslint.config(
     plugins: {
       rxjs: rxjsX,
       'rxjs-angular-x': rxjsAngularX,
+      ...comments.recommended.plugins,
     },
+    ignores: ['src/app/stac/generated/**'],
     processor: angular.processInlineTemplates,
     rules: {
       'rxjs-angular-x/prefer-composition': 'error',
@@ -125,6 +128,7 @@ export default tseslint.config(
       'no-console': ['warn', {allow: ['warn', 'error']}],
       'prettier/prettier': ['error', {endOfLine: 'auto'}],
       '@typescript-eslint/explicit-function-return-type': 'error',
+      '@eslint-community/eslint-comments/require-description': 'error',
     },
   },
   {
