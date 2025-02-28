@@ -19,7 +19,6 @@ import {MapConfig} from '../../shared/models/configs/map-config';
 import {Coordinates} from '../../shared/models/coordinates';
 import {Station} from '../../shared/models/station';
 import {mapActions} from '../../state/map/actions/map.action';
-import {FeatureProperty} from '../models/feature-property';
 import {MapViewport} from '../models/map-viewport';
 
 type MapLayerClickEvent = MapMouseEvent & {features?: MapGeoJSONFeature[]} & object;
@@ -113,7 +112,7 @@ export class MapService {
           properties: {
             id: station.id,
             name: station.name,
-          } satisfies FeatureProperty,
+          } satisfies Pick<Station, 'id' | 'name'>,
         })),
       },
       // this is a workaround to get IDs of type `string` working (otherwise only `number` is accepted)
