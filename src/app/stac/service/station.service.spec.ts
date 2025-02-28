@@ -64,8 +64,7 @@ describe('StationService', () => {
   });
 
   it('should transform csvStations to internal type representation', () => {
-    // transformCsvStation is private. To access it we need to use property access else TypeScript complains
-    // eslint-disable-next-line @typescript-eslint/dot-notation
+    // eslint-disable-next-line @typescript-eslint/dot-notation -- transformCsvStation is private. To access it we need to use property access else TypeScript complains
     const result = service['transformCsvStation'](testCsvStation);
     expect(result).toEqual(testStation);
   });

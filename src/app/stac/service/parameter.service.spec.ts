@@ -62,8 +62,7 @@ describe('ParameterService', () => {
   });
 
   it('should transform csvParameters to internal Type', () => {
-    // transformCsvParameter is private. To access it we need to use property access else TypeScript complains
-    // eslint-disable-next-line @typescript-eslint/dot-notation
+    // eslint-disable-next-line @typescript-eslint/dot-notation -- transformCsvParameter is private. To access it we need to use property access else TypeScript complains
     const result: Parameter = service['transformCsvParameter'](testCsvParameter);
     expect(result).toEqual(testParameter);
   });
