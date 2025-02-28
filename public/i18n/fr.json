@@ -10,11 +10,11 @@
   "form.stepper.time-range.label": "Missing value for 'form.stepper.time-range.label'",
   "form.stepper.overview.label": "Missing value for 'form.stepper.overview.label'",
   "form.stepper.download.label": "Missing value for 'form.stepper.download.label'",
-  "map.load.error": "Missing value for 'map.load.error'",
-  "map.not-initialized.error": "Missing value for 'map.not-initialized.error'",
   "now-time-interval": "Missing value for 'now-time-interval'",
   "recent-time-interval": "Missing value for 'recent-time-interval'",
   "historical-time-range-explanation": "Missing value for 'historical-time-range-explanation'",
+  "station.search.placeholder": "Chercher une station",
+  "station.name": "Station",
   "overview_station_name": "Missing value for 'overview_station_name'",
   "overview_parameter_groups": "Missing value for 'overview_parameter_groups'",
   "overview_interval": "Missing value for 'overview_interval'",
@@ -23,9 +23,9 @@
   "overview_file_size": "Missing value for 'overview_file_size'",
   "download-asset": "Missing value for 'download-asset'",
   "download-metadata": "Missing value for 'download-metadata'",
+  "station.load.error": "Missing value for 'station.load.error'",
   "parameter.load.error": "Erreur lors du chargement des paramètres",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
-  "station.name": "Station",
-  "station.load.error": "Missing value for 'station.load.error'",
-  "station.search.placeholder": "Chercher une station"
+  "map.load.error": "Missing value for 'map.load.error'",
+  "map.not-initialized.error": "Missing value for 'map.not-initialized.error'"
 }
