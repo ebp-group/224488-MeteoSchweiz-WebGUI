@@ -75,7 +75,7 @@ export class MapService {
   }
 
   public createInitialMapViewport(zoom: number | undefined, center: Coordinates | undefined, mapConfig: MapConfig): MapViewport {
-    return center || zoom
+    return center !== undefined || zoom !== undefined
       ? {
           type: 'centerAndZoom',
           center: center ?? mapConfig.defaultZoomAndCenter.center,

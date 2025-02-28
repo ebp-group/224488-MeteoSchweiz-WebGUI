@@ -6,7 +6,7 @@ describe('Map Reducer', () => {
   let state: MapState;
 
   beforeEach(() => {
-    state = initialState;
+    state = structuredClone(initialState);
   });
 
   it('should set loadingState to loading when loadMap is dispatched and loading state is currently not loaded', () => {

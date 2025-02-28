@@ -5,7 +5,7 @@ import {Store} from '@ngrx/store';
 import {catchError, filter, from, map, of, switchMap, tap} from 'rxjs';
 import {MapService} from '../../../map/services/map.service';
 import {mapConfig} from '../../../shared/configs/map.config';
-import {MapError} from '../../../shared/errors/map.error';
+import {MapLoadError} from '../../../shared/errors/map.error';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {formActions} from '../../form/actions/form.actions';
 import {stationActions} from '../../stations/actions/station.action';
@@ -37,7 +37,7 @@ export const failLoadingMap = createEffect(
     return actions$.pipe(
       ofType(mapActions.setMapLoadingError),
       tap(({error}) => {
-        throw new MapError(error);
+        throw new MapLoadError(error);
       }),
     );
   },

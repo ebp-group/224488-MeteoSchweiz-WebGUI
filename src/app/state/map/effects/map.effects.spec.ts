@@ -4,7 +4,7 @@ import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
 import {MapService} from '../../../map/services/map.service';
-import {MapError} from '../../../shared/errors/map.error';
+import {MapLoadError} from '../../../shared/errors/map.error';
 import {Station} from '../../../shared/models/station';
 import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {selectCurrentStationState, selectStationIdsFilteredBySelectedParameterGroups} from '../../stations/selectors/station.selector';
@@ -32,7 +32,6 @@ describe('MapEffects', () => {
   it('should dispatch the setMapAsLoaded action after successfully loading map using the action loadMap', (done: DoneFn) => {
     spyOn(mapService, 'createInitialMapViewport').and.returnValue({center: {longitude: 0, latitude: 0}, zoom: 0, type: 'centerAndZoom'});
     spyOn(mapService, 'initializeMap').and.resolveTo();
-    store.overrideSelector(mapFeature.selectLoadingState, 'loading');
     store.overrideSelector(mapFeature.selectMapsState, {center: {longitude: 0, latitude: 0}, zoom: 0, loadingState: 'loading'});
     actions$ = of(mapActions.loadMap());
 
@@ -59,7 +58,7 @@ describe('MapEffects', () => {
 
   it('should throw a MapError after dispatching setMapLoadingError', (done: DoneFn) => {
     const error = new Error('My cabbages!!!');
-    const expectedError = new MapError(error);
+    const expectedError = new MapLoadError(error);
 
     actions$ = of(mapActions.setMapLoadingError({error}));
     failLoadingMap(actions$)

@@ -37,7 +37,7 @@ describe('MapService', () => {
         northEast: {longitude: 1, latitude: 1},
       },
       enableRotation: false,
-    } as Partial<MapConfig> as MapConfig;
+    } as MapConfig;
 
     service.createMap(target, mapConfig);
 
@@ -66,7 +66,7 @@ describe('MapService', () => {
           northEast: {longitude: 1, latitude: 1},
         },
         enableRotation: false,
-      } as Partial<MapConfig> as MapConfig;
+      } as MapConfig;
       service.createMap(target, mapConfig);
 
       // eslint-disable-next-line @typescript-eslint/dot-notation -- necessary because the map should be only available within the service
@@ -76,7 +76,7 @@ describe('MapService', () => {
     it('should initialize the map with the given viewport', async () => {
       const mapConfig = {
         styleUrl: 'style-url',
-      } as Partial<MapConfig> as MapConfig;
+      } as MapConfig;
       const initialMapViewport: MapViewport = {
         type: 'centerAndZoom',
         center: {longitude: 0, latitude: 1},
