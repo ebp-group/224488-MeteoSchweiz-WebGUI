@@ -1,50 +1,93 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {StyleSpecification} from '@maplibre/maplibre-gl-style-spec';
-import {CircleLayerSpecification, LayerSpecification, LngLat, LngLatBounds, Map, SymbolLayerSpecification} from 'maplibre-gl';
-import {firstValueFrom} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {CircleLayerSpecification, LayerSpecification, LngLat, LngLatBounds, Map, MapOptions, SymbolLayerSpecification} from 'maplibre-gl';
+import {firstValueFrom, Subscription} from 'rxjs';
+import {MapNotInitializedError} from '../../shared/errors/map.error';
 import {MapConfig} from '../../shared/models/configs/map-config';
+import {Coordinates} from '../../shared/models/coordinates';
 import {Station} from '../../shared/models/station';
+import {mapActions} from '../../state/map/actions/map.action';
+import {MapViewport} from '../models/map-viewport';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
   private readonly http = inject(HttpClient);
+  private readonly store = inject(Store);
 
   private map?: Map;
+  private mapSubscriptions?: Subscription;
   private readonly stationSourceId = 'stations' as const;
   private readonly stationLayerId = 'stations' as const;
   private readonly stationLabelLayerId = 'stations-label' as const;
 
-  public async createMap(target: HTMLElement, mapConfig: MapConfig): Promise<Map> {
+  public createMap(target: HTMLElement, mapConfig: MapConfig): void {
     this.removeMap();
+    const mapOptions: MapOptions = {
+      container: target,
+      dragRotate: mapConfig.enableRotation,
+      bounds: new LngLatBounds(
+        new LngLat(mapConfig.defaultBoundingBox.southWest.longitude, mapConfig.defaultBoundingBox.southWest.latitude),
+        new LngLat(mapConfig.defaultBoundingBox.northEast.longitude, mapConfig.defaultBoundingBox.northEast.latitude),
+      ),
+    };
+    this.map = new Map(mapOptions);
+  }
+
+  public async initializeMap(mapConfig: MapConfig, initialMapViewport: MapViewport): Promise<void> {
+    const map = this.map;
+    if (!map) {
+      throw new MapNotInitializedError();
+    }
+
+    switch (initialMapViewport.type) {
+      case 'boundingBox': {
+        map.fitBounds(
+          new LngLatBounds(
+            new LngLat(initialMapViewport.southWest.longitude, initialMapViewport.southWest.latitude),
+            new LngLat(initialMapViewport.northEast.longitude, initialMapViewport.northEast.latitude),
+          ),
+          {animate: false},
+        );
+        break;
+      }
+      case 'centerAndZoom': {
+        map.setCenter(new LngLat(initialMapViewport.center.longitude, initialMapViewport.center.latitude), {animate: false});
+        map.setZoom(initialMapViewport.zoom, {animate: false});
+        break;
+      }
+    }
     const style = await this.fetchStyle(mapConfig.styleUrl);
     style.layers = this.filterUnnecessaryLayers(style.layers);
-    this.map = new Map({
-      container: target,
-      style,
-      bounds: new LngLatBounds(
-        new LngLat(mapConfig.boundingBox[0].longitude, mapConfig.boundingBox[0].latitude),
-        new LngLat(mapConfig.boundingBox[1].longitude, mapConfig.boundingBox[1].latitude),
-      ),
-      dragRotate: mapConfig.enableRotation,
-    });
-    // TODO: Either make sure sure that the filters are applied to the map
-    //       or to change the `map` member into a BehaviorSubject and apply the filter
-    //       as soon as it is not `undefined` anymore.
-    return this.map;
+    map.setStyle(style);
+    await map.once('load');
+    this.subscribeToMapEvents();
   }
 
   public removeMap(): void {
+    this.mapSubscriptions?.unsubscribe();
+    this.mapSubscriptions = undefined;
     this.map?.remove();
     this.map = undefined;
+  }
+
+  public createInitialMapViewport(zoom: number | undefined, center: Coordinates | undefined, mapConfig: MapConfig): MapViewport {
+    return center !== undefined || zoom !== undefined
+      ? {
+          type: 'centerAndZoom',
+          center: center ?? mapConfig.defaultZoomAndCenter.center,
+          zoom: zoom ?? mapConfig.defaultZoomAndCenter.zoom,
+        }
+      : mapConfig.defaultBoundingBox;
   }
 
   public addStationsToMap(stations: Station[]): void {
     const map = this.map;
     if (!map) {
-      return;
+      throw new MapNotInitializedError();
     }
     this.removeStationsFromMap();
     map.addSource(this.stationSourceId, {
@@ -89,12 +132,33 @@ export class MapService {
     } satisfies SymbolLayerSpecification);
   }
 
-  public filterStationsOnMap(stations: Station[]): void {
+  public filterStationsOnMap(stationIds: string[]): void {
     const map = this.map;
     if (!map) {
-      return;
+      throw new MapNotInitializedError();
     }
-    map.setFilter(this.stationSourceId, ['in', 'id', ...stations.map((station) => station.id)]);
+    map.setFilter(this.stationSourceId, ['in', 'id', ...stationIds]);
+  }
+
+  private subscribeToMapEvents(): void {
+    const map = this.map;
+    if (!map) {
+      throw new MapNotInitializedError();
+    }
+    if (this.mapSubscriptions) {
+      this.mapSubscriptions.unsubscribe();
+    }
+    this.mapSubscriptions = new Subscription();
+    this.mapSubscriptions.add(map.on('zoom', () => this.dispatchZoomChanges(map.getZoom())));
+    this.mapSubscriptions.add(map.on('move', () => this.dispatchCenterChanges(map.getCenter())));
+  }
+
+  private dispatchZoomChanges(zoom: number): void {
+    this.store.dispatch(mapActions.setZoom({zoom}));
+  }
+
+  private dispatchCenterChanges(center: LngLat): void {
+    this.store.dispatch(mapActions.setCenter({center: {latitude: center.lat, longitude: center.lng}}));
   }
 
   private async fetchStyle(styleUrl: string): Promise<StyleSpecification> {
@@ -104,7 +168,7 @@ export class MapService {
   private removeStationsFromMap(): void {
     const map = this.map;
     if (!map) {
-      return;
+      throw new MapNotInitializedError();
     }
     if (map.getLayer(this.stationLayerId)) {
       map.removeLayer(this.stationLayerId);
