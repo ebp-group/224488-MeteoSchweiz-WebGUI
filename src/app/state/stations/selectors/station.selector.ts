@@ -15,15 +15,16 @@ export const selectStationsFilteredBySelectedParameterGroups = createSelector(
   selectCurrentStationState,
   formFeature.selectSelectedParameterGroupId,
   selectParameterGroupStationMappings,
-  (stationState, parameterGroupId, parameterGroupStationMappings): Station[] => {
+  ({stations}, parameterGroupId, parameterGroupStationMappings): Station[] => {
     if (!parameterGroupId) {
-      return stationState.stations;
+      return stations;
     }
 
-    const matchingStationIds = parameterGroupStationMappings
+    const matchingStationIdsList = parameterGroupStationMappings
       .filter((mapping) => mapping.parameterGroupId === parameterGroupId)
       .map((mapping) => mapping.stationId);
-    return stationState.stations.filter((station) => matchingStationIds.includes(station.id));
+    const matchingStationIds = new Set(matchingStationIdsList);
+    return stations.filter((station) => matchingStationIds.has(station.id));
   },
 );
 

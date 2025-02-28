@@ -28,12 +28,14 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
   private currentStationName?: Subscription;
 
   public ngOnInit(): void {
-    this.filteredStations$ = this.formControl.valueChanges.pipe(
+    const valueChanges$ = this.formControl.valueChanges.pipe(
       startWith(''),
       tap((value) => this.dispatchValueChange(value)),
       map((value): string => this.convertValueToString(value)),
-      combineLatestWith(this.store.select(selectStationsFilteredBySelectedParameterGroups)),
-      map(([value, stations]) => this.filterStations(value, stations)),
+    );
+    this.filteredStations$ = this.store.select(selectStationsFilteredBySelectedParameterGroups).pipe(
+      combineLatestWith(valueChanges$),
+      map(([stations, value]) => this.filterStations(value, stations)),
     );
     this.currentStationName = this.store
       .select(formFeature.selectSelectedStationId)
