@@ -8,4 +8,5 @@ export interface FormState {
   selectedDataInterval: DataInterval | null;
   selectedTimeRange: TimeRange | null;
   selectedMeasurementDataType: MeasurementDataType;
+  selectedCollection: string | null;
 }

@@ -12,6 +12,7 @@ describe('Form Reducer', () => {
       selectedStationId: 'ALT',
       selectedDataInterval: 'daily',
       selectedTimeRange: 'all-time',
+      selectedCollection: 'collection',
     };
   });
 
@@ -59,6 +60,7 @@ describe('Form Reducer', () => {
       selectedParameterGroupId: 'A',
       selectedStationId: 'ALT',
       selectedDataInterval: 'monthly',
+      selectedCollection: 'collection',
     });
   });
 
@@ -73,6 +75,7 @@ describe('Form Reducer', () => {
       selectedStationId: 'ALT',
       selectedDataInterval: 'daily',
       selectedTimeRange: 'current-day',
+      selectedCollection: 'collection',
     });
   });
 });
