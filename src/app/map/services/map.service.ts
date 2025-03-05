@@ -2,7 +2,16 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {StyleSpecification} from '@maplibre/maplibre-gl-style-spec';
 import {Store} from '@ngrx/store';
-import {CircleLayerSpecification, LayerSpecification, LngLat, LngLatBounds, Map, MapOptions, SymbolLayerSpecification} from 'maplibre-gl';
+import {
+  CircleLayerSpecification,
+  LayerSpecification,
+  LngLat,
+  LngLatBounds,
+  Map,
+  MapLayerMouseEvent,
+  MapOptions,
+  SymbolLayerSpecification,
+} from 'maplibre-gl';
 import {firstValueFrom, Subscription} from 'rxjs';
 import {MapNotInitializedError} from '../../shared/errors/map.error';
 import {MapConfig} from '../../shared/models/configs/map-config';
@@ -20,29 +29,28 @@ export class MapService {
 
   private map?: Map;
   private mapSubscriptions?: Subscription;
+  private currentlyHighlightedStationId?: string;
   private readonly stationSourceId = 'stations' as const;
-  private readonly stationLayerId = 'stations' as const;
-  private readonly stationLabelLayerId = 'stations-label' as const;
+  private readonly stationLayerId = 'station-circles' as const;
+  private readonly stationLabelLayerId = 'station-labels' as const;
 
   public createMap(target: HTMLElement, mapConfig: MapConfig): void {
     this.removeMap();
     const mapOptions: MapOptions = {
       container: target,
       dragRotate: mapConfig.enableRotation,
+      rollEnabled: mapConfig.enableRotation,
       bounds: new LngLatBounds(
         new LngLat(mapConfig.defaultBoundingBox.southWest.longitude, mapConfig.defaultBoundingBox.southWest.latitude),
         new LngLat(mapConfig.defaultBoundingBox.northEast.longitude, mapConfig.defaultBoundingBox.northEast.latitude),
       ),
+      minZoom: mapConfig.minZoom,
     };
     this.map = new Map(mapOptions);
   }
 
   public async initializeMap(mapConfig: MapConfig, initialMapViewport: MapViewport): Promise<void> {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
-
+    const map = this.getMap();
     switch (initialMapViewport.type) {
       case 'boundingBox': {
         map.fitBounds(
@@ -85,10 +93,7 @@ export class MapService {
   }
 
   public addStationsToMap(stations: Station[]): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     this.removeStationsFromMap();
     map.addSource(this.stationSourceId, {
       type: 'geojson',
@@ -96,6 +101,7 @@ export class MapService {
         type: 'FeatureCollection',
         features: stations.map((station) => ({
           type: 'Feature',
+          id: station.id,
           geometry: {
             type: 'Point',
             coordinates: [station.coordinates.longitude, station.coordinates.latitude],
@@ -103,9 +109,12 @@ export class MapService {
           properties: {
             id: station.id,
             name: station.name,
-          } satisfies Partial<Station>,
+          } satisfies Pick<Station, 'id' | 'name'>,
         })),
       },
+      // this is a workaround to get IDs of type `string` working (otherwise only `number` is accepted)
+      // see: https://github.com/maplibre/maplibre-gl-js/issues/1043
+      promoteId: 'id',
     });
     map.addLayer({
       id: this.stationLayerId,
@@ -113,8 +122,8 @@ export class MapService {
       source: this.stationSourceId,
       paint: {
         'circle-radius': 6,
-        'circle-color': '#fff',
-        'circle-stroke-color': '#069',
+        'circle-color': ['case', ['boolean', ['feature-state', 'isHighlighted'], false], '#f00', '#fff'],
+        'circle-stroke-color': ['case', ['boolean', ['feature-state', 'isHighlighted'], false], '#000', '#069'],
         'circle-stroke-width': 2,
       },
     } satisfies CircleLayerSpecification);
@@ -133,24 +142,63 @@ export class MapService {
   }
 
   public filterStationsOnMap(stationIds: string[]): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
+    const map = this.getMap();
+    map.setFilter(this.stationLayerId, ['in', 'id', ...stationIds]);
+    map.setFilter(this.stationLabelLayerId, ['in', 'id', ...stationIds]);
+  }
+
+  public highlightStation(stationId: string): void {
+    this.setHighlight(this.currentlyHighlightedStationId, false);
+    this.setHighlight(stationId, true);
+  }
+
+  public removeHighlight(): void {
+    this.setHighlight(this.currentlyHighlightedStationId, false);
+  }
+
+  public zoomIn(): void {
+    const map = this.getMap();
+    map.zoomIn();
+  }
+
+  public zoomOut(): void {
+    const map = this.getMap();
+    map.zoomOut();
+  }
+
+  public resetExtent(mapConfig: MapConfig): void {
+    const map = this.getMap();
+    map.fitBounds(
+      new LngLatBounds(
+        new LngLat(mapConfig.defaultBoundingBox.southWest.longitude, mapConfig.defaultBoundingBox.southWest.latitude),
+        new LngLat(mapConfig.defaultBoundingBox.northEast.longitude, mapConfig.defaultBoundingBox.northEast.latitude),
+      ),
+    );
+  }
+
+  private setHighlight(stationId: string | undefined, isHighlighted: boolean): void {
+    if (stationId) {
+      const map = this.getMap();
+      map.setFeatureState({source: this.stationSourceId, id: stationId}, {isHighlighted});
     }
-    map.setFilter(this.stationSourceId, ['in', 'id', ...stationIds]);
+    this.currentlyHighlightedStationId = isHighlighted ? stationId : undefined;
   }
 
   private subscribeToMapEvents(): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     if (this.mapSubscriptions) {
       this.mapSubscriptions.unsubscribe();
     }
     this.mapSubscriptions = new Subscription();
     this.mapSubscriptions.add(map.on('zoom', () => this.dispatchZoomChanges(map.getZoom())));
     this.mapSubscriptions.add(map.on('move', () => this.dispatchCenterChanges(map.getCenter())));
+    this.mapSubscriptions.add(map.on('click', this.stationLayerId, (event) => this.handleStationClick(event)));
+    this.mapSubscriptions.add(map.on('mouseenter', this.stationLayerId, () => this.setMapCursor(map, 'pointer')));
+    this.mapSubscriptions.add(map.on('mouseleave', this.stationLayerId, () => this.setMapCursor(map, '')));
+  }
+
+  private setMapCursor(map: Map, cursor: 'pointer' | ''): void {
+    map.getCanvas().style.cursor = cursor;
   }
 
   private dispatchZoomChanges(zoom: number): void {
@@ -166,10 +214,7 @@ export class MapService {
   }
 
   private removeStationsFromMap(): void {
-    const map = this.map;
-    if (!map) {
-      throw new MapNotInitializedError();
-    }
+    const map = this.getMap();
     if (map.getLayer(this.stationLayerId)) {
       map.removeLayer(this.stationLayerId);
     }
@@ -187,5 +232,23 @@ export class MapService {
         (layer) => layer.id === 'background' || layer.id.includes('hillshade') || layer.id.includes('water') || layer.id === 'boundary',
       )
       .filter((layer) => layer.type !== 'symbol');
+  }
+
+  private handleStationClick(event: MapLayerMouseEvent): void {
+    if (!event.features || event.features.length === 0) {
+      return;
+    }
+    const stationId = event.features[0].id;
+    if (stationId && typeof stationId === 'string') {
+      this.store.dispatch(mapActions.toggleStationSelection({stationId}));
+    }
+  }
+
+  private getMap(): Map {
+    const map = this.map;
+    if (!map) {
+      throw new MapNotInitializedError();
+    }
+    return map;
   }
 }

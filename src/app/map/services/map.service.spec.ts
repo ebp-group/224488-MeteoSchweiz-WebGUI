@@ -98,7 +98,6 @@ describe('MapService', () => {
       const styleSpecification = setStyleSpy.calls.first().args[0] as StyleSpecification;
       expect(styleSpecification.layers.length).toEqual(1);
       expect(styleSpecification.layers[0].id).toEqual('background');
-      expect(map.on).toHaveBeenCalledTimes(2);
       expect(map.on).toHaveBeenCalledWith('zoom', jasmine.any(Function));
       expect(map.on).toHaveBeenCalledWith('move', jasmine.any(Function));
     });
@@ -136,7 +135,7 @@ describe('MapService', () => {
 
       service.filterStationsOnMap(stationIds);
 
-      expect(map.setFilter).toHaveBeenCalledTimes(1);
+      expect(map.setFilter).toHaveBeenCalledTimes(2);
     });
   });
 });

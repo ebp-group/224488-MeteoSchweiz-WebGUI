@@ -1,1 +1,8 @@
-<div #map class="map-container"></div>
+<div class="map-container">
+  <div #map class="map"></div>
+  <div class="map-controls">
+    <button mat-flat-button color="primary" (click)="zoomIn()"><mat-icon>add</mat-icon></button>
+    <button mat-flat-button color="primary" (click)="zoomOut()"><mat-icon>remove</mat-icon></button>
+    <button mat-flat-button color="primary" (click)="resetExtent()"><mat-icon>home</mat-icon></button>
+  </div>
+</div>
