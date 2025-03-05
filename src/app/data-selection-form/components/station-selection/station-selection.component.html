@@ -11,7 +11,7 @@
       />
       <mat-autocomplete #auto="matAutocomplete" [hideSingleSelectionIndicator]="true" [displayWith]="displayStationName">
         @for (station of filteredStations$ | async; track station.id) {
-          <mat-option [value]="station">{{ station.name }}</mat-option>
+          <mat-option [value]="station">{{ station.displayName }}</mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>

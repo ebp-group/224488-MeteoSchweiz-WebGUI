@@ -93,7 +93,7 @@ describe('MapEffects', () => {
 
   it('should add stations to the map when mapActions.setMapAsLoaded is dispatched', (done) => {
     spyOn(mapService, 'addStationsToMap');
-    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
+    const stations: Station[] = [{id: '1', name: 'Station 1', displayName: 'DisplayName 1', coordinates: {longitude: 0, latitude: 0}}];
     store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
     store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
     actions$ = of(mapActions.setMapAsLoaded());
@@ -105,7 +105,7 @@ describe('MapEffects', () => {
 
   it('should not add stations to the map when mapActions.setMapAsLoaded is dispatched while the map is not loaded yet', (done) => {
     spyOn(mapService, 'addStationsToMap');
-    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
+    const stations: Station[] = [{id: '1', name: 'Station 1', displayName: 'DisplayName 1', coordinates: {longitude: 0, latitude: 0}}];
     store.overrideSelector(mapFeature.selectLoadingState, 'loading');
     store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
     actions$ = of(mapActions.setMapAsLoaded());
@@ -119,7 +119,7 @@ describe('MapEffects', () => {
 
   it('should not add stations to the map when mapActions.setMapAsLoaded is dispatched while the stations are not loaded yet', (done) => {
     spyOn(mapService, 'addStationsToMap');
-    const stations: Station[] = [{id: '1', name: 'Station 1', coordinates: {longitude: 0, latitude: 0}}];
+    const stations: Station[] = [{id: '1', name: 'Station 1', displayName: 'DisplayName 1', coordinates: {longitude: 0, latitude: 0}}];
     store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
     store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loading'});
     actions$ = of(mapActions.setMapAsLoaded());

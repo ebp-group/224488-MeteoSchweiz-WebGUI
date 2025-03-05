@@ -54,7 +54,7 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
   }
 
   protected displayStationName(station: Station | null): string {
-    return station?.name ? station.name : '';
+    return station?.displayName ? station.displayName : '';
   }
 
   private filterStations(value: string, stations: Station[]): Station[] {

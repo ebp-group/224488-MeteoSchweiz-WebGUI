@@ -108,8 +108,8 @@ export class MapService {
           },
           properties: {
             id: station.id,
-            name: station.name,
-          } satisfies Pick<Station, 'id' | 'name'>,
+            displayName: station.displayName,
+          } satisfies Pick<Station, 'id' | 'displayName'>,
         })),
       },
       // this is a workaround to get IDs of type `string` working (otherwise only `number` is accepted)
@@ -132,7 +132,7 @@ export class MapService {
       type: 'symbol',
       source: this.stationSourceId,
       layout: {
-        'text-field': ['get', 'name'],
+        'text-field': ['get', 'displayName'],
         'text-font': ['Frutiger Neue Regular'],
         'text-size': 12,
         'text-offset': [0, 1.5],

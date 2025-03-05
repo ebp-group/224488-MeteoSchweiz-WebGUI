@@ -4,9 +4,24 @@ import {selectStationIdsFilteredBySelectedParameterGroups, selectStationsFiltere
 
 describe('Station Selectors', () => {
   describe('selectStationsFilteredBySelectedParameterGroups', () => {
-    const stationOne: Station = {id: 'stationId1', name: 'stationName1', coordinates: {latitude: 0, longitude: 0}};
-    const stationTwo: Station = {id: 'stationId2', name: 'stationName2', coordinates: {latitude: 0, longitude: 0}};
-    const stationThree: Station = {id: 'stationId3', name: 'stationName3', coordinates: {latitude: 0, longitude: 0}};
+    const stationOne: Station = {
+      id: 'stationId1',
+      name: 'stationName1',
+      displayName: 'stationDisplayName1',
+      coordinates: {latitude: 0, longitude: 0},
+    };
+    const stationTwo: Station = {
+      id: 'stationId2',
+      name: 'stationName2',
+      displayName: 'stationDisplayName2',
+      coordinates: {latitude: 0, longitude: 0},
+    };
+    const stationThree: Station = {
+      id: 'stationId3',
+      name: 'stationName3',
+      displayName: 'stationDisplayName3',
+      coordinates: {latitude: 0, longitude: 0},
+    };
 
     it('should return a filtered list of stations', () => {
       const stations: Station[] = [stationOne, stationTwo, stationThree];
@@ -77,8 +92,18 @@ describe('Station Selectors', () => {
 
   describe('selectStationsFilteredBySelectedParameterGroups', () => {
     it('should return a filtered list of stations and return the IDs', () => {
-      const stationOne: Station = {id: 'stationId1', name: 'stationName1', coordinates: {latitude: 0, longitude: 0}};
-      const stationTwo: Station = {id: 'stationId2', name: 'stationName2', coordinates: {latitude: 0, longitude: 0}};
+      const stationOne: Station = {
+        id: 'stationId1',
+        name: 'stationName1',
+        displayName: 'stationDisplayName1',
+        coordinates: {latitude: 0, longitude: 0},
+      };
+      const stationTwo: Station = {
+        id: 'stationId2',
+        name: 'stationName2',
+        displayName: 'stationDisplayName2',
+        coordinates: {latitude: 0, longitude: 0},
+      };
 
       const result = selectStationIdsFilteredBySelectedParameterGroups.projector([stationOne, stationTwo]);
 
