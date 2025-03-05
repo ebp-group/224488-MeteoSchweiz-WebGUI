@@ -1,3 +1,6 @@
+import * as appEffects from './app/effects/app.effects';
+import {appFeature, appFeatureKey} from './app/reducers/app.reducer';
+import {AppState} from './app/states/app.state';
 import * as formEffects from './form/effects/form.effects';
 import {formFeature, formFeatureKey} from './form/reducers/form.reducer';
 import * as mapEffects from './map/effects/map.effects';
@@ -26,6 +29,7 @@ export interface State {
   [formFeatureKey]: FormState;
   [parameterStationMappingFeatureKey]: ParameterStationMappingState;
   [mapFeatureKey]: MapState;
+  [appFeatureKey]: AppState;
 }
 export const reducers: ActionReducerMap<State> = {
   [parameterFeatureKey]: parameterFeature.reducer,
@@ -33,6 +37,7 @@ export const reducers: ActionReducerMap<State> = {
   [formFeatureKey]: formFeature.reducer,
   [parameterStationMappingFeatureKey]: parameterStationMappingFeature.reducer,
   [mapFeatureKey]: mapFeature.reducer,
+  [appFeatureKey]: appFeature.reducer,
 };
 export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   parameterEffects,
@@ -40,5 +45,6 @@ export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   mapEffects,
   parameterStationMappingEffects,
   formEffects,
+  appEffects,
 ];
 export const metaReducers: MetaReducer<State>[] = [];

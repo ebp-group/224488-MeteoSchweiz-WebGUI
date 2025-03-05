@@ -2,7 +2,7 @@ import {formActions} from '../actions/form.actions';
 import {FormState} from '../states/form.state';
 import {formFeature, initialState} from './form.reducer';
 
-describe('Parameter Reducer', () => {
+describe('Form Reducer', () => {
   let state: FormState;
 
   beforeEach(() => {
