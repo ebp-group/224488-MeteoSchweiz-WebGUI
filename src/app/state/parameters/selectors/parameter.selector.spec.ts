@@ -72,13 +72,11 @@ describe('Parameter Selectors', () => {
       ];
       const result = selectParameterGroupsSortedByLocalizedName.projector(parameterGroups, 'de');
 
-      expect(result).toEqual(
-        jasmine.arrayWithExactContents([
-          {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2'},
-          {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3'},
-          {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1'},
-        ]),
-      );
+      expect(result).toEqual([
+        {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2'},
+        {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3'},
+        {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1'},
+      ]);
     });
   });
 });

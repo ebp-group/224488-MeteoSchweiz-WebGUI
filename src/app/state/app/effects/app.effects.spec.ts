@@ -11,13 +11,12 @@ describe('AppEffects', () => {
   beforeEach(() => {
     actions$ = new Observable<Action>();
     TestBed.configureTestingModule({
-      providers: [{provide: TranslocoService, useValue: {setActiveLang: (): void => {}}}],
+      providers: [{provide: TranslocoService, useValue: jasmine.createSpyObj('TranslocoService', ['setActiveLang'])}],
     });
   });
 
   it('should set the given language within the translation service when appActions.setLanguage is dispatched', (done: DoneFn) => {
     const translocoService = TestBed.inject(TranslocoService);
-    spyOn(translocoService, 'setActiveLang');
     actions$ = of(appActions.setLanguage({language: 'en'}));
 
     setLanguage(actions$, translocoService).subscribe(() => {

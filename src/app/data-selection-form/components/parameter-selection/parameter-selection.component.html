@@ -7,6 +7,6 @@
     (click)="setParameterGroupSelected()"
   />
   @if (currentLanguage$ | async; as currentLanguage) {
-    <label [for]="parameterGroup().id">{{ parameterGroup().name[currentLanguage] }}</label>
+    <label [for]="parameterGroup().id">{{ parameterGroup().name | translatableString: currentLanguage }}</label>
   }
 </div>
