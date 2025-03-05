@@ -38,6 +38,7 @@ describe('Station Reducer', () => {
       {
         id: 'test-station-id',
         name: 'Test station name',
+        displayName: 'Test station display name',
         coordinates: {longitude: 0, latitude: 0},
       },
     ];

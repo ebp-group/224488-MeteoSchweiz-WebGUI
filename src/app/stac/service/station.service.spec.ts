@@ -35,6 +35,7 @@ const testCsvStation: CsvStation = {
 const testStation: Station = {
   id: 'TEST',
   name: 'Test station',
+  displayName: 'Test station (TEST)',
   coordinates: {
     longitude: 0,
     latitude: 0,
@@ -95,9 +96,9 @@ describe('StationService', () => {
 
     expect(parameters).toEqual(
       jasmine.arrayWithExactContents([
-        {...testStation, id: aStation.stationAbbr},
-        {...testStation, id: bStation.stationAbbr},
-        {...testStation, id: cStation.stationAbbr},
+        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`},
+        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`},
+        {...testStation, id: cStation.stationAbbr, displayName: `${testStation.name} (${cStation.stationAbbr})`},
       ]),
     );
   });
