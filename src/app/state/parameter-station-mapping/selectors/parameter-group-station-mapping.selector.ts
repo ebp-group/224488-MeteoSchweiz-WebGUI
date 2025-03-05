@@ -24,7 +24,7 @@ export const selectParameterGroupStationMappings = createSelector(
     parameterStationMappings.forEach((mapping) => {
       const parameterGroupId = parameterIdToGroupIdMap.get(mapping.parameterId);
       if (parameterGroupId) {
-        const groupToStationMapId = parameterGroupId + mapping.stationId;
+        const groupToStationMapId = `${parameterGroupId}-${mapping.stationId}`;
         const existGroupToStationMap = groupToStationMap.has(groupToStationMapId);
         if (!existGroupToStationMap) {
           groupToStationMap.set(groupToStationMapId, {parameterGroupId, stationId: mapping.stationId});
