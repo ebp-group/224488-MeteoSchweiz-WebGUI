@@ -8,8 +8,7 @@ import {
   LngLat,
   LngLatBounds,
   Map,
-  MapGeoJSONFeature,
-  MapMouseEvent,
+  MapLayerMouseEvent,
   MapOptions,
   SymbolLayerSpecification,
 } from 'maplibre-gl';
@@ -20,8 +19,6 @@ import {Coordinates} from '../../shared/models/coordinates';
 import {Station} from '../../shared/models/station';
 import {mapActions} from '../../state/map/actions/map.action';
 import {MapViewport} from '../models/map-viewport';
-
-type MapLayerClickEvent = MapMouseEvent & {features?: MapGeoJSONFeature[]} & object;
 
 @Injectable({
   providedIn: 'root',
@@ -147,6 +144,7 @@ export class MapService {
   public filterStationsOnMap(stationIds: string[]): void {
     const map = this.getMap();
     map.setFilter(this.stationLayerId, ['in', 'id', ...stationIds]);
+    map.setFilter(this.stationLabelLayerId, ['in', 'id', ...stationIds]);
   }
 
   public highlightStation(stationId: string): void {
@@ -236,7 +234,7 @@ export class MapService {
       .filter((layer) => layer.type !== 'symbol');
   }
 
-  private handleStationClick(event: MapLayerClickEvent): void {
+  private handleStationClick(event: MapLayerMouseEvent): void {
     if (!event.features || event.features.length === 0) {
       return;
     }

@@ -135,7 +135,7 @@ describe('MapService', () => {
 
       service.filterStationsOnMap(stationIds);
 
-      expect(map.setFilter).toHaveBeenCalledTimes(1);
+      expect(map.setFilter).toHaveBeenCalledTimes(2);
     });
   });
 });
