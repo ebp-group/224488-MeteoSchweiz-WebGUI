@@ -25,7 +25,7 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
 
   protected formControl = new FormControl<string | Station>('');
   protected filteredStations$?: Observable<Station[]>;
-  private currentStationName?: Subscription;
+  private readonly subscriptions = new Subscription();
 
   public ngOnInit(): void {
     const valueChanges$ = this.formControl.valueChanges.pipe(
@@ -37,19 +37,20 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
       combineLatestWith(valueChanges$),
       map(([stations, value]) => this.filterStations(value, stations)),
     );
-    this.currentStationName = this.store
-      .select(formFeature.selectSelectedStationId)
-      .pipe(
-        concatLatestFrom(() => this.store.select(selectStationsFilteredBySelectedParameterGroups)),
-        map(([stationId, stations]) => stations.find((station) => station.id === stationId) ?? null),
-        tap((station) => this.formControl.patchValue(station)),
-      )
-      // eslint-disable-next-line rxjs-angular-x/prefer-composition -- the current value must be set by patching the form control; this is not possible within the template
-      .subscribe();
+    this.subscriptions.add(
+      this.store
+        .select(formFeature.selectSelectedStationId)
+        .pipe(
+          concatLatestFrom(() => this.store.select(selectStationsFilteredBySelectedParameterGroups)),
+          map(([stationId, stations]) => stations.find((station) => station.id === stationId) ?? null),
+          tap((station) => this.formControl.patchValue(station)),
+        )
+        .subscribe(),
+    );
   }
 
   public ngOnDestroy(): void {
-    this.currentStationName?.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
   protected displayStationName(station: Station | null): string {
