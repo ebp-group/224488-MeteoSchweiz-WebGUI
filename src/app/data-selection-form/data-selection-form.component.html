@@ -23,6 +23,7 @@
     <mat-step [completed]="(selectSelectedStationId$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
       <app-parameter-list></app-parameter-list>
+      <app-station-selection></app-station-selection>
       <app-map-container class="map-container"></app-map-container>
       <div>
         <button mat-button matStepperNext type="button" [disabled]="(selectSelectedStationId$ | async) === null">

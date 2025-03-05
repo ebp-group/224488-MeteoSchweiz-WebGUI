@@ -16,17 +16,21 @@ export const selectCurrentParameterStationMappingState = createSelector(
 export const selectParameterGroupStationMappings = createSelector(
   selectCurrentParameterStationMappingState,
   selectCurrentParameterState,
-  (parameterStationMappingState, parameterState): ParameterGroupStationMapping[] =>
-    parameterStationMappingState.parameterStationMappings.reduce((uniqueGroupMappings: ParameterGroupStationMapping[], mapping) => {
-      const parameterGroup = parameterState.parameters.find((parameter) => parameter.id === mapping.parameterId)?.group;
-      if (parameterGroup) {
-        const parameterGroupId = ParameterService.extractGroupIdFromGroupName(parameterGroup);
-        const mappingExists = uniqueGroupMappings.some(
-          (uniqueGroupMapping) =>
-            uniqueGroupMapping.parameterGroupId === parameterGroupId && uniqueGroupMapping.stationId === mapping.stationId,
-        );
-        return mappingExists ? uniqueGroupMappings : [...uniqueGroupMappings, {parameterGroupId, stationId: mapping.stationId}];
+  ({parameterStationMappings}, {parameters}): ParameterGroupStationMapping[] => {
+    const groupToStationMap = new Map<string, ParameterGroupStationMapping>();
+    const parameterIdToGroupIdMap = new Map(
+      parameters.map((parameter) => [parameter.id, ParameterService.extractGroupIdFromGroupName(parameter.group)]),
+    );
+    parameterStationMappings.forEach((mapping) => {
+      const parameterGroupId = parameterIdToGroupIdMap.get(mapping.parameterId);
+      if (parameterGroupId) {
+        const groupToStationMapId = `${parameterGroupId}-${mapping.stationId}`;
+        const existGroupToStationMap = groupToStationMap.has(groupToStationMapId);
+        if (!existGroupToStationMap) {
+          groupToStationMap.set(groupToStationMapId, {parameterGroupId, stationId: mapping.stationId});
+        }
       }
-      return uniqueGroupMappings;
-    }, []),
+    });
+    return Array.from(groupToStationMap.values());
+  },
 );

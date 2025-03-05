@@ -1,9 +1,9 @@
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {Station} from '../../../shared/models/station';
-import {selectStationIdsFilteredBySelectedParameterGroups} from './station.selector';
+import {selectStationIdsFilteredBySelectedParameterGroups, selectStationsFilteredBySelectedParameterGroups} from './station.selector';
 
 describe('Station Selectors', () => {
-  describe('selectStationsFilteredByParameterGroups', () => {
+  describe('selectStationsFilteredBySelectedParameterGroups', () => {
     const stationOne: Station = {id: 'stationId1', name: 'stationName1', coordinates: {latitude: 0, longitude: 0}};
     const stationTwo: Station = {id: 'stationId2', name: 'stationName2', coordinates: {latitude: 0, longitude: 0}};
     const stationThree: Station = {id: 'stationId3', name: 'stationName3', coordinates: {latitude: 0, longitude: 0}};
@@ -21,13 +21,13 @@ describe('Station Selectors', () => {
         {parameterGroupId: 'groupId3', stationId: stationOne.id},
       ];
 
-      const result = selectStationIdsFilteredBySelectedParameterGroups.projector(
+      const result = selectStationsFilteredBySelectedParameterGroups.projector(
         {stations, loadingState: 'loaded'},
         selectedParameterGroupId,
         parameterGroupStationMappings,
       );
 
-      expect(result).toEqual(jasmine.arrayWithExactContents([stationOne.id, stationTwo.id]));
+      expect(result).toEqual(jasmine.arrayWithExactContents([stationOne, stationTwo]));
     });
 
     it('should return an empty list if no stations are found', () => {
@@ -37,7 +37,7 @@ describe('Station Selectors', () => {
         {parameterGroupId: 'groupId1', stationId: 'nonExistingStationId'},
       ];
 
-      const result = selectStationIdsFilteredBySelectedParameterGroups.projector(
+      const result = selectStationsFilteredBySelectedParameterGroups.projector(
         {stations, loadingState: 'loaded'},
         selectedParameterGroupId,
         parameterGroupStationMappings,
@@ -51,7 +51,7 @@ describe('Station Selectors', () => {
       const selectedParameterGroupId = 'groupId1';
       const parameterGroupStationMappings: ParameterGroupStationMapping[] = [];
 
-      const result = selectStationIdsFilteredBySelectedParameterGroups.projector(
+      const result = selectStationsFilteredBySelectedParameterGroups.projector(
         {stations, loadingState: 'loaded'},
         selectedParameterGroupId,
         parameterGroupStationMappings,
@@ -65,13 +65,24 @@ describe('Station Selectors', () => {
       const selectedParameterGroupId = null;
       const parameterGroupStationMappings: ParameterGroupStationMapping[] = [{parameterGroupId: 'groupId1', stationId: stationOne.id}];
 
-      const result = selectStationIdsFilteredBySelectedParameterGroups.projector(
+      const result = selectStationsFilteredBySelectedParameterGroups.projector(
         {stations, loadingState: 'loaded'},
         selectedParameterGroupId,
         parameterGroupStationMappings,
       );
 
-      expect(result).toEqual(jasmine.arrayWithExactContents([stationOne.id, stationTwo.id, stationThree.id]));
+      expect(result).toEqual(jasmine.arrayWithExactContents([stationOne, stationTwo, stationThree]));
+    });
+  });
+
+  describe('selectStationsFilteredBySelectedParameterGroups', () => {
+    it('should return a filtered list of stations and return the IDs', () => {
+      const stationOne: Station = {id: 'stationId1', name: 'stationName1', coordinates: {latitude: 0, longitude: 0}};
+      const stationTwo: Station = {id: 'stationId2', name: 'stationName2', coordinates: {latitude: 0, longitude: 0}};
+
+      const result = selectStationIdsFilteredBySelectedParameterGroups.projector([stationOne, stationTwo]);
+
+      expect(result).toEqual(jasmine.arrayWithExactContents([stationOne.id, stationTwo.id]));
     });
   });
 });
