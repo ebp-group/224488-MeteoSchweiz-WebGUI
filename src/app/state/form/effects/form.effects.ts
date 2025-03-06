@@ -79,3 +79,33 @@ export const initializeSelectedStationId = createEffect(
   },
   {functional: true},
 );
+
+export const setSelectedMeasurementDataTypeInUrl = createEffect(
+  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
+    return actions$.pipe(
+      ofType(formActions.setSelectedMeasurementDataType),
+      switchMap(({measurementDataType}) => urlParameterService.setMeasurementDataType(measurementDataType)),
+    );
+  },
+  {functional: true, dispatch: false},
+);
+
+export const setSelectedParameterGroupIdInUrl = createEffect(
+  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
+    return actions$.pipe(
+      ofType(formActions.setSelectedParameters),
+      switchMap(({parameterGroupId}) => urlParameterService.setParameterGroupId(parameterGroupId)),
+    );
+  },
+  {functional: true, dispatch: false},
+);
+
+export const setSelectedStationIdInUrl = createEffect(
+  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
+    return actions$.pipe(
+      ofType(formActions.setSelectedStationId),
+      switchMap(({stationId}) => urlParameterService.setStationId(stationId)),
+    );
+  },
+  {functional: true, dispatch: false},
+);

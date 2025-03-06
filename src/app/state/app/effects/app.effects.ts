@@ -24,3 +24,13 @@ export const initializeLanguage = createEffect(
   },
   {functional: true},
 );
+
+export const setLanguageInUrl = createEffect(
+  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
+    return actions$.pipe(
+      ofType(appActions.setLanguage),
+      switchMap(({language}) => urlParameterService.setLanguage(language)),
+    );
+  },
+  {functional: true, dispatch: false},
+);
