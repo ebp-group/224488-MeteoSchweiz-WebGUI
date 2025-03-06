@@ -64,17 +64,18 @@ export const addStationsToMap = createEffect(
         ([, mapLoadingState, {loadingState: stationsLoadingState}]) => mapLoadingState === 'loaded' && stationsLoadingState === 'loaded',
       ),
       tap(([, , {stations}]) => mapService.addStationsToMap(stations)),
+      map(() => mapActions.completeLayersInitialization()),
     );
   },
-  {functional: true, dispatch: false},
+  {functional: true},
 );
 
 export const filterStationsOnMap = createEffect(
   (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedParameters, mapActions.setMapAsLoaded, formActions.setSelectedParameterGroupAndStationId),
-      concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
-      filter(([, loadingState]) => loadingState === 'loaded'),
+      ofType(formActions.setSelectedParameters, mapActions.completeLayersInitialization, formActions.setSelectedParameterGroupAndStationId),
+      concatLatestFrom(() => store.select(mapFeature.selectMapsState)),
+      filter(([, {loadingState, areLayersInitialized}]) => loadingState === 'loaded' && areLayersInitialized),
       concatLatestFrom(() => store.select(selectStationIdsFilteredBySelectedParameterGroups)),
       tap(([, stationIds]) => mapService.filterStationsOnMap(stationIds)),
     );

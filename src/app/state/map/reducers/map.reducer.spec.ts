@@ -41,11 +41,19 @@ describe('Map Reducer', () => {
   });
 
   it('should reset to initialState when resetState is dispatched', () => {
-    state = {loadingState: 'loading', zoom: 5, center: {latitude: 0, longitude: 0}};
+    state = {loadingState: 'loading', areLayersInitialized: true, zoom: 5, center: {latitude: 0, longitude: 0}};
     const action = mapActions.resetState();
     const result = mapFeature.reducer(state, action);
 
     expect(result).toEqual(initialState);
+  });
+
+  it('should set areLayersInitialized to `true`when completeLayersInitialization is dispatched', () => {
+    state = {...state, areLayersInitialized: false};
+    const action = mapActions.completeLayersInitialization();
+    const result = mapFeature.reducer(state, action);
+
+    expect(result).toEqual({...state, areLayersInitialized: true});
   });
 
   it('should set zoom when setZoom is dispatched', () => {

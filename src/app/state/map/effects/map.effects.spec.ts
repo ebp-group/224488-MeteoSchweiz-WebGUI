@@ -12,6 +12,7 @@ import {formFeature} from '../../form/reducers/form.reducer';
 import {selectCurrentStationState, selectStationIdsFilteredBySelectedParameterGroups} from '../../stations/selectors/station.selector';
 import {mapActions} from '../actions/map.action';
 import {mapFeature} from '../reducers/map.reducer';
+import {MapState} from '../states/map.state';
 import {
   addStationsToMap,
   failLoadingMap,
@@ -42,7 +43,12 @@ describe('MapEffects', () => {
   it('should dispatch the setMapAsLoaded action after successfully loading map using the action loadMap', (done: DoneFn) => {
     spyOn(mapService, 'createInitialMapViewport').and.returnValue({center: {longitude: 0, latitude: 0}, zoom: 0, type: 'centerAndZoom'});
     spyOn(mapService, 'initializeMap').and.resolveTo();
-    store.overrideSelector(mapFeature.selectMapsState, {center: {longitude: 0, latitude: 0}, zoom: 0, loadingState: 'loading'});
+    store.overrideSelector(mapFeature.selectMapsState, {
+      center: {longitude: 0, latitude: 0},
+      zoom: 0,
+      loadingState: 'loading',
+      areLayersInitialized: false,
+    });
     actions$ = of(mapActions.loadMap());
 
     initializeMap(actions$, store, mapService).subscribe((action) => {
@@ -137,12 +143,12 @@ describe('MapEffects', () => {
     });
   });
 
-  it('should filter stations on the map when mapActions.setMapAsLoaded is dispatched', (done) => {
+  it('should filter stations on the map when mapActions.completeLayersInitialization is dispatched', (done) => {
     spyOn(mapService, 'filterStationsOnMap');
     const stationIds: string[] = ['1', '2'];
-    store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
+    store.overrideSelector(mapFeature.selectMapsState, {loadingState: 'loaded', areLayersInitialized: true} as MapState);
     store.overrideSelector(selectStationIdsFilteredBySelectedParameterGroups, stationIds);
-    actions$ = of(mapActions.setMapAsLoaded());
+    actions$ = of(mapActions.completeLayersInitialization());
     filterStationsOnMap(actions$, store, mapService).subscribe(() => {
       expect(mapService.filterStationsOnMap).toHaveBeenCalledOnceWith(stationIds);
       done();

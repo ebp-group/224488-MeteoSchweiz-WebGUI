@@ -6,6 +6,7 @@ export const mapFeatureKey = 'maps';
 
 export const initialState: MapState = {
   loadingState: undefined,
+  areLayersInitialized: false,
   zoom: undefined,
   center: undefined,
 };
@@ -39,6 +40,13 @@ export const mapFeature = createFeature({
       mapActions.resetState,
       (): MapState => ({
         ...initialState,
+      }),
+    ),
+    on(
+      mapActions.completeLayersInitialization,
+      (state): MapState => ({
+        ...state,
+        areLayersInitialized: true,
       }),
     ),
     on(
