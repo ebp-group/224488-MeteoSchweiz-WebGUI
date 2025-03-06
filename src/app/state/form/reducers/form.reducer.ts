@@ -48,6 +48,8 @@ export const formFeature = createFeature({
       (state, {collection}): FormState => ({
         ...state,
         selectedCollection: collection,
+        selectedDataInterval: null,
+        selectedTimeRange: null,
       }),
     ),
     on(

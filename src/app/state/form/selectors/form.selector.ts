@@ -8,13 +8,13 @@ export const selectCollectionsForSelectedStation = createSelector(
   formFeature.selectSelectedParameterGroupId,
   selectCurrentStationState,
   selectParameterGroupStationMappings,
-  (stationId, selectedParameterGroupId, stationState, stationGroupMapping) => {
-    const collectionsForMappingForStation = stationGroupMapping.find(
+  (stationId, selectedParameterGroupId, {stations}, stationGroupMappings): string[] => {
+    const stationGroupMappingCollections = stationGroupMappings.find(
       (mapping) => mapping.parameterGroupId === selectedParameterGroupId && mapping.stationId === stationId,
     )?.collections;
-    const stationCollections = stationState.stations.find((station) => station.id === stationId)?.collections ?? [];
-    if (collectionsForMappingForStation) {
-      return stationCollections.filter((collection) => collectionsForMappingForStation.includes(collection));
+    const stationCollections = stations.find((station) => station.id === stationId)?.collections ?? [];
+    if (stationGroupMappingCollections) {
+      return stationCollections.filter((collection) => stationGroupMappingCollections.includes(collection));
     }
     return stationCollections;
   },

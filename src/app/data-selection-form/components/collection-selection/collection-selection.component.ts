@@ -15,8 +15,8 @@ import {selectCollectionsForSelectedStation} from '../../../state/form/selectors
 export class CollectionSelectionComponent {
   private readonly store = inject(Store);
 
-  protected selectedStationCollections$ = this.store.select(selectCollectionsForSelectedStation);
-  protected selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
+  protected readonly selectedStationCollections$ = this.store.select(selectCollectionsForSelectedStation);
+  protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
 
   protected setSelectedCollection(collection: string): void {
     this.store.dispatch(formActions.setSelectedCollection({collection}));

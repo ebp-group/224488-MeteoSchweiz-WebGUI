@@ -27,11 +27,13 @@ describe('Form selectors', () => {
 
       expect(result).toEqual([]);
     });
+
     it('should return all collections for a selected station if no parameter group is selected', () => {
       const result = selectCollectionsForSelectedStation.projector(stationA.id, null, stationState, parameterGroupStationMappings);
 
-      expect(result).toEqual(stationA.collections);
+      expect(result).toEqual(jasmine.arrayWithExactContents(stationA.collections));
     });
+
     it('should filter the station collections based on the selected parameter group', () => {
       const result = selectCollectionsForSelectedStation.projector(stationA.id, '1', stationState, parameterGroupStationMappings);
 
