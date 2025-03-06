@@ -6,6 +6,7 @@ import {AppState} from '../states/app.state';
 export const appFeatureKey = 'app';
 
 export const initialState: AppState = {
+  isInitialized: false,
   language: languageConfig.defaultLanguage,
 };
 
@@ -18,6 +19,13 @@ export const appFeature = createFeature({
       (state, {language}): AppState => ({
         ...state,
         language,
+      }),
+    ),
+    on(
+      appActions.initializeApp,
+      (state): AppState => ({
+        ...state,
+        isInitialized: true,
       }),
     ),
   ),

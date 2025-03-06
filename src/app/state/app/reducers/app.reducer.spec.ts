@@ -8,6 +8,7 @@ describe('App Reducer', () => {
   beforeEach(() => {
     state = {
       language: 'en',
+      isInitialized: false,
     };
   });
 
