@@ -25,9 +25,11 @@ export const selectParameterGroupStationMappings = createSelector(
       const parameterGroupId = parameterIdToGroupIdMap.get(mapping.parameterId);
       if (parameterGroupId) {
         const groupToStationMapId = `${parameterGroupId}-${mapping.stationId}`;
-        const existGroupToStationMap = groupToStationMap.has(groupToStationMapId);
-        if (!existGroupToStationMap) {
-          groupToStationMap.set(groupToStationMapId, {parameterGroupId, stationId: mapping.stationId});
+        const existingGroupToStationMap = groupToStationMap.get(groupToStationMapId);
+        if (!existingGroupToStationMap) {
+          groupToStationMap.set(groupToStationMapId, {parameterGroupId, stationId: mapping.stationId, collections: [mapping.collection]});
+        } else {
+          existingGroupToStationMap.collections = [...new Set([...existingGroupToStationMap.collections, mapping.collection])];
         }
       }
     });

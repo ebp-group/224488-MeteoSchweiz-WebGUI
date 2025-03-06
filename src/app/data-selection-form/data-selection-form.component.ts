@@ -11,6 +11,7 @@ import {MeasurementDataType} from '../shared/models/measurement-data-type';
 import {appActions} from '../state/app/actions/app.actions';
 import {formActions} from '../state/form/actions/form.actions';
 import {formFeature} from '../state/form/reducers/form.reducer';
+import {CollectionSelectionComponent} from './components/collection-selection/collection-selection.component';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
@@ -36,6 +37,7 @@ import type {Language} from '../shared/models/language';
     AsyncPipe,
     MapContainerComponent,
     StationSelectionComponent,
+    CollectionSelectionComponent,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
@@ -47,6 +49,7 @@ export class DataSelectionFormComponent implements OnInit {
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedMeasurementDataType$ = this.store.select(formFeature.selectSelectedMeasurementDataType);
+  protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
 
   public ngOnInit(): void {
     this.store.dispatch(formActions.setSelectedMeasurementDataType({measurementDataType: collectionConfig.defaultMeasurementDataType}));

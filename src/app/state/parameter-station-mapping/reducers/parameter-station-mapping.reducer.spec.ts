@@ -38,6 +38,7 @@ describe('ParameterStationMapping Reducer', () => {
       {
         parameterId: 'test-parameter-id',
         stationId: 'test-station-id',
+        collection: '',
       },
     ];
     const action = parameterStationMappingActions.setLoadedParameterStationMappings({parameterStationMappings, measurementDataType});

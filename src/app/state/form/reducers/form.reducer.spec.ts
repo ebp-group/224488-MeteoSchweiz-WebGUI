@@ -12,6 +12,7 @@ describe('Form Reducer', () => {
       selectedStationId: 'ALT',
       selectedDataInterval: 'daily',
       selectedTimeRange: 'all-time',
+      selectedCollection: 'collection',
     };
   });
 
@@ -48,6 +49,20 @@ describe('Form Reducer', () => {
     });
   });
 
+  it('should reset selection of upcoming steps if collection is selected', () => {
+    const action = formActions.setSelectedCollection({collection: 'other'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...initialState,
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'A',
+      selectedStationId: 'ALT',
+      selectedCollection: 'other',
+    });
+  });
+
   it('should reset selection of upcoming steps if dataInterval is selected', () => {
     const action = formActions.setSelectedDataInterval({dataInterval: 'monthly'});
 
@@ -59,6 +74,7 @@ describe('Form Reducer', () => {
       selectedParameterGroupId: 'A',
       selectedStationId: 'ALT',
       selectedDataInterval: 'monthly',
+      selectedCollection: 'collection',
     });
   });
 
@@ -73,6 +89,7 @@ describe('Form Reducer', () => {
       selectedStationId: 'ALT',
       selectedDataInterval: 'daily',
       selectedTimeRange: 'current-day',
+      selectedCollection: 'collection',
     });
   });
 });

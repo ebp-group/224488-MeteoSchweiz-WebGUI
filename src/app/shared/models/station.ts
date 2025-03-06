@@ -5,4 +5,5 @@ export interface Station {
   name: string;
   displayName: string;
   coordinates: Coordinates;
+  collections: string[];
 }

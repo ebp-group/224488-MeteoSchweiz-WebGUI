@@ -11,5 +11,6 @@ export const formActions = createActionGroup({
     'Set selected dataInterval': props<{dataInterval: DataInterval}>(),
     'Set selected time range': props<{timeRange: TimeRange}>(),
     'Set selected measurement data type': props<{measurementDataType: MeasurementDataType}>(),
+    'Set selected collection': props<{collection: string}>(),
   },
 });

@@ -11,19 +11,23 @@ export class StationService {
 
   public async loadStationsForCollections(collections: string[]): Promise<Station[]> {
     const stations = (await Promise.all(collections.map((collection) => this.getStationForCollection(collection)))).flat();
-    return stations.reduce(
-      (uniqueStations: Station[], station) =>
-        !uniqueStations.some((uniqueStation) => uniqueStation.id === station.id) ? [...uniqueStations, station] : uniqueStations,
-      [],
-    );
+    return stations.reduce((uniqueStations: Station[], station) => {
+      const existingStation = uniqueStations.find((uniqueStation) => uniqueStation.id === station.id);
+      if (existingStation != null) {
+        existingStation.collections = [...new Set([...existingStation.collections, ...station.collections])];
+        return uniqueStations;
+      } else {
+        return [...uniqueStations, station];
+      }
+    }, []);
   }
 
   private async getStationForCollection(collection: string): Promise<Station[]> {
     const csvStations: CsvStation[] = await this.stacApiService.getCollectionMetaCsvFile<CsvStation>(collection, 'stations');
-    return csvStations.map(this.transformCsvStation);
+    return csvStations.map((csvStation) => this.transformCsvStation(csvStation, collection));
   }
 
-  private transformCsvStation(csvStation: CsvStation): Station {
+  private transformCsvStation(csvStation: CsvStation, collection: string): Station {
     return {
       id: csvStation.stationAbbr,
       name: csvStation.stationName,
@@ -32,6 +36,7 @@ export class StationService {
         longitude: Number(csvStation.stationCoordinatesWgs84Lon),
         latitude: Number(csvStation.stationCoordinatesWgs84Lat),
       },
+      collections: [collection],
     };
   }
 }

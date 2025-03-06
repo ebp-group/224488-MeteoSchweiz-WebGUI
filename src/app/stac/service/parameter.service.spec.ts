@@ -5,6 +5,8 @@ import {ParameterService} from './parameter.service';
 import {StacApiService} from './stac-api.service';
 import type {Parameter} from '../../shared/models/parameter';
 
+const testCollection = 'collection';
+
 const testCsvParameter: CsvParameter = {
   parameterDatatype: 'Float',
   parameterDecimals: '1',
@@ -24,12 +26,6 @@ const testCsvParameter: CsvParameter = {
 const testParameter: Parameter = {
   // Last two characters define type of parameter and should thus not be part of id
   id: 'test00',
-  description: {
-    de: 'Ein Text',
-    en: 'Some text',
-    fr: 'Some text but french',
-    it: 'Some text but Italian',
-  },
   group: {
     de: 'Wind',
     en: 'wind',
@@ -61,19 +57,80 @@ describe('ParameterService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should transform csvParameters to internal Type', () => {
-    // eslint-disable-next-line @typescript-eslint/dot-notation -- transformCsvParameter is private. To access it we need to use property access else TypeScript complains
-    const result: Parameter = service['transformCsvParameter'](testCsvParameter);
-    expect(result).toEqual(testParameter);
+  it('should extract ids from shortnames correctly', () => {
+    const result = ParameterService.extractIdFromShortname(testCsvParameter.parameterShortname);
+    expect(result).toBe(testParameter.id);
   });
 
-  it('should get parameters for each collection and write data to store', async () => {
-    const collections = ['a', 'b', 'c'];
+  it('should extract ids from group name correctly', () => {
+    const result = ParameterService.extractGroupIdFromGroupName(testParameter.group);
+    expect(result).toBe(testParameter.group.en);
+  });
 
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvParameter]);
+  describe('loadParameterForCollections', () => {
+    it('should get parameters for each collection and merge parameters with the same id', async () => {
+      const collections = ['a', 'b', 'c'];
 
-    const parameters = await service.loadParameterForCollections(collections);
+      stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvParameter]);
 
-    expect(parameters).toEqual(jasmine.arrayWithExactContents([testParameter, testParameter, testParameter]));
+      const parameters = await service.loadParameterForCollections(collections);
+
+      expect(parameters).toEqual(jasmine.arrayWithExactContents([testParameter]));
+    });
+
+    it('should get stations for each collection and not merge different ids', async () => {
+      const collections = ['a', 'b', 'c'];
+      const aParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ad0'};
+      const aParameterId = ParameterService.extractIdFromShortname(aParameter.parameterShortname);
+      const bParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0bd0'};
+      const bParameterId = ParameterService.extractIdFromShortname(bParameter.parameterShortname);
+      const cParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0cd0'};
+      const cParameterId = ParameterService.extractIdFromShortname(cParameter.parameterShortname);
+      stacApiService.getCollectionMetaCsvFile
+        .withArgs('a', 'parameters')
+        .and.resolveTo([aParameter])
+        .withArgs('b', 'parameters')
+        .and.resolveTo([bParameter])
+        .withArgs('c', 'parameters')
+        .and.resolveTo([cParameter]);
+
+      const parameters = await service.loadParameterForCollections(collections);
+
+      expect(parameters).toEqual(
+        jasmine.arrayWithExactContents([
+          {...testParameter, id: aParameterId},
+          {...testParameter, id: bParameterId},
+          {...testParameter, id: cParameterId},
+        ]),
+      );
+    });
+
+    it('should not merge parameters with different ids', async () => {
+      const aParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ad0'};
+      const aParameterId = ParameterService.extractIdFromShortname(aParameter.parameterShortname);
+      const bParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0bd0'};
+      const bParameterId = ParameterService.extractIdFromShortname(bParameter.parameterShortname);
+      stacApiService.getCollectionMetaCsvFile.and.resolveTo([aParameter, bParameter]);
+
+      const parameters = await service.loadParameterForCollections([testCollection]);
+
+      expect(parameters).toEqual(
+        jasmine.arrayWithExactContents([
+          {...testParameter, id: aParameterId},
+          {...testParameter, id: bParameterId},
+        ]),
+      );
+    });
+
+    it('should merge parameters with the same shortname or shortnames with the same prefix for the same collection', async () => {
+      const a1Parameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ad0'};
+      const aParameterId = ParameterService.extractIdFromShortname(a1Parameter.parameterShortname);
+      const a2Parameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ax0'};
+      stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvParameter, testCsvParameter, a1Parameter, a2Parameter]);
+
+      const parameters = await service.loadParameterForCollections([testCollection]);
+
+      expect(parameters).toEqual(jasmine.arrayWithExactContents([{...testParameter}, {...testParameter, id: aParameterId}]));
+    });
   });
 });

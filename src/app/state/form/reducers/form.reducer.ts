@@ -11,6 +11,7 @@ export const initialState: FormState = {
   selectedStationId: null,
   selectedDataInterval: null,
   selectedTimeRange: null,
+  selectedCollection: null,
 };
 
 export const formFeature = createFeature({
@@ -29,6 +30,7 @@ export const formFeature = createFeature({
         selectedStationId: null,
         selectedDataInterval: null,
         selectedTimeRange: null,
+        selectedCollection: null,
       }),
     ),
     on(
@@ -36,6 +38,16 @@ export const formFeature = createFeature({
       (state, {stationId}): FormState => ({
         ...state,
         selectedStationId: stationId,
+        selectedDataInterval: null,
+        selectedTimeRange: null,
+        selectedCollection: null,
+      }),
+    ),
+    on(
+      formActions.setSelectedCollection,
+      (state, {collection}): FormState => ({
+        ...state,
+        selectedCollection: collection,
         selectedDataInterval: null,
         selectedTimeRange: null,
       }),

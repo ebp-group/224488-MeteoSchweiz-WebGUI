@@ -31,6 +31,16 @@
         </button>
       </div>
     </mat-step>
+    <mat-step [completed]="(selectedCollection$ | async) !== null">
+      <ng-template matStepLabel>{{ t('form.stepper.collection.label') }}</ng-template>
+      <app-collection-selection></app-collection-selection>
+      <div>
+        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
+        <button mat-button matStepperNext type="button" [disabled]="(selectedCollection$ | async) === null">
+          {{ t('form.stepper.next') }}
+        </button>
+      </div>
+    </mat-step>
     <mat-step [completed]="(selectedSelectedDataInterval$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.interval.label') }}</ng-template>
       <app-interval-selection></app-interval-selection>
