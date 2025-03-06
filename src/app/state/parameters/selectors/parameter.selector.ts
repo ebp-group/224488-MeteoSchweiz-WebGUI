@@ -1,5 +1,6 @@
 import {createSelector} from '@ngrx/store';
 import {ParameterService} from '../../../stac/service/parameter.service';
+import {appFeature} from '../../app/reducers/app.reducer';
 import {formFeature} from '../../form/reducers/form.reducer';
 import {parameterFeature} from '../reducers/parameter.reducer';
 import type {ParameterGroup} from '../../../shared/models/parameter';
@@ -19,4 +20,10 @@ export const selectParameterGroups = createSelector(selectCurrentParameterState,
         !uniqueGroups.some((uniqueGroup) => group.id === uniqueGroup.id) ? [...uniqueGroups, group] : uniqueGroups,
       [],
     ),
+);
+
+export const selectParameterGroupsSortedByLocalizedName = createSelector(
+  selectParameterGroups,
+  appFeature.selectLanguage,
+  (parameterGroups, language): ParameterGroup[] => [...parameterGroups].sort((a, b) => a.name[language].localeCompare(b.name[language])),
 );

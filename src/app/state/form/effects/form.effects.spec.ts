@@ -1,6 +1,5 @@
 import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
-import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {Observable, of} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {collectionActions} from '../../collection/actions/collection.action';
@@ -11,18 +10,10 @@ describe('FormEffects', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
 
   let actions$: Observable<Action>;
-  let store: MockStore;
 
   beforeEach(() => {
     actions$ = new Observable<Action>();
-    TestBed.configureTestingModule({
-      providers: [provideMockStore()],
-    });
-    store = TestBed.inject(MockStore);
-  });
-
-  afterEach(() => {
-    store.resetSelectors();
+    TestBed.configureTestingModule({});
   });
 
   it('should dispatch loadCollection action when setSelectedMeasurementDataType is dispatched', (done: DoneFn) => {

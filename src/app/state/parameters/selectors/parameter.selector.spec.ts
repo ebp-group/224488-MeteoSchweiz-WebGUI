@@ -1,7 +1,7 @@
 import {initialState} from '../reducers/parameter.reducer';
 import {ParameterState} from '../states/parameter.state';
-import {selectCurrentParameterState, selectParameterGroups} from './parameter.selector';
-import type {Parameter} from '../../../shared/models/parameter';
+import {selectCurrentParameterState, selectParameterGroups, selectParameterGroupsSortedByLocalizedName} from './parameter.selector';
+import type {Parameter, ParameterGroup} from '../../../shared/models/parameter';
 
 describe('Parameter Selectors', () => {
   const parameters: Parameter[] = [
@@ -60,6 +60,23 @@ describe('Parameter Selectors', () => {
 
       expect(result.parameters).toEqual(jasmine.arrayWithExactContents(parameters));
       expect(result.loadingState).toBe('loaded');
+    });
+  });
+
+  describe('selectParameterGroupsSortedByLocalizedName', () => {
+    it('should return the parameter groups sorted by their localized name', () => {
+      const parameterGroups: ParameterGroup[] = [
+        {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1'},
+        {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2'},
+        {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3'},
+      ];
+      const result = selectParameterGroupsSortedByLocalizedName.projector(parameterGroups, 'de');
+
+      expect(result).toEqual([
+        {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2'},
+        {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3'},
+        {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1'},
+      ]);
     });
   });
 });

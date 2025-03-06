@@ -6,5 +6,7 @@
     [checked]="isSelected()"
     (click)="setParameterGroupSelected()"
   />
-  <label [for]="parameterGroup().id">{{ translationService.translate(parameterGroup().name) }}</label>
+  @if (currentLanguage$ | async; as currentLanguage) {
+    <label [for]="parameterGroup().id">{{ parameterGroup().name | translatableString: currentLanguage }}</label>
+  }
 </div>

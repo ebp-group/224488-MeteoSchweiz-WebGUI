@@ -3,11 +3,12 @@ import {Component, inject, OnInit} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
-import {TranslocoModule, TranslocoService} from '@jsverse/transloco';
+import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {MapContainerComponent} from '../map/components/map-container/map-container.component';
 import {collectionConfig} from '../shared/configs/collections.config';
 import {MeasurementDataType} from '../shared/models/measurement-data-type';
+import {appActions} from '../state/app/actions/app.actions';
 import {formActions} from '../state/form/actions/form.actions';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
@@ -40,7 +41,6 @@ import type {Language} from '../shared/models/language';
   styleUrl: './data-selection-form.component.scss',
 })
 export class DataSelectionFormComponent implements OnInit {
-  private readonly translocoService = inject(TranslocoService);
   private readonly store = inject(Store);
 
   protected readonly selectSelectedStationId$ = this.store.select(formFeature.selectSelectedStationId);
@@ -53,7 +53,7 @@ export class DataSelectionFormComponent implements OnInit {
   }
 
   protected changeLanguage(language: Language): void {
-    this.translocoService.setActiveLang(language);
+    this.store.dispatch(appActions.setLanguage({language}));
   }
 
   protected testError(): void {
