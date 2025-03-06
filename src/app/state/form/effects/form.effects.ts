@@ -33,47 +33,27 @@ export const initializeSelectedMeasurementDataType = createEffect(
   {functional: true},
 );
 
-export const initializeSelectedParameterGroupId = createEffect(
+export const initializeSelectedStationAndParameterGroupId = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
       ofType(appActions.initializeApp),
-      filter(({parameter}) => !!parameter.parameterGroupId),
       // we use `combineLatestWith` here to wait for the parameters to finish loading
       combineLatestWith(
         store.select(selectCurrentParameterState).pipe(
           filter(({loadingState}) => loadingState === 'loaded'),
           take(1),
         ),
-      ),
-      concatLatestFrom(() => store.select(selectParameterGroups)),
-      map(([[{parameter}, _], parameterGroups]) => {
-        if (parameterGroups.some((parameterGroup) => parameterGroup.id === parameter.parameterGroupId)) {
-          return formActions.setSelectedParameters({parameterGroupId: parameter.parameterGroupId});
-        }
-        return formActions.setSelectedParameters({parameterGroupId: null});
-      }),
-    );
-  },
-  {functional: true},
-);
-
-export const initializeSelectedStationId = createEffect(
-  (actions$ = inject(Actions), store = inject(Store)) => {
-    return actions$.pipe(
-      ofType(appActions.initializeApp),
-      filter(({parameter}) => !!parameter.stationId),
-      // we use `combineLatestWith` here to wait for the parameters to finish loading
-      combineLatestWith(
         store.select(selectCurrentStationState).pipe(
           filter(({loadingState}) => loadingState === 'loaded'),
           take(1),
         ),
       ),
-      map(([{parameter}, {stations}]) => {
-        if (stations.some((station) => station.id === parameter.stationId)) {
-          return formActions.setSelectedStationId({stationId: parameter.stationId});
-        }
-        return formActions.setSelectedStationId({stationId: null});
+      concatLatestFrom(() => [store.select(selectParameterGroups)]),
+      map(([[{parameter}, , {stations}], parameterGroups]) => {
+        const parameterGroupId =
+          parameterGroups.map((parameterGroup) => parameterGroup.id).find((id) => id === parameter.parameterGroupId) ?? null;
+        const stationId = stations.map((station) => station.id).find((id) => id === parameter.stationId) ?? null;
+        return formActions.setSelectedParameterGroupAndStationId({parameterGroupId, stationId});
       }),
     );
   },

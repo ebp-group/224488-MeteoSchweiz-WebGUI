@@ -72,7 +72,7 @@ export const addStationsToMap = createEffect(
 export const filterStationsOnMap = createEffect(
   (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedParameters, mapActions.setMapAsLoaded),
+      ofType(formActions.setSelectedParameters, mapActions.setMapAsLoaded, formActions.setSelectedParameterGroupAndStationId),
       concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
       filter(([, loadingState]) => loadingState === 'loaded'),
       concatLatestFrom(() => store.select(selectStationIdsFilteredBySelectedParameterGroups)),
@@ -101,7 +101,12 @@ export const toggleStationSelection = createEffect(
 export const highlightSelectedStationOnMap = createEffect(
   (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedStationId, formActions.setSelectedParameters, mapActions.setMapAsLoaded),
+      ofType(
+        formActions.setSelectedStationId,
+        formActions.setSelectedParameters,
+        mapActions.setMapAsLoaded,
+        formActions.setSelectedParameterGroupAndStationId,
+      ),
       concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
       filter(([, loadingState]) => loadingState === 'loaded'),
       concatLatestFrom(() => store.select(formFeature.selectSelectedStationId)),

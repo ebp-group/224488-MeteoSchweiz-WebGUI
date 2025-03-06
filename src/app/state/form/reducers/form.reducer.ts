@@ -67,5 +67,15 @@ export const formFeature = createFeature({
         selectedTimeRange: timeRange,
       }),
     ),
+    on(
+      formActions.setSelectedParameterGroupAndStationId,
+      (state, {parameterGroupId, stationId}): FormState => ({
+        ...state,
+        selectedParameterGroupId: parameterGroupId,
+        selectedStationId: stationId,
+        selectedDataInterval: null,
+        selectedTimeRange: null,
+      }),
+    ),
   ),
 });
