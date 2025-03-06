@@ -59,7 +59,7 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
 
   private filterStations(value: string, stations: Station[]): Station[] {
     const lowerCaseValue = value.toLowerCase();
-    return stations.filter((station) => station.name.toLowerCase().includes(lowerCaseValue));
+    return stations.filter((station) => station.displayName.toLowerCase().includes(lowerCaseValue));
   }
 
   private dispatchValueChange(value: string | Station | null): void {
