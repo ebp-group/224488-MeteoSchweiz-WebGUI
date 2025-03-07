@@ -1,22 +1,35 @@
 import {createSelector} from '@ngrx/store';
+import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {selectParameterGroupStationMappings} from '../../parameter-station-mapping/selectors/parameter-group-station-mapping.selector';
+import {selectParameterGroupsSortedByLocalizedName} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {formFeature} from '../reducers/form.reducer';
-import type {Station} from '../../../shared/models/station';
 
-export const selectSelectedStationsFilteredByParameterGroupCollections = createSelector(
+export const selectSelectedStationWithParameterGroup = createSelector(
   formFeature.selectSelectedStationId,
-  formFeature.selectSelectedParameterGroupId,
   selectCurrentStationState,
+  selectParameterGroupsSortedByLocalizedName,
   selectParameterGroupStationMappings,
-  (stationId, selectedParameterGroupId, {stations}, stationGroupMappings): Station[] => {
-    const stationGroupMappingCollections = stationGroupMappings.find(
-      (mapping) => mapping.parameterGroupId === selectedParameterGroupId && mapping.stationId === stationId,
-    )?.collections;
-    const selectedStations = stations.filter((station) => station.id === stationId);
-    if (stationGroupMappingCollections) {
-      return selectedStations.filter((station) => stationGroupMappingCollections.includes(station.collection));
-    }
-    return selectedStations;
+  (stationId, {stations}, parameterGroups, parameterGroupStationMapping): StationWithParameterGroups[] =>
+    stations
+      .filter((station) => station.id === stationId)
+      .map((station) => ({
+        station,
+        parameterGroups: parameterGroups.filter((group) =>
+          parameterGroupStationMapping.some(
+            (mapping) =>
+              mapping.parameterGroupId === group.id && mapping.stationId === stationId && mapping.collections.includes(station.collection),
+          ),
+        ),
+      })),
+);
+
+export const selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup = createSelector(
+  selectSelectedStationWithParameterGroup,
+  formFeature.selectSelectedParameterGroupId,
+  (stations, selectedParameterGroupId): StationWithParameterGroups[] => {
+    return selectedParameterGroupId == null
+      ? stations
+      : stations.filter((station) => station.parameterGroups.some((group) => group.id === selectedParameterGroupId));
   },
 );

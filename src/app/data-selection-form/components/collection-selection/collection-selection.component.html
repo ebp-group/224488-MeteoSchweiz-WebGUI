@@ -1,14 +1,24 @@
 @if (currentLanguage$ | async; as currentLanguage) {
-  @for (station of selectedStations$ | async; track $index) {
-    <div>
-      <input
-        type="radio"
-        name="collection"
-        [id]="station.collection"
-        [checked]="(selectedCollection$ | async) === station.collection"
-        (input)="setSelectedCollection(station.collection)"
-      />
-      <label [for]="station.collection">{{ station.type | translatableString: currentLanguage }}</label>
-    </div>
-  }
+  <div class="selection-container" *transloco="let t">
+    @for (mapping of stationParameterGroups$ | async; track $index) {
+      <div>
+        <div>
+          <input
+            type="radio"
+            name="collection"
+            [id]="mapping.station.collection"
+            [checked]="(selectedCollection$ | async) === mapping.station.collection"
+            (input)="setSelectedCollection(mapping.station.collection)"
+          />
+          <label [for]="mapping.station.collection">{{ mapping.station.type | translatableString: currentLanguage }}</label>
+        </div>
+        <div>
+          <p>{{ t('form.collection-selection.parameter-groups') }}</p>
+          @for (parameterGroup of mapping.parameterGroups; track $index) {
+            <div class="parameter-group-name">{{ parameterGroup.name | translatableString: currentLanguage }}</div>
+          }
+        </div>
+      </div>
+    }
+  </div>
 }
