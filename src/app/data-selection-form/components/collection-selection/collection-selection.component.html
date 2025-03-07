@@ -1,12 +1,14 @@
-@for (collection of selectedStationCollections$ | async; track $index) {
-  <div>
-    <input
-      type="radio"
-      name="collection"
-      id="{{ collection }}"
-      [checked]="(selectedCollection$ | async) === collection"
-      (input)="setSelectedCollection(collection)"
-    />
-    <label for="{{ collection }}">{{ collection }}</label>
-  </div>
+@if (currentLanguage$ | async; as currentLanguage) {
+  @for (station of selectedStations$ | async; track $index) {
+    <div>
+      <input
+        type="radio"
+        name="collection"
+        [id]="station.collection"
+        [checked]="(selectedCollection$ | async) === station.collection"
+        (input)="setSelectedCollection(station.collection)"
+      />
+      <label [for]="station.collection">{{ station.type | translatableString: currentLanguage }}</label>
+    </div>
+  }
 }

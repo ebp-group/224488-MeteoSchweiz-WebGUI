@@ -2,20 +2,21 @@ import {createSelector} from '@ngrx/store';
 import {selectParameterGroupStationMappings} from '../../parameter-station-mapping/selectors/parameter-group-station-mapping.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {formFeature} from '../reducers/form.reducer';
+import type {Station} from '../../../shared/models/station';
 
-export const selectCollectionsForSelectedStation = createSelector(
+export const selectSelectedStationsFilteredByParameterGroupCollections = createSelector(
   formFeature.selectSelectedStationId,
   formFeature.selectSelectedParameterGroupId,
   selectCurrentStationState,
   selectParameterGroupStationMappings,
-  (stationId, selectedParameterGroupId, {stations}, stationGroupMappings): string[] => {
+  (stationId, selectedParameterGroupId, {stations}, stationGroupMappings): Station[] => {
     const stationGroupMappingCollections = stationGroupMappings.find(
       (mapping) => mapping.parameterGroupId === selectedParameterGroupId && mapping.stationId === stationId,
     )?.collections;
-    const stationCollections = stations.find((station) => station.id === stationId)?.collections ?? [];
+    const selectedStations = stations.filter((station) => station.id === stationId);
     if (stationGroupMappingCollections) {
-      return stationCollections.filter((collection) => stationGroupMappingCollections.includes(collection));
+      return selectedStations.filter((station) => stationGroupMappingCollections.includes(station.collection));
     }
-    return stationCollections;
+    return selectedStations;
   },
 );

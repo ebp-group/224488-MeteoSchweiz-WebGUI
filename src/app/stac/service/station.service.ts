@@ -10,16 +10,8 @@ export class StationService {
   private readonly stacApiService = inject(StacApiService);
 
   public async loadStationsForCollections(collections: string[]): Promise<Station[]> {
-    const stations = (await Promise.all(collections.map((collection) => this.getStationForCollection(collection)))).flat();
-    return stations.reduce((uniqueStations: Station[], station) => {
-      const existingStation = uniqueStations.find((uniqueStation) => uniqueStation.id === station.id);
-      if (existingStation != null) {
-        existingStation.collections = [...new Set([...existingStation.collections, ...station.collections])];
-        return uniqueStations;
-      } else {
-        return [...uniqueStations, station];
-      }
-    }, []);
+    const stations = await Promise.all(collections.map((collection) => this.getStationForCollection(collection)));
+    return stations.flat();
   }
 
   private async getStationForCollection(collection: string): Promise<Station[]> {
@@ -36,7 +28,13 @@ export class StationService {
         longitude: Number(csvStation.stationCoordinatesWgs84Lon),
         latitude: Number(csvStation.stationCoordinatesWgs84Lat),
       },
-      collections: [collection],
+      collection: collection,
+      type: {
+        de: csvStation.stationTypeDe,
+        en: csvStation.stationTypeEn,
+        fr: csvStation.stationTypeFr,
+        it: csvStation.stationTypeIt,
+      },
     };
   }
 }
