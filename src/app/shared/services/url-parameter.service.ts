@@ -10,6 +10,7 @@ import {HostMessage} from '../models/host-message';
 import {Language} from '../models/language';
 import {isLanguage} from '../type-guards/language-guard';
 import {isMeasurementDataType} from '../type-guards/measurement-data-type-guard';
+import {AngularDevModeService} from './angular-dev-mode.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ import {isMeasurementDataType} from '../type-guards/measurement-data-type-guard'
 export class UrlParameterService {
   private readonly document = inject(DOCUMENT);
   private readonly store = inject(Store);
+  private readonly angularDevModeService = inject(AngularDevModeService);
 
   private readonly languageKey = 'lang' as const;
   private readonly measurementDataTypeKey = 'mdt' as const;
@@ -67,6 +69,10 @@ export class UrlParameterService {
         const message: HostMessage = {src: currentUrlParams.toString()};
         // the targetOrigin is set to '*' so that it works across domain boundaries. At least that is the description of the provider.
         this.document.defaultView?.parent.postMessage(message, '*');
+        if (this.angularDevModeService.isDevMode() && this.document.defaultView) {
+          // this sets the fragment within the dev environment
+          this.document.defaultView.location.hash = currentUrlParams.toString();
+        }
       }),
     );
   }

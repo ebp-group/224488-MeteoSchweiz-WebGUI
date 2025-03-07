@@ -7,7 +7,8 @@ import {collectionConfig} from '../../../shared/configs/collections.config';
 import {UrlParameterService} from '../../../shared/services/url-parameter.service';
 import {appActions} from '../../app/actions/app.actions';
 import {collectionActions} from '../../collection/actions/collection.action';
-import {selectCurrentParameterState, selectParameterGroups} from '../../parameters/selectors/parameter.selector';
+import {selectCombinedLoadingState} from '../../collection/selectors/collection.selector';
+import {selectParameterGroups} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {formActions} from '../actions/form.actions';
 
@@ -39,17 +40,13 @@ export const initializeSelectedStationAndParameterGroupId = createEffect(
       ofType(appActions.initializeApp),
       // we use `combineLatestWith` here to wait for the parameters to finish loading
       combineLatestWith(
-        store.select(selectCurrentParameterState).pipe(
-          filter(({loadingState}) => loadingState === 'loaded'),
-          take(1),
-        ),
-        store.select(selectCurrentStationState).pipe(
-          filter(({loadingState}) => loadingState === 'loaded'),
+        store.select(selectCombinedLoadingState).pipe(
+          filter((loadingState) => loadingState === 'loaded'),
           take(1),
         ),
       ),
-      concatLatestFrom(() => [store.select(selectParameterGroups)]),
-      map(([[{parameter}, , {stations}], parameterGroups]) => {
+      concatLatestFrom(() => [store.select(selectParameterGroups), store.select(selectCurrentStationState)]),
+      map(([[{parameter}], parameterGroups, {stations}]) => {
         const parameterGroupId =
           parameterGroups.map((parameterGroup) => parameterGroup.id).find((id) => id === parameter.parameterGroupId) ?? null;
         const stationId = stations.map((station) => station.id).find((id) => id === parameter.stationId) ?? null;

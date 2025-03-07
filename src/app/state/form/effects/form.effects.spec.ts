@@ -7,8 +7,8 @@ import {AppUrlParameter} from '../../../shared/models/app-url-parameter';
 import {UrlParameterService} from '../../../shared/services/url-parameter.service';
 import {appActions} from '../../app/actions/app.actions';
 import {collectionActions} from '../../collection/actions/collection.action';
-import {selectCurrentParameterState, selectParameterGroups} from '../../parameters/selectors/parameter.selector';
-import {ParameterStateEntry} from '../../parameters/states/parameter.state';
+import {selectCombinedLoadingState} from '../../collection/selectors/collection.selector';
+import {selectParameterGroups} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {formActions} from '../actions/form.actions';
@@ -57,10 +57,9 @@ describe('FormEffects', () => {
   });
 
   describe('initializeSelectedStationAndParameterGroupId', () => {
-    it('should dispatch setSelectedParameterGroupAndStationId action when initializeApp is dispatched', (done) => {
-      store.overrideSelector(selectCurrentParameterState, {loadingState: 'loaded'} as ParameterStateEntry);
+    beforeEach(() => {
+      store.overrideSelector(selectCombinedLoadingState, 'loaded');
       store.overrideSelector(selectCurrentStationState, {
-        loadingState: 'loaded',
         stations: [
           {
             id: '456',
@@ -71,6 +70,9 @@ describe('FormEffects', () => {
         ],
       } as StationStateEntry);
       store.overrideSelector(selectParameterGroups, [{id: '123', name: {de: 'de', fr: 'fr', it: 'it', en: 'en'}}]);
+    });
+
+    it('should dispatch setSelectedParameterGroupAndStationId action when initializeApp is dispatched', (done) => {
       actions$ = of(appActions.initializeApp({parameter: {parameterGroupId: '123', stationId: '456'} as AppUrlParameter}));
       initializeSelectedStationAndParameterGroupId(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedParameterGroupAndStationId({parameterGroupId: '123', stationId: '456'}));
@@ -79,19 +81,6 @@ describe('FormEffects', () => {
     });
 
     it('should replace invalid station IDs with `null`', (done) => {
-      store.overrideSelector(selectCurrentParameterState, {loadingState: 'loaded'} as ParameterStateEntry);
-      store.overrideSelector(selectCurrentStationState, {
-        loadingState: 'loaded',
-        stations: [
-          {
-            id: '456',
-            name: '',
-            displayName: '',
-            coordinates: {longitude: 0, latitude: 0},
-          },
-        ],
-      } as StationStateEntry);
-      store.overrideSelector(selectParameterGroups, [{id: '123', name: {de: 'de', fr: 'fr', it: 'it', en: 'en'}}]);
       actions$ = of(appActions.initializeApp({parameter: {parameterGroupId: '123', stationId: 'invalid'} as AppUrlParameter}));
       initializeSelectedStationAndParameterGroupId(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedParameterGroupAndStationId({parameterGroupId: '123', stationId: null}));
@@ -100,19 +89,6 @@ describe('FormEffects', () => {
     });
 
     it('should replace invalid parameter group IDs with `null`', (done) => {
-      store.overrideSelector(selectCurrentParameterState, {loadingState: 'loaded'} as ParameterStateEntry);
-      store.overrideSelector(selectCurrentStationState, {
-        loadingState: 'loaded',
-        stations: [
-          {
-            id: '456',
-            name: '',
-            displayName: '',
-            coordinates: {longitude: 0, latitude: 0},
-          },
-        ],
-      } as StationStateEntry);
-      store.overrideSelector(selectParameterGroups, [{id: '123', name: {de: 'de', fr: 'fr', it: 'it', en: 'en'}}]);
       actions$ = of(appActions.initializeApp({parameter: {parameterGroupId: 'invalid', stationId: '456'} as AppUrlParameter}));
       initializeSelectedStationAndParameterGroupId(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedParameterGroupAndStationId({parameterGroupId: null, stationId: '456'}));
