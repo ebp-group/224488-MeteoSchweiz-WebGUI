@@ -1,4 +1,6 @@
+import {routerReducer, RouterState} from '@ngrx/router-store';
 import * as appEffects from './app/effects/app.effects';
+import * as urlParameterEffects from './app/effects/url-parameter.effects';
 import {appFeature, appFeatureKey} from './app/reducers/app.reducer';
 import {AppState} from './app/states/app.state';
 import * as formEffects from './form/effects/form.effects';
@@ -30,6 +32,7 @@ export interface State {
   [parameterStationMappingFeatureKey]: ParameterStationMappingState;
   [mapFeatureKey]: MapState;
   [appFeatureKey]: AppState;
+  router: RouterState;
 }
 export const reducers: ActionReducerMap<State> = {
   [parameterFeatureKey]: parameterFeature.reducer,
@@ -38,6 +41,7 @@ export const reducers: ActionReducerMap<State> = {
   [parameterStationMappingFeatureKey]: parameterStationMappingFeature.reducer,
   [mapFeatureKey]: mapFeature.reducer,
   [appFeatureKey]: appFeature.reducer,
+  router: routerReducer,
 };
 export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   parameterEffects,
@@ -46,5 +50,6 @@ export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   parameterStationMappingEffects,
   formEffects,
   appEffects,
+  urlParameterEffects,
 ];
 export const metaReducers: MetaReducer<State>[] = [];

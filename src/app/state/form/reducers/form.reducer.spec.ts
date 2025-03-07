@@ -49,6 +49,19 @@ describe('Form Reducer', () => {
     });
   });
 
+  it('should reset selection of upcoming steps if parameter group ID and station ID are selected', () => {
+    const action = formActions.setSelectedParameterGroupAndStationId({parameterGroupId: 'paramGroupTest', stationId: 'stationTest'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...initialState,
+      selectedMeasurementDataType: 'normal',
+      selectedParameterGroupId: 'paramGroupTest',
+      selectedStationId: 'stationTest',
+    });
+  });
+
   it('should reset selection of upcoming steps if collection is selected', () => {
     const action = formActions.setSelectedCollection({collection: 'other'});
 

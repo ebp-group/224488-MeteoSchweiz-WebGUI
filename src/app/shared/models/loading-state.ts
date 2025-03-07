@@ -1,1 +1,2 @@
-export type LoadingState = undefined | 'loading' | 'loaded' | 'error';
+export const loadingStates = [undefined, 'loading', 'loaded', 'error'] as const;
+export type LoadingState = (typeof loadingStates)[number];
