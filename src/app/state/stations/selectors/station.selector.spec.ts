@@ -1,29 +1,117 @@
+import {collectionConfig} from '../../../shared/configs/collections.config';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {Station} from '../../../shared/models/station';
-import {selectStationIdsFilteredBySelectedParameterGroups, selectStationsFilteredBySelectedParameterGroups} from './station.selector';
+import {
+  selectPrioritizedUniqueStations,
+  selectStationIdsFilteredBySelectedParameterGroups,
+  selectStationsFilteredBySelectedParameterGroups,
+} from './station.selector';
 
 describe('Station Selectors', () => {
+  describe('selectPrioritizedUniqueStations', () => {
+    it('should not return duplicates', () => {
+      const station: Station = {
+        id: 'stationId1',
+        name: 'stationName1',
+        displayName: 'stationDisplayName1',
+        coordinates: {latitude: 0, longitude: 0},
+        collection: '',
+        type: {
+          en: 'station type',
+          de: 'Stations typ',
+          fr: 'french station type',
+          it: 'italian station type',
+        },
+      };
+      const result = selectPrioritizedUniqueStations.projector(
+        {
+          stations: [station, station, station, station, station, station],
+          loadingState: 'loaded',
+        },
+        'normal',
+      );
+
+      expect(result).toEqual([station]);
+    });
+
+    it('should pick the station with the collection that has the lowest index in the collection Config', () => {
+      const stationOne: Station = {
+        id: 'stationId1',
+        name: 'stationName1',
+        displayName: 'stationDisplayName1',
+        coordinates: {latitude: 0, longitude: 0},
+        collection: collectionConfig.collections.normal[0],
+        type: {
+          en: 'station type',
+          de: 'Stations typ',
+          fr: 'french station type',
+          it: 'italian station type',
+        },
+      };
+      const stationTwo: Station = {
+        id: 'stationId1',
+        name: 'stationName1',
+        displayName: 'stationDisplayName1',
+        coordinates: {latitude: 0, longitude: 0},
+        collection: collectionConfig.collections.normal[1],
+        type: {
+          en: 'station type',
+          de: 'Stations typ',
+          fr: 'french station type',
+          it: 'italian station type',
+        },
+      };
+      const result = selectPrioritizedUniqueStations.projector(
+        {
+          stations: [stationTwo, stationOne, stationTwo],
+          loadingState: 'loaded',
+        },
+        'normal',
+      );
+
+      expect(result).toEqual([stationOne]);
+    });
+  });
+
   describe('selectStationsFilteredBySelectedParameterGroups', () => {
     const stationOne: Station = {
       id: 'stationId1',
       name: 'stationName1',
       displayName: 'stationDisplayName1',
       coordinates: {latitude: 0, longitude: 0},
-      collections: [],
+      collection: '',
+      type: {
+        en: 'station type',
+        de: 'Stations typ',
+        fr: 'french station type',
+        it: 'italian station type',
+      },
     };
     const stationTwo: Station = {
       id: 'stationId2',
       name: 'stationName2',
       displayName: 'stationDisplayName2',
       coordinates: {latitude: 0, longitude: 0},
-      collections: [],
+      collection: '',
+      type: {
+        en: 'station type',
+        de: 'Stations typ',
+        fr: 'french station type',
+        it: 'italian station type',
+      },
     };
     const stationThree: Station = {
       id: 'stationId3',
       name: 'stationName3',
       displayName: 'stationDisplayName3',
       coordinates: {latitude: 0, longitude: 0},
-      collections: [],
+      collection: '',
+      type: {
+        en: 'station type',
+        de: 'Stations typ',
+        fr: 'french station type',
+        it: 'italian station type',
+      },
     };
 
     it('should return a filtered list of stations', () => {
@@ -40,7 +128,7 @@ describe('Station Selectors', () => {
       ];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
-        {stations, loadingState: 'loaded'},
+        stations,
         selectedParameterGroupId,
         parameterGroupStationMappings,
       );
@@ -56,7 +144,7 @@ describe('Station Selectors', () => {
       ];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
-        {stations, loadingState: 'loaded'},
+        stations,
         selectedParameterGroupId,
         parameterGroupStationMappings,
       );
@@ -70,7 +158,7 @@ describe('Station Selectors', () => {
       const parameterGroupStationMappings: ParameterGroupStationMapping[] = [];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
-        {stations, loadingState: 'loaded'},
+        stations,
         selectedParameterGroupId,
         parameterGroupStationMappings,
       );
@@ -86,7 +174,7 @@ describe('Station Selectors', () => {
       ];
 
       const result = selectStationsFilteredBySelectedParameterGroups.projector(
-        {stations, loadingState: 'loaded'},
+        stations,
         selectedParameterGroupId,
         parameterGroupStationMappings,
       );
@@ -102,14 +190,26 @@ describe('Station Selectors', () => {
         name: 'stationName1',
         displayName: 'stationDisplayName1',
         coordinates: {latitude: 0, longitude: 0},
-        collections: [],
+        collection: '',
+        type: {
+          en: 'station type',
+          de: 'Stations typ',
+          fr: 'french station type',
+          it: 'italian station type',
+        },
       };
       const stationTwo: Station = {
         id: 'stationId2',
         name: 'stationName2',
         displayName: 'stationDisplayName2',
         coordinates: {latitude: 0, longitude: 0},
-        collections: [],
+        collection: '',
+        type: {
+          en: 'station type',
+          de: 'Stations typ',
+          fr: 'french station type',
+          it: 'italian station type',
+        },
       };
 
       const result = selectStationIdsFilteredBySelectedParameterGroups.projector([stationOne, stationTwo]);
@@ -117,4 +217,34 @@ describe('Station Selectors', () => {
       expect(result).toEqual(jasmine.arrayWithExactContents([stationOne.id, stationTwo.id]));
     });
   });
+
+  // describe('selectSelectedStation', () => {
+  //   const baseStation: Omit<Station, 'collection' | 'type'> = {
+  //     coordinates: {latitude: 0, longitude: 0},
+  //     id: 'a',
+  //     name: 'Test A',
+  //     displayName: 'Test A (a)',
+  //   };
+  //   const stationA: Station = {...baseStation, collection: 'a', type: {de: 'a', en: 'a', fr: 'a', it: 'a'}};
+  //   const stationB: Station = {...baseStation, collection: 'b', type: {de: 'b', en: 'b', fr: 'b', it: 'b'}};
+  //   const stationC: Station = {...baseStation, collection: 'c', type: {de: 'c', en: 'c', fr: 'c', it: 'c'}};
+  //   const wrongStation: Station = {...baseStation, id: 'b', collection: 'c', type: {de: 'c', en: 'c', fr: 'c', it: 'c'}};
+
+  //   const stationState: StationStateEntry = {
+  //     loadingState: 'loaded',
+  //     stations: [stationA, stationB, stationC, wrongStation],
+  //   };
+
+  //   it('should return an empty array if no station is selected', () => {
+  //     const result = selectSelectedStations.projector(null, stationState, parameterGroupStationMappings);
+
+  //     expect(result).toEqual([]);
+  //   });
+
+  //   it('should return all stations for a selected station id if no parameter group is selected', () => {
+  //     const result = selectSelectedStations.projector(baseStation.id, stationState, parameterGroupStationMappings);
+
+  //     expect(result).toEqual(jasmine.arrayWithExactContents([stationA, stationB, stationC] satisfies Station[]));
+  //   });
+  // });
 });

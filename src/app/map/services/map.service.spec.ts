@@ -117,7 +117,13 @@ describe('MapService', () => {
           name: 'station-name',
           displayName: 'station-display-name',
           coordinates: {longitude: 0, latitude: 0},
-          collections: [],
+          collection: '',
+          type: {
+            en: 'station type',
+            de: 'Stations typ',
+            fr: 'french station type',
+            it: 'italian station type',
+          },
         },
       ];
       spyOn(map, 'addSource');

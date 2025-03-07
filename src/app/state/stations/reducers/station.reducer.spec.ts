@@ -40,7 +40,13 @@ describe('Station Reducer', () => {
         name: 'Test station name',
         displayName: 'Test station display name',
         coordinates: {longitude: 0, latitude: 0},
-        collections: [],
+        collection: '',
+        type: {
+          en: 'station type',
+          de: 'Stations typ',
+          fr: 'french station type',
+          it: 'italian station type',
+        },
       },
     ];
     const action = stationActions.setLoadedStations({stations, measurementDataType});
