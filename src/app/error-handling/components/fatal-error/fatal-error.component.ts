@@ -1,4 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {provideTranslocoScope, TranslocoModule} from '@jsverse/transloco';
 import {Subscription, tap} from 'rxjs';
@@ -13,11 +14,12 @@ import {routeParamConstants} from '../../../shared/constants/route-param.constan
   providers: [provideTranslocoScope('fatalError')],
 })
 export class FatalErrorComponent implements OnInit, OnDestroy {
-  public errorMessage: string | null = null;
+  private readonly location = inject(Location);
+  private readonly route = inject(ActivatedRoute);
 
   private readonly subscriptions: Subscription = new Subscription();
 
-  constructor(private readonly route: ActivatedRoute) {}
+  public errorMessage: string | null = null;
 
   public ngOnInit(): void {
     this.subscriptions.add(
@@ -36,6 +38,6 @@ export class FatalErrorComponent implements OnInit, OnDestroy {
   }
 
   protected forceRefresh(): void {
-    window.location.href = '/';
+    window.location.href = this.location.prepareExternalUrl('/');
   }
 }
