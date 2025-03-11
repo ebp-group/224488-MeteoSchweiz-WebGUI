@@ -1,9 +1,10 @@
 import {ParameterGroup} from '../../../shared/models/parameter';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
+import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {
   selectSelectedStationWithParameterGroup,
-  selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup,
+  selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
 } from './form.selector';
 import type {Station} from '../../../shared/models/station';
 
@@ -52,26 +53,26 @@ describe('Form selectors', () => {
 
       expect(result).toEqual(
         jasmine.arrayWithExactContents([
-          {station: stationAA, parameterGroups: [parameterGroupOne]},
-          {station: stationAB, parameterGroups: [parameterGroupTwo]},
-          {station: stationAC, parameterGroups: []},
-        ]),
+          {...stationAA, parameterGroups: [parameterGroupOne]},
+          {...stationAB, parameterGroups: [parameterGroupTwo]},
+          {...stationAC, parameterGroups: []},
+        ] satisfies StationWithParameterGroups[]),
       );
     });
   });
 
   describe('selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup', () => {
     it('should filter the stations based on the selected parameter group', () => {
-      const result = selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup.projector(
+      const result = selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup.projector(
         [
-          {station: stationAA, parameterGroups: [parameterGroupOne]},
-          {station: stationAB, parameterGroups: [parameterGroupTwo]},
-          {station: stationAC, parameterGroups: []},
+          {...stationAA, parameterGroups: [parameterGroupOne]},
+          {...stationAB, parameterGroups: [parameterGroupTwo]},
+          {...stationAC, parameterGroups: []},
         ],
         '1',
       );
 
-      expect(result).toEqual([{station: stationAA, parameterGroups: [parameterGroupOne]}]);
+      expect(result).toEqual([{...stationAA, parameterGroups: [parameterGroupOne]}]);
     });
   });
 });

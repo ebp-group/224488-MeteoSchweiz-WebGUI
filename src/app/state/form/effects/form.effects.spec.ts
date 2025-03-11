@@ -4,14 +4,23 @@ import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {Observable, of} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
-import {Station} from '../../../shared/models/station';
+import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {formActions} from '../actions/form.actions';
-import {selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup} from '../selectors/form.selector';
-import {autoSelectStationType, loadCollectionsForSelectedMeasurementDataType} from './form.effects';
+import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
+import {autoSelectCollection, loadCollectionsForSelectedMeasurementDataType} from './form.effects';
 
 describe('FormEffects', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
+  const testStation: StationWithParameterGroups = {
+    id: '2',
+    collection: 'a',
+    coordinates: {latitude: 0, longitude: 0},
+    displayName: '',
+    name: '',
+    type: {de: 'de', en: 'en', fr: 'fr', it: 'it'},
+    parameterGroups: [],
+  };
 
   let actions$: Observable<Action>;
   let store: MockStore;
@@ -38,67 +47,34 @@ describe('FormEffects', () => {
     });
   });
 
-  describe('autoSelectStationType', () => {
-    it('should not dispatch selectCollection if no station is selected', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup, [
-        {station: {id: '2'} as Station, parameterGroups: []},
-      ]);
-      const effectNextHandler = jasmine.createSpy('effectNextHandler');
-
-      actions$ = of(formActions.setSelectedStationId({stationId: null}));
-      autoSelectStationType(actions$, store).subscribe({
-        complete: () => {
-          expect(effectNextHandler).not.toHaveBeenCalled();
-          done();
-        },
-        next: effectNextHandler,
-      });
-    });
-
+  describe('autoSelectCollection', () => {
     it('should dispatch selectCollection if only a single station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup, [
-        {station: {id: '2'} as Station, parameterGroups: []},
-      ]);
-      const effectNextHandler = jasmine.createSpy('effectNextHandler');
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectStationType(actions$, store).subscribe({
-        complete: () => {
-          expect(effectNextHandler).toHaveBeenCalled();
-          done();
-        },
-        next: effectNextHandler,
+      autoSelectCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: 'a'}));
+        done();
       });
     });
 
-    it('should not dispatch selectCollection if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup, [
-        {station: {id: '2'} as Station, parameterGroups: []},
-        {station: {id: '2'} as Station, parameterGroups: []},
-      ]);
-      const effectNextHandler = jasmine.createSpy('effectNextHandler');
+    it('should dispatch selectCollection with null if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation, testStation]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectStationType(actions$, store).subscribe({
-        complete: () => {
-          expect(effectNextHandler).not.toHaveBeenCalled();
-          done();
-        },
-        next: effectNextHandler,
+      autoSelectCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
+        done();
       });
     });
 
-    it('should not dispatch selectCollection if no station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup, []);
-      const effectNextHandler = jasmine.createSpy('effectNextHandler');
+    it('should dispatch selectCollection with null if no station is left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, []);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectStationType(actions$, store).subscribe({
-        complete: () => {
-          expect(effectNextHandler).not.toHaveBeenCalled();
-          done();
-        },
-        next: effectNextHandler,
+      autoSelectCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
+        done();
       });
     });
   });

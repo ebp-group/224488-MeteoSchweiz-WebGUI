@@ -17,9 +17,9 @@ export const selectPrioritizedUniqueStations = createSelector(
   formFeature.selectSelectedMeasurementDataType,
   ({stations}, measurementDataType): Station[] => {
     const uniqueStationMap = stations.reduce<Map<string, Station>>((stationMap, station) => {
-      const currentCollections = collectionConfig.collections[measurementDataType];
       const uniqueStation = stationMap.get(station.id);
       if (uniqueStation) {
+        const currentCollections = collectionConfig.collections[measurementDataType];
         const uniqueStationIndex = currentCollections.findIndex((collection) => collection === uniqueStation.collection);
         const stationIndex = currentCollections.findIndex((collection) => collection === station.collection);
         if (stationIndex < uniqueStationIndex) {
@@ -34,7 +34,7 @@ export const selectPrioritizedUniqueStations = createSelector(
   },
 );
 
-export const selectStationsFilteredBySelectedParameterGroups = createSelector(
+export const selectUniqueStationsFilteredBySelectedParameterGroups = createSelector(
   selectPrioritizedUniqueStations,
   formFeature.selectSelectedParameterGroupId,
   selectParameterGroupStationMappings,
@@ -52,6 +52,6 @@ export const selectStationsFilteredBySelectedParameterGroups = createSelector(
 );
 
 export const selectStationIdsFilteredBySelectedParameterGroups = createSelector(
-  selectStationsFilteredBySelectedParameterGroups,
+  selectUniqueStationsFilteredBySelectedParameterGroups,
   (stations): string[] => stations.map((station) => station.id),
 );

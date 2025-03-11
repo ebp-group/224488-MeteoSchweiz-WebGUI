@@ -1,7 +1,6 @@
-import {ParameterGroup} from './parameter';
-import {Station} from './station';
+import type {ParameterGroup} from './parameter';
+import type {Station} from './station';
 
-export interface StationWithParameterGroups {
-  station: Station;
+export interface StationWithParameterGroups extends Station {
   parameterGroups: ParameterGroup[];
 }

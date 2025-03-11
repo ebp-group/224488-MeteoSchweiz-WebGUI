@@ -14,7 +14,7 @@ export const selectSelectedStationWithParameterGroup = createSelector(
     stations
       .filter((station) => station.id === stationId)
       .map((station) => ({
-        station,
+        ...station,
         parameterGroups: parameterGroups.filter((group) =>
           parameterGroupStationMapping.some(
             (mapping) =>
@@ -24,11 +24,11 @@ export const selectSelectedStationWithParameterGroup = createSelector(
       })),
 );
 
-export const selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup = createSelector(
+export const selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup = createSelector(
   selectSelectedStationWithParameterGroup,
   formFeature.selectSelectedParameterGroupId,
   (stations, selectedParameterGroupId): StationWithParameterGroups[] => {
-    return selectedParameterGroupId == null
+    return selectedParameterGroupId === null
       ? stations
       : stations.filter((station) => station.parameterGroups.some((group) => group.id === selectedParameterGroupId));
   },

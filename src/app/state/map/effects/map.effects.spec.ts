@@ -14,6 +14,7 @@ import {
   selectPrioritizedUniqueStations,
   selectStationIdsFilteredBySelectedParameterGroups,
 } from '../../stations/selectors/station.selector';
+import {StationStateEntry} from '../../stations/states/station.state';
 import {mapActions} from '../actions/map.action';
 import {mapFeature} from '../reducers/map.reducer';
 import {
@@ -114,7 +115,7 @@ describe('MapEffects', () => {
   it('should add stations to the map when mapActions.setMapAsLoaded is dispatched', (done) => {
     spyOn(mapService, 'addStationsToMap');
     store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
-    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
+    store.overrideSelector(selectCurrentStationState, {loadingState: 'loaded'} as StationStateEntry);
     store.overrideSelector(selectPrioritizedUniqueStations, stations);
     actions$ = of(mapActions.setMapAsLoaded());
     addStationsToMap(actions$, store, mapService).subscribe(() => {
@@ -126,7 +127,8 @@ describe('MapEffects', () => {
   it('should not add stations to the map when mapActions.setMapAsLoaded is dispatched while the map is not loaded yet', (done) => {
     spyOn(mapService, 'addStationsToMap');
     store.overrideSelector(mapFeature.selectLoadingState, 'loading');
-    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
+    store.overrideSelector(selectCurrentStationState, {loadingState: 'loaded'} as StationStateEntry);
+    store.overrideSelector(selectPrioritizedUniqueStations, stations);
     actions$ = of(mapActions.setMapAsLoaded());
     addStationsToMap(actions$, store, mapService).subscribe({
       complete: () => {
@@ -139,7 +141,8 @@ describe('MapEffects', () => {
   it('should not add stations to the map when mapActions.setMapAsLoaded is dispatched while the stations are not loaded yet', (done) => {
     spyOn(mapService, 'addStationsToMap');
     store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
-    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loading'});
+    store.overrideSelector(selectCurrentStationState, {loadingState: 'loading'} as StationStateEntry);
+    store.overrideSelector(selectPrioritizedUniqueStations, stations);
     actions$ = of(mapActions.setMapAsLoaded());
     addStationsToMap(actions$, store, mapService).subscribe({
       complete: () => {
