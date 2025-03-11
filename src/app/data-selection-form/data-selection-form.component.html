@@ -20,22 +20,13 @@
   </div>
 
   <mat-vertical-stepper [linear]="true" #stepper>
-    <mat-step [completed]="(selectSelectedStationId$ | async) !== null">
+    <mat-step [completed]="(selectedCollection$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
       <app-parameter-list></app-parameter-list>
       <app-station-selection></app-station-selection>
       <app-map-container class="map-container"></app-map-container>
-      <div>
-        <button mat-button matStepperNext type="button" [disabled]="(selectSelectedStationId$ | async) === null">
-          {{ t('form.stepper.next') }}
-        </button>
-      </div>
-    </mat-step>
-    <mat-step [completed]="(selectedCollection$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.collection.label') }}</ng-template>
       <app-collection-selection></app-collection-selection>
       <div>
-        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
         <button mat-button matStepperNext type="button" [disabled]="(selectedCollection$ | async) === null">
           {{ t('form.stepper.next') }}
         </button>

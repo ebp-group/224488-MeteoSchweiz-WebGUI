@@ -12,10 +12,10 @@ const testCsvStation: CsvStation = {
   stationName: 'Test station',
   stationCanton: '',
   stationWigosId: '',
-  stationTypeDe: '',
-  stationTypeFr: '',
-  stationTypeIt: '',
-  stationTypeEn: '',
+  stationTypeDe: 'Stations typ',
+  stationTypeFr: 'french station type',
+  stationTypeIt: 'italian station type',
+  stationTypeEn: 'station type',
   stationDataowner: '',
   stationDataSince: '',
   stationHeightMasl: '',
@@ -42,7 +42,13 @@ const testStation: Station = {
     longitude: 0,
     latitude: 0,
   },
-  collections: [testCollection],
+  collection: testCollection,
+  type: {
+    en: 'station type',
+    de: 'Stations typ',
+    fr: 'french station type',
+    it: 'italian station type',
+  },
 };
 
 describe('StationService', () => {
@@ -67,7 +73,15 @@ describe('StationService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get stations for each collection', async () => {
+  it('should transform a station', async () => {
+    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation]);
+
+    const parameters = await service.loadStationsForCollections([testCollection]);
+
+    expect(parameters).toEqual(jasmine.arrayWithExactContents([testStation] satisfies Station[]));
+  });
+
+  it('should get stations for all collections', async () => {
     const collections = ['a', 'b', 'c'];
     const aStation: CsvStation = {
       ...testCsvStation,
@@ -93,50 +107,37 @@ describe('StationService', () => {
 
     expect(parameters).toEqual(
       jasmine.arrayWithExactContents([
-        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`, collections: ['a']},
-        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`, collections: ['b']},
-        {...testStation, id: cStation.stationAbbr, displayName: `${testStation.name} (${cStation.stationAbbr})`, collections: ['c']},
-      ]),
+        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`, collection: 'a'},
+        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`, collection: 'b'},
+        {...testStation, id: cStation.stationAbbr, displayName: `${testStation.name} (${cStation.stationAbbr})`, collection: 'c'},
+      ] satisfies Station[]),
     );
   });
 
-  it('should merge stations with the same id for different collections', async () => {
+  it('should not merge stations with the same id', async () => {
     const collections = ['a', 'b', 'c'];
 
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation]);
+    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
 
     const parameters = await service.loadStationsForCollections(collections);
 
-    expect(parameters).toEqual(jasmine.arrayWithExactContents([{...testStation, collections}]));
-  });
-
-  it('should not merge stations with different ids for the same collection', async () => {
-    const aStation: CsvStation = {
-      ...testCsvStation,
-      stationAbbr: 'test a',
-    };
-    const bStation: CsvStation = {
-      ...testCsvStation,
-      stationAbbr: 'test b',
-    };
-
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([aStation, bStation]);
-
-    const parameters = await service.loadStationsForCollections([testCollection]);
-
     expect(parameters).toEqual(
       jasmine.arrayWithExactContents([
-        {...testStation, id: aStation.stationAbbr, displayName: `${testStation.name} (${aStation.stationAbbr})`},
-        {...testStation, id: bStation.stationAbbr, displayName: `${testStation.name} (${bStation.stationAbbr})`},
-      ]),
+        {...testStation, collection: 'a'},
+        {...testStation, collection: 'a'},
+        {...testStation, collection: 'b'},
+        {...testStation, collection: 'b'},
+        {...testStation, collection: 'c'},
+        {...testStation, collection: 'c'},
+      ] satisfies Station[]),
     );
   });
 
-  it('should merge stations with the same ids for the same collection', async () => {
+  it('should not merge stations with the same ids for the same collection', async () => {
     stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
 
     const parameters = await service.loadStationsForCollections([testCollection]);
 
-    expect(parameters).toEqual(jasmine.arrayWithExactContents([{...testStation}]));
+    expect(parameters).toEqual(jasmine.arrayWithExactContents([testStation, testStation] satisfies Station[]));
   });
 });
