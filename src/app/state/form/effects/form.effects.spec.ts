@@ -1,9 +1,11 @@
+import {provideHttpClient} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {Observable, of} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {AppUrlParameter} from '../../../shared/models/app-url-parameter';
+import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {UrlParameterService} from '../../../shared/services/url-parameter.service';
 import {appActions} from '../../app/actions/app.actions';
 import {collectionActions} from '../../collection/actions/collection.action';
@@ -12,7 +14,9 @@ import {selectParameterGroups} from '../../parameters/selectors/parameter.select
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {formActions} from '../actions/form.actions';
+import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
 import {
+  autoSelectCollection,
   initializeSelectedMeasurementDataType,
   initializeSelectedStationAndParameterGroupId,
   loadCollectionsForSelectedMeasurementDataType,
@@ -23,13 +27,23 @@ import {
 
 describe('FormEffects', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
+  const testStation: StationWithParameterGroups = {
+    id: '2',
+    collection: 'a',
+    coordinates: {latitude: 0, longitude: 0},
+    displayName: '',
+    name: '',
+    type: {de: 'de', en: 'en', fr: 'fr', it: 'it'},
+    parameterGroups: [],
+  };
 
   let actions$: Observable<Action>;
   let store: MockStore;
 
   beforeEach(() => {
-    actions$ = new Observable<Action>();
-    TestBed.configureTestingModule({providers: [provideMockStore()]});
+    TestBed.configureTestingModule({
+      providers: [provideMockStore(), provideHttpClient()],
+    });
     store = TestBed.inject(MockStore);
   });
 
@@ -127,6 +141,38 @@ describe('FormEffects', () => {
       actions$ = of(formActions.setSelectedStationId({stationId: 'test'}));
       setSelectedStationIdInUrl(actions$, urlParameterService).subscribe(() => {
         expect(urlParameterService.setStationId).toHaveBeenCalledOnceWith('test');
+        done();
+      });
+    });
+  });
+
+  describe('autoSelectCollection', () => {
+    it('should dispatch selectCollection if only a single station is left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation]);
+
+      actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
+      autoSelectCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: 'a'}));
+        done();
+      });
+    });
+
+    it('should dispatch selectCollection with null if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation, testStation]);
+
+      actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
+      autoSelectCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
+        done();
+      });
+    });
+
+    it('should dispatch selectCollection with null if no station is left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, []);
+
+      actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
+      autoSelectCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
         done();
       });
     });

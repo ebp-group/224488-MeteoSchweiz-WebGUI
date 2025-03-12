@@ -10,7 +10,11 @@ import {collectionActions} from '../../collection/actions/collection.action';
 import {formActions} from '../../form/actions/form.actions';
 import {formFeature} from '../../form/reducers/form.reducer';
 import {stationActions} from '../../stations/actions/station.action';
-import {selectCurrentStationState, selectStationIdsFilteredBySelectedParameterGroups} from '../../stations/selectors/station.selector';
+import {
+  selectCurrentStationState,
+  selectPrioritizedUniqueStations,
+  selectUniqueStationIdsFilteredBySelectedParameterGroups,
+} from '../../stations/selectors/station.selector';
 import {mapActions} from '../actions/map.action';
 import {mapFeature} from '../reducers/map.reducer';
 
@@ -63,7 +67,8 @@ export const addStationsToMap = createEffect(
       filter(
         ([, mapLoadingState, {loadingState: stationsLoadingState}]) => mapLoadingState === 'loaded' && stationsLoadingState === 'loaded',
       ),
-      tap(([, , {stations}]) => mapService.addStationsToMap(stations)),
+      concatLatestFrom(() => store.select(selectPrioritizedUniqueStations)),
+      tap(([, stations]) => mapService.addStationsToMap(stations)),
       map(() => mapActions.completeLayersInitialization()),
     );
   },
@@ -76,7 +81,7 @@ export const filterStationsOnMap = createEffect(
       ofType(formActions.setSelectedParameters, mapActions.completeLayersInitialization, formActions.setSelectedParameterGroupAndStationId),
       concatLatestFrom(() => store.select(mapFeature.selectMapsState)),
       filter(([, {loadingState, areLayersInitialized}]) => loadingState === 'loaded' && areLayersInitialized),
-      concatLatestFrom(() => store.select(selectStationIdsFilteredBySelectedParameterGroups)),
+      concatLatestFrom(() => store.select(selectUniqueStationIdsFilteredBySelectedParameterGroups)),
       tap(([, stationIds]) => mapService.filterStationsOnMap(stationIds)),
     );
   },

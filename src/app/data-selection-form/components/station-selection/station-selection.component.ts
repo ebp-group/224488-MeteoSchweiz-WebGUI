@@ -11,7 +11,7 @@ import {combineLatestWith, map, Observable, startWith, Subscription, tap} from '
 import {Station} from '../../../shared/models/station';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
-import {selectStationsFilteredBySelectedParameterGroups} from '../../../state/stations/selectors/station.selector';
+import {selectUniqueStationsFilteredBySelectedParameterGroups} from '../../../state/stations/selectors/station.selector';
 
 @Component({
   selector: 'app-station-selection',
@@ -33,7 +33,7 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
       tap((value) => this.dispatchValueChange(value)),
       map((value): string => this.convertValueToString(value)),
     );
-    this.filteredStations$ = this.store.select(selectStationsFilteredBySelectedParameterGroups).pipe(
+    this.filteredStations$ = this.store.select(selectUniqueStationsFilteredBySelectedParameterGroups).pipe(
       combineLatestWith(valueChanges$),
       map(([stations, value]) => this.filterStations(value, stations)),
     );
@@ -41,7 +41,7 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
       this.store
         .select(formFeature.selectSelectedStationId)
         .pipe(
-          concatLatestFrom(() => this.store.select(selectStationsFilteredBySelectedParameterGroups)),
+          concatLatestFrom(() => this.store.select(selectUniqueStationsFilteredBySelectedParameterGroups)),
           map(([stationId, stations]) => stations.find((station) => station.id === stationId) ?? null),
           tap((station) => this.formControl.patchValue(station)),
         )

@@ -9,7 +9,12 @@ import {Station} from '../../../shared/models/station';
 import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {formActions} from '../../form/actions/form.actions';
 import {formFeature} from '../../form/reducers/form.reducer';
-import {selectCurrentStationState, selectStationIdsFilteredBySelectedParameterGroups} from '../../stations/selectors/station.selector';
+import {
+  selectCurrentStationState,
+  selectPrioritizedUniqueStations,
+  selectUniqueStationIdsFilteredBySelectedParameterGroups,
+} from '../../stations/selectors/station.selector';
+import {StationStateEntry} from '../../stations/states/station.state';
 import {mapActions} from '../actions/map.action';
 import {mapFeature} from '../reducers/map.reducer';
 import {MapState} from '../states/map.state';
@@ -22,6 +27,22 @@ import {
   removeMap,
   toggleStationSelection,
 } from './map.effects';
+
+const stations: Station[] = [
+  {
+    id: '1',
+    name: 'Station 1',
+    displayName: 'DisplayName 1',
+    coordinates: {longitude: 0, latitude: 0},
+    collection: '',
+    type: {
+      en: 'station type',
+      de: 'Stations typ',
+      fr: 'french station type',
+      it: 'italian station type',
+    },
+  },
+];
 
 describe('MapEffects', () => {
   let actions$: Observable<Action>;
@@ -99,11 +120,9 @@ describe('MapEffects', () => {
 
   it('should add stations to the map when mapActions.setMapAsLoaded is dispatched', (done) => {
     spyOn(mapService, 'addStationsToMap');
-    const stations: Station[] = [
-      {id: '1', name: 'Station 1', displayName: 'DisplayName 1', coordinates: {longitude: 0, latitude: 0}, collections: []},
-    ];
     store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
-    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
+    store.overrideSelector(selectCurrentStationState, {loadingState: 'loaded'} as StationStateEntry);
+    store.overrideSelector(selectPrioritizedUniqueStations, stations);
     actions$ = of(mapActions.setMapAsLoaded());
     addStationsToMap(actions$, store, mapService).subscribe(() => {
       expect(mapService.addStationsToMap).toHaveBeenCalledOnceWith(stations);
@@ -113,11 +132,9 @@ describe('MapEffects', () => {
 
   it('should not add stations to the map when mapActions.setMapAsLoaded is dispatched while the map is not loaded yet', (done) => {
     spyOn(mapService, 'addStationsToMap');
-    const stations: Station[] = [
-      {id: '1', name: 'Station 1', displayName: 'DisplayName 1', coordinates: {longitude: 0, latitude: 0}, collections: []},
-    ];
     store.overrideSelector(mapFeature.selectLoadingState, 'loading');
-    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loaded'});
+    store.overrideSelector(selectCurrentStationState, {loadingState: 'loaded'} as StationStateEntry);
+    store.overrideSelector(selectPrioritizedUniqueStations, stations);
     actions$ = of(mapActions.setMapAsLoaded());
     addStationsToMap(actions$, store, mapService).subscribe({
       complete: () => {
@@ -129,11 +146,9 @@ describe('MapEffects', () => {
 
   it('should not add stations to the map when mapActions.setMapAsLoaded is dispatched while the stations are not loaded yet', (done) => {
     spyOn(mapService, 'addStationsToMap');
-    const stations: Station[] = [
-      {id: '1', name: 'Station 1', displayName: 'DisplayName 1', coordinates: {longitude: 0, latitude: 0}, collections: []},
-    ];
     store.overrideSelector(mapFeature.selectLoadingState, 'loaded');
-    store.overrideSelector(selectCurrentStationState, {stations, loadingState: 'loading'});
+    store.overrideSelector(selectCurrentStationState, {loadingState: 'loading'} as StationStateEntry);
+    store.overrideSelector(selectPrioritizedUniqueStations, stations);
     actions$ = of(mapActions.setMapAsLoaded());
     addStationsToMap(actions$, store, mapService).subscribe({
       complete: () => {
@@ -147,7 +162,7 @@ describe('MapEffects', () => {
     spyOn(mapService, 'filterStationsOnMap');
     const stationIds: string[] = ['1', '2'];
     store.overrideSelector(mapFeature.selectMapsState, {loadingState: 'loaded', areLayersInitialized: true} as MapState);
-    store.overrideSelector(selectStationIdsFilteredBySelectedParameterGroups, stationIds);
+    store.overrideSelector(selectUniqueStationIdsFilteredBySelectedParameterGroups, stationIds);
     actions$ = of(mapActions.completeLayersInitialization());
     filterStationsOnMap(actions$, store, mapService).subscribe(() => {
       expect(mapService.filterStationsOnMap).toHaveBeenCalledOnceWith(stationIds);

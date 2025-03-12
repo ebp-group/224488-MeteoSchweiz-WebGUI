@@ -11,6 +11,7 @@ import {selectCombinedLoadingState} from '../../collection/selectors/collection.
 import {selectParameterGroups} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {formActions} from '../actions/form.actions';
+import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
 
 export const loadCollectionsForSelectedMeasurementDataType = createEffect(
   (actions$ = inject(Actions)) => {
@@ -19,6 +20,17 @@ export const loadCollectionsForSelectedMeasurementDataType = createEffect(
       map(({measurementDataType}) =>
         collectionActions.loadCollections({measurementDataType, collections: collectionConfig.collections[measurementDataType]}),
       ),
+    );
+  },
+  {functional: true},
+);
+
+export const autoSelectCollection = createEffect(
+  (actions$ = inject(Actions), store = inject(Store)) => {
+    return actions$.pipe(
+      ofType(formActions.setSelectedStationId),
+      concatLatestFrom(() => store.select(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup)),
+      map(([, stations]) => formActions.setSelectedCollection({collection: stations.length === 1 ? stations[0].collection : null})),
     );
   },
   {functional: true},
