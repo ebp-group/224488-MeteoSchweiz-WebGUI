@@ -10,7 +10,6 @@ import {HostMessage} from '../models/host-message';
 import {Language} from '../models/language';
 import {isLanguage} from '../type-guards/language-guard';
 import {isMeasurementDataType} from '../type-guards/measurement-data-type-guard';
-import {AngularDevModeService} from './angular-dev-mode.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +17,6 @@ import {AngularDevModeService} from './angular-dev-mode.service';
 export class UrlParameterService {
   private readonly document = inject(DOCUMENT);
   private readonly store = inject(Store);
-  private readonly angularDevModeService = inject(AngularDevModeService);
 
   private readonly languageKey = 'lang' as const;
   private readonly measurementDataTypeKey = 'mdt' as const;
@@ -67,11 +65,20 @@ export class UrlParameterService {
           currentUrlParams.set(key, value);
         }
         const message: HostMessage = {src: currentUrlParams.toString()};
-        // the targetOrigin is set to '*' so that it works across domain boundaries. At least that is the description of the provider.
-        this.document.defaultView?.parent.postMessage(message, '*');
-        if (this.angularDevModeService.isDevMode() && this.document.defaultView) {
-          // this sets the fragment within the dev environment
-          this.document.defaultView.location.hash = currentUrlParams.toString();
+        const window = this.document.defaultView;
+        if (!window) {
+          // this should never happen™ at this point
+          throw new Error('Window is not available');
+        }
+
+        if (window !== window.parent) {
+          // this sends a message to the parent window outside the iframe context (to set the fragment to the current URL)
+          // Remark: the targetOrigin is set to '*' so that it works across multiple domain boundaries
+          //         there shouldn't be a security issue with that as all data is already public and there is no authentication involved
+          window.parent.postMessage(message, '*');
+        } else {
+          // this sets the fragment directly to the current URL
+          window.location.hash = currentUrlParams.toString();
         }
       }),
     );

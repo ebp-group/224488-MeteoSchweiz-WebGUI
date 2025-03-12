@@ -48,7 +48,7 @@ describe('Map Reducer', () => {
     expect(result).toEqual(initialState);
   });
 
-  it('should set areLayersInitialized to `true`when completeLayersInitialization is dispatched', () => {
+  it('should set areLayersInitialized to `true` when completeLayersInitialization is dispatched', () => {
     state = {...state, areLayersInitialized: false};
     const action = mapActions.completeLayersInitialization();
     const result = mapFeature.reducer(state, action);
