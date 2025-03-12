@@ -8,6 +8,7 @@ export const mapActions = createActionGroup({
     'Load map': emptyProps(),
     'Set map as loaded': emptyProps(),
     'Set map loading error': errorProps(),
+    'Complete layers initialization': emptyProps(),
     'Reset state': emptyProps(),
     'Set zoom': props<{zoom: number}>(),
     'Set center': props<{center: Coordinates}>(),

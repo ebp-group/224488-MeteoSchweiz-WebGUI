@@ -51,7 +51,7 @@ export const selectUniqueStationsFilteredBySelectedParameterGroups = createSelec
   },
 );
 
-export const selectStationIdsFilteredBySelectedParameterGroups = createSelector(
+export const selectUniqueStationIdsFilteredBySelectedParameterGroups = createSelector(
   selectUniqueStationsFilteredBySelectedParameterGroups,
   (stations): string[] => stations.map((station) => station.id),
 );

@@ -13,7 +13,7 @@ import {stationActions} from '../../stations/actions/station.action';
 import {
   selectCurrentStationState,
   selectPrioritizedUniqueStations,
-  selectStationIdsFilteredBySelectedParameterGroups,
+  selectUniqueStationIdsFilteredBySelectedParameterGroups,
 } from '../../stations/selectors/station.selector';
 import {mapActions} from '../actions/map.action';
 import {mapFeature} from '../reducers/map.reducer';
@@ -69,18 +69,19 @@ export const addStationsToMap = createEffect(
       ),
       concatLatestFrom(() => store.select(selectPrioritizedUniqueStations)),
       tap(([, stations]) => mapService.addStationsToMap(stations)),
+      map(() => mapActions.completeLayersInitialization()),
     );
   },
-  {functional: true, dispatch: false},
+  {functional: true},
 );
 
 export const filterStationsOnMap = createEffect(
   (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedParameters, mapActions.setMapAsLoaded),
-      concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
-      filter(([, loadingState]) => loadingState === 'loaded'),
-      concatLatestFrom(() => store.select(selectStationIdsFilteredBySelectedParameterGroups)),
+      ofType(formActions.setSelectedParameters, mapActions.completeLayersInitialization, formActions.setSelectedParameterGroupAndStationId),
+      concatLatestFrom(() => store.select(mapFeature.selectMapsState)),
+      filter(([, {loadingState, areLayersInitialized}]) => loadingState === 'loaded' && areLayersInitialized),
+      concatLatestFrom(() => store.select(selectUniqueStationIdsFilteredBySelectedParameterGroups)),
       tap(([, stationIds]) => mapService.filterStationsOnMap(stationIds)),
     );
   },
@@ -106,7 +107,12 @@ export const toggleStationSelection = createEffect(
 export const highlightSelectedStationOnMap = createEffect(
   (actions$ = inject(Actions), store = inject(Store), mapService = inject(MapService)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedStationId, formActions.setSelectedParameters, mapActions.setMapAsLoaded),
+      ofType(
+        formActions.setSelectedStationId,
+        formActions.setSelectedParameters,
+        mapActions.setMapAsLoaded,
+        formActions.setSelectedParameterGroupAndStationId,
+      ),
       concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
       filter(([, loadingState]) => loadingState === 'loaded'),
       concatLatestFrom(() => store.select(formFeature.selectSelectedStationId)),

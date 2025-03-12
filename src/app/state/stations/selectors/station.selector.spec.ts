@@ -3,7 +3,7 @@ import {ParameterGroupStationMapping} from '../../../shared/models/parameter-gro
 import {Station} from '../../../shared/models/station';
 import {
   selectPrioritizedUniqueStations,
-  selectStationIdsFilteredBySelectedParameterGroups,
+  selectUniqueStationIdsFilteredBySelectedParameterGroups,
   selectUniqueStationsFilteredBySelectedParameterGroups,
 } from './station.selector';
 
@@ -73,7 +73,7 @@ describe('Station Selectors', () => {
     });
   });
 
-  describe('selectStationsFilteredBySelectedParameterGroups', () => {
+  describe('selectUniqueStationsFilteredBySelectedParameterGroups', () => {
     const stationOne: Station = {
       id: 'stationId1',
       name: 'stationName1',
@@ -183,7 +183,7 @@ describe('Station Selectors', () => {
     });
   });
 
-  describe('selectStationsFilteredBySelectedParameterGroups', () => {
+  describe('selectUniqueStationIdsFilteredBySelectedParameterGroups', () => {
     it('should return a filtered list of stations and return the IDs', () => {
       const stationOne: Station = {
         id: 'stationId1',
@@ -212,7 +212,7 @@ describe('Station Selectors', () => {
         },
       };
 
-      const result = selectStationIdsFilteredBySelectedParameterGroups.projector([stationOne, stationTwo]);
+      const result = selectUniqueStationIdsFilteredBySelectedParameterGroups.projector([stationOne, stationTwo]);
 
       expect(result).toEqual(jasmine.arrayWithExactContents([stationOne.id, stationTwo.id]));
     });

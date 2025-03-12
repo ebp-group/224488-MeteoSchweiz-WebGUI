@@ -4,6 +4,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {provideRouter} from '@angular/router';
 import {provideTransloco} from '@jsverse/transloco';
 import {EFFECTS_ERROR_HANDLER, provideEffects} from '@ngrx/effects';
+import {provideRouterStore} from '@ngrx/router-store';
 import {provideStore} from '@ngrx/store';
 import {provideStoreDevtools} from '@ngrx/store-devtools';
 import {routes} from './app.routes';
@@ -48,5 +49,6 @@ export const appConfig: ApplicationConfig = {
       provide: EFFECTS_ERROR_HANDLER,
       useValue: effectErrorHandler,
     },
+    provideRouterStore(),
   ],
 };
