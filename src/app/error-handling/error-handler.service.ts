@@ -38,7 +38,7 @@ export class ErrorHandlerService implements ErrorHandler {
     }
   }
 
-  private showRecoverableErrorMessage(message: string): void {
+  private showRecoverableErrorMessage(_message: string): void {
     // TODO show error notification
   }
 

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import papa from 'papaparse';
 import {defaultStacClientConfig} from '../../shared/configs/stac.config';
 import {StacApiClient} from '../generated/stac-api.generated';
+import {StacStationAsset} from '../models/stac-station-asset';
 
 @Injectable({
   providedIn: 'root',
@@ -48,5 +49,20 @@ export class StacApiService {
       });
     });
     return parsedResult;
+  }
+
+  public async getStationAssets(collectionId: string, stationId: string): Promise<StacStationAsset[]> {
+    const response = await this.stacApiClient.collections.getFeature(collectionId, stationId.toLocaleLowerCase(), {format: 'json'});
+    if (!response.ok) {
+      throw new Error(`Failed to get station '${stationId}' for collection '${collectionId}'`);
+    }
+    const feature = response.data;
+    if (feature == null) {
+      throw new Error(`Station data for station '${stationId}' in collection '${collectionId}' was null`);
+    }
+    const assets = feature.assets;
+    return Object.entries(assets)
+      .filter(([, asset]) => asset.type === 'text/csv')
+      .map(([filename, asset]) => ({filename, url: asset.href}));
   }
 }
