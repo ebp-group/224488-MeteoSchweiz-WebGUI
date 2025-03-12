@@ -30,8 +30,9 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     const valueChanges$ = this.formControl.valueChanges.pipe(
       startWith(''),
-      tap((value) => this.dispatchValueChange(value)),
-      map((value): string => this.convertValueToString(value)),
+      concatLatestFrom(() => this.store.select(formFeature.selectSelectedStationId)),
+      tap(([value, selectedStationId]) => this.dispatchValueChange(value, selectedStationId)),
+      map(([value]): string => this.convertValueToString(value)),
     );
     this.filteredStations$ = this.store.select(selectUniqueStationsFilteredBySelectedParameterGroups).pipe(
       combineLatestWith(valueChanges$),
@@ -62,9 +63,11 @@ export class StationSelectionComponent implements OnInit, OnDestroy {
     return stations.filter((station) => station.displayName.toLowerCase().includes(lowerCaseValue));
   }
 
-  private dispatchValueChange(value: string | Station | null): void {
+  private dispatchValueChange(value: string | Station | null, selectedStationId: string | null): void {
     const stationIdOrNull = value === null || typeof value === 'string' ? null : value.id;
-    this.store.dispatch(formActions.setSelectedStationId({stationId: stationIdOrNull}));
+    if (stationIdOrNull !== selectedStationId) {
+      this.store.dispatch(formActions.setSelectedStationId({stationId: stationIdOrNull}));
+    }
   }
 
   private convertValueToString(value: string | Station | null): string {

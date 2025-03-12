@@ -5,13 +5,14 @@ import {appFeature} from '../reducers/app.reducer';
 
 export const selectCurrentAppUrlParameter = createSelector(
   appFeature.selectLanguage,
-  formFeature.selectSelectedMeasurementDataType,
-  formFeature.selectSelectedParameterGroupId,
-  formFeature.selectSelectedStationId,
-  (language, measurementDataType, parameterGroupId, stationId): AppUrlParameter => ({
+  formFeature.selectFormState,
+  (language, formState): AppUrlParameter => ({
     language,
-    measurementDataType,
-    parameterGroupId,
-    stationId,
+    measurementDataType: formState.selectedMeasurementDataType,
+    parameterGroupId: formState.selectedParameterGroupId,
+    stationId: formState.selectedStationId,
+    collection: formState.selectedCollection,
+    dataInterval: formState.selectedDataInterval,
+    timeRange: formState.selectedTimeRange,
   }),
 );

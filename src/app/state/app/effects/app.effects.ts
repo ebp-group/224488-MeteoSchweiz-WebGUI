@@ -1,8 +1,7 @@
 import {inject} from '@angular/core';
 import {TranslocoService} from '@jsverse/transloco';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {map, switchMap, tap} from 'rxjs';
-import {UrlParameterService} from '../../../shared/services/url-parameter.service';
+import {map, tap} from 'rxjs';
 import {appActions} from '../actions/app.actions';
 
 export const setLanguage = createEffect(
@@ -23,14 +22,4 @@ export const initializeLanguage = createEffect(
     );
   },
   {functional: true},
-);
-
-export const setLanguageInUrl = createEffect(
-  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
-    return actions$.pipe(
-      ofType(appActions.setLanguage),
-      switchMap(({language}) => urlParameterService.setLanguage(language)),
-    );
-  },
-  {functional: true, dispatch: false},
 );
