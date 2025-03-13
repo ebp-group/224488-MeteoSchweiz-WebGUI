@@ -3,6 +3,7 @@ import {ParameterGroupStationMapping} from '../../../shared/models/parameter-gro
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {
+  selectSelectedStation,
   selectSelectedStationWithParameterGroup,
   selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
 } from './form.selector';
@@ -73,6 +74,20 @@ describe('Form selectors', () => {
       );
 
       expect(result).toEqual([{...stationAA, parameterGroups: [parameterGroupOne]}]);
+    });
+  });
+
+  describe('selectSelectedStation', () => {
+    it('should return a single station if stationId and collection is selected', () => {
+      const stationsWithParameterGroups = [
+        {...stationAA, parameterGroups: [parameterGroupOne]},
+        {...stationAB, parameterGroups: [parameterGroupOne]},
+        {...stationAC, parameterGroups: [parameterGroupOne]},
+        {...wrongStation, parameterGroups: [parameterGroupOne]},
+      ];
+      const result = selectSelectedStation.projector(stationsWithParameterGroups, 'a', 'a');
+
+      expect(result).toEqual({...stationAA, parameterGroups: [parameterGroupOne]});
     });
   });
 });

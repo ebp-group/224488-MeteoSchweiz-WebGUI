@@ -33,3 +33,11 @@ export const selectSelectedStationWithParameterGroupsFilteredBySelectedParameter
       : stations.filter((station) => station.parameterGroups.some((group) => group.id === selectedParameterGroupId));
   },
 );
+
+export const selectSelectedStation = createSelector(
+  selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
+  formFeature.selectSelectedStationId,
+  formFeature.selectSelectedCollection,
+  (stations, stationId, collection): StationWithParameterGroups | undefined =>
+    stations.find((station) => station.id === stationId && station.collection === collection),
+);

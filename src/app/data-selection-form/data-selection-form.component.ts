@@ -15,7 +15,7 @@ import {CollectionSelectionComponent} from './components/collection-selection/co
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
-import {SelectionOverviewComponent} from './components/selection-overview/selection-overview.component';
+import {SelectionReviewComponent} from './components/selection-review/selection-review.component';
 import {StationSelectionComponent} from './components/station-selection/station-selection.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
 import type {Language} from '../shared/models/language';
@@ -30,7 +30,7 @@ import type {Language} from '../shared/models/language';
     ParameterListComponent,
     IntervalSelectionComponent,
     TimeRangeSelectionComponent,
-    SelectionOverviewComponent,
+    SelectionReviewComponent,
     DownloadAssetComponent,
     MatStepperModule,
     AsyncPipe,
