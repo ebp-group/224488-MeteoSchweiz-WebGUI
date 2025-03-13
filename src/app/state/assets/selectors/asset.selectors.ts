@@ -37,3 +37,20 @@ export const selectSortedHistoricalDateRanges = createSelector(
           selectedHistoricalDateRange.end.getTime() === dateRange.end.getTime(),
       })) ?? [],
 );
+
+export const selectSelectedAsset = createSelector(
+  assetFeature.selectAssets,
+  formFeature.selectSelectedDataInterval,
+  formFeature.selectSelectedTimeRange,
+  formFeature.selectSelectedHistoricalDateRange,
+  (assets, interval, timeRange, historicalDateRange): StationAsset | undefined =>
+    assets?.find(
+      (asset) =>
+        asset.interval === interval &&
+        asset.timeRange === timeRange &&
+        (asset.timeRange !== 'historical' ||
+          historicalDateRange === null ||
+          (asset.dateRange?.start.getTime() === historicalDateRange.start.getTime() &&
+            asset.dateRange?.end.getTime() === historicalDateRange.end.getTime())),
+    ),
+);

@@ -1,20 +1,26 @@
 <div *transloco="let t">
-  <div>
-    <b>{{ t('download-asset') }}</b
-    ><a href="#">ASSET LINK</a>
-  </div>
-  <div>
+  @if (selectedAsset$ | async; as asset) {
     <div>
-      <b>{{ t('download-metadata') }}</b>
+      <p>{{ t('form.download.data') }}</p>
+      <a [href]="asset.url">{{ asset.filename }}</a> (CSV, TODO MB)
     </div>
     <div>
-      <a href="#">Meta file 1</a>
+      <div>
+        <b>{{ t('form.download.metadata') }}</b>
+      </div>
+      <div>
+        <a href="#">Meta file 1</a>
+      </div>
+      <div>
+        <a href="#">Meta file 2</a>
+      </div>
+      <div>
+        <a href="#">Meta file 3</a>
+      </div>
     </div>
     <div>
-      <a href="#">Meta file 2</a>
+      <p>{{ t('form.download.copy-url') }}</p>
+      <input type="text" [value]="asset.url" readonly />
     </div>
-    <div>
-      <a href="#">Meta file 3</a>
-    </div>
-  </div>
+  }
 </div>
