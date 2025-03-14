@@ -30,5 +30,10 @@
   "map.load.error": "Missing value for 'map.load.error'",
   "map.not-initialized.error": "Missing value for 'map.not-initialized.error'",
   "asset.load.error": "Missing value for 'asset.load.error'",
-  "asset.parse.error": "Error while parsing file '{{filename}}'"
+  "asset.parse.error": "Error while parsing file '{{filename}}'",
+  "form.interval.ten-minutes": "Missing value for 'form.interval.ten-minutes'",
+  "form.interval.hourly": "Missing value for 'form.interval.hourly'",
+  "form.interval.daily": "Missing value for 'form.interval.daily'",
+  "form.interval.monthly": "Missing value for 'form.interval.monthly'",
+  "form.interval.yearly": "Missing value for 'form.interval.yearly'"
 }
