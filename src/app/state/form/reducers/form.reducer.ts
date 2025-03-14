@@ -44,12 +44,12 @@ export const formFeature = createFeature({
       }),
     ),
     on(
-      formActions.setSelectedParameterGroupAndStationId,
-      (state, {parameterGroupId, stationId}): FormState => ({
+      formActions.setSelectedParameterGroupAndStationIdAndCollection,
+      (state, {parameterGroupId, stationId, collection}): FormState => ({
         ...state,
         selectedParameterGroupId: parameterGroupId,
         selectedStationId: stationId,
-        selectedCollection: null,
+        selectedCollection: collection,
         selectedDataInterval: null,
         selectedTimeRange: null,
       }),

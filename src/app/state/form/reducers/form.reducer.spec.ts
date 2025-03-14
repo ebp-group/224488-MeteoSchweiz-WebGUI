@@ -11,7 +11,7 @@ describe('Form Reducer', () => {
       selectedParameterGroupId: 'A',
       selectedStationId: 'ALT',
       selectedDataInterval: 'daily',
-      selectedTimeRange: 'all-time',
+      selectedTimeRange: 'historical',
       selectedCollection: 'collection',
     };
   });
@@ -50,7 +50,11 @@ describe('Form Reducer', () => {
   });
 
   it('should reset selection of upcoming steps if parameter group ID and station ID are selected', () => {
-    const action = formActions.setSelectedParameterGroupAndStationId({parameterGroupId: 'paramGroupTest', stationId: 'stationTest'});
+    const action = formActions.setSelectedParameterGroupAndStationIdAndCollection({
+      parameterGroupId: 'paramGroupTest',
+      stationId: 'stationTest',
+      collection: 'collectionTest',
+    });
 
     const result = formFeature.reducer(state, action);
 
@@ -59,6 +63,7 @@ describe('Form Reducer', () => {
       selectedMeasurementDataType: 'normal',
       selectedParameterGroupId: 'paramGroupTest',
       selectedStationId: 'stationTest',
+      selectedCollection: 'collectionTest',
     });
   });
 
@@ -92,7 +97,7 @@ describe('Form Reducer', () => {
   });
 
   it('should just set time range if it is selected', () => {
-    const action = formActions.setSelectedTimeRange({timeRange: 'current-day'});
+    const action = formActions.setSelectedTimeRange({timeRange: 'now'});
 
     const result = formFeature.reducer(state, action);
 
@@ -101,7 +106,7 @@ describe('Form Reducer', () => {
       selectedParameterGroupId: 'A',
       selectedStationId: 'ALT',
       selectedDataInterval: 'daily',
-      selectedTimeRange: 'current-day',
+      selectedTimeRange: 'now',
       selectedCollection: 'collection',
     });
   });

@@ -8,7 +8,11 @@ export const formActions = createActionGroup({
   events: {
     'Set selected parameters': props<{parameterGroupId: string | null}>(),
     'Set selected station id': props<{stationId: string | null}>(),
-    'Set selected parameter group and station id': props<{parameterGroupId: string | null; stationId: string | null}>(),
+    'Set selected parameter group and station id and collection': props<{
+      parameterGroupId: string | null;
+      stationId: string | null;
+      collection: string | null;
+    }>(),
     'Set selected dataInterval': props<{dataInterval: DataInterval}>(),
     'Set selected time range': props<{timeRange: TimeRange}>(),
     'Set selected measurement data type': props<{measurementDataType: MeasurementDataType}>(),

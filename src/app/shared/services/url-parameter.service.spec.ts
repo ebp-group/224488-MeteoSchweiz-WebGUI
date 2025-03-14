@@ -18,84 +18,96 @@ describe('UrlParameterService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('transforms URL fragment to AppUrlParameter correctly', () => {
-    const fragment = 'lang=en&mdt=normal&pgid=123&sid=456';
-    const result = service.transformUrlFragmentToAppUrlParameter(fragment);
-    expect(result).toEqual({
-      language: 'en',
-      measurementDataType: 'normal',
-      parameterGroupId: '123',
-      stationId: '456',
+  describe('transformUrlFragmentToAppUrlParameter', () => {
+    it('transforms URL fragment to AppUrlParameter correctly', () => {
+      const fragment = 'lang=en&mdt=normal&pgid=123&sid=456&col=789&di=daily&tr=historical';
+      const result = service.transformUrlFragmentToAppUrlParameter(fragment);
+      expect(result).toEqual({
+        language: 'en',
+        measurementDataType: 'normal',
+        parameterGroupId: '123',
+        stationId: '456',
+        collection: '789',
+        dataInterval: 'daily',
+        timeRange: 'historical',
+      });
+    });
+
+    it('transforms invalid URL fragment to AppUrlParameter with default values', () => {
+      const fragment = 'lang=invalid&mdt=invalid&di=invalid&tr=invalid';
+      const result = service.transformUrlFragmentToAppUrlParameter(fragment);
+      expect(result).toEqual({
+        language: 'de',
+        measurementDataType: 'normal',
+        parameterGroupId: null,
+        stationId: null,
+        collection: null,
+        dataInterval: null,
+        timeRange: null,
+      });
+    });
+
+    it('transforms an undefined URL fragment to AppUrlParameter with default values', () => {
+      const result = service.transformUrlFragmentToAppUrlParameter(undefined);
+      expect(result).toEqual({
+        language: 'de',
+        measurementDataType: 'normal',
+        parameterGroupId: null,
+        stationId: null,
+        collection: null,
+        dataInterval: null,
+        timeRange: null,
+      });
     });
   });
 
-  it('transforms invalid URL fragment to AppUrlParameter with default values', () => {
-    const fragment = 'lang=invalid&mdt=invalid';
-    const result = service.transformUrlFragmentToAppUrlParameter(fragment);
-    expect(result).toEqual({
-      language: 'de',
-      measurementDataType: 'normal',
-      parameterGroupId: null,
-      stationId: null,
-    });
-  });
-
-  it('transforms an undefined URL fragment to AppUrlParameter with default values', () => {
-    const result = service.transformUrlFragmentToAppUrlParameter(undefined);
-    expect(result).toEqual({
-      language: 'de',
-      measurementDataType: 'normal',
-      parameterGroupId: null,
-      stationId: null,
-    });
-  });
-
-  describe('set parameters', () => {
+  describe('setUrlFragment', () => {
     beforeEach(() => {
       const appUrlParameter: AppUrlParameter = {
         language: 'en',
         measurementDataType: 'homogenous',
         parameterGroupId: '123',
         stationId: '456',
+        collection: '789',
+        dataInterval: 'daily',
+        timeRange: 'recent',
       };
       const store = TestBed.inject(MockStore);
       store.overrideSelector(selectCurrentAppUrlParameter, appUrlParameter);
       spyOn(document.defaultView!.parent, 'postMessage');
     });
 
-    it('sets language parameter', (done) => {
-      service.setLanguage('fr').subscribe(() => {
-        expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=fr&mdt=homogenous&pgid=123&sid=456'}, '*');
-        done();
-      });
+    it('sets all given parameters', () => {
+      const appUrlParameter: AppUrlParameter = {
+        language: 'en',
+        measurementDataType: 'homogenous',
+        parameterGroupId: '123',
+        stationId: '456',
+        collection: '789',
+        dataInterval: 'daily',
+        timeRange: 'recent',
+      };
+      service.setUrlFragment(appUrlParameter);
+
+      expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith(
+        {src: 'lang=en&mdt=homogenous&pgid=123&sid=456&col=789&di=daily&tr=recent'},
+        '*',
+      );
     });
 
-    it('sets measurement data type parameter', (done) => {
-      service.setMeasurementDataType('normal').subscribe(() => {
-        expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=en&mdt=normal&pgid=123&sid=456'}, '*');
-        done();
-      });
-    });
+    it('sets only non-null values', () => {
+      const appUrlParameter: AppUrlParameter = {
+        language: 'fr',
+        measurementDataType: 'normal',
+        parameterGroupId: null,
+        stationId: null,
+        collection: null,
+        dataInterval: null,
+        timeRange: null,
+      };
+      service.setUrlFragment(appUrlParameter);
 
-    it('sets parameter group ID parameter', (done) => {
-      service.setParameterGroupId('test').subscribe(() => {
-        expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=en&mdt=homogenous&pgid=test&sid=456'}, '*');
-        done();
-      });
-    });
-
-    it('sets station ID parameter', (done) => {
-      service.setStationId('test').subscribe(() => {
-        expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=en&mdt=homogenous&pgid=123&sid=test'}, '*');
-        done();
-      });
-    });
-
-    it('removes an URL parameter', (done) => {
-      service.setParameterGroupId(null).subscribe(() => {
-        expect(document.defaultView?.parent.postMessage).toHaveBeenCalledWith({src: 'lang=en&mdt=homogenous&sid=456'}, '*');
-        done();
-      });
+      expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=fr&mdt=normal'}, '*');
     });
   });
 });

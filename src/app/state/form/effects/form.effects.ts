@@ -2,9 +2,8 @@ import {inject} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
-import {combineLatestWith, filter, map, switchMap, take} from 'rxjs';
+import {combineLatestWith, filter, map, take} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
-import {UrlParameterService} from '../../../shared/services/url-parameter.service';
 import {appActions} from '../../app/actions/app.actions';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {selectCombinedLoadingState} from '../../collection/selectors/collection.selector';
@@ -46,7 +45,7 @@ export const initializeSelectedMeasurementDataType = createEffect(
   {functional: true},
 );
 
-export const initializeSelectedStationAndParameterGroupId = createEffect(
+export const initializeSelectedStationIdAndParameterGroupIdAndCollection = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
       ofType(appActions.initializeApp),
@@ -62,39 +61,12 @@ export const initializeSelectedStationAndParameterGroupId = createEffect(
         const parameterGroupId =
           parameterGroups.map((parameterGroup) => parameterGroup.id).find((id) => id === parameter.parameterGroupId) ?? null;
         const stationId = stations.map((station) => station.id).find((id) => id === parameter.stationId) ?? null;
-        return formActions.setSelectedParameterGroupAndStationId({parameterGroupId, stationId});
+        const collection =
+          stations.filter((station) => station.id === stationId).find((station) => station.collection === parameter.collection)
+            ?.collection ?? null;
+        return formActions.setSelectedParameterGroupAndStationIdAndCollection({parameterGroupId, stationId, collection});
       }),
     );
   },
   {functional: true},
-);
-
-export const setSelectedMeasurementDataTypeInUrl = createEffect(
-  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
-    return actions$.pipe(
-      ofType(formActions.setSelectedMeasurementDataType),
-      switchMap(({measurementDataType}) => urlParameterService.setMeasurementDataType(measurementDataType)),
-    );
-  },
-  {functional: true, dispatch: false},
-);
-
-export const setSelectedParameterGroupIdInUrl = createEffect(
-  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
-    return actions$.pipe(
-      ofType(formActions.setSelectedParameters),
-      switchMap(({parameterGroupId}) => urlParameterService.setParameterGroupId(parameterGroupId)),
-    );
-  },
-  {functional: true, dispatch: false},
-);
-
-export const setSelectedStationIdInUrl = createEffect(
-  (actions$ = inject(Actions), urlParameterService = inject(UrlParameterService)) => {
-    return actions$.pipe(
-      ofType(formActions.setSelectedStationId),
-      switchMap(({stationId}) => urlParameterService.setStationId(stationId)),
-    );
-  },
-  {functional: true, dispatch: false},
 );
