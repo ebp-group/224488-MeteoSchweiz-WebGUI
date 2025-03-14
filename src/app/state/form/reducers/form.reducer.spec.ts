@@ -13,6 +13,7 @@ describe('Form Reducer', () => {
       selectedDataInterval: 'daily',
       selectedTimeRange: 'historical',
       selectedCollection: 'collection',
+      selectedHistoricalDateRange: {start: new Date(), end: new Date()},
     };
   });
 
@@ -97,7 +98,10 @@ describe('Form Reducer', () => {
   });
 
   it('should just set time range if it is selected', () => {
-    const action = formActions.setSelectedTimeRange({timeRange: 'now'});
+    const action = formActions.setSelectedTimeRange({
+      timeRange: 'now',
+      historicalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
+    });
 
     const result = formFeature.reducer(state, action);
 
@@ -108,6 +112,7 @@ describe('Form Reducer', () => {
       selectedDataInterval: 'daily',
       selectedTimeRange: 'now',
       selectedCollection: 'collection',
+      selectedHistoricalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
     });
   });
 });

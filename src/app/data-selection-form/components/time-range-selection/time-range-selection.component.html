@@ -4,43 +4,57 @@
       type="radio"
       name="time-range"
       id="now-time-range"
-      (input)="setSelectedTimeRange('now')"
+      (input)="setSelectedTimeRange('now', null)"
+      [disabled]="!(availableTimeRanges$ | async)?.includes('now')"
       [checked]="(selectedTimeRange$ | async) === 'now'"
     />
-    <label for="now-time-range">{{ t('now-time-interval') }}</label>
+    <label for="now-time-range">{{ t('form.time-range.now') }}</label>
   </div>
   <div>
     <input
       type="radio"
       name="time-range"
       id="recent-time-range"
-      (input)="setSelectedTimeRange('recent')"
+      (input)="setSelectedTimeRange('recent', null)"
+      [disabled]="!(availableTimeRanges$ | async)?.includes('recent')"
       [checked]="(selectedTimeRange$ | async) === 'recent'"
     />
-    <label for="recent-time-range">{{ t('recent-time-interval') }}</label>
+    <label for="recent-time-range">{{ t('form.time-range.recent') }}</label>
   </div>
-  <div>
-    <p>{{ t('historical-time-range-explanation') }}</p>
-    <!-- TODO: Handle multiple historical intervals -->
+  @if (((historicalDateRanges$ | async) ?? []).length === 0) {
     <div>
       <input
         type="radio"
         name="time-range"
-        id="historical-time-range1"
-        (input)="setSelectedTimeRange('historical')"
+        id="historical-time-range"
+        (input)="setSelectedTimeRange('historical', null)"
+        [disabled]="!(availableTimeRanges$ | async)?.includes('historical')"
         [checked]="(selectedTimeRange$ | async) === 'historical'"
       />
-      <label for="historical-time-range1">xx.yy.zzzz - aa.bb.cccc</label>
+      <label for="historical-time-range">{{ t('form.time-range.historical') }}</label>
     </div>
+  } @else {
     <div>
-      <input
-        type="radio"
-        name="time-range"
-        id="historical-time-range2"
-        (input)="setSelectedTimeRange('historical')"
-        [checked]="(selectedTimeRange$ | async) === 'historical'"
-      />
-      <label for="historical-time-range2">xx.yy.zzzz - aa.bb.cccc</label>
+      <p>{{ t('form.time-range.historical') }}</p>
+      <p>{{ t('form.time-range.historical.explanation') }}</p>
+      @for (range of historicalDateRanges$ | async; track $index) {
+        <div>
+          <input
+            type="radio"
+            name="time-range"
+            id="historical-time-range-{{ range.start | date: 'dd.MM.YYYY' }}-{{ range.end | date: 'dd.MM.YYYY' }}"
+            (input)="setSelectedTimeRange('historical', range)"
+            [checked]="
+              (selectedTimeRange$ | async) === 'historical' &&
+              (selectedHistoricalDateRange$ | async)?.start?.getTime() === range.start.getTime() &&
+              (selectedHistoricalDateRange$ | async)?.end?.getTime() === range.end.getTime()
+            "
+          />
+          <label for="historical-time-range-{{ range.start | date: 'dd.MM.YYYY' }}-{{ range.end | date: 'dd.MM.YYYY' }}"
+            >{{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }}
+          </label>
+        </div>
+      }
     </div>
-  </div>
+  }
 </div>

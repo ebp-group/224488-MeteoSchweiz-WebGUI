@@ -1,4 +1,5 @@
 import {createActionGroup, props} from '@ngrx/store';
+import {DateRange} from '../../../shared/models/date-range';
 import type {DataInterval} from '../../../shared/models/interval';
 import type {MeasurementDataType} from '../../../shared/models/measurement-data-type';
 import type {TimeRange} from '../../../shared/models/time-range';
@@ -14,7 +15,7 @@ export const formActions = createActionGroup({
       collection: string | null;
     }>(),
     'Set selected dataInterval': props<{dataInterval: DataInterval}>(),
-    'Set selected time range': props<{timeRange: TimeRange}>(),
+    'Set selected time range': props<{timeRange: TimeRange; historicalDateRange: DateRange | null}>(),
     'Set selected measurement data type': props<{measurementDataType: MeasurementDataType}>(),
     'Set selected collection': props<{collection: string | null}>(),
   },

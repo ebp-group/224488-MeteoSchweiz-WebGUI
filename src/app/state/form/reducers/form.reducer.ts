@@ -12,6 +12,7 @@ export const initialState: FormState = {
   selectedDataInterval: null,
   selectedTimeRange: null,
   selectedCollection: null,
+  selectedHistoricalDateRange: null,
 };
 
 export const formFeature = createFeature({
@@ -31,6 +32,7 @@ export const formFeature = createFeature({
         selectedDataInterval: null,
         selectedTimeRange: null,
         selectedCollection: null,
+        selectedHistoricalDateRange: null,
       }),
     ),
     on(
@@ -41,6 +43,7 @@ export const formFeature = createFeature({
         selectedDataInterval: null,
         selectedTimeRange: null,
         selectedCollection: null,
+        selectedHistoricalDateRange: null,
       }),
     ),
     on(
@@ -52,6 +55,7 @@ export const formFeature = createFeature({
         selectedCollection: collection,
         selectedDataInterval: null,
         selectedTimeRange: null,
+        selectedHistoricalDateRange: null,
       }),
     ),
     on(
@@ -61,6 +65,7 @@ export const formFeature = createFeature({
         selectedCollection: collection,
         selectedDataInterval: null,
         selectedTimeRange: null,
+        selectedHistoricalDateRange: null,
       }),
     ),
     on(
@@ -69,13 +74,15 @@ export const formFeature = createFeature({
         ...state,
         selectedDataInterval: dataInterval,
         selectedTimeRange: null,
+        selectedHistoricalDateRange: null,
       }),
     ),
     on(
       formActions.setSelectedTimeRange,
-      (state, {timeRange}): FormState => ({
+      (state, {timeRange, historicalDateRange}): FormState => ({
         ...state,
         selectedTimeRange: timeRange,
+        selectedHistoricalDateRange: historicalDateRange,
       }),
     ),
   ),
