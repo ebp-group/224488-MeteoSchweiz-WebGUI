@@ -1,14 +1,15 @@
 <div *transloco="let t">
-  @for (interval of availableDataIntervals; track interval) {
+  @for (dataInterval of allDataIntervals; track dataInterval.interval) {
     <div>
       <input
         type="radio"
         name="interval"
-        id="{{ interval }}-interval"
-        [checked]="(selectedDataInterval$ | async) === interval"
-        (input)="setSelectedInterval(interval)"
+        id="{{ dataInterval.interval }}-interval"
+        [checked]="(selectedDataInterval$ | async) === dataInterval.interval"
+        [disabled]="!((availableDataInterval$ | async) || []).includes(dataInterval.interval)"
+        (input)="setSelectedInterval(dataInterval.interval)"
       />
-      <label for="{{ interval }}-interval">{{ t(interval + '-interval') }}</label>
+      <label for="{{ dataInterval.interval }}-interval">{{ t(dataInterval.label) }}</label>
     </div>
   }
 </div>
