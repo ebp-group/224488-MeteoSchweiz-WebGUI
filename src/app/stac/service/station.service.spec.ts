@@ -1,5 +1,4 @@
 import {TestBed} from '@angular/core/testing';
-import {provideMockStore} from '@ngrx/store/testing';
 import {StacApiService} from './stac-api.service';
 import {StationService} from './station.service';
 import type {Station} from '../../shared/models/station';
@@ -59,7 +58,6 @@ describe('StationService', () => {
     stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['getCollectionMetaCsvFile']);
     TestBed.configureTestingModule({
       providers: [
-        provideMockStore(),
         {
           provide: StacApiService,
           useValue: stacApiService,

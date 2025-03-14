@@ -1,5 +1,4 @@
 import {TestBed} from '@angular/core/testing';
-import {provideMockStore} from '@ngrx/store/testing';
 import {CsvParameter} from '../models/csv-parameter';
 import {ParameterService} from './parameter.service';
 import {StacApiService} from './stac-api.service';
@@ -43,7 +42,6 @@ describe('ParameterService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        provideMockStore(),
         {
           provide: StacApiService,
           useValue: stacApiService,
