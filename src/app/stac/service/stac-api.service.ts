@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import papa from 'papaparse';
 import {defaultStacClientConfig} from '../../shared/configs/stac.config';
 import {StacApiClient} from '../generated/stac-api.generated';
-import {StacStationAsset} from '../models/stac-station-asset';
+import {StacAsset} from '../models/stac-asset';
 
 @Injectable({
   providedIn: 'root',
@@ -51,16 +51,25 @@ export class StacApiService {
     return parsedResult;
   }
 
-  public async getStationAssets(collectionId: string, stationId: string): Promise<StacStationAsset[]> {
-    const response = await this.stacApiClient.collections.getFeature(collectionId, stationId.toLocaleLowerCase(), {format: 'json'});
+  public async getAssets(collectionId: string, stationId?: string): Promise<StacAsset[]> {
+    const response =
+      stationId != null
+        ? await this.stacApiClient.collections.getFeature(collectionId, stationId.toLocaleLowerCase(), {format: 'json'})
+        : await this.stacApiClient.collections.describeCollection(collectionId, {format: 'json'});
     if (!response.ok) {
-      throw new Error(`Failed to get station '${stationId}' for collection '${collectionId}'`);
+      throw new Error(`Failed to get Assets for collectionId '${collectionId}', stationId '${stationId}'`);
     }
+
     const feature = response.data;
     if (feature == null) {
-      throw new Error(`Station data for station '${stationId}' in collection '${collectionId}' was null`);
+      throw new Error(`Response data was 'null' for collectionId '${collectionId}', stationId '${stationId}'`);
     }
+
     const assets = feature.assets;
+    if (assets == null) {
+      throw new Error(`Asset data was undefined for collectionId '${collectionId}', stationId '${stationId}'`);
+    }
+
     return Object.entries(assets)
       .filter(([, asset]) => asset.type === 'text/csv')
       .map(([filename, asset]) => ({filename, url: asset.href}));
