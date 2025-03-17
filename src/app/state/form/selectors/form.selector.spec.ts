@@ -1,8 +1,10 @@
+import {CollectionAsset} from '../../../shared/models/collection-assets';
 import {ParameterGroup} from '../../../shared/models/parameter';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {
+  selectSelectedCollectionMetaAssets,
   selectSelectedStation,
   selectSelectedStationWithParameterGroup,
   selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
@@ -88,6 +90,52 @@ describe('Form selectors', () => {
       const result = selectSelectedStation.projector(stationsWithParameterGroups, 'a', 'a');
 
       expect(result).toEqual({...stationAA, parameterGroups: [parameterGroupOne]});
+    });
+  });
+
+  describe('selectSelectedCollectionMetaAssets', () => {
+    const collection = 'a';
+    const stationMetaAsset: CollectionAsset = {
+      filename: '',
+      url: '',
+      collection: collection,
+      metaFileType: 'station',
+    };
+    const parameterMetaAsset: CollectionAsset = {
+      filename: '',
+      url: '',
+      collection: collection,
+      metaFileType: 'parameter',
+    };
+    const dataInventoryMetaAsset: CollectionAsset = {
+      filename: '',
+      url: '',
+      collection: collection,
+      metaFileType: 'dataInventory',
+    };
+    const assets: CollectionAsset[] = [
+      stationMetaAsset,
+      parameterMetaAsset,
+      dataInventoryMetaAsset,
+      {...stationMetaAsset, collection: 'b'},
+      {...parameterMetaAsset, collection: 'b'},
+      {...stationMetaAsset, collection: 'c'},
+      {...dataInventoryMetaAsset, collection: 'c'},
+    ];
+    it('should return meta assets for each metaFileType for the selected collection id', () => {
+      const result = selectSelectedCollectionMetaAssets.projector({collectionAssets: assets, loadingState: 'loaded'}, collection);
+
+      expect(result).toEqual({
+        station: stationMetaAsset,
+        parameter: parameterMetaAsset,
+        dataInventory: dataInventoryMetaAsset,
+      });
+    });
+
+    it('should return undefined if no collection is selected', () => {
+      const result = selectSelectedCollectionMetaAssets.projector({collectionAssets: assets, loadingState: 'loaded'}, null);
+
+      expect(result).toBe(undefined);
     });
   });
 });

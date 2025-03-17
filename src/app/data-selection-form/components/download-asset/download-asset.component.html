@@ -3,24 +3,33 @@
     <div>
       <p>{{ t('form.download.data') }}</p>
       <a [href]="asset.url">{{ asset.filename }}</a> (CSV, TODO MB)
+      <p>{{ t('form.download.data-explanation') }}</p>
     </div>
     <div>
       <div>
         <b>{{ t('form.download.metadata') }}</b>
       </div>
-      <div>
-        <a href="#">Meta file 1</a>
-      </div>
-      <div>
-        <a href="#">Meta file 2</a>
-      </div>
-      <div>
-        <a href="#">Meta file 3</a>
-      </div>
+      @if (selectedMetaAsset$ | async; as metaAssets) {
+        <div>
+          <a [href]="metaAssets.parameter.url">{{ metaAssets.parameter.filename }}</a> (CSV, ? MB)
+          <p>{{ t('form.download.parameters-explanation') }}</p>
+        </div>
+        <div>
+          <a [href]="metaAssets.station.url">{{ metaAssets.station.filename }}</a> (CSV, ? MB)
+          <p>{{ t('form.download.stations-explanation') }}</p>
+        </div>
+        <div>
+          <a [href]="metaAssets.dataInventory.url">{{ metaAssets.dataInventory.filename }}</a> (CSV, ? MB)
+          <p>{{ t('form.download.inventory-explanation') }}</p>
+        </div>
+      }
     </div>
     <div>
       <p>{{ t('form.download.copy-url') }}</p>
       <input type="text" [value]="asset.url" readonly />
+      <p>
+        <a href="#">{{ t('form.download.download-programmatically-info') }}</a>
+      </p>
     </div>
   }
 </div>

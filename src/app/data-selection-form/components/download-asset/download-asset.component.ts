@@ -3,6 +3,7 @@ import {Component, inject} from '@angular/core';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {selectSelectedAsset} from '../../../state/assets/selectors/asset.selectors';
+import {selectSelectedCollectionMetaAssets} from '../../../state/form/selectors/form.selector';
 
 @Component({
   selector: 'app-download-asset',
@@ -14,4 +15,5 @@ export class DownloadAssetComponent {
   private readonly store = inject(Store);
 
   protected readonly selectedAsset$ = this.store.select(selectSelectedAsset);
+  protected readonly selectedMetaAsset$ = this.store.select(selectSelectedCollectionMetaAssets);
 }

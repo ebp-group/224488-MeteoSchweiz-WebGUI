@@ -44,7 +44,7 @@ describe('AssetService', () => {
         {
           filename: `${collection}_datainventory.csv`,
           url: 'www.meteoschweiz.admin.ch',
-          metaFileType: 'data-inventory',
+          metaFileType: 'dataInventory',
           collection: 'collection',
         },
         {
