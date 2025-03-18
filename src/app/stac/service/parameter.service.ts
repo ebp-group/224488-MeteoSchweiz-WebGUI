@@ -1,4 +1,5 @@
 import {inject, Injectable} from '@angular/core';
+import {CollectionAsset} from '../../shared/models/collection-assets';
 import {TranslatableString} from '../../shared/models/translatable-string';
 import {StacApiService} from './stac-api.service';
 import type {Parameter} from '../../shared/models/parameter';
@@ -10,8 +11,9 @@ import type {CsvParameter} from '../models/csv-parameter';
 export class ParameterService {
   private readonly stacApiService = inject(StacApiService);
 
-  public async loadParameterForCollections(collections: string[]): Promise<Parameter[]> {
-    const parameters = (await Promise.all(collections.map((collection) => this.getParametersForCollection(collection)))).flat();
+  public async loadParameterForCollections(collectionAssets: CollectionAsset[]): Promise<Parameter[]> {
+    const relevantAssets = collectionAssets.filter((asset) => asset.metaFileType === 'parameter');
+    const parameters = (await Promise.all(relevantAssets.map((assets) => this.getParametersForCollection(assets)))).flat();
     return parameters.reduce(
       (uniqueParameters: Parameter[], parameter) =>
         !uniqueParameters.some((uniqueParameter) => uniqueParameter.id === parameter.id)
@@ -29,8 +31,8 @@ export class ParameterService {
     return group.en;
   }
 
-  private async getParametersForCollection(collection: string): Promise<Parameter[]> {
-    const csvParameters: CsvParameter[] = await this.stacApiService.getCollectionMetaCsvFile<CsvParameter>(collection, 'parameters');
+  private async getParametersForCollection(collectionAsset: CollectionAsset): Promise<Parameter[]> {
+    const csvParameters: CsvParameter[] = await this.stacApiService.fetchAndParseCsvFile<CsvParameter>(collectionAsset.url);
     return csvParameters.map((csvParameter) => this.transformCsvParameter(csvParameter));
   }
 

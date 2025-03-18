@@ -12,8 +12,8 @@ import {selectCurrentStationState} from '../selectors/station.selector';
 export const loadCollectionStations = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
-      ofType(collectionActions.loadCollections),
-      map(({measurementDataType, collections}) => stationActions.loadStationsForCollections({collections, measurementDataType})),
+      ofType(collectionActions.setCollectionAssets),
+      map(({measurementDataType, assets}) => stationActions.loadStationsForCollections({collectionAssets: assets, measurementDataType})),
     );
   },
   {functional: true},
@@ -25,8 +25,8 @@ export const loadStations = createEffect(
       ofType(stationActions.loadStationsForCollections),
       concatLatestFrom(() => store.select(selectCurrentStationState)),
       filter(([_, stationState]) => stationState.loadingState !== 'loaded'),
-      switchMap(([{collections, measurementDataType}]) =>
-        from(stationService.loadStationsForCollections(collections)).pipe(
+      switchMap(([{collectionAssets, measurementDataType}]) =>
+        from(stationService.loadStationsForCollections(collectionAssets)).pipe(
           map((stations) => stationActions.setLoadedStations({stations, measurementDataType})),
           catchError((error: unknown) => of(stationActions.setStationLoadingError({error, measurementDataType}))),
         ),

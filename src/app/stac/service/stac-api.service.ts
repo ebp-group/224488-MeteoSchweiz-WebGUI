@@ -10,28 +10,9 @@ import {StacAsset} from '../models/stac-asset';
 export class StacApiService {
   private readonly stacApiClient = new StacApiClient({baseUrl: defaultStacClientConfig.baseUrl});
 
-  public async getCollectionMetaCsvFile<T>(collectionName: string, metaFile: 'stations' | 'parameters' | 'datainventory'): Promise<T[]> {
-    const collectionResponse = await this.stacApiClient.collections.describeCollection(collectionName, {format: 'json'});
-    if (!collectionResponse.ok) {
-      // TODO: create specific error classes
-      throw new Error(`Failed to get collection ${collectionName}`);
-    }
-
-    const collection = collectionResponse.data;
-    if (collection == null) {
-      throw new Error(`Collection was null. Collection: ${collectionName}, metaFile: ${metaFile}`);
-    }
-    if (collection.assets == null) {
-      throw new Error(`Collection did not contain any assets. Collection: ${collectionName}, metaFile: ${metaFile}`);
-    }
-
-    const metaDataFileUrl = Object.entries(collection.assets).find(([key]) => key.includes(metaFile))?.[1]?.href;
-    if (!metaDataFileUrl) {
-      throw new Error(`Could not find URL for meta data CSV. Collection: ${collectionName}, metaFile: ${metaFile}`);
-    }
-
-    const parsedResult = new Promise<T[]>((resolve) => {
-      papa.parse<T>(metaDataFileUrl, {
+  public fetchAndParseCsvFile<T>(url: string): Promise<T[]> {
+    return new Promise<T[]>((resolve) => {
+      papa.parse<T>(url, {
         download: true,
         delimiter: defaultStacClientConfig.csvDelimiter,
         header: true,
@@ -48,7 +29,6 @@ export class StacApiService {
         },
       });
     });
-    return parsedResult;
   }
 
   public async getAssets(collectionId: string, stationId?: string): Promise<StacAsset[]> {
@@ -56,6 +36,7 @@ export class StacApiService {
       stationId != null
         ? await this.stacApiClient.collections.getFeature(collectionId, stationId.toLocaleLowerCase(), {format: 'json'})
         : await this.stacApiClient.collections.describeCollection(collectionId, {format: 'json'});
+
     if (!response.ok) {
       throw new Error(`Failed to get Assets for collectionId '${collectionId}', stationId '${stationId}'`);
     }

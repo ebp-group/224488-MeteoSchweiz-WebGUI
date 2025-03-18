@@ -1,10 +1,31 @@
 import {TestBed} from '@angular/core/testing';
 import {StacApiService} from './stac-api.service';
 import {StationService} from './station.service';
+import type {CollectionAsset} from '../../shared/models/collection-assets';
 import type {Station} from '../../shared/models/station';
 import type {CsvStation} from '../models/csv-station';
 
 const testCollection = 'collection';
+const testCollectionAssets: CollectionAsset[] = [
+  {
+    filename: 'stations.csv',
+    metaFileType: 'station',
+    url: 'station://',
+    collection: testCollection,
+  },
+  {
+    filename: 'parameters.csv',
+    metaFileType: 'parameter',
+    url: 'parameter://',
+    collection: testCollection,
+  },
+  {
+    filename: 'datainventory.csv',
+    metaFileType: 'data-inventory',
+    url: 'data-inventory://',
+    collection: testCollection,
+  },
+];
 
 const testCsvStation: CsvStation = {
   stationAbbr: 'TEST',
@@ -55,7 +76,7 @@ describe('StationService', () => {
   let stacApiService: jasmine.SpyObj<StacApiService>;
 
   beforeEach(() => {
-    stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['getCollectionMetaCsvFile']);
+    stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['fetchAndParseCsvFile']);
     TestBed.configureTestingModule({
       providers: [
         {
@@ -72,15 +93,26 @@ describe('StationService', () => {
   });
 
   it('should transform a station', async () => {
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation]);
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvStation]);
 
-    const parameters = await service.loadStationsForCollections([testCollection]);
+    const parameters = await service.loadStationsForCollections(testCollectionAssets);
 
     expect(parameters).toEqual(jasmine.arrayWithExactContents([testStation] satisfies Station[]));
   });
 
+  it('should only load assets of meta type station', async () => {
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvStation]);
+
+    const _ = await service.loadStationsForCollections(testCollectionAssets);
+
+    expect(stacApiService.fetchAndParseCsvFile).toHaveBeenCalledOnceWith('station://');
+  });
+
   it('should get stations for all collections', async () => {
-    const collections = ['a', 'b', 'c'];
+    const collectionAssetA = testCollectionAssets.map((asset) => ({...asset, collection: 'a', url: 'station://a'}));
+    const collectionAssetB = testCollectionAssets.map((asset) => ({...asset, collection: 'b', url: 'station://b'}));
+    const collectionAssetC = testCollectionAssets.map((asset) => ({...asset, collection: 'c', url: 'station://c'}));
+    const collections = collectionAssetA.concat(collectionAssetB).concat(collectionAssetC);
     const aStation: CsvStation = {
       ...testCsvStation,
       stationAbbr: 'test a',
@@ -93,12 +125,12 @@ describe('StationService', () => {
       ...testCsvStation,
       stationAbbr: 'test c',
     };
-    stacApiService.getCollectionMetaCsvFile
-      .withArgs('a', 'stations')
+    stacApiService.fetchAndParseCsvFile
+      .withArgs('station://a')
       .and.resolveTo([aStation])
-      .withArgs('b', 'stations')
+      .withArgs('station://b')
       .and.resolveTo([bStation])
-      .withArgs('c', 'stations')
+      .withArgs('station://c')
       .and.resolveTo([cStation]);
 
     const parameters = await service.loadStationsForCollections(collections);
@@ -113,9 +145,12 @@ describe('StationService', () => {
   });
 
   it('should not merge stations with the same id', async () => {
-    const collections = ['a', 'b', 'c'];
+    const collectionAssetA = testCollectionAssets.map((asset) => ({...asset, collection: 'a', url: 'station://a'}));
+    const collectionAssetB = testCollectionAssets.map((asset) => ({...asset, collection: 'b', url: 'station://b'}));
+    const collectionAssetC = testCollectionAssets.map((asset) => ({...asset, collection: 'c', url: 'station://c'}));
+    const collections = collectionAssetA.concat(collectionAssetB).concat(collectionAssetC);
 
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
 
     const parameters = await service.loadStationsForCollections(collections);
 
@@ -132,9 +167,9 @@ describe('StationService', () => {
   });
 
   it('should not merge stations with the same ids for the same collection', async () => {
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvStation, testCsvStation]);
 
-    const parameters = await service.loadStationsForCollections([testCollection]);
+    const parameters = await service.loadStationsForCollections(testCollectionAssets);
 
     expect(parameters).toEqual(jasmine.arrayWithExactContents([testStation, testStation] satisfies Station[]));
   });

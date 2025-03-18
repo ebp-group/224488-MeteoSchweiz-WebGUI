@@ -1,4 +1,5 @@
 import {collectionConfig} from '../../../shared/configs/collections.config';
+import {CollectionAsset} from '../../../shared/models/collection-assets';
 import {ParameterStationMapping} from '../../../shared/models/parameter-station-mapping';
 import {parameterStationMappingActions} from '../actions/parameter-station-mapping.action';
 import {ParameterStationMappingState} from '../states/parameter-station-mapping.state';
@@ -6,6 +7,14 @@ import {initialState, parameterStationMappingFeature} from './parameter-station-
 
 describe('ParameterStationMapping Reducer', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
+  const collectionAssets: CollectionAsset[] = [
+    {
+      filename: 'stations.csv',
+      metaFileType: 'station',
+      url: 'station://',
+      collection: 'test',
+    },
+  ];
 
   let state: ParameterStationMappingState;
 
@@ -15,7 +24,7 @@ describe('ParameterStationMapping Reducer', () => {
 
   it('should set loadingState to loading when loadParameterStationMappingForCollections is dispatched and loading state is currently not loaded', () => {
     state[measurementDataType].loadingState = 'error';
-    const action = parameterStationMappingActions.loadParameterStationMappingsForCollections({collections: ['test'], measurementDataType});
+    const action = parameterStationMappingActions.loadParameterStationMappingsForCollections({collectionAssets, measurementDataType});
 
     const result = parameterStationMappingFeature.reducer(state, action);
 
@@ -25,7 +34,7 @@ describe('ParameterStationMapping Reducer', () => {
 
   it('should not change loadingState if it is already loaded when loadParameterStationMappingForCollections is dispatched', () => {
     state[measurementDataType].loadingState = 'loaded';
-    const action = parameterStationMappingActions.loadParameterStationMappingsForCollections({collections: ['test'], measurementDataType});
+    const action = parameterStationMappingActions.loadParameterStationMappingsForCollections({collectionAssets, measurementDataType});
 
     const result = parameterStationMappingFeature.reducer(state, action);
 

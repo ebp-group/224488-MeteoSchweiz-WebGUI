@@ -4,6 +4,7 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing';
 import {catchError, EMPTY, Observable, of} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {ParameterStationMappingError} from '../../../shared/errors/parameter-station-mapping.error';
+import {CollectionAsset} from '../../../shared/models/collection-assets';
 import {OpendataExplorerRuntimeErrorTestUtil} from '../../../shared/testing/utils/opendata-explorer-runtime-error-test.util';
 import {DataInventoryService} from '../../../stac/service/data-inventory.service';
 import {collectionActions} from '../../collection/actions/collection.action';
@@ -17,6 +18,14 @@ import {
 
 describe('ParameterStationMappingEffects', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
+  const collectionAssets: CollectionAsset[] = [
+    {
+      filename: 'stations.csv',
+      metaFileType: 'station',
+      url: 'station://',
+      collection: 'test',
+    },
+  ];
 
   let actions$: Observable<Action>;
   let store: MockStore;
@@ -35,11 +44,12 @@ describe('ParameterStationMappingEffects', () => {
     store.resetSelectors();
   });
 
-  it('should dispatch loadParameterStationMapping action when loadCollection is dispatched', (done: DoneFn) => {
-    const collections = ['collection'];
-    actions$ = of(collectionActions.loadCollections({collections, measurementDataType}));
+  it('should dispatch loadParameterStationMapping action when setCollectionAssets is dispatched', (done: DoneFn) => {
+    actions$ = of(collectionActions.setCollectionAssets({assets: collectionAssets, measurementDataType}));
     loadCollectionParameterStationMappings(actions$).subscribe((action) => {
-      expect(action).toEqual(parameterStationMappingActions.loadParameterStationMappingsForCollections({collections, measurementDataType}));
+      expect(action).toEqual(
+        parameterStationMappingActions.loadParameterStationMappingsForCollections({collectionAssets, measurementDataType}),
+      );
       done();
     });
   });
@@ -47,9 +57,7 @@ describe('ParameterStationMappingEffects', () => {
   it('should dispatch the SetParameterStationMapping action when loading parameterStationMappings for collections', (done: DoneFn) => {
     spyOn(dataInventoryService, 'loadParameterStationMappingsForCollections').and.resolveTo([]);
     store.overrideSelector(selectCurrentParameterStationMappingState, {parameterStationMappings: [], loadingState: undefined});
-    actions$ = of(
-      parameterStationMappingActions.loadParameterStationMappingsForCollections({collections: ['collection'], measurementDataType}),
-    );
+    actions$ = of(parameterStationMappingActions.loadParameterStationMappingsForCollections({collectionAssets, measurementDataType}));
 
     loadParameterStationMappings(actions$, store, dataInventoryService).subscribe((action) => {
       expect(action).toEqual(
@@ -62,9 +70,7 @@ describe('ParameterStationMappingEffects', () => {
   it('should not call the service if the data is already loaded', (done: DoneFn) => {
     spyOn(dataInventoryService, 'loadParameterStationMappingsForCollections');
     store.overrideSelector(selectCurrentParameterStationMappingState, {parameterStationMappings: [], loadingState: 'loaded'});
-    actions$ = of(
-      parameterStationMappingActions.loadParameterStationMappingsForCollections({collections: ['collection'], measurementDataType}),
-    );
+    actions$ = of(parameterStationMappingActions.loadParameterStationMappingsForCollections({collectionAssets, measurementDataType}));
 
     loadParameterStationMappings(actions$, store, dataInventoryService).subscribe({
       complete: () => {
@@ -94,9 +100,7 @@ describe('ParameterStationMappingEffects', () => {
     const error = new Error('test');
     store.overrideSelector(selectCurrentParameterStationMappingState, {parameterStationMappings: [], loadingState: undefined});
     spyOn(dataInventoryService, 'loadParameterStationMappingsForCollections').and.rejectWith(error);
-    actions$ = of(
-      parameterStationMappingActions.loadParameterStationMappingsForCollections({collections: ['collection'], measurementDataType}),
-    );
+    actions$ = of(parameterStationMappingActions.loadParameterStationMappingsForCollections({collectionAssets, measurementDataType}));
 
     loadParameterStationMappings(actions$, store, dataInventoryService).subscribe((action) => {
       expect(action).toEqual(parameterStationMappingActions.setParameterStationMappingLoadingError({error, measurementDataType}));
