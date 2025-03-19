@@ -8,7 +8,6 @@ import {MapService} from '../../services/map.service';
 
 @Component({
   selector: 'app-map-container',
-  standalone: true,
   imports: [MatButton, MatIcon],
   templateUrl: './map-container.component.html',
   styleUrl: './map-container.component.scss',

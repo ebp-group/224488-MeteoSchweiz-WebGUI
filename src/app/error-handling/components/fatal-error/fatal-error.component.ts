@@ -7,7 +7,6 @@ import {routeParamConstants} from '../../../shared/constants/route-param.constan
 
 @Component({
   selector: 'app-fatal-error',
-  standalone: true,
   imports: [TranslocoModule],
   templateUrl: './fatal-error.component.html',
   styleUrl: './fatal-error.component.scss',

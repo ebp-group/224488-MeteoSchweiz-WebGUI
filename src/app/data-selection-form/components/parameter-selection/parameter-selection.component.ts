@@ -7,7 +7,6 @@ import {appFeature} from '../../../state/app/reducers/app.reducer';
 
 @Component({
   selector: 'app-parameter-selection',
-  standalone: true,
   imports: [AsyncPipe, TranslatableStringPipe],
   templateUrl: './parameter-selection.component.html',
   styleUrl: './parameter-selection.component.scss',

@@ -8,7 +8,6 @@ import {ParameterSelectionComponent} from '../parameter-selection/parameter-sele
 
 @Component({
   selector: 'app-parameter-list',
-  standalone: true,
   imports: [ParameterSelectionComponent, AsyncPipe],
   templateUrl: './parameter-list.component.html',
   styleUrl: './parameter-list.component.scss',
