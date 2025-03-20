@@ -1,6 +1,8 @@
 import type {IconConfig} from '../models/configs/icons-config';
 
-const weatherIcons = [
+export const emptyIcon = {id: 'empty', path: 'icons/empty.svg'} as const satisfies IconConfig;
+
+const parameterGroupIcons = [
   {id: 'pressure', path: 'icons/druck.svg'},
   {id: 'humidity', path: 'icons/feuchte.svg'},
   {id: 'foehn index', path: 'icons/foehnindex.svg'},
@@ -15,4 +17,4 @@ const weatherIcons = [
   {id: 'wind', path: 'icons/wind.svg'},
 ] as const satisfies IconConfig[];
 
-export const iconsConfig = [...weatherIcons] as const satisfies IconConfig[];
+export const iconsConfig = [...parameterGroupIcons, emptyIcon] as const satisfies IconConfig[];
