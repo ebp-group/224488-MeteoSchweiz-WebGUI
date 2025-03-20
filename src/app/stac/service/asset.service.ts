@@ -25,7 +25,7 @@ export class AssetService {
           return this.parseStacStationAsset(asset);
         } catch (error: unknown) {
           if (error instanceof AssetParseError) {
-            error.translationArguments = {filename: asset.filename};
+            error.translationArguments.filename = asset.filename;
           }
           this.errorHandler.handleError(error);
           return undefined;
@@ -36,12 +36,12 @@ export class AssetService {
 
   private parseStacStationAsset(asset: StacStationAsset): StationAsset {
     if (!asset.url) {
-      throw new AssetParseError();
+      throw new AssetParseError(asset.filename);
     }
 
     const matches = RegExp(this.parseRegex).exec(asset.filename);
     if (!matches || !matches.groups) {
-      throw new AssetParseError();
+      throw new AssetParseError(asset.filename);
     }
 
     const interval = this.transformInterval(matches.groups['interval']);
@@ -96,7 +96,7 @@ export class AssetService {
   }
 
   private transformDate(date: string | undefined): Date | undefined {
-    if (!date) {
+    if (!date || date.length < 8) {
       return undefined;
     }
     const year = Number(date.substring(0, 4));

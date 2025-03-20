@@ -30,5 +30,5 @@
   "map.load.error": "Missing value for 'map.load.error'",
   "map.not-initialized.error": "Missing value for 'map.not-initialized.error'",
   "asset.load.error": "Missing value for 'asset.load.error'",
-  "asset.parse.error": "Missing value for 'asset.parse.error'"
+  "asset.parse.error": "Erreur lors de l'analyse du fichier '{{filename}}''"
 }
