@@ -14,7 +14,7 @@ import {formFeature} from '../state/form/reducers/form.reducer';
 import {CollectionSelectionComponent} from './components/collection-selection/collection-selection.component';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
-import {ParameterListComponent} from './components/parameter-list/parameter-list.component';
+import {ParameterGroupSelectionComponent} from './components/parameter-group-selection/parameter-group-selection.component';
 import {SelectionOverviewComponent} from './components/selection-overview/selection-overview.component';
 import {StationSelectionComponent} from './components/station-selection/station-selection.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
@@ -27,7 +27,6 @@ import type {Language} from '../shared/models/language';
     MatButton,
     MatButtonToggleGroup,
     MatButtonToggle,
-    ParameterListComponent,
     IntervalSelectionComponent,
     TimeRangeSelectionComponent,
     SelectionOverviewComponent,
@@ -37,6 +36,7 @@ import type {Language} from '../shared/models/language';
     MapContainerComponent,
     StationSelectionComponent,
     CollectionSelectionComponent,
+    ParameterGroupSelectionComponent,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',

@@ -21,6 +21,8 @@
   "overview_time_range": "Missing value for 'overview_time_range'",
   "overview_file_type": "Missing value for 'overview_file_type'",
   "overview_file_size": "Missing value for 'overview_file_size'",
+  "parameter-group.search.placeholder": "Missing value for 'parameter-group.search.placeholder'",
+  "parameter-group.name": "Missing value for 'parameter-group.name'",
   "download-asset": "Missing value for 'download-asset'",
   "download-metadata": "Missing value for 'download-metadata'",
   "form.collection-selection.parameter-groups": "Missing value for 'form.collection-selection.parameter-groups'",

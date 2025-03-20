@@ -59,7 +59,6 @@ export abstract class AutocompleteSelectionComponent<T extends LocalizedDisplayI
 
   private handleValueChange(value: string | T | null, selectedValue: string | null): void {
     const valueIdOrNull = value === null || typeof value === 'string' ? null : value.id;
-    console.log(`valueIdOrNull: '${valueIdOrNull}', selectedValue: '${selectedValue}' => ${valueIdOrNull !== selectedValue}`);
     if (valueIdOrNull !== selectedValue) {
       this.dispatchValueChange(valueIdOrNull);
     }

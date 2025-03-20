@@ -1,14 +1,14 @@
 import {createSelector} from '@ngrx/store';
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {selectParameterGroupStationMappings} from '../../parameter-station-mapping/selectors/parameter-group-station-mapping.selector';
-import {selectParameterGroupsSortedByLocalizedName} from '../../parameters/selectors/parameter.selector';
+import {selectLocalizedAndSortedParameterGroups} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {formFeature} from '../reducers/form.reducer';
 
 export const selectSelectedStationWithParameterGroup = createSelector(
   formFeature.selectSelectedStationId,
   selectCurrentStationState,
-  selectParameterGroupsSortedByLocalizedName,
+  selectLocalizedAndSortedParameterGroups,
   selectParameterGroupStationMappings,
   (stationId, {stations}, parameterGroups, parameterGroupStationMapping): StationWithParameterGroups[] =>
     stations

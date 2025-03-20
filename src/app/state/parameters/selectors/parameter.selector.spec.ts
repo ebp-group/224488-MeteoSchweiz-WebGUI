@@ -1,6 +1,6 @@
 import {initialState} from '../reducers/parameter.reducer';
 import {ParameterState} from '../states/parameter.state';
-import {selectCurrentParameterState, selectParameterGroups, selectParameterGroupsSortedByLocalizedName} from './parameter.selector';
+import {selectCurrentParameterState, selectLocalizedAndSortedParameterGroups, selectParameterGroups} from './parameter.selector';
 import type {Parameter, ParameterGroup} from '../../../shared/models/parameter';
 
 describe('Parameter Selectors', () => {
@@ -61,19 +61,19 @@ describe('Parameter Selectors', () => {
     });
   });
 
-  describe('selectParameterGroupsSortedByLocalizedName', () => {
+  describe('selectLocalizedAndSortedParameterGroups', () => {
     it('should return the parameter groups sorted by their localized name', () => {
       const parameterGroups: ParameterGroup[] = [
         {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1'},
         {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2'},
         {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3'},
       ];
-      const result = selectParameterGroupsSortedByLocalizedName.projector(parameterGroups, 'de');
+      const result = selectLocalizedAndSortedParameterGroups.projector(parameterGroups, 'de');
 
       expect(result).toEqual([
-        {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2'},
-        {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3'},
-        {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1'},
+        {name: {de: 'A', en: 'B', fr: 'B', it: 'B'}, id: '2', displayName: 'A'},
+        {name: {de: 'B', en: 'Z', fr: 'Z', it: 'Z'}, id: '3', displayName: 'B'},
+        {name: {de: 'Z', en: 'A', fr: 'A', it: 'A'}, id: '1', displayName: 'Z'},
       ]);
     });
   });

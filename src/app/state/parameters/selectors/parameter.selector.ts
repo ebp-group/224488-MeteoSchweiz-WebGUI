@@ -3,7 +3,7 @@ import {ParameterService} from '../../../stac/service/parameter.service';
 import {appFeature} from '../../app/reducers/app.reducer';
 import {formFeature} from '../../form/reducers/form.reducer';
 import {parameterFeature} from '../reducers/parameter.reducer';
-import type {ParameterGroup} from '../../../shared/models/parameter';
+import type {LocalizedParameterGroup, ParameterGroup} from '../../../shared/models/parameter';
 import type {ParameterStateEntry} from '../states/parameter.state';
 
 export const selectCurrentParameterState = createSelector(
@@ -22,8 +22,11 @@ export const selectParameterGroups = createSelector(selectCurrentParameterState,
     ),
 );
 
-export const selectParameterGroupsSortedByLocalizedName = createSelector(
+export const selectLocalizedAndSortedParameterGroups = createSelector(
   selectParameterGroups,
   appFeature.selectLanguage,
-  (parameterGroups, language): ParameterGroup[] => [...parameterGroups].sort((a, b) => a.name[language].localeCompare(b.name[language])),
+  (parameterGroups, language): LocalizedParameterGroup[] =>
+    parameterGroups
+      .map((parameterGroup): LocalizedParameterGroup => ({...parameterGroup, displayName: parameterGroup.name[language]}))
+      .sort((a, b) => a.displayName.localeCompare(b.displayName)),
 );
