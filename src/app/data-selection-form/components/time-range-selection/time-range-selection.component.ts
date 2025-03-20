@@ -8,7 +8,6 @@ import type {TimeRange} from '../../../shared/models/time-range';
 
 @Component({
   selector: 'app-time-range-selection',
-  standalone: true,
   imports: [TranslocoModule, AsyncPipe],
   templateUrl: './time-range-selection.component.html',
   styleUrl: './time-range-selection.component.scss',

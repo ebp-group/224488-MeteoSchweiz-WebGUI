@@ -11,7 +11,7 @@
  */
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import eslint from '@eslint/js';
-import ngrx from '@ngrx/eslint-plugin/v9/index.js';
+import ngrx from '@ngrx/eslint-plugin/v9';
 import angular from 'angular-eslint';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import rxjsAngularX from 'eslint-plugin-rxjs-angular-x';

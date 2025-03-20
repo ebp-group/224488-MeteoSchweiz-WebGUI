@@ -10,7 +10,6 @@ import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup
 
 @Component({
   selector: 'app-collection-selection',
-  standalone: true,
   imports: [AsyncPipe, TranslatableStringPipe, TranslocoModule],
   templateUrl: './collection-selection.component.html',
   styleUrl: './collection-selection.component.scss',

@@ -15,7 +15,6 @@ import {selectUniqueStationsFilteredBySelectedParameterGroups} from '../../../st
 
 @Component({
   selector: 'app-station-selection',
-  standalone: true,
   imports: [MatFormField, ReactiveFormsModule, MatAutocompleteTrigger, MatAutocomplete, MatOption, AsyncPipe, MatInput, TranslocoDirective],
   templateUrl: './station-selection.component.html',
   styleUrl: './station-selection.component.scss',

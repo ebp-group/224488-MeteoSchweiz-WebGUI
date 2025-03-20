@@ -9,7 +9,6 @@ import type {DataInterval} from '../../../shared/models/interval';
 
 @Component({
   selector: 'app-interval-selection',
-  standalone: true,
   imports: [TranslocoModule, AsyncPipe],
   templateUrl: './interval-selection.component.html',
   styleUrl: './interval-selection.component.scss',

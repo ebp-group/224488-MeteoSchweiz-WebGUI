@@ -22,7 +22,6 @@ import type {Language} from '../shared/models/language';
 
 @Component({
   selector: 'app-data-selection-form',
-  standalone: true,
   imports: [
     TranslocoModule,
     MatButton,
