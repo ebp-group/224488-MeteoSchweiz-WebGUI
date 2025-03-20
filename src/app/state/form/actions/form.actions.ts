@@ -7,13 +7,14 @@ import type {TimeRange} from '../../../shared/models/time-range';
 export const formActions = createActionGroup({
   source: 'Form',
   events: {
-    'Set selected parameters': props<{parameterGroupId: string | null}>(),
-    'Set selected station id': props<{stationId: string | null}>(),
-    'Set selected parameter group and station id and collection': props<{
+    'Initialize selected measurement data type': props<{measurementDataType: MeasurementDataType}>(),
+    'Initialize selected parameter group and station id and collection': props<{
       parameterGroupId: string | null;
       stationId: string | null;
       collection: string | null;
     }>(),
+    'Set selected parameters': props<{parameterGroupId: string | null}>(),
+    'Set selected station id': props<{stationId: string | null}>(),
     'Set selected dataInterval': props<{dataInterval: DataInterval}>(),
     'Set selected time range': props<{timeRange: TimeRange; historicalDateRange: DateRange | null}>(),
     'Set selected measurement data type': props<{measurementDataType: MeasurementDataType}>(),

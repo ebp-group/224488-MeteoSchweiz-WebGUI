@@ -59,10 +59,10 @@ describe('FormEffects', () => {
     });
   });
 
-  it('should dispatch setSelectedMeasurementDataType action when initializeApp is dispatched', (done: DoneFn) => {
+  it('should dispatch initializeSelectedMeasurementDataType action when initializeApp is dispatched', (done: DoneFn) => {
     actions$ = of(appActions.initializeApp({parameter: {measurementDataType: 'homogenous'} as AppUrlParameter}));
     initializeSelectedMeasurementDataType(actions$).subscribe((action) => {
-      expect(action).toEqual(formActions.setSelectedMeasurementDataType({measurementDataType: 'homogenous'}));
+      expect(action).toEqual(formActions.initializeSelectedMeasurementDataType({measurementDataType: 'homogenous'}));
       done();
     });
   });
@@ -85,13 +85,17 @@ describe('FormEffects', () => {
       store.overrideSelector(selectParameterGroups, [{id: '123', name: {de: 'de', fr: 'fr', it: 'it', en: 'en'}}]);
     });
 
-    it('should dispatch setSelectedParameterGroupAndStationIdAndCollection action when initializeApp is dispatched', (done) => {
+    it('should dispatch initializeSelectedParameterGroupAndStationIdAndCollection action when initializeApp is dispatched', (done) => {
       actions$ = of(
         appActions.initializeApp({parameter: {parameterGroupId: '123', stationId: '456', collection: '789'} as AppUrlParameter}),
       );
       initializeSelectedStationIdAndParameterGroupIdAndCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(
-          formActions.setSelectedParameterGroupAndStationIdAndCollection({parameterGroupId: '123', stationId: '456', collection: '789'}),
+          formActions.initializeSelectedParameterGroupAndStationIdAndCollection({
+            parameterGroupId: '123',
+            stationId: '456',
+            collection: '789',
+          }),
         );
         done();
       });
@@ -103,7 +107,11 @@ describe('FormEffects', () => {
       );
       initializeSelectedStationIdAndParameterGroupIdAndCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(
-          formActions.setSelectedParameterGroupAndStationIdAndCollection({parameterGroupId: '123', stationId: null, collection: null}),
+          formActions.initializeSelectedParameterGroupAndStationIdAndCollection({
+            parameterGroupId: '123',
+            stationId: null,
+            collection: null,
+          }),
         );
         done();
       });
@@ -115,7 +123,11 @@ describe('FormEffects', () => {
       );
       initializeSelectedStationIdAndParameterGroupIdAndCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(
-          formActions.setSelectedParameterGroupAndStationIdAndCollection({parameterGroupId: null, stationId: '456', collection: null}),
+          formActions.initializeSelectedParameterGroupAndStationIdAndCollection({
+            parameterGroupId: null,
+            stationId: '456',
+            collection: null,
+          }),
         );
         done();
       });

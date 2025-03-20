@@ -15,7 +15,7 @@ import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup
 export const loadCollectionsForSelectedMeasurementDataType = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedMeasurementDataType),
+      ofType(formActions.setSelectedMeasurementDataType, formActions.initializeSelectedMeasurementDataType),
       map(({measurementDataType}) =>
         collectionActions.loadCollections({measurementDataType, collections: collectionConfig.collections[measurementDataType]}),
       ),
@@ -39,7 +39,7 @@ export const initializeSelectedMeasurementDataType = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(appActions.initializeApp),
-      map(({parameter}) => formActions.setSelectedMeasurementDataType({measurementDataType: parameter.measurementDataType})),
+      map(({parameter}) => formActions.initializeSelectedMeasurementDataType({measurementDataType: parameter.measurementDataType})),
     );
   },
   {functional: true},
@@ -64,7 +64,7 @@ export const initializeSelectedStationIdAndParameterGroupIdAndCollection = creat
         const collection =
           stations.filter((station) => station.id === stationId).find((station) => station.collection === parameter.collection)
             ?.collection ?? null;
-        return formActions.setSelectedParameterGroupAndStationIdAndCollection({parameterGroupId, stationId, collection});
+        return formActions.initializeSelectedParameterGroupAndStationIdAndCollection({parameterGroupId, stationId, collection});
       }),
     );
   },
