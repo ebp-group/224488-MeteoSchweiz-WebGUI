@@ -81,7 +81,7 @@ export const filterStationsOnMap = createEffect(
       ofType(
         formActions.setSelectedParameters,
         mapActions.completeLayersInitialization,
-        formActions.setSelectedParameterGroupAndStationIdAndCollection,
+        formActions.initializeSelectedParameterGroupAndStationIdAndCollection,
       ),
       concatLatestFrom(() => store.select(mapFeature.selectMapsState)),
       filter(([, {loadingState, areLayersInitialized}]) => loadingState === 'loaded' && areLayersInitialized),
@@ -115,7 +115,7 @@ export const highlightSelectedStationOnMap = createEffect(
         formActions.setSelectedStationId,
         formActions.setSelectedParameters,
         mapActions.setMapAsLoaded,
-        formActions.setSelectedParameterGroupAndStationIdAndCollection,
+        formActions.initializeSelectedParameterGroupAndStationIdAndCollection,
       ),
       concatLatestFrom(() => store.select(mapFeature.selectLoadingState)),
       filter(([, loadingState]) => loadingState === 'loaded'),

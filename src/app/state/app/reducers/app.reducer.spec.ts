@@ -13,6 +13,17 @@ describe('App Reducer', () => {
     };
   });
 
+  it('should initialize the language without changing anything else', () => {
+    const action = appActions.initializeLanguage({language: 'de'});
+
+    const result = appFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...state,
+      language: 'de',
+    });
+  });
+
   it('should set the given language', () => {
     const action = appActions.setLanguage({language: 'de'});
 
