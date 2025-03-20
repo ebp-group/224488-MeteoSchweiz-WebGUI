@@ -16,6 +16,7 @@
   "form.time-range.historical.explanation": "Missing value for 'form.time-range.historical.explanation'",
   "station.search.placeholder": "Stazione di ricerca",
   "station.name": "Stazione",
+  "form.autocomplete.clear": "Missing value for 'form.autocomplete.clear'",
   "form.selection-review.station-name": "Missing value for 'form.selection-review.station-name'",
   "form.selection-review.station-type": "Missing value for 'form.selection-review.station-type'",
   "form.selection-review.available-parameter-groups": "Missing value for 'form.selection-review.available-parameter-groups'",

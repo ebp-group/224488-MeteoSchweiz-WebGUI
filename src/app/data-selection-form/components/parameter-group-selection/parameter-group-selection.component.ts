@@ -2,7 +2,8 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
-import {MatFormField} from '@angular/material/form-field';
+import {MatIconButton} from '@angular/material/button';
+import {MatFormField, MatSuffix} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
 import {TranslocoDirective} from '@jsverse/transloco';
@@ -27,6 +28,8 @@ import {AutocompleteSelectionComponent} from '../autocomplete-selection/autocomp
     TranslocoDirective,
     MatIcon,
     IconFromConfigPipe,
+    MatSuffix,
+    MatIconButton,
   ],
   templateUrl: './parameter-group-selection.component.html',
   styleUrl: './parameter-group-selection.component.scss',

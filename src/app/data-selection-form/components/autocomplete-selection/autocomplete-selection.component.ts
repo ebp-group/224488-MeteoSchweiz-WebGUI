@@ -57,6 +57,10 @@ export abstract class AutocompleteSelectionComponent<T extends LocalizedDisplayI
     return valueObjects.find((object) => object.id === value) ?? null;
   }
 
+  protected clearInput(): void {
+    this.formControl.reset();
+  }
+
   private handleValueChange(value: string | T | null, selectedValue: string | null): void {
     const valueIdOrNull = value === null || typeof value === 'string' ? null : value.id;
     if (valueIdOrNull !== selectedValue) {

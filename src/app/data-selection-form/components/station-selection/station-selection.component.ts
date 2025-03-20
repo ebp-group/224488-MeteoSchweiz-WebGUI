@@ -2,7 +2,9 @@ import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
-import {MatFormField} from '@angular/material/form-field';
+import {MatIconButton} from '@angular/material/button';
+import {MatFormField, MatSuffix} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
@@ -14,7 +16,19 @@ import {AutocompleteSelectionComponent} from '../autocomplete-selection/autocomp
 
 @Component({
   selector: 'app-station-selection',
-  imports: [MatFormField, ReactiveFormsModule, MatAutocompleteTrigger, MatAutocomplete, MatOption, AsyncPipe, MatInput, TranslocoDirective],
+  imports: [
+    MatFormField,
+    ReactiveFormsModule,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatOption,
+    AsyncPipe,
+    MatInput,
+    TranslocoDirective,
+    MatIcon,
+    MatSuffix,
+    MatIconButton,
+  ],
   templateUrl: './station-selection.component.html',
   styleUrl: './station-selection.component.scss',
 })
