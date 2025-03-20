@@ -1,4 +1,5 @@
 import {inject, Injectable} from '@angular/core';
+import {CollectionAsset} from '../../shared/models/collection-assets';
 import {StacApiService} from './stac-api.service';
 import type {Station} from '../../shared/models/station';
 import type {CsvStation} from '../models/csv-station';
@@ -9,14 +10,15 @@ import type {CsvStation} from '../models/csv-station';
 export class StationService {
   private readonly stacApiService = inject(StacApiService);
 
-  public async loadStationsForCollections(collections: string[]): Promise<Station[]> {
-    const stations = await Promise.all(collections.map((collection) => this.getStationForCollection(collection)));
+  public async loadStationsForCollections(collectionAssets: CollectionAsset[]): Promise<Station[]> {
+    const relevantAssets = collectionAssets.filter((asset) => asset.metaFileType === 'station');
+    const stations = await Promise.all(relevantAssets.map((asset) => this.getStationForCollection(asset)));
     return stations.flat();
   }
 
-  private async getStationForCollection(collection: string): Promise<Station[]> {
-    const csvStations: CsvStation[] = await this.stacApiService.getCollectionMetaCsvFile<CsvStation>(collection, 'stations');
-    return csvStations.map((csvStation) => this.transformCsvStation(csvStation, collection));
+  private async getStationForCollection(collectionAsset: CollectionAsset): Promise<Station[]> {
+    const csvStations: CsvStation[] = await this.stacApiService.fetchAndParseCsvFile<CsvStation>(collectionAsset.url);
+    return csvStations.map((csvStation) => this.transformCsvStation(csvStation, collectionAsset.collection));
   }
 
   private transformCsvStation(csvStation: CsvStation, collection: string): Station {

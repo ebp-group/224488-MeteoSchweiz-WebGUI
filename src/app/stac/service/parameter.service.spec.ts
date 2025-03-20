@@ -2,9 +2,30 @@ import {TestBed} from '@angular/core/testing';
 import {CsvParameter} from '../models/csv-parameter';
 import {ParameterService} from './parameter.service';
 import {StacApiService} from './stac-api.service';
+import type {CollectionAsset} from '../../shared/models/collection-assets';
 import type {Parameter} from '../../shared/models/parameter';
 
 const testCollection = 'collection';
+const testCollectionAssets: CollectionAsset[] = [
+  {
+    filename: 'stations.csv',
+    metaFileType: 'station',
+    url: 'station://',
+    collection: testCollection,
+  },
+  {
+    filename: 'parameters.csv',
+    metaFileType: 'parameter',
+    url: 'parameter://',
+    collection: testCollection,
+  },
+  {
+    filename: 'datainventory.csv',
+    metaFileType: 'data-inventory',
+    url: 'data-inventory://',
+    collection: testCollection,
+  },
+];
 
 const testCsvParameter: CsvParameter = {
   parameterDatatype: 'Float',
@@ -38,7 +59,7 @@ describe('ParameterService', () => {
   let stacApiService: jasmine.SpyObj<StacApiService>;
 
   beforeEach(() => {
-    stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['getCollectionMetaCsvFile']);
+    stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['fetchAndParseCsvFile']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -66,10 +87,22 @@ describe('ParameterService', () => {
   });
 
   describe('loadParameterForCollections', () => {
-    it('should get parameters for each collection and merge parameters with the same id', async () => {
-      const collections = ['a', 'b', 'c'];
+    it('should only load assets of meta type parameter', async () => {
+      stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvParameter]);
 
-      stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvParameter]);
+      const _ = await service.loadParameterForCollections(testCollectionAssets);
+
+      expect(stacApiService.fetchAndParseCsvFile).toHaveBeenCalledOnceWith('parameter://');
+    });
+
+    it('should get parameters for each collection and merge parameters with the same id', async () => {
+      const collections = [
+        testCollectionAssets.map((asset) => ({...asset, collection: 'a'})),
+        testCollectionAssets.map((asset) => ({...asset, collection: 'b'})),
+        testCollectionAssets.map((asset) => ({...asset, collection: 'c'})),
+      ].flat();
+
+      stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvParameter]);
 
       const parameters = await service.loadParameterForCollections(collections);
 
@@ -77,19 +110,22 @@ describe('ParameterService', () => {
     });
 
     it('should get stations for each collection and not merge different ids', async () => {
-      const collections = ['a', 'b', 'c'];
+      const collectionAssetA = testCollectionAssets.map((asset) => ({...asset, collection: 'a', url: 'parameter://a'}));
+      const collectionAssetB = testCollectionAssets.map((asset) => ({...asset, collection: 'b', url: 'parameter://b'}));
+      const collectionAssetC = testCollectionAssets.map((asset) => ({...asset, collection: 'c', url: 'parameter://c'}));
+      const collections = collectionAssetA.concat(collectionAssetB).concat(collectionAssetC);
       const aParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ad0'};
       const aParameterId = ParameterService.extractIdFromShortname(aParameter.parameterShortname);
       const bParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0bd0'};
       const bParameterId = ParameterService.extractIdFromShortname(bParameter.parameterShortname);
       const cParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0cd0'};
       const cParameterId = ParameterService.extractIdFromShortname(cParameter.parameterShortname);
-      stacApiService.getCollectionMetaCsvFile
-        .withArgs('a', 'parameters')
+      stacApiService.fetchAndParseCsvFile
+        .withArgs('parameter://a')
         .and.resolveTo([aParameter])
-        .withArgs('b', 'parameters')
+        .withArgs('parameter://b')
         .and.resolveTo([bParameter])
-        .withArgs('c', 'parameters')
+        .withArgs('parameter://c')
         .and.resolveTo([cParameter]);
 
       const parameters = await service.loadParameterForCollections(collections);
@@ -108,9 +144,9 @@ describe('ParameterService', () => {
       const aParameterId = ParameterService.extractIdFromShortname(aParameter.parameterShortname);
       const bParameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0bd0'};
       const bParameterId = ParameterService.extractIdFromShortname(bParameter.parameterShortname);
-      stacApiService.getCollectionMetaCsvFile.and.resolveTo([aParameter, bParameter]);
+      stacApiService.fetchAndParseCsvFile.and.resolveTo([aParameter, bParameter]);
 
-      const parameters = await service.loadParameterForCollections([testCollection]);
+      const parameters = await service.loadParameterForCollections(testCollectionAssets);
 
       expect(parameters).toEqual(
         jasmine.arrayWithExactContents([
@@ -124,9 +160,9 @@ describe('ParameterService', () => {
       const a1Parameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ad0'};
       const aParameterId = ParameterService.extractIdFromShortname(a1Parameter.parameterShortname);
       const a2Parameter: CsvParameter = {...testCsvParameter, parameterShortname: 'test0ax0'};
-      stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvParameter, testCsvParameter, a1Parameter, a2Parameter]);
+      stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvParameter, testCsvParameter, a1Parameter, a2Parameter]);
 
-      const parameters = await service.loadParameterForCollections([testCollection]);
+      const parameters = await service.loadParameterForCollections(testCollectionAssets);
 
       expect(parameters).toEqual(jasmine.arrayWithExactContents([{...testParameter}, {...testParameter, id: aParameterId}]));
     });

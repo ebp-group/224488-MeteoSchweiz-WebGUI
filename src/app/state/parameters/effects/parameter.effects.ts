@@ -12,8 +12,10 @@ import {selectCurrentParameterState} from '../selectors/parameter.selector';
 export const loadCollectionParameters = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
-      ofType(collectionActions.loadCollections),
-      map(({measurementDataType, collections}) => parameterActions.loadParametersForCollections({collections, measurementDataType})),
+      ofType(collectionActions.setCollectionAssets),
+      map(({measurementDataType, assets}) =>
+        parameterActions.loadParametersForCollections({collectionAssets: assets, measurementDataType}),
+      ),
     );
   },
   {functional: true},
@@ -25,8 +27,8 @@ export const loadParameters = createEffect(
       ofType(parameterActions.loadParametersForCollections),
       concatLatestFrom(() => store.select(selectCurrentParameterState)),
       filter(([_, parameterState]) => parameterState.loadingState !== 'loaded'),
-      switchMap(([{collections, measurementDataType}]) =>
-        from(parameterService.loadParameterForCollections(collections)).pipe(
+      switchMap(([{collectionAssets, measurementDataType}]) =>
+        from(parameterService.loadParameterForCollections(collectionAssets)).pipe(
           map((parameters) => parameterActions.setLoadedParameters({parameters, measurementDataType})),
           catchError((error: unknown) => of(parameterActions.setParameterLoadingError({error, measurementDataType}))),
         ),

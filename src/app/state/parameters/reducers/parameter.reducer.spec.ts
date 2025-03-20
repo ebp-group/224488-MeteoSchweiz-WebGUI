@@ -1,4 +1,5 @@
 import {collectionConfig} from '../../../shared/configs/collections.config';
+import {CollectionAsset} from '../../../shared/models/collection-assets';
 import {measurementDataTypes} from '../../../shared/models/measurement-data-type';
 import {Parameter} from '../../../shared/models/parameter';
 import {parameterActions} from '../actions/parameter.action';
@@ -12,6 +13,14 @@ describe('Parameter Reducer', () => {
     {
       id: 'test-parameter-id',
       group: {de: 'test-group', en: 'test-group', fr: 'test-group', it: 'test-group'},
+    },
+  ];
+  const collectionAssets: CollectionAsset[] = [
+    {
+      filename: 'stations.csv',
+      metaFileType: 'station',
+      url: 'station://',
+      collection: 'test',
     },
   ];
 
@@ -35,7 +44,7 @@ describe('Parameter Reducer', () => {
 
   it('should set loadingState to loading when loadParameterForCollections is dispatched and loading state is currently not loaded', () => {
     state[measurementDataType].loadingState = 'error';
-    const action = parameterActions.loadParametersForCollections({collections: ['test'], measurementDataType});
+    const action = parameterActions.loadParametersForCollections({collectionAssets, measurementDataType});
 
     const result = parameterFeature.reducer(state, action);
 
@@ -45,7 +54,7 @@ describe('Parameter Reducer', () => {
 
   it('should not change loadingState if it is already loaded when loadParameterForCollections is dispatched', () => {
     state[measurementDataType].loadingState = 'loaded';
-    const action = parameterActions.loadParametersForCollections({collections: ['test'], measurementDataType});
+    const action = parameterActions.loadParametersForCollections({collectionAssets, measurementDataType});
 
     const result = parameterFeature.reducer(state, action);
 

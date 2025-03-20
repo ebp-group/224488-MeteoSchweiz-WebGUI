@@ -10,9 +10,18 @@ import {collectionActions} from '../../collection/actions/collection.action';
 import {stationActions} from '../actions/station.action';
 import {selectCurrentStationState} from '../selectors/station.selector';
 import {failLoadingCollectionStations, loadCollectionStations, loadStations} from './station.effects';
+import type {CollectionAsset} from '../../../shared/models/collection-assets';
 
 describe('StationEffects', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
+  const collectionAssets: CollectionAsset[] = [
+    {
+      filename: 'stations.csv',
+      metaFileType: 'station',
+      url: 'station://',
+      collection: 'test',
+    },
+  ];
 
   let actions$: Observable<Action>;
   let store: MockStore;
@@ -32,10 +41,9 @@ describe('StationEffects', () => {
   });
 
   it('should dispatch loadStations action when loadCollection is dispatched', (done: DoneFn) => {
-    const collections = ['collection'];
-    actions$ = of(collectionActions.loadCollections({collections, measurementDataType}));
+    actions$ = of(collectionActions.setCollectionAssets({assets: collectionAssets, measurementDataType}));
     loadCollectionStations(actions$).subscribe((action) => {
-      expect(action).toEqual(stationActions.loadStationsForCollections({collections, measurementDataType}));
+      expect(action).toEqual(stationActions.loadStationsForCollections({collectionAssets, measurementDataType}));
       done();
     });
   });
@@ -43,7 +51,7 @@ describe('StationEffects', () => {
   it('should dispatch the setStations action when loading stations for collections', (done: DoneFn) => {
     spyOn(stationService, 'loadStationsForCollections').and.resolveTo([]);
     store.overrideSelector(selectCurrentStationState, {stations: [], loadingState: undefined});
-    actions$ = of(stationActions.loadStationsForCollections({collections: ['collection'], measurementDataType}));
+    actions$ = of(stationActions.loadStationsForCollections({collectionAssets, measurementDataType}));
 
     loadStations(actions$, store, stationService).subscribe((action) => {
       expect(action).toEqual(stationActions.setLoadedStations({stations: [], measurementDataType}));
@@ -54,7 +62,7 @@ describe('StationEffects', () => {
   it('should not call the service if the data is already loaded', (done: DoneFn) => {
     spyOn(stationService, 'loadStationsForCollections');
     store.overrideSelector(selectCurrentStationState, {stations: [], loadingState: 'loaded'});
-    actions$ = of(stationActions.loadStationsForCollections({collections: ['collection'], measurementDataType}));
+    actions$ = of(stationActions.loadStationsForCollections({collectionAssets, measurementDataType}));
 
     loadStations(actions$, store, stationService).subscribe({
       complete: () => {
@@ -68,7 +76,7 @@ describe('StationEffects', () => {
     const error = new Error('test');
     spyOn(stationService, 'loadStationsForCollections').and.rejectWith(error);
     store.overrideSelector(selectCurrentStationState, {stations: [], loadingState: undefined});
-    actions$ = of(stationActions.loadStationsForCollections({collections: ['collection'], measurementDataType}));
+    actions$ = of(stationActions.loadStationsForCollections({collectionAssets, measurementDataType}));
 
     loadStations(actions$, store, stationService).subscribe((action) => {
       expect(action).toEqual(stationActions.setStationLoadingError({error, measurementDataType}));

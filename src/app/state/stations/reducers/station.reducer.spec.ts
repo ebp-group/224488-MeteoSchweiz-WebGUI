@@ -1,11 +1,20 @@
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {stationActions} from '../actions/station.action';
 import {initialState, stationFeature} from './station.reducer';
+import type {CollectionAsset} from '../../../shared/models/collection-assets';
 import type {Station} from '../../../shared/models/station';
 import type {StationState} from '../states/station.state';
 
 describe('Station Reducer', () => {
   const measurementDataType = collectionConfig.defaultMeasurementDataType;
+  const collectionAssets: CollectionAsset[] = [
+    {
+      filename: 'stations.csv',
+      metaFileType: 'station',
+      url: 'station://',
+      collection: 'test',
+    },
+  ];
 
   let state: StationState;
 
@@ -15,7 +24,7 @@ describe('Station Reducer', () => {
 
   it('should set loadingState to loading when loadStationForCollections is dispatched and loading state is currently not loaded', () => {
     state[measurementDataType].loadingState = 'error';
-    const action = stationActions.loadStationsForCollections({collections: ['test'], measurementDataType});
+    const action = stationActions.loadStationsForCollections({collectionAssets, measurementDataType});
 
     const result = stationFeature.reducer(state, action);
 
@@ -25,7 +34,7 @@ describe('Station Reducer', () => {
 
   it('should not change loadingState if it is already loaded when loadStationForCollections is dispatched', () => {
     state[measurementDataType].loadingState = 'loaded';
-    const action = stationActions.loadStationsForCollections({collections: ['test'], measurementDataType});
+    const action = stationActions.loadStationsForCollections({collectionAssets, measurementDataType});
 
     const result = stationFeature.reducer(state, action);
 

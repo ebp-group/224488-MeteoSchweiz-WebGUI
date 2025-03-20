@@ -4,8 +4,29 @@ import {CsvDataInventory} from '../models/csv-data-inventory';
 import {DataInventoryService} from './data-inventory.service';
 import {ParameterService} from './parameter.service';
 import {StacApiService} from './stac-api.service';
+import type {CollectionAsset} from '../../shared/models/collection-assets';
 
 const testCollection = 'collection';
+const testCollectionAssets: CollectionAsset[] = [
+  {
+    filename: 'stations.csv',
+    metaFileType: 'station',
+    url: 'station://',
+    collection: testCollection,
+  },
+  {
+    filename: 'parameters.csv',
+    metaFileType: 'parameter',
+    url: 'parameter://',
+    collection: testCollection,
+  },
+  {
+    filename: 'datainventory.csv',
+    metaFileType: 'data-inventory',
+    url: 'data-inventory://',
+    collection: testCollection,
+  },
+];
 
 const testCsvDataInventory: CsvDataInventory = {
   measCatNr: '0',
@@ -27,7 +48,7 @@ describe('DataInventoryService', () => {
   let stacApiService: jasmine.SpyObj<StacApiService>;
 
   beforeEach(() => {
-    stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['getCollectionMetaCsvFile']);
+    stacApiService = jasmine.createSpyObj<StacApiService>('StacApiService', ['fetchAndParseCsvFile']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -45,16 +66,28 @@ describe('DataInventoryService', () => {
   });
 
   it('should get parameter station mappings for collection', async () => {
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvDataInventory]);
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvDataInventory]);
 
-    const parameters = await service.loadParameterStationMappingsForCollections([testCollection]);
+    const parameters = await service.loadParameterStationMappingsForCollections(testCollectionAssets);
 
     expect(parameters).toEqual(jasmine.arrayWithExactContents([testParameterStationMapping]));
   });
 
+  it('should only load assets of meta type data-inventory', async () => {
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvDataInventory]);
+
+    const _ = await service.loadParameterStationMappingsForCollections(testCollectionAssets);
+
+    expect(stacApiService.fetchAndParseCsvFile).toHaveBeenCalledOnceWith('data-inventory://');
+  });
+
   it('should not filter out duplicates', async () => {
-    const collections = ['a', 'b', 'c'];
-    stacApiService.getCollectionMetaCsvFile.and.resolveTo([testCsvDataInventory, testCsvDataInventory]);
+    const collections = [
+      testCollectionAssets.map((asset) => ({...asset, collection: 'a'})),
+      testCollectionAssets.map((asset) => ({...asset, collection: 'b'})),
+      testCollectionAssets.map((asset) => ({...asset, collection: 'c'})),
+    ].flat();
+    stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvDataInventory, testCsvDataInventory]);
 
     const parameters = await service.loadParameterStationMappingsForCollections(collections);
 
