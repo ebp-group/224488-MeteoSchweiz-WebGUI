@@ -12,7 +12,7 @@ import {assetActions} from '../actions/asset.actions';
 export const loadAssetsForStation = createEffect(
   (actions$ = inject(Actions), store = inject(Store), assetService = inject(AssetService)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedCollection, formActions.setSelectedParameterGroupAndStationIdAndCollection),
+      ofType(formActions.setSelectedCollection, formActions.initializeSelectedParameterGroupAndStationIdAndCollection),
       concatLatestFrom(() => store.select(formFeature.selectFormState)),
       map(([_, {selectedStationId, selectedCollection}]) => ({selectedStationId, selectedCollection})),
       // use distinctUntilChanged to prevent unnecessary API calls
@@ -34,7 +34,7 @@ export const loadAssetsForStation = createEffect(
 export const resetAssets = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
-      ofType(formActions.setSelectedCollection, formActions.setSelectedParameterGroupAndStationIdAndCollection),
+      ofType(formActions.setSelectedCollection, formActions.initializeSelectedParameterGroupAndStationIdAndCollection),
       concatLatestFrom(() => store.select(formFeature.selectFormState)),
       filter(([, {selectedStationId, selectedCollection}]) => !selectedStationId || !selectedCollection),
       map(() => assetActions.resetState()),

@@ -26,10 +26,10 @@ describe('AppEffects', () => {
     });
   });
 
-  it('should dispatch setLanguage action when appActions.initializeApp is dispatched', (done: DoneFn) => {
+  it('should dispatch initializeLanguage action when appActions.initializeApp is dispatched', (done: DoneFn) => {
     actions$ = of(appActions.initializeApp({parameter: {language: 'fr'} as AppUrlParameter}));
     initializeLanguage(actions$).subscribe((action) => {
-      expect(action).toEqual(appActions.setLanguage({language: 'fr'}));
+      expect(action).toEqual(appActions.initializeLanguage({language: 'fr'}));
       done();
     });
   });

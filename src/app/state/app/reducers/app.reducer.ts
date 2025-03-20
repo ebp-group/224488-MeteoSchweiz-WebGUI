@@ -15,6 +15,13 @@ export const appFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
+      appActions.initializeLanguage,
+      (state, {language}): AppState => ({
+        ...state,
+        language,
+      }),
+    ),
+    on(
       appActions.setLanguage,
       (state, {language}): AppState => ({
         ...state,
