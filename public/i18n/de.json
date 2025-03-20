@@ -28,5 +28,7 @@
   "parameter.load.error": "Fehler beim Laden der Parameter",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",
-  "map.not-initialized.error": "Missing value for 'map.not-initialized.error'"
+  "map.not-initialized.error": "Missing value for 'map.not-initialized.error'",
+  "asset.load.error": "Missing value for 'asset.load.error'",
+  "asset.parse.error": "Fehler beim lesen der Datei '{{filename}}'"
 }

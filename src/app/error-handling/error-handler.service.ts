@@ -27,19 +27,19 @@ export class ErrorHandlerService implements ErrorHandler {
         console.error('Original error was:', error.originalError);
       }
     }
-
-    const translatedMessage = this.translocoService.translate(error.message);
+    const translatedMessage =
+      error instanceof OpendataExplorerRuntimeError
+        ? this.translocoService.translate(error.message, error.translationArguments)
+        : error instanceof Error
+          ? error.message
+          : JSON.stringify(error);
     if (error instanceof SilentError) {
       // these errors should only be logged to a frontend logging service, but not displayed.
     } else if (error instanceof RecoverableError) {
-      this.showRecoverableErrorMessage(translatedMessage);
+      // At the moment, recoverable errors are treated the same as silent errors.
     } else {
       this.routeToErrorPage(translatedMessage);
     }
-  }
-
-  private showRecoverableErrorMessage(message: string): void {
-    // TODO show error notification
   }
 
   private routeToErrorPage(message?: string): void {

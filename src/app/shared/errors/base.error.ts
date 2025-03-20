@@ -1,5 +1,6 @@
 export abstract class OpendataExplorerRuntimeError extends Error {
   public readonly originalError?: unknown;
+  public translationArguments: Record<string, string> | undefined = undefined;
 
   constructor(originalError?: unknown) {
     super();

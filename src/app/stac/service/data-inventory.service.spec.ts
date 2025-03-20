@@ -1,5 +1,4 @@
 import {TestBed} from '@angular/core/testing';
-import {provideMockStore} from '@ngrx/store/testing';
 import {ParameterStationMapping} from '../../shared/models/parameter-station-mapping';
 import {CsvDataInventory} from '../models/csv-data-inventory';
 import {DataInventoryService} from './data-inventory.service';
@@ -32,7 +31,6 @@ describe('DataInventoryService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        provideMockStore(),
         {
           provide: StacApiService,
           useValue: stacApiService,
