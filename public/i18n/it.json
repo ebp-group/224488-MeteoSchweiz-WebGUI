@@ -24,6 +24,8 @@
   "form.selection-review.file-format": "Missing value for 'form.selection-review.file-format'",
   "form.selection-review.file-size": "Missing value for 'form.selection-review.file-size'",
   "form.download.data": "Missing value for 'form.download.data'",
+  "parameter-group.search.placeholder": "Missing value for 'parameter-group.search.placeholder'",
+  "parameter-group.name": "Missing value for 'parameter-group.name'",
   "form.download.data-explanation": "Missing value for 'form.download.data-explanation'",
   "form.download.metadata": "Missing value for 'form.download.metadata'",
   "form.download.parameters-explanation": "Missing value for 'form.download.parameters-explanation'",

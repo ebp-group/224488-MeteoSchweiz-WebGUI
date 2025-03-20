@@ -1,0 +1,18 @@
+.parameter-group-selection {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+
+  .field {
+    width: 100%;
+
+    .option {
+      display: flex;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
