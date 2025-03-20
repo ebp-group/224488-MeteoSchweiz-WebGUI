@@ -1,3 +1,4 @@
+import {LocalizedDisplayItem} from './localized-display-item';
 import type {TranslatableString} from './translatable-string';
 
 export interface Parameter {
@@ -8,4 +9,8 @@ export interface Parameter {
 export interface ParameterGroup {
   id: string;
   name: TranslatableString;
+}
+
+export interface LocalizedParameterGroup extends ParameterGroup, LocalizedDisplayItem {
+  displayName: string;
 }

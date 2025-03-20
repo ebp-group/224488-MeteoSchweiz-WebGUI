@@ -22,7 +22,7 @@
   <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step [completed]="(selectedCollection$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
-      <app-parameter-list></app-parameter-list>
+      <app-parameter-group-selection></app-parameter-group-selection>
       <app-station-selection></app-station-selection>
       <app-map-container class="map-container"></app-map-container>
       <app-collection-selection></app-collection-selection>
