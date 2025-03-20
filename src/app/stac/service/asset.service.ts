@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {AssetParseError} from '../../shared/errors/asset.error';
 import {isTimeRange} from '../../shared/type-guards/time-range-guard';
 import {StacApiService} from './stac-api.service';
@@ -12,6 +12,7 @@ import type {StacStationAsset} from '../models/stac-station-asset';
 })
 export class AssetService {
   private readonly stacApiService = inject(StacApiService);
+  private readonly errorHandler = inject(ErrorHandler);
 
   private readonly parseRegex =
     /^(?<collectionId>[^_]+)_(?<stationId>[^_]+)_(?<interval>[^_]+)_(?<timeRange>[^_]+)(?:_(?<fromDate>\d{8})_(?<toDate>\d{8}))?\.csv$/;
@@ -23,7 +24,10 @@ export class AssetService {
         try {
           return this.parseStacStationAsset(asset);
         } catch (error: unknown) {
-          console.error(error);
+          if (error instanceof AssetParseError) {
+            error.translationArguments = {filename: asset.filename};
+          }
+          this.errorHandler.handleError(error);
           return undefined;
         }
       })
@@ -31,33 +35,39 @@ export class AssetService {
   }
 
   private parseStacStationAsset(asset: StacStationAsset): StationAsset {
-    const matches = RegExp(this.parseRegex).exec(asset.filename);
-    if (!matches) {
-      // TODO: Error handling
+    if (!asset.url) {
       throw new AssetParseError();
     }
 
-    const interval = this.transformInterval(matches.groups?.['interval'] as string);
-    const timeRange = this.transformTimeRange(matches.groups?.['timeRange'] as string);
+    const matches = RegExp(this.parseRegex).exec(asset.filename);
+    if (!matches || !matches.groups) {
+      throw new AssetParseError();
+    }
 
-    if (timeRange === 'historical') {
-      const fromDate = this.transformDate(matches.groups?.['fromDate']);
-      const toDate = this.transformDate(matches.groups?.['toDate']);
-      const dataRange = fromDate != null && toDate != null ? {start: fromDate, end: toDate} : undefined;
-      return {
-        filename: asset.filename,
-        url: asset.url ?? '',
-        interval,
-        timeRange: timeRange,
-        dateRange: dataRange,
-      };
-    } else {
-      return {
-        filename: asset.filename,
-        url: asset.url ?? '',
-        interval,
-        timeRange: timeRange,
-      };
+    const interval = this.transformInterval(matches.groups['interval']);
+    const timeRange = this.transformTimeRange(matches.groups['timeRange']);
+
+    switch (timeRange) {
+      case 'historical': {
+        const fromDate = this.transformDate(matches.groups['fromDate']);
+        const toDate = this.transformDate(matches.groups['toDate']);
+        const dataRange = fromDate != null && toDate != null ? {start: fromDate, end: toDate} : undefined;
+        return {
+          filename: asset.filename,
+          url: asset.url,
+          interval,
+          timeRange: timeRange,
+          dateRange: dataRange,
+        };
+      }
+      case 'now':
+      case 'recent':
+        return {
+          filename: asset.filename,
+          url: asset.url,
+          interval,
+          timeRange: timeRange,
+        };
     }
   }
 
@@ -74,29 +84,30 @@ export class AssetService {
       case 'h':
         return 'hourly';
       default:
-        // TODO: Error handling
         throw new AssetParseError();
     }
   }
 
   private transformTimeRange(timeRange: string): TimeRange {
-    if (isTimeRange(timeRange)) {
-      return timeRange;
+    if (!isTimeRange(timeRange)) {
+      throw new AssetParseError();
     }
-    // TODO: Error handling
-    throw new AssetParseError();
+    return timeRange;
   }
 
   private transformDate(date: string | undefined): Date | undefined {
-    // TODO: Error handling
     if (!date) {
       return undefined;
     }
-    const year = date.substring(0, 4);
-    const month = date.substring(4, 6);
-    const day = date.substring(6, 8);
+    const year = Number(date.substring(0, 4));
+    const month = Number(date.substring(4, 6));
+    const day = Number(date.substring(6, 8));
+
+    if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) {
+      throw new AssetParseError();
+    }
 
     // Note: months are 0-indexed in JavaScript Date objects
-    return new Date(Number(year), Number(month) - 1, Number(day));
+    return new Date(year, month - 1, day);
   }
 }
