@@ -5,7 +5,7 @@
       name="time-range"
       id="now-time-range"
       (input)="setSelectedTimeRange('now', null)"
-      [disabled]="!(availableTimeRanges$ | async)?.includes('now')"
+      [disabled]="!(availableTimeRanges$ | async | includes: 'now')"
       [checked]="(selectedTimeRange$ | async) === 'now'"
     />
     <label for="now-time-range">{{ t('form.time-range.now') }}</label>
@@ -16,7 +16,7 @@
       name="time-range"
       id="recent-time-range"
       (input)="setSelectedTimeRange('recent', null)"
-      [disabled]="!(availableTimeRanges$ | async)?.includes('recent')"
+      [disabled]="!(availableTimeRanges$ | async | includes: 'recent')"
       [checked]="(selectedTimeRange$ | async) === 'recent'"
     />
     <label for="recent-time-range">{{ t('form.time-range.recent') }}</label>
@@ -28,7 +28,7 @@
         name="time-range"
         id="historical-time-range"
         (input)="setSelectedTimeRange('historical', null)"
-        [disabled]="!(availableTimeRanges$ | async)?.includes('historical')"
+        [disabled]="!(availableTimeRanges$ | async | includes: 'historical')"
         [checked]="(selectedTimeRange$ | async) === 'historical'"
       />
       <label for="historical-time-range">{{ t('form.time-range.historical') }}</label>
@@ -44,11 +44,7 @@
             name="time-range"
             id="historical-time-range-{{ range.start | date: 'dd.MM.YYYY' }}-{{ range.end | date: 'dd.MM.YYYY' }}"
             (input)="setSelectedTimeRange('historical', range)"
-            [checked]="
-              (selectedTimeRange$ | async) === 'historical' &&
-              (selectedHistoricalDateRange$ | async)?.start?.getTime() === range.start.getTime() &&
-              (selectedHistoricalDateRange$ | async)?.end?.getTime() === range.end.getTime()
-            "
+            [checked]="range.selected"
           />
           <label for="historical-time-range-{{ range.start | date: 'dd.MM.YYYY' }}-{{ range.end | date: 'dd.MM.YYYY' }}"
             >{{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }}

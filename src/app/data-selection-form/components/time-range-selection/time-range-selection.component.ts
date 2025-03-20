@@ -2,6 +2,7 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
+import {IncludesPipe} from '../../../shared/pipes/includes.pipe';
 import {selectAvailableTimeRanges, selectSortedHistoricalDateRanges} from '../../../state/assets/selectors/asset.selectors';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
@@ -10,7 +11,7 @@ import type {TimeRange} from '../../../shared/models/time-range';
 
 @Component({
   selector: 'app-time-range-selection',
-  imports: [TranslocoModule, AsyncPipe, DatePipe],
+  imports: [TranslocoModule, AsyncPipe, DatePipe, IncludesPipe],
   templateUrl: './time-range-selection.component.html',
   styleUrl: './time-range-selection.component.scss',
 })
