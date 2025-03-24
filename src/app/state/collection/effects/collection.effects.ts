@@ -13,7 +13,7 @@ export const loadCollectionAssets = createEffect(
     return actions$.pipe(
       ofType(collectionActions.loadCollections),
       concatLatestFrom(() => store.select(selectCurrentCollectionState)),
-      filter(([_, stationState]) => stationState.loadingState !== 'loaded'),
+      filter(([_, collectionState]) => collectionState.loadingState !== 'loaded'),
       switchMap(([{collections, measurementDataType}]) =>
         from(assetService.loadCollectionAssets(collections)).pipe(
           map((assets) => collectionActions.setCollectionAssets({assets, measurementDataType})),

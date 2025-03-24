@@ -103,7 +103,7 @@ describe('StationService', () => {
   it('should only load assets of meta type station', async () => {
     stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvStation]);
 
-    const _ = await service.loadStationsForCollections(testCollectionAssets);
+    await service.loadStationsForCollections(testCollectionAssets);
 
     expect(stacApiService.fetchAndParseCsvFile).toHaveBeenCalledOnceWith('station://');
   });

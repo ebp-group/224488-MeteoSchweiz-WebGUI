@@ -67,7 +67,7 @@ describe('Collection Effects', () => {
     });
   });
 
-  it('should throw a Station error after dispatching setCollectionAssetLoadingError', (done: DoneFn) => {
+  it('should throw a collection error after dispatching setCollectionAssetLoadingError', (done: DoneFn) => {
     const error = new Error('My cabbages!!!');
     const expectedError = new CollectionError(error);
 

@@ -18,7 +18,7 @@ export class DataInventoryService {
   }
 
   private async getParameterStationMappingsForCollection(collectionAsset: CollectionAsset): Promise<ParameterStationMapping[]> {
-    const csvDataInventory: CsvDataInventory[] = await this.stacApiService.fetchAndParseCsvFile<CsvDataInventory>(collectionAsset.url);
+    const csvDataInventory = await this.stacApiService.fetchAndParseCsvFile<CsvDataInventory>(collectionAsset.url);
     return csvDataInventory.map((dataInventory) => this.transformCsvDataInventory(dataInventory, collectionAsset.collection));
   }
 

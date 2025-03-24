@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import papa from 'papaparse';
 import {defaultStacClientConfig} from '../../shared/configs/stac.config';
+import {StacLoadError} from '../../shared/errors/stac.error';
 import {StacApiClient} from '../generated/stac-api.generated';
 import {StacAsset} from '../models/stac-asset';
 
@@ -38,17 +39,17 @@ export class StacApiService {
         : await this.stacApiClient.collections.describeCollection(collectionId, {format: 'json'});
 
     if (!response.ok) {
-      throw new Error(`Failed to get Assets for collectionId '${collectionId}', stationId '${stationId}'`);
+      throw new StacLoadError(collectionId, stationId);
     }
 
     const feature = response.data;
     if (feature == null) {
-      throw new Error(`Response data was 'null' for collectionId '${collectionId}', stationId '${stationId}'`);
+      throw new StacLoadError(collectionId, stationId);
     }
 
     const assets = feature.assets;
     if (assets == null) {
-      throw new Error(`Asset data was undefined for collectionId '${collectionId}', stationId '${stationId}'`);
+      throw new StacLoadError(collectionId, stationId);
     }
 
     return Object.entries(assets)

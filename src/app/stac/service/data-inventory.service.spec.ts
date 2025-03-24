@@ -76,7 +76,7 @@ describe('DataInventoryService', () => {
   it('should only load assets of meta type data-inventory', async () => {
     stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvDataInventory]);
 
-    const _ = await service.loadParameterStationMappingsForCollections(testCollectionAssets);
+    await service.loadParameterStationMappingsForCollections(testCollectionAssets);
 
     expect(stacApiService.fetchAndParseCsvFile).toHaveBeenCalledOnceWith('data-inventory://');
   });

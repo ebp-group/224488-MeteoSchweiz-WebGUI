@@ -17,7 +17,7 @@ export class StationService {
   }
 
   private async getStationForCollection(collectionAsset: CollectionAsset): Promise<Station[]> {
-    const csvStations: CsvStation[] = await this.stacApiService.fetchAndParseCsvFile<CsvStation>(collectionAsset.url);
+    const csvStations = await this.stacApiService.fetchAndParseCsvFile<CsvStation>(collectionAsset.url);
     return csvStations.map((csvStation) => this.transformCsvStation(csvStation, collectionAsset.collection));
   }
 

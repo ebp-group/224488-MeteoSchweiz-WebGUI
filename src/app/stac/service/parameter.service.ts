@@ -32,7 +32,7 @@ export class ParameterService {
   }
 
   private async getParametersForCollection(collectionAsset: CollectionAsset): Promise<Parameter[]> {
-    const csvParameters: CsvParameter[] = await this.stacApiService.fetchAndParseCsvFile<CsvParameter>(collectionAsset.url);
+    const csvParameters = await this.stacApiService.fetchAndParseCsvFile<CsvParameter>(collectionAsset.url);
     return csvParameters.map((csvParameter) => this.transformCsvParameter(csvParameter));
   }
 

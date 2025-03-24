@@ -25,6 +25,7 @@
   "download-metadata": "Missing value for 'download-metadata'",
   "form.collection-selection.parameter-groups": "Missing value for 'form.collection-selection.parameter-groups'",
   "station.load.error": "Missing value for 'station.load.error'",
+  "stac.load.error": "Failed to get assets for collectionId '{{collectionId}}' and stationId '{{stationId}}'",
   "parameter.load.error": "Error loading parameters",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",

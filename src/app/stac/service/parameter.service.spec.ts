@@ -90,7 +90,7 @@ describe('ParameterService', () => {
     it('should only load assets of meta type parameter', async () => {
       stacApiService.fetchAndParseCsvFile.and.resolveTo([testCsvParameter]);
 
-      const _ = await service.loadParameterForCollections(testCollectionAssets);
+      await service.loadParameterForCollections(testCollectionAssets);
 
       expect(stacApiService.fetchAndParseCsvFile).toHaveBeenCalledOnceWith('parameter://');
     });

@@ -48,13 +48,14 @@ export class AssetService {
     if (!asset.url) {
       throw new AssetParseError(asset.filename);
     }
-    const metaFileType = asset.filename.includes('station')
-      ? 'station'
-      : asset.filename.includes('parameter')
-        ? 'parameter'
-        : asset.filename.includes('datainventory')
-          ? 'data-inventory'
-          : undefined;
+    let metaFileType: CollectionAsset['metaFileType'] = undefined;
+    if (asset.filename.includes('station')) {
+      metaFileType = 'station';
+    } else if (asset.filename.includes('parameter')) {
+      metaFileType = 'parameter';
+    } else if (asset.filename.includes('datainventory')) {
+      metaFileType = 'data-inventory';
+    }
 
     return {
       metaFileType,
