@@ -6,7 +6,7 @@
         name="interval"
         id="{{ dataInterval.interval }}-interval"
         [checked]="(selectedDataInterval$ | async) === dataInterval.interval"
-        [disabled]="!((availableDataIntervals$ | async) || [] | includes: dataInterval.interval)"
+        [disabled]="!(availableDataIntervals$ | async | includes: dataInterval.interval)"
         (input)="setSelectedInterval(dataInterval.interval)"
       />
       <label for="{{ dataInterval.interval }}-interval">{{ t(dataInterval.label) }}</label>

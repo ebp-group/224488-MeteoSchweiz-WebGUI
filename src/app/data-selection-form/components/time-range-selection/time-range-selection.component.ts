@@ -19,7 +19,6 @@ export class TimeRangeSelectionComponent {
   private readonly store = inject(Store);
 
   protected readonly selectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
-  protected readonly selectedHistoricalDateRange$ = this.store.select(formFeature.selectSelectedHistoricalDateRange);
   protected readonly availableTimeRanges$ = this.store.select(selectAvailableTimeRanges);
   protected readonly historicalDateRanges$ = this.store.select(selectSortedHistoricalDateRanges);
 

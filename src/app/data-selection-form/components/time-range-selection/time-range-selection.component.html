@@ -21,7 +21,7 @@
     />
     <label for="recent-time-range">{{ t('form.time-range.recent') }}</label>
   </div>
-  @if (((historicalDateRanges$ | async) ?? []).length === 0) {
+  @if ((historicalDateRanges$ | async)?.length === 0) {
     <div>
       <input
         type="radio"

@@ -14,10 +14,15 @@ export class IncludesPipe implements PipeTransform {
       | undefined,
     ArgumentType,
   >(container: ContainerType, searchValue: ArgumentType): boolean {
+    if (container == null) {
+      return false;
+    }
+
     if (typeof container === 'string') {
       return typeof searchValue === 'string' ? container.includes(searchValue) : false;
     }
-    if (typeof container === 'object' && container != null) {
+
+    if (typeof container === 'object') {
       if ('includes' in container && typeof container.includes === 'function') {
         return container.includes(searchValue);
       }
@@ -25,6 +30,7 @@ export class IncludesPipe implements PipeTransform {
         return container.has(searchValue);
       }
     }
+
     return false;
   }
 }
