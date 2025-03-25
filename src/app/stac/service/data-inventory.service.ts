@@ -1,4 +1,5 @@
 import {inject, Injectable} from '@angular/core';
+import {CollectionAsset} from '../../shared/models/collection-assets';
 import {ParameterStationMapping} from '../../shared/models/parameter-station-mapping';
 import {CsvDataInventory} from '../models/csv-data-inventory';
 import {ParameterService} from './parameter.service';
@@ -10,19 +11,15 @@ import {StacApiService} from './stac-api.service';
 export class DataInventoryService {
   private readonly stacApiService = inject(StacApiService);
 
-  public async loadParameterStationMappingsForCollections(collections: string[]): Promise<ParameterStationMapping[]> {
-    const parameterStationMappings = await Promise.all(
-      collections.map((collection) => this.getParameterStationMappingsForCollection(collection)),
-    );
+  public async loadParameterStationMappingsForCollections(collectionAssets: CollectionAsset[]): Promise<ParameterStationMapping[]> {
+    const relevantAssets = collectionAssets.filter((asset) => asset.metaFileType === 'data-inventory');
+    const parameterStationMappings = await Promise.all(relevantAssets.map((asset) => this.getParameterStationMappingsForCollection(asset)));
     return parameterStationMappings.flat();
   }
 
-  private async getParameterStationMappingsForCollection(collection: string): Promise<ParameterStationMapping[]> {
-    const csvDataInventory: CsvDataInventory[] = await this.stacApiService.getCollectionMetaCsvFile<CsvDataInventory>(
-      collection,
-      'datainventory',
-    );
-    return csvDataInventory.map((dataInventory) => this.transformCsvDataInventory(dataInventory, collection));
+  private async getParameterStationMappingsForCollection(collectionAsset: CollectionAsset): Promise<ParameterStationMapping[]> {
+    const csvDataInventory = await this.stacApiService.fetchAndParseCsvFile<CsvDataInventory>(collectionAsset.url);
+    return csvDataInventory.map((dataInventory) => this.transformCsvDataInventory(dataInventory, collectionAsset.collection));
   }
 
   private transformCsvDataInventory(csvDataInventory: CsvDataInventory, collection: string): ParameterStationMapping {

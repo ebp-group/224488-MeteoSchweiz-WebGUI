@@ -2,10 +2,11 @@ import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {AssetParseError} from '../../shared/errors/asset.error';
 import {isTimeRange} from '../../shared/type-guards/time-range-guard';
 import {StacApiService} from './stac-api.service';
+import type {CollectionAsset} from '../../shared/models/collection-assets';
 import type {DataInterval} from '../../shared/models/interval';
 import type {StationAsset} from '../../shared/models/station-assets';
 import type {TimeRange} from '../../shared/models/time-range';
-import type {StacStationAsset} from '../models/stac-station-asset';
+import type {StacAsset} from '../models/stac-asset';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,20 @@ export class AssetService {
   private readonly stacApiService = inject(StacApiService);
   private readonly errorHandler = inject(ErrorHandler);
 
-  private readonly parseRegex =
+  private readonly stationParseRegex =
     /^(?<collectionId>[^_]+)_(?<stationId>[^_]+)_(?<interval>[^_]+)_(?<timeRange>[^_]+)(?:_(?<fromDate>\d{8})_(?<toDate>\d{8}))?\.csv$/;
 
+  public async loadCollectionAssets(collections: string[]): Promise<CollectionAsset[]> {
+    const assets = await Promise.all(
+      collections.map(async (collection) =>
+        (await this.stacApiService.getAssets(collection)).map((asset) => this.transformStacCollectionAsset(collection, asset)),
+      ),
+    );
+    return assets.flat();
+  }
+
   public async loadStationAssets(collection: string, stationId: string): Promise<StationAsset[]> {
-    const assets = await this.stacApiService.getStationAssets(collection, stationId);
+    const assets = await this.stacApiService.getAssets(collection, stationId);
     return assets
       .map((asset) => {
         try {
@@ -34,12 +44,33 @@ export class AssetService {
       .filter((asset) => asset != null);
   }
 
-  private parseStacStationAsset(asset: StacStationAsset): StationAsset {
+  private transformStacCollectionAsset(collection: string, asset: StacAsset): CollectionAsset {
+    if (!asset.url) {
+      throw new AssetParseError(asset.filename);
+    }
+    let metaFileType: CollectionAsset['metaFileType'] = undefined;
+    if (asset.filename.includes('station')) {
+      metaFileType = 'station';
+    } else if (asset.filename.includes('parameter')) {
+      metaFileType = 'parameter';
+    } else if (asset.filename.includes('datainventory')) {
+      metaFileType = 'data-inventory';
+    }
+
+    return {
+      metaFileType,
+      filename: asset.filename,
+      url: asset.url,
+      collection: collection,
+    };
+  }
+
+  private parseStacStationAsset(asset: StacAsset): StationAsset {
     if (!asset.url) {
       throw new AssetParseError(asset.filename);
     }
 
-    const matches = RegExp(this.parseRegex).exec(asset.filename);
+    const matches = RegExp(this.stationParseRegex).exec(asset.filename);
     if (!matches || !matches.groups) {
       throw new AssetParseError(asset.filename);
     }

@@ -1,4 +1,4 @@
-export interface StacStationAsset {
+export interface StacAsset {
   filename: string;
   url: string | undefined;
 }

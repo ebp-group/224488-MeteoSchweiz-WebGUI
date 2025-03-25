@@ -6,6 +6,9 @@ import {AppState} from './app/states/app.state';
 import * as assertEffects from './assets/effects/asset.effects';
 import {assetFeature, assetFeatureKey} from './assets/reducers/asset.reducer';
 import {AssetState} from './assets/states/asset.state';
+import * as collectionEffects from './collection/effects/collection.effects';
+import {collectionFeature, collectionFeatureKey} from './collection/reducers/collection.reducer';
+import {CollectionState} from './collection/states/collection.state';
 import * as formEffects from './form/effects/form.effects';
 import {formFeature, formFeatureKey} from './form/reducers/form.reducer';
 import * as mapEffects from './map/effects/map.effects';
@@ -37,6 +40,7 @@ export interface State {
   [appFeatureKey]: AppState;
   router: RouterState;
   [assetFeatureKey]: AssetState;
+  [collectionFeatureKey]: CollectionState;
 }
 export const reducers: ActionReducerMap<State> = {
   [parameterFeatureKey]: parameterFeature.reducer,
@@ -47,6 +51,7 @@ export const reducers: ActionReducerMap<State> = {
   [appFeatureKey]: appFeature.reducer,
   router: routerReducer,
   [assetFeatureKey]: assetFeature.reducer,
+  [collectionFeatureKey]: collectionFeature.reducer,
 };
 export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   parameterEffects,
@@ -57,5 +62,6 @@ export const effects: (Type<unknown> | Record<string, FunctionalEffect>)[] = [
   appEffects,
   urlParameterEffects,
   assertEffects,
+  collectionEffects,
 ];
 export const metaReducers: MetaReducer<State>[] = [];
