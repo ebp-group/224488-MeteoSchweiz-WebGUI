@@ -4,7 +4,7 @@
       <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
       <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
     </mat-button-toggle-group>
-    <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
+    <button mat-stroked-button color="warn" (click)="testError()">{{ t('main.test-error-button') }}</button>
   </div>
   <hr />
   <div>
@@ -19,12 +19,34 @@
     </mat-button-toggle-group>
   </div>
 
+  <diV>
+    @if ((selectedMeasurementDataType$ | async) === 'normal') {
+      <p>{{ t('form.measurement-data-type.normal.explanation') }}</p>
+    } @else if ((selectedMeasurementDataType$ | async) === 'homogenous') {
+      <p>{{ t('form.measurement-data-type.homogenous.explanation') }}</p>
+    }
+    <p>{{ t('form.measurement-data-type.more-info-link') }}</p>
+  </diV>
+
   <mat-vertical-stepper [linear]="true" #stepper>
     <mat-step [completed]="(selectedCollection$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
+      <ng-template matStepLabel
+        >{{ t('form.stepper.station.label') }}<br /><small>{{ t('form.stepper.station.label.explanation') }}</small></ng-template
+      >
       <app-parameter-list></app-parameter-list>
       <app-station-selection></app-station-selection>
-      <app-map-container class="map-container"></app-map-container>
+      <div style="display: flex">
+        <app-map-container class="map-container"></app-map-container>
+        <div>
+          @if ((selectSelectedStationId$ | async) !== null; as station) {
+            <p>TODO: station infos</p>
+            <p>{{ t('form.station.selection-info.more-info') }}</p>
+          } @else {
+            <p>{{ t('form.station.selection-info.no-station-selected.title') }}</p>
+            <p>{{ t('form.station.selection-info.no-station-selected.explanation') }}</p>
+          }
+        </div>
+      </div>
       <app-collection-selection></app-collection-selection>
       <div>
         <button mat-button matStepperNext type="button" [disabled]="(selectedCollection$ | async) === null">

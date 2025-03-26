@@ -1,6 +1,0 @@
-{
-  "title": "Fehler",
-  "info": "Die Applikation kann gerade nicht geladen werden. Laden Sie die Seite erneut oder versuchen Sie es später noch einmal.",
-  "error_message": "Fehler: {{ errorMessage }}",
-  "home": "Zur Startseite"
-}

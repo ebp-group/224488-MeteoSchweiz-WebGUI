@@ -1,4 +1,5 @@
 @for (parameterGroup of parameterGroups$ | async; track parameterGroup.id) {
+  <p *transloco="let t">{{ t('parameter.search.placeholder') }}</p>
   <app-parameter-selection
     [parameterGroup]="parameterGroup"
     [isSelected]="parameterGroup.id === (selectedParameterGroup$ | async)"

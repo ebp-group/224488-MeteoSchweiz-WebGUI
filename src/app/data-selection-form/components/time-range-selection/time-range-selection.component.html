@@ -8,7 +8,9 @@
       [disabled]="!(availableTimeRanges$ | async | includes: 'now')"
       [checked]="(selectedTimeRange$ | async) === 'now'"
     />
-    <label for="now-time-range">{{ t('form.time-range.now') }}</label>
+    <label for="now-time-range"
+      >{{ t('form.time-range.now') }}<br /><small>{{ t('form.time-range.now.explanation') }}</small></label
+    >
   </div>
   <div>
     <input
@@ -19,7 +21,10 @@
       [disabled]="!(availableTimeRanges$ | async | includes: 'recent')"
       [checked]="(selectedTimeRange$ | async) === 'recent'"
     />
-    <label for="recent-time-range">{{ t('form.time-range.recent') }}</label>
+    <label for="recent-time-range"
+      >{{ t('form.time-range.recent') }}<br /><small>{{ t('form.time-range.recent.explanation') }}</small></label
+    >
+    <div>Tooltip: {{ t('form.time-range.recent.tooltip') }}</div>
   </div>
   @if ((historicalDateRanges$ | async)?.length === 0) {
     <div>
@@ -36,7 +41,7 @@
   } @else {
     <div>
       <p>{{ t('form.time-range.historical') }}</p>
-      <p>{{ t('form.time-range.historical.explanation') }}</p>
+      <p>{{ t('form.time-range.historical.tooltip') }}</p>
       @for (range of historicalDateRanges$ | async; track $index) {
         <div>
           <input
@@ -53,4 +58,5 @@
       }
     </div>
   }
+  <div>Tooltip for not available: {{ t('form.selection-not-available') }}</div>
 </div>

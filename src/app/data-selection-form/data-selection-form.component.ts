@@ -7,6 +7,7 @@ import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {MapContainerComponent} from '../map/components/map-container/map-container.component';
 import {collectionConfig} from '../shared/configs/collections.config';
+import {StacLoadError} from '../shared/errors/stac.error';
 import {MeasurementDataType} from '../shared/models/measurement-data-type';
 import {appActions} from '../state/app/actions/app.actions';
 import {formActions} from '../state/form/actions/form.actions';
@@ -59,7 +60,7 @@ export class DataSelectionFormComponent implements OnInit {
   }
 
   protected testError(): void {
-    throw new Error('Test');
+    throw new StacLoadError('test', 'test');
   }
 
   protected setSelectedMeasurementDataType(measurementDataType: MeasurementDataType): void {
