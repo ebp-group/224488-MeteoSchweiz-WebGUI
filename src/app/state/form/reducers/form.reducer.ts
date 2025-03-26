@@ -20,6 +20,19 @@ export const formFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
+      formActions.initializeSelectedMeasurementDataType,
+      (state, {measurementDataType}): FormState => ({...state, selectedMeasurementDataType: measurementDataType}),
+    ),
+    on(
+      formActions.initializeSelectedParameterGroupAndStationIdAndCollection,
+      (state, {parameterGroupId, stationId, collection}): FormState => ({
+        ...state,
+        selectedParameterGroupId: parameterGroupId,
+        selectedStationId: stationId,
+        selectedCollection: collection,
+      }),
+    ),
+    on(
       formActions.setSelectedMeasurementDataType,
       (_, {measurementDataType}): FormState => ({...initialState, selectedMeasurementDataType: measurementDataType}),
     ),
@@ -43,18 +56,6 @@ export const formFeature = createFeature({
         selectedDataInterval: null,
         selectedTimeRange: null,
         selectedCollection: null,
-        selectedHistoricalDateRange: null,
-      }),
-    ),
-    on(
-      formActions.setSelectedParameterGroupAndStationIdAndCollection,
-      (state, {parameterGroupId, stationId, collection}): FormState => ({
-        ...state,
-        selectedParameterGroupId: parameterGroupId,
-        selectedStationId: stationId,
-        selectedCollection: collection,
-        selectedDataInterval: null,
-        selectedTimeRange: null,
         selectedHistoricalDateRange: null,
       }),
     ),

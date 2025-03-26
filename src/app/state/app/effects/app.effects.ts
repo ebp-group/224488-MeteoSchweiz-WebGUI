@@ -7,7 +7,7 @@ import {appActions} from '../actions/app.actions';
 export const setLanguage = createEffect(
   (actions$ = inject(Actions), translocoService = inject(TranslocoService)) => {
     return actions$.pipe(
-      ofType(appActions.setLanguage),
+      ofType(appActions.setLanguage, appActions.initializeLanguage),
       tap(({language}) => translocoService.setActiveLang(language)),
     );
   },
@@ -18,7 +18,7 @@ export const initializeLanguage = createEffect(
   (actions$ = inject(Actions)) => {
     return actions$.pipe(
       ofType(appActions.initializeApp),
-      map(({parameter}) => appActions.setLanguage({language: parameter.language})),
+      map(({parameter}) => appActions.initializeLanguage({language: parameter.language})),
     );
   },
   {functional: true},

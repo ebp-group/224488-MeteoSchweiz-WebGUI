@@ -17,6 +17,14 @@ describe('Form Reducer', () => {
     };
   });
 
+  it('should initialize measurement data type without changing anything else', () => {
+    const action = formActions.initializeSelectedMeasurementDataType({measurementDataType: 'homogenous'});
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({...state, selectedMeasurementDataType: 'homogenous'});
+  });
+
   it('should reset the form state when a measurement data type is selected', () => {
     const action = formActions.setSelectedMeasurementDataType({measurementDataType: 'homogenous'});
 
@@ -50,8 +58,8 @@ describe('Form Reducer', () => {
     });
   });
 
-  it('should reset selection of upcoming steps if parameter group ID and station ID are selected', () => {
-    const action = formActions.setSelectedParameterGroupAndStationIdAndCollection({
+  it('should initialize parameter group and station ID and collection without changing anything else', () => {
+    const action = formActions.initializeSelectedParameterGroupAndStationIdAndCollection({
       parameterGroupId: 'paramGroupTest',
       stationId: 'stationTest',
       collection: 'collectionTest',
@@ -60,8 +68,7 @@ describe('Form Reducer', () => {
     const result = formFeature.reducer(state, action);
 
     expect(result).toEqual({
-      ...initialState,
-      selectedMeasurementDataType: 'normal',
+      ...state,
       selectedParameterGroupId: 'paramGroupTest',
       selectedStationId: 'stationTest',
       selectedCollection: 'collectionTest',
