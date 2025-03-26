@@ -1,4 +1,4 @@
-import {CollectionMetaAssetType} from './collection-meta-assets';
+import {CollectionMetaAssetType} from './collection-meta-asset-type';
 
 export interface CollectionAsset {
   metaFileType: CollectionMetaAssetType | undefined;

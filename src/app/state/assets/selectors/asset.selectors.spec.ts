@@ -266,6 +266,16 @@ describe('Asset selectors', () => {
       },
     ];
 
+    it('should return undefined if no timeRange is selected', () => {
+      const result = selectSelectedAsset.projector(assets, 'ten-minutes', null, null);
+      expect(result).toBe(undefined);
+    });
+
+    it('should return undefined if no interval is selected', () => {
+      const result = selectSelectedAsset.projector(assets, null, 'now', null);
+      expect(result).toBe(undefined);
+    });
+
     it('should return the selected asset when it is not a historical asset', () => {
       const result = selectSelectedAsset.projector(assets, 'ten-minutes', 'now', null);
       expect(result).toEqual({

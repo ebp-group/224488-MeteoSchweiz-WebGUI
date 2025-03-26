@@ -36,7 +36,7 @@ export const selectSelectedStationWithParameterGroupsFilteredBySelectedParameter
   },
 );
 
-export const selectSelectedStation = createSelector(
+export const selectSelectedStationForCollection = createSelector(
   selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
   formFeature.selectSelectedStationId,
   formFeature.selectSelectedCollection,

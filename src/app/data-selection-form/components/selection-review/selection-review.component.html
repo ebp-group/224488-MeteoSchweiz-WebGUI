@@ -9,7 +9,7 @@
       </div>
       <div>
         <b>{{ t('form.selection-review.available-parameter-groups') }}</b>
-        @for (parameterGroup of station.parameterGroups; track $index) {
+        @for (parameterGroup of station.parameterGroups; track parameterGroup.id) {
           {{ parameterGroup.name | translatableString: currentLanguage }},
         }
       </div>

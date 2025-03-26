@@ -5,7 +5,7 @@ import {StationWithParameterGroups} from '../../../shared/models/station-with-pa
 import {StationStateEntry} from '../../stations/states/station.state';
 import {
   selectSelectedCollectionMetaAssets,
-  selectSelectedStation,
+  selectSelectedStationForCollection,
   selectSelectedStationWithParameterGroup,
   selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
 } from './form.selector';
@@ -79,7 +79,7 @@ describe('Form selectors', () => {
     });
   });
 
-  describe('selectSelectedStation', () => {
+  describe('selectSelectedStationForCollection', () => {
     it('should return a single station if stationId and collection is selected', () => {
       const stationsWithParameterGroups = [
         {...stationAA, parameterGroups: [parameterGroupOne]},
@@ -87,7 +87,7 @@ describe('Form selectors', () => {
         {...stationAC, parameterGroups: [parameterGroupOne]},
         {...wrongStation, parameterGroups: [parameterGroupOne]},
       ];
-      const result = selectSelectedStation.projector(stationsWithParameterGroups, 'a', 'a');
+      const result = selectSelectedStationForCollection.projector(stationsWithParameterGroups, 'a', 'a');
 
       expect(result).toEqual({...stationAA, parameterGroups: [parameterGroupOne]});
     });

@@ -5,7 +5,7 @@ import {Store} from '@ngrx/store';
 import {TranslatableStringPipe} from '../../../shared/pipes/translatable-string.pipe';
 import {appFeature} from '../../../state/app/reducers/app.reducer';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
-import {selectSelectedStation} from '../../../state/form/selectors/form.selector';
+import {selectSelectedStationForCollection} from '../../../state/form/selectors/form.selector';
 
 @Component({
   selector: 'app-selection-review',
@@ -20,5 +20,5 @@ export class SelectionReviewComponent {
   protected readonly selectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedHistoricalDateRange$ = this.store.select(formFeature.selectSelectedHistoricalDateRange);
-  protected readonly selectedStation$ = this.store.select(selectSelectedStation);
+  protected readonly selectedStation$ = this.store.select(selectSelectedStationForCollection);
 }
