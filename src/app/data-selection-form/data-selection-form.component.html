@@ -10,9 +10,20 @@
     <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
   </mat-button-toggle-group>
 
+  <div>
+    @if ((selectedMeasurementDataType$ | async) === 'normal') {
+      <p>{{ t('form.measurement-data-type.normal.explanation') }}</p>
+    } @else if ((selectedMeasurementDataType$ | async) === 'homogenous') {
+      <p>{{ t('form.measurement-data-type.homogenous.explanation') }}</p>
+    }
+    <p>{{ t('form.measurement-data-type.more-info-link') }}</p>
+  </div>
+
   <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true" #stepper>
     <mat-step [completed]="(selectedCollection$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
+      <ng-template matStepLabel>
+        {{ t('form.stepper.station.label') }}<br /><small>{{ t('form.stepper.station.label.explanation') }}</small>
+      </ng-template>
       <app-station-selection-step></app-station-selection-step>
       <div>
         <button mat-button matStepperNext type="button" [disabled]="(selectedCollection$ | async) === null">
