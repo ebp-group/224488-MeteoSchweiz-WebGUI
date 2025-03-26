@@ -11,4 +11,5 @@ export interface FormState {
   selectedMeasurementDataType: MeasurementDataType;
   selectedCollection: string | null;
   selectedHistoricalDateRange: DateRange | null;
+  isParameterGroupStationAndCollectionInitialized: boolean;
 }

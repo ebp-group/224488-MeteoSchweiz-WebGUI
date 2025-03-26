@@ -1,5 +1,9 @@
 import {DOCUMENT} from '@angular/common';
 import {inject, Injectable} from '@angular/core';
+import {
+  transformHistoricalDateRangeStringToDate,
+  transformHistoricalDateRangeToString,
+} from '../../stac/utils/historical-time-range-transformation.utils';
 import {collectionConfig} from '../configs/collections.config';
 import {languageConfig} from '../configs/language.config';
 import {AppUrlParameter} from '../models/app-url-parameter';
@@ -22,6 +26,7 @@ export class UrlParameterService {
   private readonly collectionKey = 'col' as const;
   private readonly dataIntervalKey = 'di' as const;
   private readonly timeRangeKey = 'tr' as const;
+  private readonly historicalDateRangeKey = 'hdr' as const;
 
   public transformUrlFragmentToAppUrlParameter(fragment: string | undefined): AppUrlParameter {
     const urlParams = new URLSearchParams(fragment);
@@ -29,6 +34,7 @@ export class UrlParameterService {
     const measurementDataTypeString = this.transformUrlFragmentParameterToValue(urlParams, this.measurementDataTypeKey);
     const dataIntervalString = this.transformUrlFragmentParameterToValue(urlParams, this.dataIntervalKey);
     const timeRangeString = this.transformUrlFragmentParameterToValue(urlParams, this.timeRangeKey);
+    const historicalDateRange = transformHistoricalDateRangeStringToDate(urlParams.get(this.historicalDateRangeKey) ?? undefined);
     return {
       language: languageString && isLanguage(languageString) ? languageString : languageConfig.defaultLanguage,
       measurementDataType:
@@ -40,6 +46,7 @@ export class UrlParameterService {
       collection: this.transformUrlFragmentParameterToValue(urlParams, this.collectionKey),
       dataInterval: dataIntervalString && isDataInterval(dataIntervalString) ? dataIntervalString : null,
       timeRange: timeRangeString && isTimeRange(timeRangeString) ? timeRangeString : null,
+      historicalDateRange: historicalDateRange ?? null,
     };
   }
 
@@ -77,6 +84,8 @@ export class UrlParameterService {
     urlParams.set(this.collectionKey, appUrlParameter.collection ?? '');
     urlParams.set(this.dataIntervalKey, appUrlParameter.dataInterval ?? '');
     urlParams.set(this.timeRangeKey, appUrlParameter.timeRange ?? '');
+    const historicalDateRangeString = transformHistoricalDateRangeToString(appUrlParameter.historicalDateRange ?? undefined);
+    urlParams.set(this.historicalDateRangeKey, historicalDateRangeString ?? '');
     return urlParams.toString();
   }
 }

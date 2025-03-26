@@ -9,9 +9,8 @@ export class AssetParseError extends SilentError {
   public override message = marker('asset.parse.error');
   public override translationArguments: Record<'filename', string>;
 
-  constructor(filename?: string, originalError?: unknown) {
+  constructor(filename: string, originalError?: unknown) {
     super(originalError);
-
-    this.translationArguments = filename ? {filename} : {filename: 'Unknown file'};
+    this.translationArguments = {filename};
   }
 }
