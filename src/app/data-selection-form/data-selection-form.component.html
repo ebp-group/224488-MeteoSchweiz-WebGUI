@@ -53,8 +53,8 @@
       </div>
     </mat-step>
     <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.overview.label') }}</ng-template>
-      <app-selection-overview></app-selection-overview>
+      <ng-template matStepLabel>{{ t('form.stepper.selection-review.label') }}</ng-template>
+      <app-selection-review></app-selection-review>
       <div>
         <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
         <button mat-button matStepperNext type="button">{{ t('form.stepper.next') }}</button>

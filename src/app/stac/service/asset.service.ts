@@ -54,7 +54,7 @@ export class AssetService {
     } else if (asset.filename.includes('parameter')) {
       metaFileType = 'parameter';
     } else if (asset.filename.includes('datainventory')) {
-      metaFileType = 'data-inventory';
+      metaFileType = 'dataInventory';
     }
 
     return {

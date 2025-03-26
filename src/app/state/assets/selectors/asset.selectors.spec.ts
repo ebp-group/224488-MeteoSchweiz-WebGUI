@@ -2,6 +2,7 @@ import {
   selectAssetsFilteredBySelectedInterval,
   selectAvailableDataIntervals,
   selectAvailableTimeRanges,
+  selectSelectedAsset,
   selectSortedHistoricalDateRanges,
 } from './asset.selectors';
 import type {StationAsset} from '../../../shared/models/station-assets';
@@ -226,6 +227,88 @@ describe('Asset selectors', () => {
           {start: new Date('2023-01-01T00:00'), end: new Date('2023-01-01T00:00'), selected: true},
         ]),
       );
+    });
+  });
+
+  describe('selectSelectedAsset', () => {
+    const assets: StationAsset[] = [
+      {
+        filename: '',
+        timeRange: 'now',
+        url: '',
+        interval: 'ten-minutes',
+      },
+      {
+        filename: '',
+        timeRange: 'now',
+        url: '',
+        interval: 'ten-minutes',
+      },
+      {
+        filename: '',
+        timeRange: 'historical',
+        url: '',
+        interval: 'ten-minutes',
+        dateRange: undefined,
+      },
+      {
+        filename: '',
+        timeRange: 'historical',
+        url: '',
+        interval: 'ten-minutes',
+        dateRange: {end: new Date('2025-03-01'), start: new Date('2025-01-01')},
+      },
+      {
+        filename: '',
+        timeRange: 'now',
+        url: '',
+        interval: 'daily',
+      },
+    ];
+
+    it('should return undefined if no timeRange is selected', () => {
+      const result = selectSelectedAsset.projector(assets, 'ten-minutes', null, null);
+      expect(result).toBe(undefined);
+    });
+
+    it('should return undefined if no interval is selected', () => {
+      const result = selectSelectedAsset.projector(assets, null, 'now', null);
+      expect(result).toBe(undefined);
+    });
+
+    it('should return the selected asset when it is not a historical asset', () => {
+      const result = selectSelectedAsset.projector(assets, 'ten-minutes', 'now', null);
+      expect(result).toEqual({
+        filename: '',
+        timeRange: 'now',
+        url: '',
+        interval: 'ten-minutes',
+      });
+    });
+
+    it('should return the selected asset when it is a historical asset without dateRange', () => {
+      const result = selectSelectedAsset.projector(assets, 'ten-minutes', 'historical', null);
+      expect(result).toEqual({
+        filename: '',
+        timeRange: 'historical',
+        url: '',
+        interval: 'ten-minutes',
+        dateRange: undefined,
+      });
+    });
+
+    it('should return the selected asset when it is a historical asset that has a dateRange', () => {
+      const result = selectSelectedAsset.projector(assets, 'ten-minutes', 'historical', {
+        end: new Date('2025-03-01'),
+        start: new Date('2025-01-01'),
+      });
+      expect(result).toEqual({
+        filename: '',
+        timeRange: 'historical',
+        url: '',
+        interval: 'ten-minutes',
+        dateRange: {end: new Date('2025-03-01'), start: new Date('2025-01-01')},
+      });
     });
   });
 });

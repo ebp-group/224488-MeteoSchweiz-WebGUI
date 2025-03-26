@@ -12,7 +12,7 @@ export class DataInventoryService {
   private readonly stacApiService = inject(StacApiService);
 
   public async loadParameterStationMappingsForCollections(collectionAssets: CollectionAsset[]): Promise<ParameterStationMapping[]> {
-    const relevantAssets = collectionAssets.filter((asset) => asset.metaFileType === 'data-inventory');
+    const relevantAssets = collectionAssets.filter((asset) => asset.metaFileType === 'dataInventory');
     const parameterStationMappings = await Promise.all(relevantAssets.map((asset) => this.getParameterStationMappingsForCollection(asset)));
     return parameterStationMappings.flat();
   }

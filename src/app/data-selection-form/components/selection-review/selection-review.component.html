@@ -1,0 +1,39 @@
+@if (currentLanguage$ | async; as currentLanguage) {
+  <div *transloco="let t">
+    @if (selectedStation$ | async; as station) {
+      <div>
+        <b>{{ t('form.selection-review.station-name') }}</b> {{ station.displayName }}
+      </div>
+      <div>
+        <b>{{ t('form.selection-review.station-type') }}</b> {{ station.type | translatableString: currentLanguage }}
+      </div>
+      <div>
+        <b>{{ t('form.selection-review.available-parameter-groups') }}</b>
+        @for (parameterGroup of station.parameterGroups; track parameterGroup.id) {
+          {{ parameterGroup.name | translatableString: currentLanguage }},
+        }
+      </div>
+      <div>
+        <b>{{ t('form.selection-review.interval') }}</b>
+        @if (selectedDataInterval$ | async; as interval) {
+          {{ t('form.interval.' + interval) }}
+        }
+      </div>
+      <div>
+        <b>{{ t('form.selection-review.time-range') }}</b>
+        @if (selectedTimeRange$ | async; as timeRange) {
+          {{ t('form.time-range.' + timeRange) }}
+          @if (selectedHistoricalDateRange$ | async; as range) {
+            ({{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }})
+          }
+        }
+      </div>
+      <div>
+        <b>{{ t('form.selection-review.file-format') }}</b> CSV
+      </div>
+      <div>
+        <b>{{ t('form.selection-review.file-size') }}</b> TODO
+      </div>
+    }
+  </div>
+}

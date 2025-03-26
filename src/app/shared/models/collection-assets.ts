@@ -1,5 +1,7 @@
+import {CollectionMetaAssetType} from './collection-meta-asset-type';
+
 export interface CollectionAsset {
-  metaFileType: 'station' | 'parameter' | 'data-inventory' | undefined;
+  metaFileType: CollectionMetaAssetType | undefined;
   filename: string;
   url: string;
   collection: string;

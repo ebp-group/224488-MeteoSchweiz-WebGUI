@@ -21,7 +21,7 @@ const testCollectionAssets: CollectionAsset[] = [
   },
   {
     filename: 'datainventory.csv',
-    metaFileType: 'data-inventory',
+    metaFileType: 'dataInventory',
     url: 'data-inventory://',
     collection: testCollection,
   },
