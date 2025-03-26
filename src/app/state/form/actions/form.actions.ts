@@ -13,6 +13,11 @@ export const formActions = createActionGroup({
       stationId: string | null;
       collection: string | null;
     }>(),
+    'Initialize selected dataInterval and time range': props<{
+      dataInterval: DataInterval | null;
+      timeRange: TimeRange | null;
+      historicalDateRange: DateRange | null;
+    }>(),
     'Set selected parameters': props<{parameterGroupId: string | null}>(),
     'Set selected station id': props<{stationId: string | null}>(),
     'Set selected dataInterval': props<{dataInterval: DataInterval}>(),

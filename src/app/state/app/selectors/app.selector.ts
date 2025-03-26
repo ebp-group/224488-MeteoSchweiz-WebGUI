@@ -14,5 +14,6 @@ export const selectCurrentAppUrlParameter = createSelector(
     collection: formState.selectedCollection,
     dataInterval: formState.selectedDataInterval,
     timeRange: formState.selectedTimeRange,
+    historicalDateRange: formState.selectedHistoricalDateRange,
   }),
 );

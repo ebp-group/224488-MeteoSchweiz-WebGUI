@@ -4,12 +4,15 @@ import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
 import {combineLatestWith, filter, map, take} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
+import {DateRange} from '../../../shared/models/date-range';
 import {appActions} from '../../app/actions/app.actions';
+import {assetFeature} from '../../assets/reducers/asset.reducer';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {selectCombinedLoadingState} from '../../collection/selectors/collection.selector';
 import {selectParameterGroups} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {formActions} from '../actions/form.actions';
+import {formFeature} from '../reducers/form.reducer';
 import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
 
 export const loadCollectionsForSelectedMeasurementDataType = createEffect(
@@ -49,7 +52,7 @@ export const initializeSelectedStationIdAndParameterGroupIdAndCollection = creat
   (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
       ofType(appActions.initializeApp),
-      // we use `combineLatestWith` here to wait for the parameters to finish loading
+      // we use `combineLatestWith` here to wait for all necessary collections to finish loading
       combineLatestWith(
         store.select(selectCombinedLoadingState).pipe(
           filter((loadingState) => loadingState === 'loaded'),
@@ -65,6 +68,48 @@ export const initializeSelectedStationIdAndParameterGroupIdAndCollection = creat
           stations.filter((station) => station.id === stationId).find((station) => station.collection === parameter.collection)
             ?.collection ?? null;
         return formActions.initializeSelectedParameterGroupAndStationIdAndCollection({parameterGroupId, stationId, collection});
+      }),
+    );
+  },
+  {functional: true},
+);
+
+export const initializeSelectedDataIntervalAndTimeRange = createEffect(
+  (actions$ = inject(Actions), store = inject(Store)) => {
+    return actions$.pipe(
+      ofType(appActions.initializeApp),
+      // we use `combineLatestWith` here to wait for parameter group id, station id and collection to be initialized
+      combineLatestWith(
+        store.select(formFeature.selectFormState).pipe(
+          filter(({isParameterGroupStationAndCollectionInitialized}) => isParameterGroupStationAndCollectionInitialized),
+          take(1),
+        ),
+      ),
+      filter(([_, {selectedStationId, selectedCollection}]) => !!selectedStationId && !!selectedCollection),
+      // we use `combineLatestWith` here to wait for all necessary station assets to finish loading
+      combineLatestWith(
+        store.select(assetFeature.selectAssetState).pipe(
+          filter(({loadingState}) => loadingState === 'loaded'),
+          take(1),
+        ),
+      ),
+      map(([[{parameter}], {assets}]) => {
+        const dataInterval = assets?.find((asset) => asset.interval === parameter.dataInterval)?.interval ?? null;
+        const timeRange = assets?.find((asset) => asset.timeRange === parameter.timeRange)?.timeRange ?? null;
+        let historicalDateRange: DateRange | null = null;
+        if (timeRange === 'historical' && parameter.historicalDateRange) {
+          historicalDateRange =
+            assets
+              ?.filter((asset) => asset.timeRange === 'historical')
+              .find(
+                (asset) =>
+                  asset.dateRange &&
+                  parameter.historicalDateRange &&
+                  asset.dateRange.start.getTime() === parameter.historicalDateRange.start.getTime() &&
+                  asset.dateRange.end.getTime() === parameter.historicalDateRange.end.getTime(),
+              )?.dateRange ?? null;
+        }
+        return formActions.initializeSelectedDataIntervalAndTimeRange({dataInterval, timeRange, historicalDateRange});
       }),
     );
   },
