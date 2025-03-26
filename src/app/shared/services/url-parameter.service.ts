@@ -25,19 +25,19 @@ export class UrlParameterService {
 
   public transformUrlFragmentToAppUrlParameter(fragment: string | undefined): AppUrlParameter {
     const urlParams = new URLSearchParams(fragment);
-    const languageString = urlParams.get(this.languageKey);
-    const measurementDataTypeString = urlParams.get(this.measurementDataTypeKey);
-    const dataIntervalString = urlParams.get(this.dataIntervalKey);
-    const timeRangeString = urlParams.get(this.timeRangeKey);
+    const languageString = this.transformUrlFragmentParameterToValue(urlParams, this.languageKey);
+    const measurementDataTypeString = this.transformUrlFragmentParameterToValue(urlParams, this.measurementDataTypeKey);
+    const dataIntervalString = this.transformUrlFragmentParameterToValue(urlParams, this.dataIntervalKey);
+    const timeRangeString = this.transformUrlFragmentParameterToValue(urlParams, this.timeRangeKey);
     return {
       language: languageString && isLanguage(languageString) ? languageString : languageConfig.defaultLanguage,
       measurementDataType:
         measurementDataTypeString && isMeasurementDataType(measurementDataTypeString)
           ? measurementDataTypeString
           : collectionConfig.defaultMeasurementDataType,
-      parameterGroupId: urlParams.get(this.parameterGroupIdKey),
-      stationId: urlParams.get(this.stationIdKey),
-      collection: urlParams.get(this.collectionKey),
+      parameterGroupId: this.transformUrlFragmentParameterToValue(urlParams, this.parameterGroupIdKey),
+      stationId: this.transformUrlFragmentParameterToValue(urlParams, this.stationIdKey),
+      collection: this.transformUrlFragmentParameterToValue(urlParams, this.collectionKey),
       dataInterval: dataIntervalString && isDataInterval(dataIntervalString) ? dataIntervalString : null,
       timeRange: timeRangeString && isTimeRange(timeRangeString) ? timeRangeString : null,
     };
@@ -63,25 +63,20 @@ export class UrlParameterService {
     }
   }
 
+  private transformUrlFragmentParameterToValue(urlParams: URLSearchParams, key: string): string | null {
+    const value = urlParams.get(key);
+    return value === '' ? null : value;
+  }
+
   private transformAppUrlParameterToUrlFragment(appUrlParameter: AppUrlParameter): string {
     const urlParams = new URLSearchParams();
     urlParams.set(this.languageKey, appUrlParameter.language);
     urlParams.set(this.measurementDataTypeKey, appUrlParameter.measurementDataType);
-    if (appUrlParameter.parameterGroupId) {
-      urlParams.set(this.parameterGroupIdKey, appUrlParameter.parameterGroupId);
-    }
-    if (appUrlParameter.stationId) {
-      urlParams.set(this.stationIdKey, appUrlParameter.stationId);
-    }
-    if (appUrlParameter.collection) {
-      urlParams.set(this.collectionKey, appUrlParameter.collection);
-    }
-    if (appUrlParameter.dataInterval) {
-      urlParams.set(this.dataIntervalKey, appUrlParameter.dataInterval);
-    }
-    if (appUrlParameter.timeRange) {
-      urlParams.set(this.timeRangeKey, appUrlParameter.timeRange);
-    }
+    urlParams.set(this.parameterGroupIdKey, appUrlParameter.parameterGroupId ?? '');
+    urlParams.set(this.stationIdKey, appUrlParameter.stationId ?? '');
+    urlParams.set(this.collectionKey, appUrlParameter.collection ?? '');
+    urlParams.set(this.dataIntervalKey, appUrlParameter.dataInterval ?? '');
+    urlParams.set(this.timeRangeKey, appUrlParameter.timeRange ?? '');
     return urlParams.toString();
   }
 }

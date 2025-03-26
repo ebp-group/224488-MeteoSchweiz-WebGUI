@@ -59,6 +59,20 @@ describe('UrlParameterService', () => {
         timeRange: null,
       });
     });
+
+    it('transforms an URL fragment to AppUrlParameter with default values where the parameters are empty', () => {
+      const fragment = 'lang=&mdt=&pgid=&sid=&col=&di=&tr=';
+      const result = service.transformUrlFragmentToAppUrlParameter(fragment);
+      expect(result).toEqual({
+        language: 'de',
+        measurementDataType: 'normal',
+        parameterGroupId: null,
+        stationId: null,
+        collection: null,
+        dataInterval: null,
+        timeRange: null,
+      });
+    });
   });
 
   describe('setUrlFragment', () => {
@@ -107,7 +121,7 @@ describe('UrlParameterService', () => {
       };
       service.setUrlFragment(appUrlParameter);
 
-      expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=fr&mdt=normal'}, '*');
+      expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=fr&mdt=normal&pgid=&sid=&col=&di=&tr='}, '*');
     });
   });
 });
