@@ -14,6 +14,7 @@ describe('Form Reducer', () => {
       selectedTimeRange: 'historical',
       selectedCollection: 'collection',
       selectedHistoricalDateRange: {start: new Date(), end: new Date()},
+      isParameterGroupStationAndCollectionInitialized: false,
     };
   });
 
@@ -72,6 +73,24 @@ describe('Form Reducer', () => {
       selectedParameterGroupId: 'paramGroupTest',
       selectedStationId: 'stationTest',
       selectedCollection: 'collectionTest',
+      isParameterGroupStationAndCollectionInitialized: true,
+    });
+  });
+
+  it('should initialize data interval, time range and historical date range without changing anything else', () => {
+    const action = formActions.initializeSelectedDataIntervalAndTimeRange({
+      dataInterval: 'monthly',
+      timeRange: 'now',
+      historicalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
+    });
+
+    const result = formFeature.reducer(state, action);
+
+    expect(result).toEqual({
+      ...state,
+      selectedDataInterval: 'monthly',
+      selectedTimeRange: 'now',
+      selectedHistoricalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
     });
   });
 
@@ -113,6 +132,7 @@ describe('Form Reducer', () => {
     const result = formFeature.reducer(state, action);
 
     expect(result).toEqual({
+      ...state,
       selectedMeasurementDataType: 'normal',
       selectedParameterGroupId: 'A',
       selectedStationId: 'ALT',

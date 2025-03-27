@@ -8,15 +8,19 @@ import {AppUrlParameter} from '../../../shared/models/app-url-parameter';
 import {Station} from '../../../shared/models/station';
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {appActions} from '../../app/actions/app.actions';
+import {assetFeature} from '../../assets/reducers/asset.reducer';
 import {collectionActions} from '../../collection/actions/collection.action';
 import {selectCombinedLoadingState} from '../../collection/selectors/collection.selector';
 import {selectParameterGroups} from '../../parameters/selectors/parameter.selector';
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {formActions} from '../actions/form.actions';
+import {formFeature} from '../reducers/form.reducer';
 import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
+import {FormState} from '../states/form.state';
 import {
   autoSelectCollection,
+  initializeSelectedDataIntervalAndTimeRange,
   initializeSelectedMeasurementDataType,
   initializeSelectedStationIdAndParameterGroupIdAndCollection,
   loadCollectionsForSelectedMeasurementDataType,
@@ -161,6 +165,77 @@ describe('FormEffects', () => {
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
       autoSelectCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
+        done();
+      });
+    });
+  });
+
+  describe('initializeSelectedDataIntervalAndTimeRange', () => {
+    let startDate: Date;
+    let endDate: Date;
+
+    beforeEach(() => {
+      startDate = new Date('2021-01-01');
+      endDate = new Date('2021-02-01');
+      store.overrideSelector(assetFeature.selectAssetState, {
+        assets: [
+          {
+            filename: 'filename',
+            url: 'url',
+            interval: 'monthly',
+            timeRange: 'historical',
+            dateRange: {start: startDate, end: endDate},
+          },
+        ],
+        loadingState: 'loaded',
+      });
+      store.overrideSelector(formFeature.selectFormState, {
+        isParameterGroupStationAndCollectionInitialized: true,
+        selectedStationId: '123',
+        selectedCollection: 'abc',
+      } as FormState);
+    });
+
+    it('should dispatch initializeSelectedDataIntervalAndTimeRange action when initializeApp is dispatched', (done) => {
+      actions$ = of(
+        appActions.initializeApp({
+          parameter: {
+            dataInterval: 'monthly',
+            timeRange: 'historical',
+            historicalDateRange: {start: startDate, end: endDate},
+          } as AppUrlParameter,
+        }),
+      );
+      initializeSelectedDataIntervalAndTimeRange(actions$, store).subscribe((action) => {
+        expect(action).toEqual(
+          formActions.initializeSelectedDataIntervalAndTimeRange({
+            dataInterval: 'monthly',
+            timeRange: 'historical',
+            historicalDateRange: {start: startDate, end: endDate},
+          }),
+        );
+        done();
+      });
+    });
+
+    it('should replace entries that have no corresponding assets with `null`', (done) => {
+      actions$ = of(
+        appActions.initializeApp({
+          parameter: {
+            dataInterval: 'ten-minutes',
+            timeRange: 'recent',
+            historicalDateRange: {start: new Date('2023-03-03'), end: new Date('2023-04-03')},
+          } as AppUrlParameter,
+        }),
+      );
+      initializeSelectedDataIntervalAndTimeRange(actions$, store).subscribe((action) => {
+        expect(action).toEqual(
+          formActions.initializeSelectedDataIntervalAndTimeRange({
+            dataInterval: null,
+            timeRange: null,
+            historicalDateRange: null,
+          }),
+        );
         done();
       });
     });

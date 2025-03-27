@@ -1,3 +1,4 @@
+import {DateRange} from './date-range';
 import {DataInterval} from './interval';
 import {Language} from './language';
 import {MeasurementDataType} from './measurement-data-type';
@@ -11,4 +12,5 @@ export interface AppUrlParameter {
   collection: string | null;
   dataInterval: DataInterval | null;
   timeRange: TimeRange | null;
+  historicalDateRange: DateRange | null;
 }
