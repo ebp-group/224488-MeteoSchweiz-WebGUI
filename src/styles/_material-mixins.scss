@@ -1,0 +1,41 @@
+@mixin mat-override-corner-radius-to-none {
+  --mat-sys-corner-extra-large: var(--mat-sys-corner-none);
+  --mat-sys-corner-extra-small: var(--mat-sys-corner-none);
+  --mat-sys-corner-full: var(--mat-sys-corner-none);
+  --mat-sys-corner-large: var(--mat-sys-corner-none);
+  --mat-sys-corner-medium: var(--mat-sys-corner-none);
+  --mat-sys-corner-small: var(--mat-sys-corner-none);
+}
+
+/**
+* ======================
+*  mat-icon-button
+* ======================
+*/
+
+@mixin mat-icon-button-override-unthemed-color($background-color, $foreground-color) {
+  &.mdc-icon-button.mat-unthemed {
+    @include mat-icon-override-unthemed-color($background-color, $foreground-color);
+  }
+}
+
+/**
+* ======================
+*  mat-icon
+* ======================
+*/
+
+@mixin mat-icon-override-unthemed-color($background-color, $foreground-color) {
+  .mat-icon.mat-icon-no-color {
+    background-color: $background-color;
+    color: $foreground-color;
+  }
+}
+
+@mixin mat-icon-override-size($size) {
+  &.mat-icon {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
+}
