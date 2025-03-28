@@ -1,5 +1,7 @@
 import type {IconConfig} from '../models/configs/icons-config';
 
+export const utilityIcons = [{id: 'swiss', path: 'icons/swiss.svg'}] as const satisfies IconConfig[];
+
 export const emptyIcon = {id: 'empty', path: 'icons/empty.svg'} as const satisfies IconConfig;
 
 const parameterGroupIcons = [
@@ -17,4 +19,4 @@ const parameterGroupIcons = [
   {id: 'wind', path: 'icons/wind.svg'},
 ] as const satisfies IconConfig[];
 
-export const iconsConfig = [...parameterGroupIcons, emptyIcon] as const satisfies IconConfig[];
+export const iconsConfig = [...utilityIcons, ...parameterGroupIcons, emptyIcon] as const satisfies IconConfig[];

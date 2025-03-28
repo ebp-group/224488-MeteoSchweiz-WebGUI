@@ -1,18 +1,19 @@
+@use 'material-mixins' as mat-mixins;
+
+::ng-deep .parameter-group-selection__form__icon {
+  @include mat-mixins.mat-icon-override-size(48px);
+}
+
 .parameter-group-selection {
   min-width: 150px;
   max-width: 500px;
   width: 100%;
 
-  .field {
+  &__form {
     width: 100%;
 
-    .option {
+    &__option {
       display: flex;
-
-      .icon {
-        width: 24px;
-        height: 24px;
-      }
     }
   }
 }

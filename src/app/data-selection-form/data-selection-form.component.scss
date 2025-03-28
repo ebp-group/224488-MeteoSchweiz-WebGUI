@@ -1,3 +1,15 @@
-.map-container {
-  display: flex;
+@use 'material-mixins' as mat-mixins;
+@use 'design-variables' as variables;
+
+.data-selection-form {
+  width: 100%;
+
+  &__stepper {
+    background-color: variables.$background-color;
+    color: variables.$white;
+  }
+
+  .measurement-data-type-toggle-group {
+    @include mat-mixins.mat-override-corner-radius-to-none;
+  }
 }
