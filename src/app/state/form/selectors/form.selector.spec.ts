@@ -1,5 +1,5 @@
-import {LocalizedParameterGroup} from '../../../shared/models/parameter';
 import {CollectionAsset} from '../../../shared/models/collection-assets';
+import {LocalizedParameterGroup} from '../../../shared/models/parameter';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {StationStateEntry} from '../../stations/states/station.state';
