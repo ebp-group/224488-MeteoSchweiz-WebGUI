@@ -1,5 +1,4 @@
 {
-  "errorTest": "Test Error",
   "form.measurement-data-type.normal": "Missing value for 'form.measurementDataType.normal'",
   "form.measurement-data-type.homogenous": "Missing value for 'form.measurementDataType.homogenous'",
   "form.measurement-data-type.aria-label": "Missing value for 'form.measurement-data-type.aria-label'",
@@ -24,9 +23,9 @@
   "form.selection-review.time-range": "Missing value for 'form.selection-review.time-range'",
   "form.selection-review.file-format": "Missing value for 'form.selection-review.file-format'",
   "form.selection-review.file-size": "Missing value for 'form.selection-review.file-size'",
-  "form.download.data": "Missing value for 'form.download.data'",
   "parameter-group.search.placeholder": "Missing value for 'parameter-group.search.placeholder'",
   "parameter-group.name": "Missing value for 'parameter-group.name'",
+  "form.download.data": "Missing value for 'form.download.data'",
   "form.download.data-explanation": "Missing value for 'form.download.data-explanation'",
   "form.download.metadata": "Missing value for 'form.download.metadata'",
   "form.download.parameters-explanation": "Missing value for 'form.download.parameters-explanation'",
