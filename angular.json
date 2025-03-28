@@ -97,6 +97,9 @@
               "src/styles.scss",
               "./node_modules/maplibre-gl/dist/maplibre-gl.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "scripts": []
           }
         },

@@ -1,18 +1,25 @@
+@use 'material-mixins' as mat-mixins;
+
 .map-container {
   position: relative;
-  height: 300px;
-  min-width: 600px;
+  height: 600px;
+  width: 1000px;
 
-  .map {
+  &__map {
     height: 100%;
     width: 100%;
   }
 
-  .map-controls {
+  &__map-controls {
     position: absolute;
     bottom: 40px;
-    right: 0;
+    right: 10px;
     display: flex;
     flex-direction: column;
+    gap: 3px;
+
+    &__button {
+      @include mat-mixins.mat-override-corner-radius-to-none;
+    }
   }
 }

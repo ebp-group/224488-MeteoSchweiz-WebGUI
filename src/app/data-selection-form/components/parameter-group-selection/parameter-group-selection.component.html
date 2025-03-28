@@ -1,5 +1,5 @@
 <div class="parameter-group-selection" *transloco="let t">
-  <mat-form-field class="field">
+  <mat-form-field class="parameter-group-selection__form">
     <input
       #input
       type="text"
@@ -11,8 +11,8 @@
     />
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayValueObjectName">
       @for (parameterGroup of filteredValueObjects$ | async; track parameterGroup.id) {
-        <mat-option class="option" [value]="parameterGroup">
-          <mat-icon class="icon" [svgIcon]="parameterGroup.id | iconFromConfig"></mat-icon>
+        <mat-option class="parameter-group-selection__form__option" [value]="parameterGroup">
+          <mat-icon class="parameter-group-selection__form__icon" [svgIcon]="parameterGroup.id | iconFromConfig"></mat-icon>
           <span>{{ parameterGroup.displayName }}</span>
         </mat-option>
       }

@@ -1,31 +1,19 @@
-<div *transloco="let t">
-  <div>
-    <mat-button-toggle-group aria-label="Application language">
-      <mat-button-toggle [checked]="true" (click)="changeLanguage('de')">German</mat-button-toggle>
-      <mat-button-toggle (click)="changeLanguage('en')">English</mat-button-toggle>
-    </mat-button-toggle-group>
-    <button mat-stroked-button color="warn" (click)="testError()">{{ t('errorTest') }}</button>
-  </div>
-  <hr />
-  <div>
-    <mat-button-toggle-group
-      [attr.aria-label]="t('form.measurement-data-type.aria-label')"
-      (change)="setSelectedMeasurementDataType($event.value); stepper.reset()"
-      [value]="selectedMeasurementDataType$ | async"
-      hideSingleSelectionIndicator="true"
-    >
-      <mat-button-toggle value="normal">{{ t('form.measurement-data-type.normal') }}</mat-button-toggle>
-      <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+<div class="data-selection-form" *transloco="let t">
+  <mat-button-toggle-group
+    class="measurement-data-type-toggle-group"
+    [attr.aria-label]="t('form.measurement-data-type.aria-label')"
+    (change)="setSelectedMeasurementDataType($event.value); stepper.reset()"
+    [value]="selectedMeasurementDataType$ | async"
+    hideSingleSelectionIndicator="true"
+  >
+    <mat-button-toggle value="normal">{{ t('form.measurement-data-type.normal') }}</mat-button-toggle>
+    <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
+  </mat-button-toggle-group>
 
-  <mat-vertical-stepper [linear]="true" #stepper>
+  <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true" #stepper>
     <mat-step [completed]="(selectedCollection$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>
-      <app-parameter-group-selection></app-parameter-group-selection>
-      <app-station-selection></app-station-selection>
-      <app-map-container class="map-container"></app-map-container>
-      <app-collection-selection></app-collection-selection>
+      <app-station-selection-step></app-station-selection-step>
       <div>
         <button mat-button matStepperNext type="button" [disabled]="(selectedCollection$ | async) === null">
           {{ t('form.stepper.next') }}
