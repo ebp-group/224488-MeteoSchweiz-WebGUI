@@ -6,3 +6,12 @@ export interface CsvDataInventory {
   stationAbbr: string;
   dataTill: string;
 }
+
+export interface OldCsvDataInventory {
+  measCatNr: `${number}`;
+  ownerOrgNameTx: string;
+  paramShortNameTx: string;
+  sinceDt: string;
+  stationNatAbbrTx: string;
+  tillDt: string;
+}
