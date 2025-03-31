@@ -30,16 +30,16 @@ const testCollectionAssets: CollectionAsset[] = [
 
 const testCsvDataInventory: CsvDataInventory = {
   measCatNr: '0',
-  ownerOrgNameTx: '',
-  paramShortNameTx: 'test00d0',
-  sinceDt: '',
-  stationNatAbbrTx: 'TES',
-  tillDt: '',
+  owner: '',
+  parameterShortname: 'test00d0',
+  dataSince: '',
+  stationAbbr: 'TES',
+  dataTill: '',
 };
 
 const testParameterStationMapping: ParameterStationMapping = {
   stationId: 'TES',
-  parameterId: ParameterService.extractIdFromShortname(testCsvDataInventory.paramShortNameTx),
+  parameterId: ParameterService.extractIdFromShortname(testCsvDataInventory.parameterShortname),
   collection: testCollection,
 };
 

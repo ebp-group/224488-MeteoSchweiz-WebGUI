@@ -24,8 +24,8 @@ export class DataInventoryService {
 
   private transformCsvDataInventory(csvDataInventory: CsvDataInventory, collection: string): ParameterStationMapping {
     return {
-      parameterId: ParameterService.extractIdFromShortname(csvDataInventory.paramShortNameTx),
-      stationId: csvDataInventory.stationNatAbbrTx,
+      parameterId: ParameterService.extractIdFromShortname(csvDataInventory.parameterShortname),
+      stationId: csvDataInventory.stationAbbr,
       collection,
     };
   }
