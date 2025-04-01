@@ -1,0 +1,27 @@
+@use 'material-mixins' as mat-mixins;
+
+.time-range-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  & > * {
+    height: 48px;
+    display: flex;
+  }
+
+  &__explanation {
+    font-size: 0.85em;
+  }
+
+  &__tooltip-icon {
+    @include mat-mixins.mat-icon-override-size(1rem);
+  }
+
+  &__historical-explanation {
+    align-items: flex-end;
+    p {
+      margin: 0;
+    }
+  }
+}
