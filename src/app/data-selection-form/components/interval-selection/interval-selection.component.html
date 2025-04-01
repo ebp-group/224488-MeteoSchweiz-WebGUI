@@ -1,15 +1,13 @@
-<div *transloco="let t">
+<mat-radio-group
+  class="interval-selection"
+  *transloco="let t"
+  aria-label="Select an option"
+  [value]="selectedDataInterval$ | async"
+  (change)="setSelectedInterval($event.value)"
+>
   @for (dataInterval of allDataIntervals; track dataInterval.interval) {
-    <div>
-      <input
-        type="radio"
-        name="interval"
-        id="{{ dataInterval.interval }}-interval"
-        [checked]="(selectedDataInterval$ | async) === dataInterval.interval"
-        [disabled]="!(availableDataIntervals$ | async | includes: dataInterval.interval)"
-        (input)="setSelectedInterval(dataInterval.interval)"
-      />
-      <label for="{{ dataInterval.interval }}-interval">{{ t(dataInterval.label) }}</label>
-    </div>
+    <mat-radio-button [value]="dataInterval.interval" [disabled]="!(availableDataIntervals$ | async | includes: dataInterval.interval)">{{
+      t(dataInterval.label)
+    }}</mat-radio-button>
   }
-</div>
+</mat-radio-group>
