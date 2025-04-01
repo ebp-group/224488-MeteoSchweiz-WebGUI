@@ -1,8 +1,8 @@
 export interface CsvDataInventory {
   measCatNr: `${number}`;
-  ownerOrgNameTx: string;
-  paramShortNameTx: string;
-  sinceDt: string;
-  stationNatAbbrTx: string;
-  tillDt: string;
+  owner: string;
+  parameterShortname: string;
+  dataSince: string;
+  stationAbbr: string;
+  dataTill: string;
 }
