@@ -1,6 +1,6 @@
 <div class="station-selection" *transloco="let t">
-  @if (filteredStations$) {
-    <mat-form-field class="station-selection__field">
+  @if (filteredDisplayItems$) {
+    <mat-form-field class="station-selection__form">
       <input
         type="text"
         [placeholder]="t('station.search.placeholder')"
@@ -8,12 +8,22 @@
         matInput
         [formControl]="formControl"
         [matAutocomplete]="auto"
+        #input
       />
-      <mat-autocomplete #auto="matAutocomplete" [hideSingleSelectionIndicator]="true" [displayWith]="displayStationName">
-        @for (station of filteredStations$ | async; track station.id) {
+      <mat-autocomplete #auto="matAutocomplete" [hideSingleSelectionIndicator]="true" [displayWith]="getDisplayItemName">
+        @for (station of filteredDisplayItems$ | async; track station.id) {
           <mat-option [value]="station">{{ station.displayName }}</mat-option>
         }
       </mat-autocomplete>
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="clearInput()"
+        [disabled]="input.value.length === 0"
+        [attr.aria-label]="t('form.autocomplete.clear')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   }
 </div>

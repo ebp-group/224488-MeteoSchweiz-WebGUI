@@ -1,0 +1,32 @@
+<div class="parameter-group-selection" *transloco="let t">
+  @if (filteredDisplayItems$) {
+    <mat-form-field class="parameter-group-selection__form">
+      <input
+        #input
+        type="text"
+        [placeholder]="t('parameter-group.search.placeholder')"
+        [attr.aria-label]="t('parameter-group.name')"
+        matInput
+        [formControl]="formControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="getDisplayItemName">
+        @for (parameterGroup of filteredDisplayItems$ | async; track parameterGroup.id) {
+          <mat-option [value]="parameterGroup">
+            <mat-icon class="parameter-group-selection__form__icon" [svgIcon]="parameterGroup.id | iconFromConfig"></mat-icon>
+            <span>{{ parameterGroup.displayName }}</span>
+          </mat-option>
+        }
+      </mat-autocomplete>
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="clearInput()"
+        [disabled]="input.value.length === 0"
+        [attr.aria-label]="t('form.autocomplete.clear')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  }
+</div>

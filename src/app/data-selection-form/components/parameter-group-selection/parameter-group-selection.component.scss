@@ -1,0 +1,15 @@
+@use 'material-mixins' as mat-mixins;
+
+.parameter-group-selection {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+
+  &__form {
+    width: 100%;
+
+    &__icon {
+      @include mat-mixins.mat-icon-override-size(48px);
+    }
+  }
+}

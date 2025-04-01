@@ -1,5 +1,5 @@
 import {CollectionAsset} from '../../../shared/models/collection-assets';
-import {ParameterGroup} from '../../../shared/models/parameter';
+import {LocalizedParameterGroup} from '../../../shared/models/parameter';
 import {ParameterGroupStationMapping} from '../../../shared/models/parameter-group-station-mapping';
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {StationStateEntry} from '../../stations/states/station.state';
@@ -28,10 +28,10 @@ describe('Form selectors', () => {
     stations: [stationAA, stationAB, stationAC, wrongStation],
   };
 
-  const parameterGroupOne: ParameterGroup = {id: '1', name: {de: '', en: '', fr: '', it: ''}};
-  const parameterGroupTwo: ParameterGroup = {id: '2', name: {de: '', en: '', fr: '', it: ''}};
-  const parameterGroupThree: ParameterGroup = {id: '3', name: {de: '', en: '', fr: '', it: ''}};
-  const parameterGroups: ParameterGroup[] = [parameterGroupOne, parameterGroupTwo, parameterGroupThree];
+  const parameterGroupOne: LocalizedParameterGroup = {id: '1', name: {de: '', en: '', fr: '', it: ''}, displayName: ''};
+  const parameterGroupTwo: LocalizedParameterGroup = {id: '2', name: {de: '', en: '', fr: '', it: ''}, displayName: ''};
+  const parameterGroupThree: LocalizedParameterGroup = {id: '3', name: {de: '', en: '', fr: '', it: ''}, displayName: ''};
+  const parameterGroups: LocalizedParameterGroup[] = [parameterGroupOne, parameterGroupTwo, parameterGroupThree];
 
   const parameterGroupStationMappings: ParameterGroupStationMapping[] = [
     {stationId: 'a', parameterGroupId: '1', collections: ['a']},

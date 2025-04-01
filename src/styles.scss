@@ -1,4 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'opendata-explorer-theme' as theme;
+@use 'design-variables' as variables;
+@use '@angular/material' as mat;
 
 html,
 body {
@@ -7,4 +9,17 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: variables.$background-color;
+  color: variables.$foreground-color;
+}
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: theme.$primary-palette,
+        tertiary: theme.$tertiary-palette,
+        theme-type: dark,
+      ),
+    )
+  );
 }
