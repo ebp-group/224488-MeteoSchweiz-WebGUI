@@ -37,24 +37,24 @@ import {AutocompleteSelectionComponent} from '../autocomplete-selection/autocomp
 export class ParameterGroupSelectionComponent extends AutocompleteSelectionComponent<LocalizedParameterGroup> {
   private readonly store = inject(Store);
 
-  protected override selectedValue$ = this.store.select(formFeature.selectSelectedParameterGroupId);
-  protected override allValueObjects$ = this.store.select(selectLocalizedAndSortedParameterGroups);
+  protected override selectedId$ = this.store.select(formFeature.selectSelectedParameterGroupId);
+  protected override allDisplayItems$ = this.store.select(selectLocalizedAndSortedParameterGroups);
 
-  protected override filterObjects(
-    valueObjects: LocalizedParameterGroup[],
+  protected override filterDisplayItems(
+    allParameterGroups: LocalizedParameterGroup[],
     filterValue: string,
-    selectedValue: string | null,
+    selectedId: string | null,
   ): LocalizedParameterGroup[] {
-    const selectedValueObject = this.findObject(selectedValue, valueObjects);
-    if (selectedValueObject && selectedValueObject.displayName === filterValue) {
-      return valueObjects;
+    const selectedParameterGroup = this.findDisplayItem(selectedId, allParameterGroups);
+    if (selectedParameterGroup && selectedParameterGroup.displayName === filterValue) {
+      return allParameterGroups;
     }
 
-    const lowerCaseValue = filterValue.toLowerCase();
-    return valueObjects.filter((parameterGroup) => parameterGroup.displayName.toLowerCase().includes(lowerCaseValue));
+    const lowerCaseFilterValue = filterValue.toLowerCase();
+    return allParameterGroups.filter((parameterGroup) => parameterGroup.displayName.toLowerCase().includes(lowerCaseFilterValue));
   }
 
-  protected override dispatchValueChange(valueId: string | null): void {
-    this.store.dispatch(formActions.setSelectedParameters({parameterGroupId: valueId}));
+  protected override dispatchValueChange(id: string | null): void {
+    this.store.dispatch(formActions.setSelectedParameters({parameterGroupId: id}));
   }
 }

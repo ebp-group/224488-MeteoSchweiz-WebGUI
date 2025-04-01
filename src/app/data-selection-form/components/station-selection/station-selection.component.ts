@@ -35,15 +35,15 @@ import {AutocompleteSelectionComponent} from '../autocomplete-selection/autocomp
 export class StationSelectionComponent extends AutocompleteSelectionComponent<Station> {
   private readonly store = inject(Store);
 
-  protected override selectedValue$ = this.store.select(formFeature.selectSelectedStationId);
-  protected override allValueObjects$ = this.store.select(selectUniqueStationsFilteredBySelectedParameterGroups);
+  protected override selectedId$ = this.store.select(formFeature.selectSelectedStationId);
+  protected override allDisplayItems$ = this.store.select(selectUniqueStationsFilteredBySelectedParameterGroups);
 
-  protected override filterObjects(valueObjects: Station[], filterValue: string, _: string | null): Station[] {
+  protected override filterDisplayItems(allStations: Station[], filterValue: string, _: string | null): Station[] {
     const lowerCaseValue = filterValue.toLowerCase();
-    return valueObjects.filter((station) => station.displayName.toLowerCase().includes(lowerCaseValue));
+    return allStations.filter((station) => station.displayName.toLowerCase().includes(lowerCaseValue));
   }
 
-  protected override dispatchValueChange(valueId: string | null): void {
-    this.store.dispatch(formActions.setSelectedStationId({stationId: valueId}));
+  protected override dispatchValueChange(id: string | null): void {
+    this.store.dispatch(formActions.setSelectedStationId({stationId: id}));
   }
 }

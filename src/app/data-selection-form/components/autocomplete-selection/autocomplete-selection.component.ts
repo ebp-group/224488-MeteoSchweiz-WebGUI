@@ -2,37 +2,37 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {concatLatestFrom} from '@ngrx/operators';
 import {combineLatestWith, map, Observable, startWith, Subscription, tap} from 'rxjs';
-import {LocalizedDisplayItem} from '../../../shared/models/localized-display-item';
+import {DisplayItem} from '../../../shared/models/display-item';
 
 @Component({
   template: '',
 })
-export abstract class AutocompleteSelectionComponent<T extends LocalizedDisplayItem> implements OnInit, OnDestroy {
-  protected abstract readonly selectedValue$: Observable<string | null>;
-  protected abstract readonly allValueObjects$: Observable<T[]>;
+export abstract class AutocompleteSelectionComponent<T extends DisplayItem> implements OnInit, OnDestroy {
+  protected abstract readonly selectedId$: Observable<string | null>;
+  protected abstract readonly allDisplayItems$: Observable<T[]>;
 
-  protected filteredValueObjects$?: Observable<T[]>;
+  protected filteredDisplayItems$?: Observable<T[]>;
   protected readonly formControl = new FormControl<string | T>('');
   protected readonly subscriptions = new Subscription();
 
   public ngOnInit(): void {
     const valueChanges$ = this.formControl.valueChanges.pipe(
       startWith(''),
-      concatLatestFrom(() => this.selectedValue$),
-      tap(([value, selectedValue]) => this.handleValueChange(value, selectedValue)),
+      concatLatestFrom(() => this.selectedId$),
+      tap(([value, selectedId]) => this.handleValueChange(value, selectedId)),
       map(([value]): string => this.convertValueToString(value)),
     );
-    this.filteredValueObjects$ = this.allValueObjects$.pipe(
+    this.filteredDisplayItems$ = this.allDisplayItems$.pipe(
       combineLatestWith(valueChanges$),
-      concatLatestFrom(() => this.selectedValue$),
-      map(([[valueObjects, value], selectedValue]) => this.filterObjects(valueObjects, value, selectedValue)),
+      concatLatestFrom(() => this.selectedId$),
+      map(([[allDisplayItems, value], selectedId]) => this.filterDisplayItems(allDisplayItems, value, selectedId)),
     );
     this.subscriptions.add(
-      this.selectedValue$
+      this.selectedId$
         .pipe(
-          concatLatestFrom(() => this.allValueObjects$),
-          map(([value, valueObjects]) => this.findObject(value, valueObjects)),
-          tap((valueObject) => this.formControl.patchValue(valueObject)),
+          concatLatestFrom(() => this.allDisplayItems$),
+          map(([selectedId, allDisplayItems]) => this.findDisplayItem(selectedId, allDisplayItems)),
+          tap((displayItem) => this.formControl.setValue(displayItem)),
         )
         .subscribe(),
     );
@@ -42,33 +42,33 @@ export abstract class AutocompleteSelectionComponent<T extends LocalizedDisplayI
     this.subscriptions.unsubscribe();
   }
 
-  protected abstract filterObjects(valueObjects: T[], filterValue: string, selectedValue: string | null): T[];
+  protected abstract filterDisplayItems(allDisplayItems: T[], filterValue: string, selectedId: string | null): T[];
 
-  protected abstract dispatchValueChange(valueId: string | null): void;
+  protected abstract dispatchValueChange(id: string | null): void;
 
-  protected displayValueObjectName(valueObject: T | null): string {
-    return valueObject?.displayName ?? '';
+  protected getDisplayItemName(displayItem: T | null): string {
+    return displayItem?.displayName ?? '';
   }
 
-  protected findObject(value: string | null, valueObjects: T[]): T | null {
-    if (value === null) {
+  protected findDisplayItem(id: string | null, allDisplayItems: T[]): T | null {
+    if (id === null) {
       return null;
     }
-    return valueObjects.find((object) => object.id === value) ?? null;
+    return allDisplayItems.find((item) => item.id === id) ?? null;
   }
 
   protected clearInput(): void {
     this.formControl.reset();
   }
 
-  private handleValueChange(value: string | T | null, selectedValue: string | null): void {
-    const valueIdOrNull = value === null || typeof value === 'string' ? null : value.id;
-    if (valueIdOrNull !== selectedValue) {
-      this.dispatchValueChange(valueIdOrNull);
+  private handleValueChange(value: string | T | null, selectedId: string | null): void {
+    const id = value === null || typeof value === 'string' ? null : value.id;
+    if (id !== selectedId) {
+      this.dispatchValueChange(id);
     }
   }
 
   private convertValueToString(value: string | T | null): string {
-    return typeof value === 'string' ? value : this.displayValueObjectName(value);
+    return typeof value === 'string' ? value : this.getDisplayItemName(value);
   }
 }

@@ -1,5 +1,5 @@
 <div class="station-selection" *transloco="let t">
-  @if (filteredValueObjects$) {
+  @if (filteredDisplayItems$) {
     <mat-form-field class="station-selection__form">
       <input
         type="text"
@@ -10,8 +10,8 @@
         [matAutocomplete]="auto"
         #input
       />
-      <mat-autocomplete #auto="matAutocomplete" [hideSingleSelectionIndicator]="true" [displayWith]="displayValueObjectName">
-        @for (station of filteredValueObjects$ | async; track station.id) {
+      <mat-autocomplete #auto="matAutocomplete" [hideSingleSelectionIndicator]="true" [displayWith]="getDisplayItemName">
+        @for (station of filteredDisplayItems$ | async; track station.id) {
           <mat-option [value]="station">{{ station.displayName }}</mat-option>
         }
       </mat-autocomplete>
