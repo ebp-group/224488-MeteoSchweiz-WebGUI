@@ -6,7 +6,7 @@ import {TranslatableStringPipe} from '../../../shared/pipes/translatable-string.
 import {appFeature} from '../../../state/app/reducers/app.reducer';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
-import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../../../state/form/selectors/form.selector';
+import {selectSelectedStationsFilteredBySelectedParameterGroup} from '../../../state/form/selectors/form.selector';
 
 @Component({
   selector: 'app-collection-selection',
@@ -17,7 +17,7 @@ import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup
 export class CollectionSelectionComponent {
   private readonly store = inject(Store);
 
-  protected readonly stationParameterGroups$ = this.store.select(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup);
+  protected readonly stationParameterGroups$ = this.store.select(selectSelectedStationsFilteredBySelectedParameterGroup);
   protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
   protected readonly currentLanguage$ = this.store.select(appFeature.selectLanguage);
 

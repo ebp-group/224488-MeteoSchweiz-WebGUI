@@ -16,7 +16,7 @@ import {selectCurrentStationState} from '../../stations/selectors/station.select
 import {StationStateEntry} from '../../stations/states/station.state';
 import {formActions} from '../actions/form.actions';
 import {formFeature} from '../reducers/form.reducer';
-import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
+import {selectSelectedStationsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
 import {FormState} from '../states/form.state';
 import {
   autoSelectFirstCollection,
@@ -154,7 +154,7 @@ describe('FormEffects', () => {
 
   describe('autoSelectCollection', () => {
     it('should dispatch selectCollection if only a single station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation]);
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [testStation]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
       autoSelectFirstCollection(actions$, store).subscribe((action) => {
@@ -164,7 +164,7 @@ describe('FormEffects', () => {
     });
 
     it('should dispatch selectCollection with the first station if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [
         {...testStation, collection: 'first'},
         {...testStation, collection: 'second'},
       ]);
@@ -177,7 +177,7 @@ describe('FormEffects', () => {
     });
 
     it('should dispatch selectCollection with null if no station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, []);
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, []);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
       autoSelectFirstCollection(actions$, store).subscribe((action) => {
