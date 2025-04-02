@@ -6,8 +6,8 @@ import {StationStateEntry} from '../../stations/states/station.state';
 import {
   selectSelectedCollectionMetaAssets,
   selectSelectedStationForCollection,
+  selectSelectedStationsFilteredBySelectedParameterGroup,
   selectSelectedStationWithParameterGroup,
-  selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
 } from './form.selector';
 import type {Station} from '../../../shared/models/station';
 
@@ -73,7 +73,7 @@ describe('Form selectors', () => {
 
   describe('selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup', () => {
     it('should filter the stations based on the selected parameter group', () => {
-      const result = selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup.projector(
+      const result = selectSelectedStationsFilteredBySelectedParameterGroup.projector(
         [
           {...stationAA, parameterGroups: [parameterGroupOne]},
           {...stationAB, parameterGroups: [parameterGroupTwo]},
