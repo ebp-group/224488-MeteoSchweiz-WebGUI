@@ -1,7 +1,26 @@
-.selection-container {
-  display: flex;
-  gap: 5px;
-  .parameter-group-name {
-    text-transform: capitalize;
+@use '@angular/material' as mat;
+@use 'design-variables' as variables;
+
+.collection-selection {
+  &__stations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    &__station {
+      width: 371px;
+      background-color: variables.$accent-grey;
+      padding: 10px;
+
+      &__radio-button {
+        @include mat.radio-overrides(
+          (
+            selected-icon-color: variables.$foreground-color,
+            unselected-icon-color: variables.$foreground-color,
+            label-text-color: variables.$foreground-color,
+          )
+        );
+      }
+    }
   }
 }

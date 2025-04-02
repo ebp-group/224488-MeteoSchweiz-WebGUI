@@ -1,24 +1,20 @@
 @if (currentLanguage$ | async; as currentLanguage) {
-  <div class="selection-container" *transloco="let t">
-    @for (station of stationParameterGroups$ | async; track $index) {
-      <div>
-        <div>
-          <input
-            type="radio"
-            name="collection"
-            [id]="station.collection"
+  <div class="collection-selection" *transloco="let t">
+    <p>{{ t('form.collection-selection.title') }}</p>
+    <div class="collection-selection__stations">
+      @for (station of stationParameterGroups$ | async; track $index) {
+        <div class="collection-selection__stations__station">
+          <mat-radio-button
+            class="collection-selection__stations__station__radio-button"
             [checked]="(selectedCollection$ | async) === station.collection"
             (input)="setSelectedCollection(station.collection)"
-          />
-          <label [for]="station.collection">{{ station.type | translatableString: currentLanguage }}</label>
+            [disabled]="false"
+          >
+            {{ station.type | translatableString: currentLanguage }}
+          </mat-radio-button>
+          <app-station-info [station]="station"></app-station-info>
         </div>
-        <div>
-          <p>{{ t('form.collection-selection.parameter-groups') }}</p>
-          @for (parameterGroup of station.parameterGroups; track $index) {
-            <div class="parameter-group-name">{{ parameterGroup.name | translatableString: currentLanguage }}</div>
-          }
-        </div>
-      </div>
-    }
+      }
+    </div>
   </div>
 }
