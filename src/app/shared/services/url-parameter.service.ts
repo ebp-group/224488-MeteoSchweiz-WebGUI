@@ -1,12 +1,10 @@
 import {DOCUMENT} from '@angular/common';
 import {inject, Injectable} from '@angular/core';
-import {
-  transformHistoricalDateRangeStringToDate,
-  transformHistoricalDateRangeToString,
-} from '../../stac/utils/historical-time-range-transformation.utils';
+import {transformDateToString, transformStringToDate} from '../../stac/utils/date-transformation.utils';
 import {collectionConfig} from '../configs/collections.config';
 import {languageConfig} from '../configs/language.config';
 import {AppUrlParameter} from '../models/app-url-parameter';
+import {DateRange} from '../models/date-range';
 import {HostMessage} from '../models/host-message';
 import {isDataInterval} from '../type-guards/data-interval-guard';
 import {isLanguage} from '../type-guards/language-guard';
@@ -28,13 +26,15 @@ export class UrlParameterService {
   private readonly timeRangeKey = 'tr' as const;
   private readonly historicalDateRangeKey = 'hdr' as const;
 
+  private readonly historicalDateRangeSeparator = '-' as const;
+
   public transformUrlFragmentToAppUrlParameter(fragment: string | undefined): AppUrlParameter {
     const urlParams = new URLSearchParams(fragment);
     const languageString = this.transformUrlFragmentParameterToValue(urlParams, this.languageKey);
     const measurementDataTypeString = this.transformUrlFragmentParameterToValue(urlParams, this.measurementDataTypeKey);
     const dataIntervalString = this.transformUrlFragmentParameterToValue(urlParams, this.dataIntervalKey);
     const timeRangeString = this.transformUrlFragmentParameterToValue(urlParams, this.timeRangeKey);
-    const historicalDateRange = transformHistoricalDateRangeStringToDate(urlParams.get(this.historicalDateRangeKey) ?? undefined);
+    const historicalDateRange = this.transformHistoricalDateRangeStringToDate(urlParams.get(this.historicalDateRangeKey));
     return {
       language: languageString && isLanguage(languageString) ? languageString : languageConfig.defaultLanguage,
       measurementDataType:
@@ -84,8 +84,24 @@ export class UrlParameterService {
     urlParams.set(this.collectionKey, appUrlParameter.collection ?? '');
     urlParams.set(this.dataIntervalKey, appUrlParameter.dataInterval ?? '');
     urlParams.set(this.timeRangeKey, appUrlParameter.timeRange ?? '');
-    const historicalDateRangeString = transformHistoricalDateRangeToString(appUrlParameter.historicalDateRange ?? undefined);
+    const historicalDateRangeString = this.transformHistoricalDateRangeToString(appUrlParameter.historicalDateRange);
     urlParams.set(this.historicalDateRangeKey, historicalDateRangeString ?? '');
     return urlParams.toString();
+  }
+
+  private transformHistoricalDateRangeStringToDate(dateRangeString: string | null): DateRange | undefined {
+    const dates = dateRangeString?.split(this.historicalDateRangeSeparator);
+    if (dates?.length !== 2) {
+      return undefined;
+    }
+    const fromDate = transformStringToDate(dates[0]);
+    const toDate = transformStringToDate(dates[1]);
+    return fromDate != null && toDate != null ? {start: fromDate, end: toDate} : undefined;
+  }
+
+  private transformHistoricalDateRangeToString(dateRange: DateRange | null): string | undefined {
+    return dateRange
+      ? `${transformDateToString(dateRange.start)}${this.historicalDateRangeSeparator}${transformDateToString(dateRange.end)}`
+      : undefined;
   }
 }

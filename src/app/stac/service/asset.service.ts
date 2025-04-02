@@ -1,7 +1,8 @@
 import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {AssetParseError} from '../../shared/errors/asset.error';
+import {DateRange} from '../../shared/models/date-range';
 import {isTimeRange} from '../../shared/type-guards/time-range-guard';
-import {transformHistoricalDateStringsToDate} from '../utils/historical-time-range-transformation.utils';
+import {transformStringToDate} from '../utils/date-transformation.utils';
 import {StacApiService} from './stac-api.service';
 import type {CollectionAsset} from '../../shared/models/collection-assets';
 import type {DataInterval} from '../../shared/models/interval';
@@ -78,12 +79,7 @@ export class AssetService {
 
     switch (timeRange) {
       case 'historical': {
-        const fromDateString = matches.groups['fromDate'];
-        const toDateString = matches.groups['toDate'];
-        const dateRange = transformHistoricalDateStringsToDate(fromDateString, toDateString);
-        if (!dateRange && (fromDateString || toDateString)) {
-          throw new AssetParseError(asset.filename);
-        }
+        const dateRange = this.transformHistoricalDateStringsToDate(matches.groups['fromDate'], matches.groups['toDate'], asset.filename);
         return {
           filename: asset.filename,
           url: asset.url,
@@ -125,5 +121,21 @@ export class AssetService {
       throw new AssetParseError(assetFilename);
     }
     return timeRange;
+  }
+
+  private transformHistoricalDateStringsToDate(
+    fromDateString: string | undefined,
+    toDateString: string | undefined,
+    assetFilename: string,
+  ): DateRange | undefined {
+    if (!fromDateString || !toDateString) {
+      return undefined;
+    }
+    const fromDate = transformStringToDate(fromDateString);
+    const toDate = transformStringToDate(toDateString);
+    if (!fromDate || !toDate) {
+      throw new AssetParseError(assetFilename);
+    }
+    return {start: fromDate, end: toDate};
   }
 }
