@@ -4,5 +4,7 @@
     <app-station-selection class="station-parameter-selection__selection"></app-station-selection>
   </div>
   <app-map-container></app-map-container>
-  <app-collection-selection></app-collection-selection>
+  @if (selectedStation$ | async) {
+    <app-collection-selection></app-collection-selection>
+  }
 </div>

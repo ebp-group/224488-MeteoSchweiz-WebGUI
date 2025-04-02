@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {MatRadioButton} from '@angular/material/radio';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {TranslatableStringPipe} from '../../../shared/pipes/translatable-string.pipe';
@@ -11,7 +12,7 @@ import {StationInfoComponent} from '../station-info/station-info.component';
 
 @Component({
   selector: 'app-collection-selection',
-  imports: [AsyncPipe, TranslatableStringPipe, TranslocoModule],
+  imports: [AsyncPipe, TranslatableStringPipe, TranslocoModule, MatRadioButton, StationInfoComponent],
   templateUrl: './collection-selection.component.html',
   styleUrl: './collection-selection.component.scss',
 })
