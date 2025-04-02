@@ -22,6 +22,13 @@ describe('Station Selectors', () => {
           fr: 'french station type',
           it: 'italian station type',
         },
+        elevation: 0,
+        url: {
+          de: 'url de',
+          en: 'url en',
+          fr: 'url fr',
+          it: 'url it',
+        },
       };
       const result = selectPrioritizedUniqueStations.projector(
         {
@@ -47,6 +54,13 @@ describe('Station Selectors', () => {
           fr: 'french station type',
           it: 'italian station type',
         },
+        elevation: 0,
+        url: {
+          de: 'url de',
+          en: 'url en',
+          fr: 'url fr',
+          it: 'url it',
+        },
       };
       const stationTwo: Station = {
         id: 'stationId1',
@@ -59,6 +73,13 @@ describe('Station Selectors', () => {
           de: 'Stations typ',
           fr: 'french station type',
           it: 'italian station type',
+        },
+        elevation: 0,
+        url: {
+          de: 'url de',
+          en: 'url en',
+          fr: 'url fr',
+          it: 'url it',
         },
       };
       const result = selectPrioritizedUniqueStations.projector(
@@ -86,6 +107,13 @@ describe('Station Selectors', () => {
         fr: 'french station type',
         it: 'italian station type',
       },
+      elevation: 0,
+      url: {
+        de: 'url de',
+        en: 'url en',
+        fr: 'url fr',
+        it: 'url it',
+      },
     };
     const stationTwo: Station = {
       id: 'stationId2',
@@ -99,6 +127,13 @@ describe('Station Selectors', () => {
         fr: 'french station type',
         it: 'italian station type',
       },
+      elevation: 0,
+      url: {
+        de: 'url de',
+        en: 'url en',
+        fr: 'url fr',
+        it: 'url it',
+      },
     };
     const stationThree: Station = {
       id: 'stationId3',
@@ -111,6 +146,13 @@ describe('Station Selectors', () => {
         de: 'Stations typ',
         fr: 'french station type',
         it: 'italian station type',
+      },
+      elevation: 0,
+      url: {
+        de: 'url de',
+        en: 'url en',
+        fr: 'url fr',
+        it: 'url it',
       },
     };
 
@@ -197,6 +239,13 @@ describe('Station Selectors', () => {
           fr: 'french station type',
           it: 'italian station type',
         },
+        elevation: 0,
+        url: {
+          de: 'url de',
+          en: 'url en',
+          fr: 'url fr',
+          it: 'url it',
+        },
       };
       const stationTwo: Station = {
         id: 'stationId2',
@@ -209,6 +258,13 @@ describe('Station Selectors', () => {
           de: 'Stations typ',
           fr: 'french station type',
           it: 'italian station type',
+        },
+        elevation: 0,
+        url: {
+          de: 'url de',
+          en: 'url en',
+          fr: 'url fr',
+          it: 'url it',
         },
       };
 

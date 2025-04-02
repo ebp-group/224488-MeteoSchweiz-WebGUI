@@ -14,9 +14,9 @@ import {selectParameterGroups} from '../../parameters/selectors/parameter.select
 import {selectCurrentStationState} from '../../stations/selectors/station.selector';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {formActions} from '../actions/form.actions';
-import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
+import {selectSelectedStationsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
 import {
-  autoSelectCollection,
+  autoSelectFirstCollection,
   initializeSelectedMeasurementDataType,
   initializeSelectedStationIdAndParameterGroupIdAndCollection,
   loadCollectionsForSelectedMeasurementDataType,
@@ -32,6 +32,13 @@ describe('FormEffects', () => {
     name: '',
     type: {de: 'de', en: 'en', fr: 'fr', it: 'it'},
     parameterGroups: [],
+    elevation: 0,
+    url: {
+      de: 'url de',
+      en: 'url en',
+      fr: 'url fr',
+      it: 'url it',
+    },
   };
 
   let actions$: Observable<Action>;
@@ -79,6 +86,13 @@ describe('FormEffects', () => {
             coordinates: {longitude: 0, latitude: 0},
             collection: '789',
             type: {de: 'de', fr: 'fr', it: 'it', en: 'en'},
+            elevation: 0,
+            url: {
+              de: 'url de',
+              en: 'url en',
+              fr: 'url fr',
+              it: 'url it',
+            },
           },
         ] satisfies Station[],
       } as StationStateEntry);
@@ -136,30 +150,33 @@ describe('FormEffects', () => {
 
   describe('autoSelectCollection', () => {
     it('should dispatch selectCollection if only a single station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation]);
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [testStation]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectCollection(actions$, store).subscribe((action) => {
+      autoSelectFirstCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedCollection({collection: 'a'}));
         done();
       });
     });
 
-    it('should dispatch selectCollection with null if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation, testStation]);
+    it('should dispatch selectCollection with the first station if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [
+        {...testStation, collection: 'first'},
+        {...testStation, collection: 'second'},
+      ]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectCollection(actions$, store).subscribe((action) => {
-        expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
+      autoSelectFirstCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: 'first'}));
         done();
       });
     });
 
     it('should dispatch selectCollection with null if no station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, []);
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, []);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectCollection(actions$, store).subscribe((action) => {
+      autoSelectFirstCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
         done();
       });

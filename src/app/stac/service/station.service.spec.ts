@@ -38,20 +38,20 @@ const testCsvStation: CsvStation = {
   stationTypeEn: 'station type',
   stationDataowner: '',
   stationDataSince: '',
-  stationHeightMasl: '',
+  stationHeightMasl: '1',
   stationHeightBarometerMasl: '',
   stationCoordinatesLv95East: '0',
   stationCoordinatesLv95North: '0',
-  stationCoordinatesWgs84Lat: '0',
-  stationCoordinatesWgs84Lon: '0',
+  stationCoordinatesWgs84Lat: '2',
+  stationCoordinatesWgs84Lon: '3',
   stationExpositionDe: '',
   stationExpositionFr: '',
   stationExpositionIt: '',
   stationExpositionEn: '',
-  stationUrlDe: '',
-  stationUrlFr: '',
-  stationUrlIt: '',
-  stationUrlEn: '',
+  stationUrlDe: 'URL DE',
+  stationUrlFr: 'URL FR',
+  stationUrlIt: 'URL IT',
+  stationUrlEn: 'URL EN',
 };
 
 const testStation: Station = {
@@ -59,8 +59,8 @@ const testStation: Station = {
   name: 'Test station',
   displayName: 'Test station (TEST)',
   coordinates: {
-    longitude: 0,
-    latitude: 0,
+    longitude: 3,
+    latitude: 2,
   },
   collection: testCollection,
   type: {
@@ -68,6 +68,13 @@ const testStation: Station = {
     de: 'Stations typ',
     fr: 'french station type',
     it: 'italian station type',
+  },
+  elevation: 1,
+  url: {
+    en: 'URL EN',
+    de: 'URL DE',
+    fr: 'URL FR',
+    it: 'URL IT',
   },
 };
 

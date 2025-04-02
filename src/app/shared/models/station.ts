@@ -9,4 +9,6 @@ export interface Station extends DisplayItem {
   coordinates: Coordinates;
   collection: string;
   type: TranslatableString;
+  elevation: number;
+  url: TranslatableString;
 }
