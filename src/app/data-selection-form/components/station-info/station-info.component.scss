@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+
+.station-info {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    margin-top: 10px;
+  }
+
+  &__link {
+    color: inherit;
+  }
+
+  &__param-groups {
+    @include mat.list-overrides(
+      (
+        list-item-leading-icon-start-space: 10px,
+        list-item-one-line-container-height: 28px,
+      )
+    );
+
+    &__item {
+      padding: 0;
+    }
+  }
+}
