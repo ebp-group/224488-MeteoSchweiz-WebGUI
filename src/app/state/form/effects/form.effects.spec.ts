@@ -19,7 +19,7 @@ import {formFeature} from '../reducers/form.reducer';
 import {selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup} from '../selectors/form.selector';
 import {FormState} from '../states/form.state';
 import {
-  autoSelectCollection,
+  autoSelectFirstCollection,
   initializeSelectedDataIntervalAndTimeRange,
   initializeSelectedMeasurementDataType,
   initializeSelectedStationIdAndParameterGroupIdAndCollection,
@@ -143,18 +143,21 @@ describe('FormEffects', () => {
       store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectCollection(actions$, store).subscribe((action) => {
+      autoSelectFirstCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedCollection({collection: 'a'}));
         done();
       });
     });
 
-    it('should dispatch selectCollection with null if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [testStation, testStation]);
+    it('should dispatch selectCollection with the first station if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, [
+        {...testStation, collection: 'first'},
+        {...testStation, collection: 'second'},
+      ]);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectCollection(actions$, store).subscribe((action) => {
-        expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
+      autoSelectFirstCollection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(formActions.setSelectedCollection({collection: 'first'}));
         done();
       });
     });
@@ -163,7 +166,7 @@ describe('FormEffects', () => {
       store.overrideSelector(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup, []);
 
       actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectCollection(actions$, store).subscribe((action) => {
+      autoSelectFirstCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
         done();
       });

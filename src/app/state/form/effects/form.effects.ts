@@ -27,12 +27,12 @@ export const loadCollectionsForSelectedMeasurementDataType = createEffect(
   {functional: true},
 );
 
-export const autoSelectCollection = createEffect(
+export const autoSelectFirstCollection = createEffect(
   (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
       ofType(formActions.setSelectedStationId),
       concatLatestFrom(() => store.select(selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup)),
-      map(([, stations]) => formActions.setSelectedCollection({collection: stations.length === 1 ? stations[0].collection : null})),
+      map(([, stations]) => formActions.setSelectedCollection({collection: stations.length > 0 ? stations[0].collection : null})),
     );
   },
   {functional: true},
