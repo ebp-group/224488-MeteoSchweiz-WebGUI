@@ -5,6 +5,7 @@
   flex-direction: column;
 
   &__title {
+    font-weight: bold;
     margin-top: 10px;
   }
 
@@ -15,13 +16,13 @@
   &__param-groups {
     @include mat.list-overrides(
       (
-        list-item-leading-icon-start-space: 10px,
         list-item-one-line-container-height: 28px,
       )
     );
 
     &__item {
       padding: 0;
+      align-items: center;
     }
   }
 }

@@ -8,10 +8,11 @@ import {appFeature} from '../../../state/app/reducers/app.reducer';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
 import {selectSelectedStationsFilteredBySelectedParameterGroup} from '../../../state/form/selectors/form.selector';
+import {StationInfoComponent} from '../station-info/station-info.component';
 
 @Component({
   selector: 'app-collection-selection',
-  imports: [AsyncPipe, TranslatableStringPipe, TranslocoModule, MatRadioButton, StationInfoComponent],
+  imports: [AsyncPipe, TranslatableStringPipe, TranslocoModule, MatRadioButton, StationInfoComponent, StationInfoComponent],
   templateUrl: './collection-selection.component.html',
   styleUrl: './collection-selection.component.scss',
 })
