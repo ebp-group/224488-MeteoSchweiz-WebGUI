@@ -36,6 +36,13 @@ describe('FormEffects', () => {
     name: '',
     type: {de: 'de', en: 'en', fr: 'fr', it: 'it'},
     parameterGroups: [],
+    elevation: 0,
+    url: {
+      de: 'url de',
+      en: 'url en',
+      fr: 'url fr',
+      it: 'url it',
+    },
   };
 
   let actions$: Observable<Action>;
@@ -83,6 +90,13 @@ describe('FormEffects', () => {
             coordinates: {longitude: 0, latitude: 0},
             collection: '789',
             type: {de: 'de', fr: 'fr', it: 'it', en: 'en'},
+            elevation: 0,
+            url: {
+              de: 'url de',
+              en: 'url en',
+              fr: 'url fr',
+              it: 'url it',
+            },
           },
         ] satisfies Station[],
       } as StationStateEntry);

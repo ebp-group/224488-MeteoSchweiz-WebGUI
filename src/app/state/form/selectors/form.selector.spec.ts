@@ -17,6 +17,13 @@ describe('Form selectors', () => {
     id: 'a',
     name: 'Test A',
     displayName: 'Test A (a)',
+    elevation: 0,
+    url: {
+      de: 'url de',
+      en: 'url en',
+      fr: 'url fr',
+      it: 'url it',
+    },
   };
   const stationAA: Station = {...baseStation, collection: 'a', type: {de: 'a', en: 'a', fr: 'a', it: 'a'}};
   const stationAB: Station = {...baseStation, collection: 'b', type: {de: 'b', en: 'b', fr: 'b', it: 'b'}};

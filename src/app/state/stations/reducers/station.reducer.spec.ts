@@ -56,6 +56,13 @@ describe('Station Reducer', () => {
           fr: 'french station type',
           it: 'italian station type',
         },
+        elevation: 0,
+        url: {
+          de: 'url de',
+          en: 'url en',
+          fr: 'url fr',
+          it: 'url it',
+        },
       },
     ];
     const action = stationActions.setLoadedStations({stations, measurementDataType});
