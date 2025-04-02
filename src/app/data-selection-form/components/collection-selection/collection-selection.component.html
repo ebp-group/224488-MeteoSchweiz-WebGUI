@@ -1,6 +1,8 @@
 @if (currentLanguage$ | async; as currentLanguage) {
   <div class="collection-selection" *transloco="let t">
-    <p>{{ t('form.collection-selection.title') }}</p>
+    <p>
+      <b>{{ t('form.collection-selection.title') }}</b>
+    </p>
     <div class="collection-selection__stations">
       @for (station of stationParameterGroups$ | async; track $index) {
         <div class="collection-selection__stations__station">

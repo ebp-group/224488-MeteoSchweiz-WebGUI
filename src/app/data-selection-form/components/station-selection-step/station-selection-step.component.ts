@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {TranslocoDirective} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {MapContainerComponent} from '../../../map/components/map-container/map-container.component';
 import {selectSelectedStationForCollection} from '../../../state/form/selectors/form.selector';
@@ -9,7 +10,14 @@ import {StationSelectionComponent} from '../station-selection/station-selection.
 
 @Component({
   selector: 'app-station-selection-step',
-  imports: [CollectionSelectionComponent, MapContainerComponent, ParameterGroupSelectionComponent, StationSelectionComponent, AsyncPipe],
+  imports: [
+    CollectionSelectionComponent,
+    MapContainerComponent,
+    ParameterGroupSelectionComponent,
+    StationSelectionComponent,
+    AsyncPipe,
+    TranslocoDirective,
+  ],
   templateUrl: './station-selection-step.component.html',
   styleUrl: './station-selection-step.component.scss',
 })

@@ -1,13 +1,12 @@
 @if (currentLanguage$ | async; as currentLanguage) {
   <div class="station-info" *transloco="let t">
-    <p>{{ station().displayName }}</p>
-    {{ station().elevation }} {{ t('form.station.elevation-unit') }}
+    <p class="station-info__title">{{ station().displayName }}</p>
+    {{ station().elevation }} {{ t('form.station.selection-info.elevation-unit') }}
     @if (station().url | translatableString: currentLanguage; as url) {
       <a class="station-info__link" [href]="url" rel="noopener noreferrer" target="_blank">
-        {{ t('form.station.url-text') }}
+        {{ t('form.station.selection-info.more-info') }}
       </a>
     }
-
     <span class="station-info__title">{{ t('form.collection-selection.parameter-groups') }}</span>
     <mat-list class="station-info__param-groups">
       @for (parameterGroup of station().parameterGroups; track parameterGroup.id) {

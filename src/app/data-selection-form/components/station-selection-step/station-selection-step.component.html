@@ -1,4 +1,4 @@
-<div class="station-selection-step">
+<div class="station-selection-step" *transloco="let t">
   <div class="station-parameter-selection">
     <app-parameter-group-selection class="station-parameter-selection__selection"></app-parameter-group-selection>
     <app-station-selection class="station-parameter-selection__selection"></app-station-selection>
@@ -6,5 +6,10 @@
   <app-map-container></app-map-container>
   @if (selectedStation$ | async) {
     <app-collection-selection></app-collection-selection>
+  } @else {
+    <p>
+      <b>{{ t('form.station.selection-info.no-station-selected.title') }}</b>
+    </p>
+    <span>{{ t('form.station.selection-info.no-station-selected.explanation') }}</span>
   }
 </div>
