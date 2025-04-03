@@ -1,6 +1,7 @@
 <mat-radio-group
   class="time-range-selection"
   *transloco="let t"
+  [attr.aria-label]="t('form.time-range.label')"
   [value]="selectedTimeRange$ | async"
   (change)="setSelectedTimeRange($event.value)"
 >
@@ -25,7 +26,6 @@
     <div class="time-range-selection__historical-explanation">
       <p>
         {{ t('form.time-range.historical') }}
-        <mat-icon class="time-range-selection__tooltip-icon" [matTooltip]="t('form.time-range.historical.tooltip')">info_outline</mat-icon>
       </p>
     </div>
     @for (range of historicalDateRanges$ | async; track $index) {
