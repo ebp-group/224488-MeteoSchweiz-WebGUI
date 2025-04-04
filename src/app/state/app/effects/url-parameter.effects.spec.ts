@@ -40,6 +40,7 @@ describe('UrlParameterEffects', () => {
         collection: '789',
         dataInterval: 'yearly',
         timeRange: 'historical',
+        historicalDateRange: {start: new Date('2021-01-01'), end: new Date('2022-02-02')},
       };
       urlParameterService.transformUrlFragmentToAppUrlParameter.and.returnValue(appInitializeParameter);
       store.overrideSelector(appFeature.selectIsInitialized, false);
@@ -76,6 +77,7 @@ describe('UrlParameterEffects', () => {
         collection: null,
         dataInterval: null,
         timeRange: null,
+        historicalDateRange: null,
       };
       store.overrideSelector(selectCurrentAppUrlParameter, appUrlParameter);
       actions$ = of(formActions.setSelectedMeasurementDataType({measurementDataType: 'homogenous'}));

@@ -1,6 +1,8 @@
 import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {AssetParseError} from '../../shared/errors/asset.error';
+import {DateRange} from '../../shared/models/date-range';
 import {isTimeRange} from '../../shared/type-guards/time-range-guard';
+import {transformStringToDate} from '../../shared/utils/date-transformation.utils';
 import {StacApiService} from './stac-api.service';
 import type {CollectionAsset} from '../../shared/models/collection-assets';
 import type {DataInterval} from '../../shared/models/interval';
@@ -34,9 +36,6 @@ export class AssetService {
         try {
           return this.parseStacStationAsset(asset);
         } catch (error: unknown) {
-          if (error instanceof AssetParseError) {
-            error.translationArguments.filename = asset.filename;
-          }
           this.errorHandler.handleError(error);
           return undefined;
         }
@@ -71,24 +70,22 @@ export class AssetService {
     }
 
     const matches = RegExp(this.stationParseRegex).exec(asset.filename);
-    if (!matches || !matches.groups) {
+    if (!matches?.groups) {
       throw new AssetParseError(asset.filename);
     }
 
-    const interval = this.transformInterval(matches.groups['interval']);
-    const timeRange = this.transformTimeRange(matches.groups['timeRange']);
+    const interval = this.transformInterval(matches.groups['interval'], asset.filename);
+    const timeRange = this.transformTimeRange(matches.groups['timeRange'], asset.filename);
 
     switch (timeRange) {
       case 'historical': {
-        const fromDate = this.transformDate(matches.groups['fromDate']);
-        const toDate = this.transformDate(matches.groups['toDate']);
-        const dataRange = fromDate != null && toDate != null ? {start: fromDate, end: toDate} : undefined;
+        const dateRange = this.transformHistoricalDateStringsToDate(matches.groups['fromDate'], matches.groups['toDate'], asset.filename);
         return {
           filename: asset.filename,
           url: asset.url,
           interval,
-          timeRange: timeRange,
-          dateRange: dataRange,
+          timeRange,
+          dateRange,
         };
       }
       case 'now':
@@ -97,12 +94,12 @@ export class AssetService {
           filename: asset.filename,
           url: asset.url,
           interval,
-          timeRange: timeRange,
+          timeRange,
         };
     }
   }
 
-  private transformInterval(interval: string): DataInterval {
+  private transformInterval(interval: string, assetFilename: string): DataInterval {
     switch (interval) {
       case 't':
         return 'ten-minutes';
@@ -115,30 +112,30 @@ export class AssetService {
       case 'h':
         return 'hourly';
       default:
-        throw new AssetParseError();
+        throw new AssetParseError(assetFilename);
     }
   }
 
-  private transformTimeRange(timeRange: string): TimeRange {
+  private transformTimeRange(timeRange: string, assetFilename: string): TimeRange {
     if (!isTimeRange(timeRange)) {
-      throw new AssetParseError();
+      throw new AssetParseError(assetFilename);
     }
     return timeRange;
   }
 
-  private transformDate(date: string | undefined): Date | undefined {
-    if (!date || date.length < 8) {
+  private transformHistoricalDateStringsToDate(
+    fromDateString: string | undefined,
+    toDateString: string | undefined,
+    assetFilename: string,
+  ): DateRange | undefined {
+    if (!fromDateString || !toDateString) {
       return undefined;
     }
-    const year = Number(date.substring(0, 4));
-    const month = Number(date.substring(4, 6));
-    const day = Number(date.substring(6, 8));
-
-    if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) {
-      throw new AssetParseError();
+    const fromDate = transformStringToDate(fromDateString);
+    const toDate = transformStringToDate(toDateString);
+    if (!fromDate || !toDate) {
+      throw new AssetParseError(assetFilename);
     }
-
-    // Note: months are 0-indexed in JavaScript Date objects
-    return new Date(year, month - 1, day);
+    return {start: fromDate, end: toDate};
   }
 }

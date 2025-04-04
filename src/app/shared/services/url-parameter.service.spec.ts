@@ -20,7 +20,7 @@ describe('UrlParameterService', () => {
 
   describe('transformUrlFragmentToAppUrlParameter', () => {
     it('transforms URL fragment to AppUrlParameter correctly', () => {
-      const fragment = 'lang=en&mdt=normal&pgid=123&sid=456&col=789&di=daily&tr=historical';
+      const fragment = 'lang=en&mdt=normal&pgid=123&sid=456&col=789&di=daily&tr=historical&hdr=20210101-20220202';
       const result = service.transformUrlFragmentToAppUrlParameter(fragment);
       expect(result).toEqual({
         language: 'en',
@@ -30,11 +30,14 @@ describe('UrlParameterService', () => {
         collection: '789',
         dataInterval: 'daily',
         timeRange: 'historical',
+        historicalDateRange: {start: jasmine.any(Date), end: jasmine.any(Date)},
       });
+      expect(result.historicalDateRange?.start.getTime()).toEqual(new Date(2021, 0, 1).getTime());
+      expect(result.historicalDateRange?.end.getTime()).toEqual(new Date(2022, 1, 2).getTime());
     });
 
     it('transforms invalid URL fragment to AppUrlParameter with default values', () => {
-      const fragment = 'lang=invalid&mdt=invalid&di=invalid&tr=invalid';
+      const fragment = 'lang=invalid&mdt=invalid&di=invalid&tr=invalid&hdr=invalid';
       const result = service.transformUrlFragmentToAppUrlParameter(fragment);
       expect(result).toEqual({
         language: 'de',
@@ -44,6 +47,7 @@ describe('UrlParameterService', () => {
         collection: null,
         dataInterval: null,
         timeRange: null,
+        historicalDateRange: null,
       });
     });
 
@@ -57,11 +61,30 @@ describe('UrlParameterService', () => {
         collection: null,
         dataInterval: null,
         timeRange: null,
+        historicalDateRange: null,
       });
     });
 
+    it('transforms historicalDateRange to null for a date range string with invalid format', () => {
+      const fragment = 'hdr=20230101/20231231';
+      const result = service.transformUrlFragmentToAppUrlParameter(fragment);
+      expect(result).toEqual(jasmine.objectContaining({historicalDateRange: null}));
+    });
+
+    it('transforms historicalDateRange to null for a date range string with non-numeric characters', () => {
+      const fragment = 'hdr=2023AB01-2023CD31';
+      const result = service.transformUrlFragmentToAppUrlParameter(fragment);
+      expect(result).toEqual(jasmine.objectContaining({historicalDateRange: null}));
+    });
+
+    it('transforms historicalDateRange to null for a date range string with incomplete dates', () => {
+      const fragment = 'hdr=20230101-202312';
+      const result = service.transformUrlFragmentToAppUrlParameter(fragment);
+      expect(result).toEqual(jasmine.objectContaining({historicalDateRange: null}));
+    });
+
     it('transforms an URL fragment to AppUrlParameter with default values where the parameters are empty', () => {
-      const fragment = 'lang=&mdt=&pgid=&sid=&col=&di=&tr=';
+      const fragment = 'lang=&mdt=&pgid=&sid=&col=&di=&tr=&hdr=';
       const result = service.transformUrlFragmentToAppUrlParameter(fragment);
       expect(result).toEqual({
         language: 'de',
@@ -71,6 +94,7 @@ describe('UrlParameterService', () => {
         collection: null,
         dataInterval: null,
         timeRange: null,
+        historicalDateRange: null,
       });
     });
   });
@@ -85,6 +109,7 @@ describe('UrlParameterService', () => {
         collection: '789',
         dataInterval: 'daily',
         timeRange: 'recent',
+        historicalDateRange: {start: new Date('2021-01-01'), end: new Date('2022-02-02')},
       };
       const store = TestBed.inject(MockStore);
       store.overrideSelector(selectCurrentAppUrlParameter, appUrlParameter);
@@ -100,16 +125,17 @@ describe('UrlParameterService', () => {
         collection: '789',
         dataInterval: 'daily',
         timeRange: 'recent',
+        historicalDateRange: {start: new Date('2021-01-01'), end: new Date('2022-02-02')},
       };
       service.setUrlFragment(appUrlParameter);
 
       expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith(
-        {src: 'lang=en&mdt=homogenous&pgid=123&sid=456&col=789&di=daily&tr=recent'},
+        {src: 'lang=en&mdt=homogenous&pgid=123&sid=456&col=789&di=daily&tr=recent&hdr=20210101-20220202'},
         '*',
       );
     });
 
-    it('sets only non-null values', () => {
+    it('sets null values as empty parameters', () => {
       const appUrlParameter: AppUrlParameter = {
         language: 'fr',
         measurementDataType: 'normal',
@@ -118,10 +144,14 @@ describe('UrlParameterService', () => {
         collection: null,
         dataInterval: null,
         timeRange: null,
+        historicalDateRange: null,
       };
       service.setUrlFragment(appUrlParameter);
 
-      expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith({src: 'lang=fr&mdt=normal&pgid=&sid=&col=&di=&tr='}, '*');
+      expect(document.defaultView?.parent.postMessage).toHaveBeenCalledOnceWith(
+        {src: 'lang=fr&mdt=normal&pgid=&sid=&col=&di=&tr=&hdr='},
+        '*',
+      );
     });
   });
 });
