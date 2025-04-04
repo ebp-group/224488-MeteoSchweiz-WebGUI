@@ -1,56 +1,35 @@
-<div *transloco="let t">
-  <div>
-    <input
-      type="radio"
-      name="time-range"
-      id="now-time-range"
-      (input)="setSelectedTimeRange('now', null)"
-      [disabled]="!(availableTimeRanges$ | async | includes: 'now')"
-      [checked]="(selectedTimeRange$ | async) === 'now'"
-    />
-    <label for="now-time-range">{{ t('form.time-range.now') }}</label>
-  </div>
-  <div>
-    <input
-      type="radio"
-      name="time-range"
-      id="recent-time-range"
-      (input)="setSelectedTimeRange('recent', null)"
-      [disabled]="!(availableTimeRanges$ | async | includes: 'recent')"
-      [checked]="(selectedTimeRange$ | async) === 'recent'"
-    />
-    <label for="recent-time-range">{{ t('form.time-range.recent') }}</label>
-  </div>
+<mat-radio-group
+  class="time-range-selection"
+  *transloco="let t"
+  [attr.aria-label]="t('form.time-range.label')"
+  [value]="selectedTimeRange$ | async"
+  (change)="setSelectedTimeRange($event.value)"
+>
+  <mat-radio-button value="now" [disabled]="!(availableTimeRanges$ | async | includes: 'now')"
+    >{{ t('form.time-range.now') }}
+    <br />
+    <span class="time-range-selection__explanation">{{ t('form.time-range.now.explanation') }}</span>
+  </mat-radio-button>
+
+  <mat-radio-button value="recent" [disabled]="!(availableTimeRanges$ | async | includes: 'recent')"
+    >{{ t('form.time-range.recent') }}
+    <mat-icon class="time-range-selection__tooltip-icon" [matTooltip]="t('form.time-range.recent.tooltip')">info_outline</mat-icon>
+    <br />
+    <span class="time-range-selection__explanation">{{ t('form.time-range.recent.explanation') }}</span>
+  </mat-radio-button>
+
   @if ((historicalDateRanges$ | async)?.length === 0) {
-    <div>
-      <input
-        type="radio"
-        name="time-range"
-        id="historical-time-range"
-        (input)="setSelectedTimeRange('historical', null)"
-        [disabled]="!(availableTimeRanges$ | async | includes: 'historical')"
-        [checked]="(selectedTimeRange$ | async) === 'historical'"
-      />
-      <label for="historical-time-range">{{ t('form.time-range.historical') }}</label>
-    </div>
+    <mat-radio-button value="historical" [disabled]="!(availableTimeRanges$ | async | includes: 'historical')">{{
+      t('form.time-range.historical')
+    }}</mat-radio-button>
   } @else {
-    <div>
-      <p>{{ t('form.time-range.historical') }}</p>
-      <p>{{ t('form.time-range.historical.explanation') }}</p>
-      @for (range of historicalDateRanges$ | async; track $index) {
-        <div>
-          <input
-            type="radio"
-            name="time-range"
-            id="historical-time-range-{{ range.start | date: 'dd.MM.YYYY' }}-{{ range.end | date: 'dd.MM.YYYY' }}"
-            (input)="setSelectedTimeRange('historical', range)"
-            [checked]="range.selected"
-          />
-          <label for="historical-time-range-{{ range.start | date: 'dd.MM.YYYY' }}-{{ range.end | date: 'dd.MM.YYYY' }}"
-            >{{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }}
-          </label>
-        </div>
-      }
+    <div class="time-range-selection__historical-explanation">
+      <p>
+        {{ t('form.time-range.historical') }}
+      </p>
     </div>
+    @for (range of historicalDateRanges$ | async; track $index) {
+      <mat-radio-button [value]="range">{{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }}</mat-radio-button>
+    }
   }
-</div>
+</mat-radio-group>

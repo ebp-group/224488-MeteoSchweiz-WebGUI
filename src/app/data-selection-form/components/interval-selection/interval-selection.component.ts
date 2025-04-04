@@ -1,5 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {MatRadioModule} from '@angular/material/radio';
 import {TranslocoModule} from '@jsverse/transloco';
 import {marker} from '@jsverse/transloco-keys-manager/marker';
 import {Store} from '@ngrx/store';
@@ -12,7 +13,7 @@ import type {DataInterval} from '../../../shared/models/interval';
 
 @Component({
   selector: 'app-interval-selection',
-  imports: [TranslocoModule, AsyncPipe, IncludesPipe],
+  imports: [TranslocoModule, AsyncPipe, IncludesPipe, MatRadioModule],
   templateUrl: './interval-selection.component.html',
   styleUrl: './interval-selection.component.scss',
 })
