@@ -2,7 +2,7 @@ import {ErrorHandler, inject, Injectable} from '@angular/core';
 import {AssetParseError} from '../../shared/errors/asset.error';
 import {DateRange} from '../../shared/models/date-range';
 import {isTimeRange} from '../../shared/type-guards/time-range-guard';
-import {transformStringToDate} from '../utils/date-transformation.utils';
+import {transformStringToDate} from '../../shared/utils/date-transformation.utils';
 import {StacApiService} from './stac-api.service';
 import type {CollectionAsset} from '../../shared/models/collection-assets';
 import type {DataInterval} from '../../shared/models/interval';

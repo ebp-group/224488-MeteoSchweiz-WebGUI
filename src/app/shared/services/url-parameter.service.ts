@@ -1,6 +1,5 @@
 import {DOCUMENT} from '@angular/common';
 import {inject, Injectable} from '@angular/core';
-import {transformDateToString, transformStringToDate} from '../../stac/utils/date-transformation.utils';
 import {collectionConfig} from '../configs/collections.config';
 import {languageConfig} from '../configs/language.config';
 import {AppUrlParameter} from '../models/app-url-parameter';
@@ -10,6 +9,7 @@ import {isDataInterval} from '../type-guards/data-interval-guard';
 import {isLanguage} from '../type-guards/language-guard';
 import {isMeasurementDataType} from '../type-guards/measurement-data-type-guard';
 import {isTimeRange} from '../type-guards/time-range-guard';
+import {transformDateToString, transformStringToDate} from '../utils/date-transformation.utils';
 
 @Injectable({
   providedIn: 'root',
