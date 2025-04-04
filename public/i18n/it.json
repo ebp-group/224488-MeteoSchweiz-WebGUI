@@ -11,9 +11,6 @@
   "form.measurement-data-type.more-info-link": "Missing value for 'form.measurement-data-type.more-info-link'",
   "form.stepper.station.label": "Missing value for 'form.stepper.station.label'",
   "form.stepper.station.label.explanation": "Missing value for 'form.stepper.station.label.explanation'",
-  "form.station.selection-info.more-info": "Missing value for 'form.station.selection-info.more-info'",
-  "form.station.selection-info.no-station-selected.title": "Missing value for 'form.station.selection-info.no-station-selected.title'",
-  "form.station.selection-info.no-station-selected.explanation": "Missing value for 'form.station.selection-info.no-station-selected.explanation'",
   "form.stepper.next": "Missing value for 'form.stepper.next'",
   "form.stepper.interval.label": "Missing value for 'form.stepper.interval.label'",
   "form.stepper.back": "Missing value for 'form.stepper.back'",
@@ -63,5 +60,8 @@
   "form.interval.hourly": "Missing value for 'form.interval.hourly'",
   "form.interval.daily": "Missing value for 'form.interval.daily'",
   "form.interval.monthly": "Missing value for 'form.interval.monthly'",
-  "form.interval.yearly": "Missing value for 'form.interval.yearly'"
+  "form.interval.yearly": "Missing value for 'form.interval.yearly'",
+  "form.station.selection-info.more-info": "Missing value for 'form.station.selection-info.more-info'",
+  "form.station.selection-info.no-station-selected.title": "Missing value for 'form.station.selection-info.no-station-selected.title'",
+  "form.station.selection-info.no-station-selected.explanation": "Missing value for 'form.station.selection-info.no-station-selected.explanation'"
 }
