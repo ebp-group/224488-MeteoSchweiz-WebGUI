@@ -3,11 +3,9 @@
 .map-container {
   position: relative;
   height: 600px;
-  width: 1000px;
 
   &__map {
     height: 100%;
-    width: 100%;
   }
 
   &__map-controls {
