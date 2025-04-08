@@ -1,4 +1,5 @@
 @use 'material-mixins' as mat-mixins;
+@use '@angular/material' as mat;
 
 .parameter-group-selection {
   min-width: 150px;
@@ -7,6 +8,13 @@
 
   &__form {
     width: 100%;
+    @include mat.form-field-overrides(
+      (
+        filled-container-shape: 0,
+        filled-container-color: var(--mat-sys-primary-container),
+        filled-active-indicator-height: 0,
+      )
+    );
 
     &__icon {
       @include mat-mixins.mat-icon-override-size(48px);
