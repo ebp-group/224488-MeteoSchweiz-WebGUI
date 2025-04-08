@@ -1,15 +1,5 @@
 <div class="data-selection-form" *transloco="let t">
-  <mat-button-toggle-group
-    class="measurement-data-type-toggle-group"
-    [attr.aria-label]="t('form.measurement-data-type.aria-label')"
-    (change)="setSelectedMeasurementDataType($event.value); stepper.reset()"
-    [value]="selectedMeasurementDataType$ | async"
-    hideSingleSelectionIndicator="true"
-  >
-    <mat-button-toggle value="normal">{{ t('form.measurement-data-type.normal') }}</mat-button-toggle>
-    <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
-  </mat-button-toggle-group>
-
+  <app-measurement-data-type-selection></app-measurement-data-type-selection>
   <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true" #stepper>
     <mat-step [completed]="(selectedCollection$ | async) !== null">
       <ng-template matStepLabel>{{ t('form.stepper.station.label') }}</ng-template>

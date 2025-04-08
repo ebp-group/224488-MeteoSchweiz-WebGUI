@@ -1,0 +1,22 @@
+<div *transloco="let t" class="measurement-data-type-selection">
+  <mat-button-toggle-group
+    class="measurement-data-type-selection__toggle-group"
+    [attr.aria-label]="t('form.measurement-data-type.aria-label')"
+    (change)="setSelectedMeasurementDataType($event.value)"
+    [value]="selectedMeasurementDataType$ | async"
+    hideSingleSelectionIndicator="true"
+  >
+    <mat-button-toggle value="normal">{{ t('form.measurement-data-type.normal') }}</mat-button-toggle>
+    <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <div class="measurement-data-type-selection__description">
+    @if ((selectedMeasurementDataType$ | async) === 'normal') {
+      <p>{{ t('form.measurement-data-type.normal.explanation') }}</p>
+      <a [href]="t('form.measurement-data-type.normal.info-url')">{{ t('form.measurement-data-type.more-info-link') }}</a>
+    } @else if ((selectedMeasurementDataType$ | async) === 'homogenous') {
+      <p>{{ t('form.measurement-data-type.homogenous.explanation') }}</p>
+      <a [href]="t('form.measurement-data-type.homogenous.info-url')">{{ t('form.measurement-data-type.more-info-link') }}</a>
+    }
+  </div>
+</div>

@@ -1,0 +1,31 @@
+@use '@angular/material' as mat;
+@use 'design-variables' as variables;
+
+.measurement-data-type-selection {
+  &__toggle-group {
+    box-shadow: var(--mat-sys-level5);
+    @include mat.button-toggle-overrides(
+      (
+        shape: 0,
+        divider-color: transparent,
+        background-color: var(--mat-sys-primary-container),
+        selected-state-background-color: var(--mat-sys-inverse-primary),
+        selected-state-text-color: variables.$white,
+        text-color: variables.$white,
+        label-text-weight: normal,
+      )
+    );
+  }
+
+  &__description {
+    margin-top: 20px;
+    background-color: var(--mat-sys-inverse-primary);
+    width: 100%;
+    padding: 20px 12px;
+    box-sizing: border-box;
+
+    p {
+      margin: 0;
+    }
+  }
+}
