@@ -1,34 +1,46 @@
-<div *transloco="let t">
+<div class="download-asset" *transloco="let t">
   @if (selectedAsset$ | async; as asset) {
-    <div>
-      <p>{{ t('form.download.data') }}</p>
-      <a [href]="asset.url">{{ asset.filename }}</a> (CSV, TODO MB)
-      <p>{{ t('form.download.data-explanation') }}</p>
-    </div>
-    <div>
+    <div class="download-asset__section">
+      <p class="download-asset__section__title">{{ t('form.download.data') }}</p>
       <div>
-        <b>{{ t('form.download.metadata') }}</b>
+        <app-download-asset-link [asset]="asset" />
+        <p class="download-asset__explanation">{{ t('form.download.data-explanation') }}</p>
       </div>
+      <p>
+        {{ t('form.download.terms') }} <a [href]="t('form.download.terms.link')">{{ t('form.download.terms.link-name') }}</a>
+      </p>
+    </div>
+
+    <div class="download-asset__section">
+      <p class="download-asset__section__title">{{ t('form.download.metadata') }}</p>
       @if (selectedMetaAsset$ | async; as metaAssets) {
         <div>
-          <a [href]="metaAssets.parameter.url">{{ metaAssets.parameter.filename }}</a> (CSV, ? MB)
-          <p>{{ t('form.download.parameters-explanation') }}</p>
+          <app-download-asset-link [asset]="metaAssets.parameter" />
+          <p class="download-asset__explanation">{{ t('form.download.parameters-explanation') }}</p>
         </div>
         <div>
-          <a [href]="metaAssets.station.url">{{ metaAssets.station.filename }}</a> (CSV, ? MB)
-          <p>{{ t('form.download.stations-explanation') }}</p>
+          <app-download-asset-link [asset]="metaAssets.station" />
+          <p class="download-asset__explanation">{{ t('form.download.stations-explanation') }}</p>
         </div>
         <div>
-          <a [href]="metaAssets.dataInventory.url">{{ metaAssets.dataInventory.filename }}</a> (CSV, ? MB)
-          <p>{{ t('form.download.inventory-explanation') }}</p>
+          <app-download-asset-link [asset]="metaAssets.dataInventory" />
+          <p class="download-asset__explanation">{{ t('form.download.inventory-explanation') }}</p>
         </div>
       }
     </div>
-    <div>
-      <p>{{ t('form.download.copy-url') }}</p>
-      <input type="text" [value]="asset.url" readonly />
-      <p>
-        <a href="#">{{ t('form.download.download-programmatically-info') }}</a>
+
+    <div class="download-asset__section">
+      <p class="download-asset__section__title">{{ t('form.download.copy-url') }}</p>
+      <div class="download-asset__section__copy-link">
+        <mat-form-field appearance="fill" class="download-asset__section__copy-link__link-url">
+          <input matInput type="text" [value]="asset.url" readonly />
+        </mat-form-field>
+        <button class="download-asset__section__copy-link__copy-button" mat-mini-fab [cdkCopyToClipboard]="asset.url">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </div>
+      <p class="download-asset__section__programmatically-info">
+        <a [href]="t('form.download.download-programmatically-info.url')">{{ t('form.download.download-programmatically-info') }}</a>
       </p>
     </div>
   }

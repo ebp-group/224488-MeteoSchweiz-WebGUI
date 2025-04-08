@@ -23,3 +23,12 @@ html {
     )
   );
 }
+
+a {
+  color: var(--mat-sys-on-surface);
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
