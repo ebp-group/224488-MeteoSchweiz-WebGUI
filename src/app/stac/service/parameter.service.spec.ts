@@ -48,9 +48,9 @@ const testParameter: Parameter = {
   id: 'test00',
   group: {
     de: 'Wind',
-    en: 'wind',
-    fr: 'vent',
-    it: 'vento',
+    en: 'Wind',
+    fr: 'Vent',
+    it: 'Vento',
   },
 };
 
