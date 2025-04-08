@@ -2,6 +2,7 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
+import {combineLatestWith, map} from 'rxjs';
 import {TranslatableStringPipe} from '../../../shared/pipes/translatable-string.pipe';
 import {appFeature} from '../../../state/app/reducers/app.reducer';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
@@ -21,4 +22,8 @@ export class SelectionReviewComponent {
   protected readonly selectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedHistoricalDateRange$ = this.store.select(formFeature.selectSelectedHistoricalDateRange);
   protected readonly selectedStation$ = this.store.select(selectSelectedStationForCollection);
+  protected readonly parameterGroupNamesOfSelectedStation$ = this.selectedStation$.pipe(
+    combineLatestWith(this.currentLanguage$),
+    map(([station, language]) => station?.parameterGroups.map((group) => group.name[language]).join(', ') ?? ''),
+  );
 }

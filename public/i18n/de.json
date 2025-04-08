@@ -30,7 +30,6 @@
   "form.selection-review.interval": "Missing value for 'form.selection-review.interval'",
   "form.selection-review.time-range": "Missing value for 'form.selection-review.time-range'",
   "form.selection-review.file-format": "Missing value for 'form.selection-review.file-format'",
-  "form.selection-review.file-size": "Missing value for 'form.selection-review.file-size'",
   "parameter-group.search.placeholder": "Missing value for 'parameter-group.search.placeholder'",
   "parameter-group.name": "Missing value for 'parameter-group.name'",
   "form.interval.label": "Missing value for 'form.interval.label'",
