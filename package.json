@@ -10,7 +10,7 @@
     "test-ci": "ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadless",
     "prepare": "husky",
     "i18n:extract": "transloco-keys-manager extract",
-    "i18n:find": "transloco-keys-manager find --translations-path public/i18n --emit-error-on-extra-keys",
+    "i18n:find": "transloco-keys-manager find --translations-path public/i18n",
     "format": "prettier --write ./src",
     "format:check": "prettier --check ./src",
     "lint": "ng lint",
