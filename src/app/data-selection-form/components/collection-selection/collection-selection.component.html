@@ -1,21 +1,17 @@
 @if (currentLanguage$ | async; as currentLanguage) {
   <div class="collection-selection" *transloco="let t">
-    <p>
-      <b>{{ t('form.collection-selection.title') }}</b>
-    </p>
-    <div class="collection-selection__stations">
+    <h4>{{ t('form.collection-selection.title') }}</h4>
+    <div class="collection-selection__stations-list">
       @for (station of stationParameterGroups$ | async; track $index) {
-        <div class="collection-selection__stations__station">
+        <button matRipple (click)="setSelectedCollection(station.collection)" class="collection-selection__stations-list__station">
           <mat-radio-button
-            class="collection-selection__stations__station__radio-button"
+            class="collection-selection__stations-list__station__radio-button"
             [checked]="(selectedCollection$ | async) === station.collection"
-            (input)="setSelectedCollection(station.collection)"
-            [disabled]="false"
           >
             {{ station.type | translatableString: currentLanguage }}
           </mat-radio-button>
           <app-station-info [station]="station"></app-station-info>
-        </div>
+        </button>
       }
     </div>
   </div>

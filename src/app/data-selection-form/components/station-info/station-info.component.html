@@ -1,16 +1,16 @@
 @if (currentLanguage$ | async; as currentLanguage) {
   <div class="station-info" *transloco="let t">
-    <p class="station-info__title">{{ station().displayName }}</p>
-    {{ station().elevation }} {{ t('form.station.selection-info.elevation-unit') }}
+    <h5 class="station-info__title">{{ station().displayName }}</h5>
+    <span> {{ station().elevation }} {{ t('form.station.selection-info.elevation-unit') }} </span>
     @if (station().url | translatableString: currentLanguage; as url) {
       <a class="station-info__link" [href]="url" rel="noopener noreferrer" target="_blank">
         {{ t('form.station.selection-info.more-info') }}
       </a>
     }
-    <span class="station-info__title">{{ t('form.collection-selection.parameter-groups') }}</span>
-    <mat-list class="station-info__param-groups">
+    <h5 class="station-info__title">{{ t('form.collection-selection.parameter-groups') }}</h5>
+    <mat-list class="station-info__parameter-groups">
       @for (parameterGroup of station().parameterGroups; track parameterGroup.id) {
-        <mat-list-item class="station-info__param-groups__item">
+        <mat-list-item class="station-info__parameter-groups__item">
           <mat-icon matListItemIcon [svgIcon]="parameterGroup.id | iconFromConfig"></mat-icon>
           <div matListItemTitle>{{ parameterGroup.name | translatableString: currentLanguage }}</div>
         </mat-list-item>

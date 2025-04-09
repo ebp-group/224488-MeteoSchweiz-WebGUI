@@ -5,15 +5,15 @@
   flex-direction: column;
 
   &__title {
-    font-weight: bold;
-    margin-top: 10px;
+    font-size: unset;
+    margin: 0.5em 0;
   }
 
   &__link {
     color: inherit;
   }
 
-  &__param-groups {
+  &__parameter-groups {
     @include mat.list-overrides(
       (
         list-item-one-line-container-height: 28px,
