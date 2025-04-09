@@ -1,6 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {IconService} from './shared/services/icon.service';
+import '@iframe-resizer/child';
 
 @Component({
   selector: 'app-root',
