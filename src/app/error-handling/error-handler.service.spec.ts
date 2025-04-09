@@ -115,7 +115,7 @@ describe('ErrorHandlerService', () => {
       service.handleError(testError);
 
       expect(console.warn).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledOnceWith(testError);
+      expect(console.error).toHaveBeenCalledOnceWith(testError, '');
     });
 
     it('logs a OpendataExplorerRuntimeError to the console if it has no wrapped error', () => {
@@ -125,7 +125,7 @@ describe('ErrorHandlerService', () => {
       service.handleError(testError);
 
       expect(console.warn).not.toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalledOnceWith(testError);
+      expect(console.error).toHaveBeenCalledOnceWith(testError, '');
     });
 
     it('logs a OpendataExplorerRuntimeError to the console and also logs a wrapped error', () => {
@@ -136,7 +136,7 @@ describe('ErrorHandlerService', () => {
       service.handleError(testError);
 
       expect(console.error).toHaveBeenCalledTimes(2);
-      expect(console.error).toHaveBeenCalledWith(testError);
+      expect(console.error).toHaveBeenCalledWith(testError, '');
       expect(console.error).toHaveBeenCalledWith('Original error was:', testWrappedError);
     });
   });

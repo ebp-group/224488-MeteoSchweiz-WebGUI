@@ -19,26 +19,30 @@ export class ErrorHandlerService implements ErrorHandler {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The interface definition of angular error-handlers defines any as an argument.
   public handleError(error: any): void {
+    let message: string;
+    if (error instanceof Error) {
+      message =
+        error instanceof OpendataExplorerRuntimeError
+          ? this.translocoService.translate(error.message, error.translationArguments)
+          : error.message;
+    } else {
+      message = JSON.stringify(error);
+    }
+
     // log errors to console for easier debugging in non-productive environments
     if (this.angularDevModeService.isDevMode()) {
-      console.error(error);
-
+      console.error(error, message);
       if (error instanceof OpendataExplorerRuntimeError && error.originalError) {
         console.error('Original error was:', error.originalError);
       }
     }
-    const translatedMessage =
-      error instanceof OpendataExplorerRuntimeError
-        ? this.translocoService.translate(error.message, error.translationArguments)
-        : error instanceof Error
-          ? error.message
-          : JSON.stringify(error);
+
     if (error instanceof SilentError) {
       // these errors should only be logged to a frontend logging service, but not displayed.
     } else if (error instanceof RecoverableError) {
       // At the moment, recoverable errors are treated the same as silent errors.
     } else {
-      this.routeToErrorPage(translatedMessage);
+      this.routeToErrorPage(message);
     }
   }
 
