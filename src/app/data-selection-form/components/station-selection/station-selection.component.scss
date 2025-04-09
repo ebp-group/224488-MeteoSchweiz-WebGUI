@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .station-selection {
   min-width: 150px;
   max-width: 500px;
@@ -5,5 +7,12 @@
 
   &__form {
     width: 100%;
+    @include mat.form-field-overrides(
+      (
+        filled-container-shape: 0,
+        filled-container-color: var(--mat-sys-inverse-primary),
+        filled-active-indicator-height: 0,
+      )
+    );
   }
 }
