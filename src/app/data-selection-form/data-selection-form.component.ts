@@ -6,8 +6,11 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {MeasurementDataType} from '../shared/models/measurement-data-type';
+import {TranslatableStringPipe} from '../shared/pipes/translatable-string.pipe';
+import {appFeature} from '../state/app/reducers/app.reducer';
 import {formActions} from '../state/form/actions/form.actions';
 import {formFeature} from '../state/form/reducers/form.reducer';
+import {selectSelectedStationForCollection} from '../state/form/selectors/form.selector';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
 import {SelectionReviewComponent} from './components/selection-review/selection-review.component';
@@ -28,6 +31,7 @@ import {TimeRangeSelectionComponent} from './components/time-range-selection/tim
     MatStepperModule,
     AsyncPipe,
     StationSelectionStepComponent,
+    TranslatableStringPipe,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
@@ -35,10 +39,12 @@ import {TimeRangeSelectionComponent} from './components/time-range-selection/tim
 export class DataSelectionFormComponent {
   private readonly store = inject(Store);
 
+  protected readonly selectedLanguage$ = this.store.select(appFeature.selectLanguage);
+  protected readonly selectedStationForCollection$ = this.store.select(selectSelectedStationForCollection);
+  protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedMeasurementDataType$ = this.store.select(formFeature.selectSelectedMeasurementDataType);
-  protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
 
   protected setSelectedMeasurementDataType(measurementDataType: MeasurementDataType): void {
     this.store.dispatch(formActions.setSelectedMeasurementDataType({measurementDataType}));
