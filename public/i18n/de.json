@@ -1,4 +1,7 @@
 {
+  "map.zoom-in.aria-label": "Missing value for 'map.zoom-in.aria-label'",
+  "map.zoom-out.aria-label": "Missing value for 'map.zoom-out.aria-label'",
+  "map.reset.aria-label": "Missing value for 'map.reset.aria-label'",
   "form.measurement-data-type.normal": "Messdaten",
   "form.measurement-data-type.homogenous": "Homogene Messreihen",
   "form.measurement-data-type.aria-label": "Missing value for 'form.measurement-data-type.aria-label'",

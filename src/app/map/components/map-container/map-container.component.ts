@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild} from '@angular/core';
 import {MatMiniFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {TranslocoDirective} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {mapConfig} from '../../../shared/configs/map.config';
 import {mapActions} from '../../../state/map/actions/map.action';
@@ -8,7 +9,7 @@ import {MapService} from '../../services/map.service';
 
 @Component({
   selector: 'app-map-container',
-  imports: [MatIcon, MatMiniFabButton],
+  imports: [MatIcon, MatMiniFabButton, TranslocoDirective],
   templateUrl: './map-container.component.html',
   styleUrl: './map-container.component.scss',
 })

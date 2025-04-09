@@ -1,9 +1,13 @@
-<div class="map-container">
+<div class="map-container" *transloco="let t">
   <div #map class="map-container__map"></div>
   <div class="map-container__map-controls">
-    <button class="map-container__map-controls__button" mat-mini-fab (click)="zoomIn()"><mat-icon>add</mat-icon></button>
-    <button class="map-container__map-controls__button" mat-mini-fab (click)="zoomOut()"><mat-icon>remove</mat-icon></button>
-    <button class="map-container__map-controls__button" mat-mini-fab (click)="resetExtent()">
+    <button [attr.aria-label]="t('map.zoom-in.aria-label')" class="map-container__map-controls__button" mat-mini-fab (click)="zoomIn()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button [attr.aria-label]="t('map.zoom-out.aria-label')" class="map-container__map-controls__button" mat-mini-fab (click)="zoomOut()">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <button [attr.aria-label]="t('map.reset.aria-label')" class="map-container__map-controls__button" mat-mini-fab (click)="resetExtent()">
       <mat-icon [svgIcon]="'swiss'"></mat-icon>
     </button>
   </div>
