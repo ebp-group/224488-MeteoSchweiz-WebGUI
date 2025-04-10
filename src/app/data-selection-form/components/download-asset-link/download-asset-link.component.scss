@@ -1,6 +1,6 @@
 @use 'material-mixins' as mat-mixins;
 
-:host {
+.download-asset-link {
   display: inline-flex;
   align-items: center;
   gap: 10px;

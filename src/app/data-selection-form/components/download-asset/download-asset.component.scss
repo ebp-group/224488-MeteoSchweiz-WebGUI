@@ -14,9 +14,7 @@
     gap: 5px;
 
     &__title {
-      font-weight: bold;
-      line-height: 28px;
-      margin: 0;
+      margin: 0.5em 0;
     }
 
     &__copy-link {
@@ -27,7 +25,7 @@
         @include mat.form-field-overrides(
           (
             filled-container-shape: 0,
-            filled-container-color: variables.$foreground-color,
+            filled-container-color: variables.$white,
             filled-input-text-color: variables.$black,
           )
         );

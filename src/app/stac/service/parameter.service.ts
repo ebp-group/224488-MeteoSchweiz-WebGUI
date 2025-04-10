@@ -49,6 +49,6 @@ export class ParameterService {
   }
 
   private capitalizeName(name: string): string {
-    return name[0].toLocaleUpperCase() + name.slice(1);
+    return name ? name[0].toLocaleUpperCase() + name.slice(1) : '';
   }
 }

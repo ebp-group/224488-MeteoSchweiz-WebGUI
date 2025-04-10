@@ -1,7 +1,7 @@
 <div class="download-asset" *transloco="let t">
   @if (selectedAsset$ | async; as asset) {
     <div class="download-asset__section">
-      <p class="download-asset__section__title">{{ t('form.download.data') }}</p>
+      <h4 class="download-asset__section__title">{{ t('form.download.data') }}</h4>
       <div>
         <app-download-asset-link [asset]="asset" />
         <p class="download-asset__explanation">{{ t('form.download.data-explanation') }}</p>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="download-asset__section">
-      <p class="download-asset__section__title">{{ t('form.download.metadata') }}</p>
+      <h4 class="download-asset__section__title">{{ t('form.download.metadata') }}</h4>
       @if (selectedMetaAsset$ | async; as metaAssets) {
         <div>
           <app-download-asset-link [asset]="metaAssets.parameter" />
@@ -30,7 +30,7 @@
     </div>
 
     <div class="download-asset__section">
-      <p class="download-asset__section__title">{{ t('form.download.copy-url') }}</p>
+      <h4 class="download-asset__section__title">{{ t('form.download.copy-url') }}</h4>
       <div class="download-asset__section__copy-link">
         <mat-form-field appearance="fill" class="download-asset__section__copy-link__link-url">
           <input matInput type="text" [value]="asset.url" readonly />
@@ -39,7 +39,7 @@
           <mat-icon>content_copy</mat-icon>
         </button>
       </div>
-      <p class="download-asset__section__programmatically-info">
+      <p class="download-asset__explanation">
         <a [href]="t('form.download.download-programmatically-info.url')">{{ t('form.download.download-programmatically-info') }}</a>
       </p>
     </div>

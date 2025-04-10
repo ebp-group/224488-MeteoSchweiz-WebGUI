@@ -1,6 +1,7 @@
 @use 'opendata-explorer-theme' as theme;
 @use 'design-variables' as variables;
 @use '@angular/material' as mat;
+@use 'overrides';
 
 html,
 body {
@@ -22,13 +23,4 @@ html {
       ),
     )
   );
-}
-
-a {
-  color: var(--mat-sys-on-surface);
-  text-decoration: underline;
-
-  &:hover {
-    text-decoration: none;
-  }
 }
