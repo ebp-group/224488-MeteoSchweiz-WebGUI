@@ -1,13 +1,18 @@
+import {ClipboardModule} from '@angular/cdk/clipboard';
 import {AsyncPipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {MatMiniFabButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatFormField, MatInput} from '@angular/material/input';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {selectSelectedAsset} from '../../../state/assets/selectors/asset.selectors';
 import {selectSelectedCollectionMetaAssets} from '../../../state/form/selectors/form.selector';
+import {DownloadAssetLinkComponent} from '../download-asset-link/download-asset-link.component';
 
 @Component({
   selector: 'app-download-asset',
-  imports: [TranslocoModule, AsyncPipe],
+  imports: [TranslocoModule, AsyncPipe, DownloadAssetLinkComponent, MatInput, MatFormField, MatIcon, MatMiniFabButton, ClipboardModule],
   templateUrl: './download-asset.component.html',
   styleUrl: './download-asset.component.scss',
 })

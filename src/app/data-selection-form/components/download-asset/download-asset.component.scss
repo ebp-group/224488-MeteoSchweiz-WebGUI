@@ -1,0 +1,58 @@
+@use 'design-variables' as variables;
+@use '@angular/material' as mat;
+
+.download-asset {
+  padding: 28px;
+  background-color: var(--mat-sys-inverse-primary);
+  display: flex;
+  gap: 25px;
+  flex-direction: column;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    &__title {
+      margin: 0.5em 0;
+    }
+
+    &__copy-link {
+      display: flex;
+
+      &__link-url {
+        width: 100%;
+        @include mat.form-field-overrides(
+          (
+            filled-container-shape: 0,
+            filled-container-color: variables.$white,
+            filled-input-text-color: variables.$black,
+          )
+        );
+
+        input {
+          text-overflow: ellipsis;
+        }
+      }
+
+      &__copy-button {
+        height: 56px;
+        @include mat.fab-overrides(
+          (
+            small-container-shape: 0,
+            small-container-color: transparent,
+            small-container-elevation-shadow: transparent,
+            small-focus-container-elevation-shadow: transparent,
+            small-hover-container-elevation-shadow: transparent,
+            small-pressed-container-elevation-shadow: transparent,
+          )
+        );
+      }
+    }
+  }
+
+  &__explanation {
+    font-size: 0.85em;
+    margin: 5px 0 0 0;
+  }
+}

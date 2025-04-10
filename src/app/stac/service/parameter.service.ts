@@ -40,11 +40,15 @@ export class ParameterService {
     return {
       id: ParameterService.extractIdFromShortname(csvParameter.parameterShortname),
       group: {
-        de: csvParameter.parameterGroupDe,
-        en: csvParameter.parameterGroupEn,
-        fr: csvParameter.parameterGroupFr,
-        it: csvParameter.parameterGroupIt,
+        de: this.capitalizeName(csvParameter.parameterGroupDe),
+        en: this.capitalizeName(csvParameter.parameterGroupEn),
+        fr: this.capitalizeName(csvParameter.parameterGroupFr),
+        it: this.capitalizeName(csvParameter.parameterGroupIt),
       },
     };
+  }
+
+  private capitalizeName(name: string): string {
+    return name ? name[0].toLocaleUpperCase() + name.slice(1) : '';
   }
 }

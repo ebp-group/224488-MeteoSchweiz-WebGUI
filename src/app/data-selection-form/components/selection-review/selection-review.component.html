@@ -1,26 +1,25 @@
 @if (currentLanguage$ | async; as currentLanguage) {
   <div *transloco="let t">
     @if (selectedStation$ | async; as station) {
-      <div>
-        <b>{{ t('form.selection-review.station-name') }}</b> {{ station.displayName }}
+      <div class="selection-review-row">
+        <span class="selection-review-row__title">{{ t('form.selection-review.station-name') }}:</span> {{ station.displayName }}
       </div>
-      <div>
-        <b>{{ t('form.selection-review.station-type') }}</b> {{ station.type | translatableString: currentLanguage }}
+      <div class="selection-review-row">
+        <span class="selection-review-row__title">{{ t('form.selection-review.station-type') }}:</span>
+        {{ station.type | translatableString: currentLanguage }}
       </div>
-      <div>
-        <b>{{ t('form.selection-review.available-parameter-groups') }}</b>
-        @for (parameterGroup of station.parameterGroups; track parameterGroup.id) {
-          {{ parameterGroup.name | translatableString: currentLanguage }},
-        }
+      <div class="selection-review-row">
+        <span class="selection-review-row__title">{{ t('form.selection-review.available-parameter-groups') }}:</span>
+        {{ parameterGroupNamesOfSelectedStation$ | async }}
       </div>
-      <div>
-        <b>{{ t('form.selection-review.interval') }}</b>
+      <div class="selection-review-row">
+        <span class="selection-review-row__title">{{ t('form.selection-review.interval') }}:</span>
         @if (selectedDataInterval$ | async; as interval) {
           {{ t('form.interval.' + interval) }}
         }
       </div>
-      <div>
-        <b>{{ t('form.selection-review.time-range') }}</b>
+      <div class="selection-review-row">
+        <span class="selection-review-row__title">{{ t('form.selection-review.time-range') }}:</span>
         @if (selectedTimeRange$ | async; as timeRange) {
           {{ t('form.time-range.' + timeRange) }}
           @if (selectedHistoricalDateRange$ | async; as range) {
@@ -28,11 +27,8 @@
           }
         }
       </div>
-      <div>
-        <b>{{ t('form.selection-review.file-format') }}</b> CSV
-      </div>
-      <div>
-        <b>{{ t('form.selection-review.file-size') }}</b> TODO
+      <div class="selection-review-row">
+        <span class="selection-review-row__title">{{ t('form.selection-review.file-format') }}:</span> CSV
       </div>
     }
   </div>

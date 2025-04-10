@@ -1,6 +1,7 @@
 @use 'opendata-explorer-theme' as theme;
 @use 'design-variables' as variables;
 @use '@angular/material' as mat;
+@use 'overrides';
 
 html,
 body {
