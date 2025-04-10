@@ -37,6 +37,13 @@ export class StationService {
         fr: csvStation.stationTypeFr,
         it: csvStation.stationTypeIt,
       },
+      elevation: Number(csvStation.stationHeightMasl),
+      url: {
+        de: csvStation.stationUrlDe,
+        en: csvStation.stationUrlEn,
+        fr: csvStation.stationUrlFr,
+        it: csvStation.stationUrlIt,
+      },
     };
   }
 }

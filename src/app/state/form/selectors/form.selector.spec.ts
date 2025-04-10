@@ -6,8 +6,8 @@ import {StationStateEntry} from '../../stations/states/station.state';
 import {
   selectSelectedCollectionMetaAssets,
   selectSelectedStationForCollection,
+  selectSelectedStationsFilteredBySelectedParameterGroup,
   selectSelectedStationWithParameterGroup,
-  selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
 } from './form.selector';
 import type {Station} from '../../../shared/models/station';
 
@@ -17,6 +17,13 @@ describe('Form selectors', () => {
     id: 'a',
     name: 'Test A',
     displayName: 'Test A (a)',
+    elevation: 0,
+    url: {
+      de: 'url de',
+      en: 'url en',
+      fr: 'url fr',
+      it: 'url it',
+    },
   };
   const stationAA: Station = {...baseStation, collection: 'a', type: {de: 'a', en: 'a', fr: 'a', it: 'a'}};
   const stationAB: Station = {...baseStation, collection: 'b', type: {de: 'b', en: 'b', fr: 'b', it: 'b'}};
@@ -66,7 +73,7 @@ describe('Form selectors', () => {
 
   describe('selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup', () => {
     it('should filter the stations based on the selected parameter group', () => {
-      const result = selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup.projector(
+      const result = selectSelectedStationsFilteredBySelectedParameterGroup.projector(
         [
           {...stationAA, parameterGroups: [parameterGroupOne]},
           {...stationAB, parameterGroups: [parameterGroupTwo]},

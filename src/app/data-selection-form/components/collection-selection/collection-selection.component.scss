@@ -1,7 +1,37 @@
-.selection-container {
-  display: flex;
-  gap: 5px;
-  .parameter-group-name {
-    text-transform: capitalize;
+@use '@angular/material' as mat;
+@use 'design-variables' as variables;
+
+.collection-selection {
+  &__stations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    button.collection-selection__stations-list__station {
+      text-align: left;
+      border: none;
+      font: inherit;
+      outline: inherit;
+    }
+
+    &__station {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 371px;
+      color: variables.$foreground-color;
+      background-color: variables.$accent-grey;
+      padding: 20px;
+
+      &__radio-button {
+        @include mat.radio-overrides(
+          (
+            selected-icon-color: variables.$foreground-color,
+            unselected-icon-color: variables.$foreground-color,
+            label-text-color: variables.$foreground-color,
+          )
+        );
+      }
+    }
   }
 }

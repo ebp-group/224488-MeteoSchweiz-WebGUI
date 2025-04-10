@@ -26,7 +26,8 @@ export const selectSelectedStationWithParameterGroup = createSelector(
       })),
 );
 
-export const selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup = createSelector(
+/** Selects all stations with the currently selected ID including its parameter groups; if a parameter group is selected it gets filtered by those as well */
+export const selectSelectedStationsFilteredBySelectedParameterGroup = createSelector(
   selectSelectedStationWithParameterGroup,
   formFeature.selectSelectedParameterGroupId,
   (stations, selectedParameterGroupId): StationWithParameterGroups[] => {
@@ -37,7 +38,7 @@ export const selectSelectedStationWithParameterGroupsFilteredBySelectedParameter
 );
 
 export const selectSelectedStationForCollection = createSelector(
-  selectSelectedStationWithParameterGroupsFilteredBySelectedParameterGroup,
+  selectSelectedStationsFilteredBySelectedParameterGroup,
   formFeature.selectSelectedStationId,
   formFeature.selectSelectedCollection,
   (stations, stationId, collection): StationWithParameterGroups | undefined =>
