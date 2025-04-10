@@ -18,14 +18,12 @@
   }
 
   &__description {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     margin-top: 20px;
     background-color: var(--mat-sys-inverse-primary);
-    width: 100%;
     padding: 20px 12px;
     box-sizing: border-box;
-
-    p {
-      margin: 0;
-    }
   }
 }

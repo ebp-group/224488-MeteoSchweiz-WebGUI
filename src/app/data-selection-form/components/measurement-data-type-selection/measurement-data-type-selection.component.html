@@ -6,17 +6,23 @@
     [value]="selectedMeasurementDataType$ | async"
     hideSingleSelectionIndicator="true"
   >
-    <mat-button-toggle value="normal">{{ t('form.measurement-data-type.normal') }}</mat-button-toggle>
-    <mat-button-toggle value="homogenous">{{ t('form.measurement-data-type.homogenous') }}</mat-button-toggle>
+    @for (measurementDataType of allMeasurementDataTypes; track measurementDataType.dataType) {
+      <mat-button-toggle [value]="measurementDataType.dataType">{{ t(measurementDataType.label) }}</mat-button-toggle>
+    }
   </mat-button-toggle-group>
 
   <div class="measurement-data-type-selection__description">
-    @if ((selectedMeasurementDataType$ | async) === 'normal') {
-      <p>{{ t('form.measurement-data-type.normal.explanation') }}</p>
-      <a [href]="t('form.measurement-data-type.normal.info-url')">{{ t('form.measurement-data-type.more-info-link') }}</a>
-    } @else if ((selectedMeasurementDataType$ | async) === 'homogenous') {
-      <p>{{ t('form.measurement-data-type.homogenous.explanation') }}</p>
-      <a [href]="t('form.measurement-data-type.homogenous.info-url')">{{ t('form.measurement-data-type.more-info-link') }}</a>
+    @if (selectedMeasurementDataType$ | async; as measurementDataType) {
+      @switch (measurementDataType) {
+        @case ('normal') {
+          <span>{{ t('form.measurement-data-type.normal.explanation') }}</span>
+          <a [href]="t('form.measurement-data-type.normal.info-url')">{{ t('form.measurement-data-type.more-info-link') }}</a>
+        }
+        @case ('homogenous') {
+          <span>{{ t('form.measurement-data-type.homogenous.explanation') }}</span>
+          <a [href]="t('form.measurement-data-type.homogenous.info-url')">{{ t('form.measurement-data-type.more-info-link') }}</a>
+        }
+      }
     }
   </div>
 </div>

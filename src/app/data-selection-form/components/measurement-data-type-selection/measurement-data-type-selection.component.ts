@@ -3,8 +3,9 @@ import {Component, inject} from '@angular/core';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule} from '@jsverse/transloco';
+import {marker} from '@jsverse/transloco-keys-manager/marker';
 import {Store} from '@ngrx/store';
-import {MeasurementDataType} from '../../../shared/models/measurement-data-type';
+import {MeasurementDataType, measurementDataTypes} from '../../../shared/models/measurement-data-type';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
 
@@ -16,6 +17,15 @@ import {formFeature} from '../../../state/form/reducers/form.reducer';
 })
 export class MeasurementDataTypeSelectionComponent {
   private readonly store = inject(Store);
+
+  private readonly measurementDataTypeLabelMapping: Record<MeasurementDataType, string> = {
+    normal: marker('form.measurement-data-type.normal'),
+    homogenous: marker('form.measurement-data-type.homogenous'),
+  };
+  protected readonly allMeasurementDataTypes = measurementDataTypes.map((dataType) => ({
+    dataType,
+    label: this.measurementDataTypeLabelMapping[dataType],
+  }));
 
   protected readonly selectedMeasurementDataType$ = this.store.select(formFeature.selectSelectedMeasurementDataType);
 
