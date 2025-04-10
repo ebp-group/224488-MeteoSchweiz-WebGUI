@@ -4,8 +4,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-}
 
-mat-icon {
-  @include mat-mixins.mat-icon-override-size(24px);
+  mat-icon {
+    @include mat-mixins.mat-icon-override-size(24px);
+  }
 }
