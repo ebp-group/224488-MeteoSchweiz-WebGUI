@@ -21,7 +21,7 @@
       display: flex;
 
       &__link-url {
-        width: 400px;
+        width: 100%;
         @include mat.form-field-overrides(
           (
             filled-container-shape: 0,
@@ -32,7 +32,6 @@
 
         input {
           text-overflow: ellipsis;
-          text-decoration: underline;
         }
       }
 
