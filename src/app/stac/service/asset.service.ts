@@ -18,7 +18,7 @@ export class AssetService {
   private readonly errorHandler = inject(ErrorHandler);
 
   private readonly stationParseRegex =
-    /^(?<collectionId>[^_]+)_(?<stationId>[^_]+)_(?<interval>[^_]+)_(?<timeRange>[^_]+)(?:_(?<fromDate>\d{8})_(?<toDate>\d{8}))?\.csv$/;
+    /^(?<collectionId>[^_]+)_(?<stationId>[^_]+)_(?<interval>[^_]+)(?:_(?<timeRange>[^_]+)(?:_(?<fromDate>\d{8})_(?<toDate>\d{8}))?)?\.csv$/;
 
   public async loadCollectionAssets(collections: string[]): Promise<CollectionAsset[]> {
     const assets = await Promise.all(
@@ -75,7 +75,20 @@ export class AssetService {
     }
 
     const interval = this.transformInterval(matches.groups['interval'], asset.filename);
-    const timeRange = this.transformTimeRange(matches.groups['timeRange'], asset.filename);
+    const timeRangeGroup = matches.groups['timeRange'];
+
+    if (!timeRangeGroup) {
+      // no-type assets. These can be treated like historical assets
+      return {
+        filename: asset.filename,
+        url: asset.url,
+        interval,
+        timeRange: 'historical',
+        dateRange: undefined,
+      };
+    }
+
+    const timeRange = this.transformTimeRange(timeRangeGroup, asset.filename);
 
     switch (timeRange) {
       case 'historical': {
