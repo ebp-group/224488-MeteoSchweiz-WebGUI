@@ -1,6 +1,5 @@
 @use 'material-mixins' as mat-mixins;
 @use 'design-variables' as variables;
-@use '@angular/material' as mat;
 
 .data-selection-form {
   width: 100%;
@@ -8,5 +7,9 @@
   &__stepper {
     background-color: variables.$background-color;
     color: variables.$white;
+
+    &__tooltip-icon {
+      @include mat-mixins.mat-icon-override-size(0.75rem);
+    }
   }
 }

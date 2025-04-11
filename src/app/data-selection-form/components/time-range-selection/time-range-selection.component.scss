@@ -10,12 +10,16 @@
     display: flex;
   }
 
-  &__explanation {
-    font-size: 0.85em;
-  }
+  &__selection {
+    width: fit-content;
 
-  &__tooltip-icon {
-    @include mat-mixins.mat-icon-override-size(1rem);
+    &__explanation {
+      font-size: 0.85em;
+    }
+
+    &__tooltip-icon {
+      @include mat-mixins.mat-icon-override-size(1rem);
+    }
   }
 
   &__historical-explanation {

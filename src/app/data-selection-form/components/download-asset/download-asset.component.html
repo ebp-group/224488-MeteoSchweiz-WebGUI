@@ -2,13 +2,13 @@
   @if (selectedAsset$ | async; as asset) {
     <div class="download-asset__section">
       <h4 class="download-asset__section__title">{{ t('form.download.data') }}</h4>
+      <p>
+        {{ t('form.download.terms') }} <a [href]="t('form.download.terms.link')">{{ t('form.download.terms.link-name') }}</a>
+      </p>
       <div>
         <app-download-asset-link [asset]="asset" />
         <p class="download-asset__explanation">{{ t('form.download.data-explanation') }}</p>
       </div>
-      <p>
-        {{ t('form.download.terms') }} <a [href]="t('form.download.terms.link')">{{ t('form.download.terms.link-name') }}</a>
-      </p>
     </div>
 
     <div class="download-asset__section">

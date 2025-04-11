@@ -1,7 +1,9 @@
 import {AsyncPipe} from '@angular/common';
 import {AfterViewInit, Component, inject, OnDestroy, ViewChild} from '@angular/core';
 import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 import {MatStepper, MatStepperModule} from '@angular/material/stepper';
+import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {Subscription, tap} from 'rxjs';
@@ -26,6 +28,8 @@ import {TimeRangeSelectionComponent} from './components/time-range-selection/tim
     AsyncPipe,
     StationSelectionStepComponent,
     MeasurementDataTypeSelectionComponent,
+    MatIcon,
+    MatTooltip,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',

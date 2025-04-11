@@ -6,8 +6,13 @@
   (change)="setSelectedInterval($event.value)"
 >
   @for (dataInterval of allDataIntervals; track dataInterval.interval) {
-    <mat-radio-button [value]="dataInterval.interval" [disabled]="!(availableDataIntervals$ | async | includes: dataInterval.interval)">{{
-      t(dataInterval.label)
-    }}</mat-radio-button>
+    @let isDataIntervalIncluded = availableDataIntervals$ | async | includes: dataInterval.interval;
+    <div
+      class="interval-selection__selection"
+      [matTooltip]="t('form.selection-not-available')"
+      [matTooltipDisabled]="isDataIntervalIncluded"
+    >
+      <mat-radio-button [value]="dataInterval.interval" [disabled]="!isDataIntervalIncluded">{{ t(dataInterval.label) }}</mat-radio-button>
+    </div>
   }
 </mat-radio-group>
