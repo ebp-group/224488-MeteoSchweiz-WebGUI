@@ -75,6 +75,5 @@
   "form.interval.daily": "Missing value for 'form.interval.daily'",
   "form.interval.monthly": "Missing value for 'form.interval.monthly'",
   "form.interval.yearly": "Missing value for 'form.interval.yearly'",
-  "form.selection-not-available": "Missing value for 'form.selection-not-available'",
-  "form.selection-review.file-size": "Missing value for 'form.selection-review.file-size'"
+  "form.selection-not-available": "Missing value for 'form.selection-not-available'"
 }

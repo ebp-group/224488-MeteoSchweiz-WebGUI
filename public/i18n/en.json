@@ -42,9 +42,9 @@
   "form.measurement-data-type.aria-label": "Choose data type",
   "form.measurement-data-type.normal.explanation": "Measured values of all parameters of a station",
   "form.measurement-data-type.more-info-link": "Information on data quality",
-  "form.measurement-data-type.normal.info-url": "Missing value for 'form.measurement-data-type.normal.info-url'",
+  "form.measurement-data-type.normal.info-url": "https://opendatadocs.meteoswiss.ch/general/faq#what-about-the-quality-control-of-data",
   "form.measurement-data-type.homogenous.explanation": "Consistent and checked data from a station. Recommended for climate analyses",
-  "form.measurement-data-type.homogenous.info-url": "Missing value for 'form.measurement-data-type.homogenous.info-url'",
+  "form.measurement-data-type.homogenous.info-url": "https://opendatadocs.meteoswiss.ch/general/faq#what-about-the-quality-control-of-data",
   "form.interval.label": "Missing value for 'form.interval.label'",
   "form.download.data": "Data",
   "form.download.terms": "The Open Data from MeteoSwiss may be used without restriction; the source must be cited when reproducing or redistributing (Source: MeteoSwiss)",
@@ -75,8 +75,5 @@
   "form.interval.daily": "Daily",
   "form.interval.monthly": "Monthly",
   "form.interval.yearly": "Yearly",
-  "form.selection-not-available": "Not available for your selection",
-  "form.selection-review.file-size": "File size",
-  "form.measurement-data-type.more-info-url": "https://opendatadocs.meteoswiss.ch/general/faq#what-about-the-quality-control-of-data",
-  "form.download.download-programmatically-url": "Missing value for 'form.download.download-programmatically-url'"
+  "form.selection-not-available": "Not available for your selection"
 }

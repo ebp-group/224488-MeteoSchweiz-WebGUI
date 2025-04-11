@@ -1,4 +1,8 @@
 .interval-selection {
   display: flex;
   flex-direction: column;
+
+  &__selection {
+    width: fit-content;
+  }
 }
