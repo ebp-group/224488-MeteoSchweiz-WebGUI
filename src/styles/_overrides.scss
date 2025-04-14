@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 a {
   color: var(--mat-sys-on-surface);
   text-decoration: underline;
@@ -5,4 +7,19 @@ a {
   &:hover {
     text-decoration: none;
   }
+}
+
+:root {
+  @include mat.tooltip-overrides(
+    (
+      container-color: var(--mat-sys-inverse-primary),
+      supporting-text-color: var(--mat-sys-on-surface),
+      container-shape: 0,
+    )
+  );
+}
+
+.mat-mdc-tooltip-surface {
+  padding: 15px;
+  max-width: 500px;
 }
