@@ -36,7 +36,7 @@
   </div>
 
   @if ((historicalDateRanges$ | async)?.length === 0) {
-    @let isHistoricalInAvailableTimeRanges = availableTimeRanges | includes: 'recent';
+    @let isHistoricalInAvailableTimeRanges = availableTimeRanges | includes: 'historical';
     <div
       class="time-range-selection__selection"
       [matTooltip]="t('form.selection-not-available')"

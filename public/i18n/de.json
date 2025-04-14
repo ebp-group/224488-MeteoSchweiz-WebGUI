@@ -28,7 +28,7 @@
   "form.station.search.placeholder": "Station suchen",
   "form.station.search.label": "Station",
   "form.autocomplete.clear": "Missing value for 'form.autocomplete.clear'",
-  "form.station.selection-info.elevation-unit": "Missing value for 'form.station.selection-info.elevation-unit'",
+  "form.station.selection-info.elevation-unit": "m.ü.M.",
   "form.station.selection-info.more-info": "Informationen zu dieser Station",
   "form.collection-selection.parameter-groups": "Gemessene Parameter",
   "form.selection-review.station-name": "Station",
