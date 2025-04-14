@@ -1,11 +1,11 @@
 <div class="fatal-error-page" *transloco="let t">
   <!-- TODO: multi language -->
-  <h1>{{ t('fatalError.title') }}</h1>
+  <h1>{{ t('fatal-error-page.title') }}</h1>
   <p>
-    {{ t('fatalError.info') }}
+    {{ t('fatal-error-page.info') }}
   </p>
   @if (errorMessage) {
-    <p class="fatal-error-page__error-message">{{ t('fatalError.error_message', {message: errorMessage}) }}</p>
+    <p class="fatal-error-page__error-message">{{ t('fatal-error-page.error-message', {errorMessage}) }}</p>
   }
-  <button (click)="forceRefresh()">{{ t('fatalError.home') }}</button>
+  <button (click)="forceRefresh()">{{ t('fatal-error-page.home') }}</button>
 </div>

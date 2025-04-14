@@ -2,7 +2,7 @@ import {AsyncPipe, DatePipe} from '@angular/common';
 import {Component, inject} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {IncludesPipe} from '../../../shared/pipes/includes.pipe';
@@ -14,7 +14,7 @@ import type {TimeRange} from '../../../shared/models/time-range';
 
 @Component({
   selector: 'app-time-range-selection',
-  imports: [TranslocoModule, AsyncPipe, DatePipe, IncludesPipe, MatRadioModule, MatIcon, MatTooltipModule],
+  imports: [TranslocoModule, AsyncPipe, DatePipe, IncludesPipe, MatRadioModule, MatIcon, MatTooltip],
   templateUrl: './time-range-selection.component.html',
   styleUrl: './time-range-selection.component.scss',
 })

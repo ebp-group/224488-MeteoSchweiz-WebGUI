@@ -5,23 +5,47 @@
   [value]="selectedTimeRange$ | async"
   (change)="setSelectedTimeRange($event.value)"
 >
-  <mat-radio-button value="now" [disabled]="!(availableTimeRanges$ | async | includes: 'now')"
-    >{{ t('form.time-range.now') }}
-    <br />
-    <span class="time-range-selection__explanation">{{ t('form.time-range.now.explanation') }}</span>
-  </mat-radio-button>
+  @let availableTimeRanges = availableTimeRanges$ | async;
+  @let isNowInAvailableTimeRanges = availableTimeRanges | includes: 'now';
+  <div
+    class="time-range-selection__selection"
+    [matTooltip]="t('form.selection-not-available')"
+    [matTooltipDisabled]="isNowInAvailableTimeRanges"
+  >
+    <mat-radio-button value="now" [disabled]="!isNowInAvailableTimeRanges"
+      >{{ t('form.time-range.now') }}
+      <br />
+      <span class="time-range-selection__selection__explanation">{{ t('form.time-range.now.explanation') }}</span>
+    </mat-radio-button>
+  </div>
 
-  <mat-radio-button value="recent" [disabled]="!(availableTimeRanges$ | async | includes: 'recent')"
-    >{{ t('form.time-range.recent') }}
-    <mat-icon class="time-range-selection__tooltip-icon" [matTooltip]="t('form.time-range.recent.tooltip')">info_outline</mat-icon>
-    <br />
-    <span class="time-range-selection__explanation">{{ t('form.time-range.recent.explanation') }}</span>
-  </mat-radio-button>
+  @let isRecentInAvailableTimeRanges = availableTimeRanges | includes: 'recent';
+  <div
+    class="time-range-selection__selection"
+    [matTooltip]="t('form.selection-not-available')"
+    [matTooltipDisabled]="isRecentInAvailableTimeRanges"
+  >
+    <mat-radio-button value="recent" [disabled]="!isRecentInAvailableTimeRanges"
+      >{{ t('form.time-range.recent') }}
+      <mat-icon class="time-range-selection__selection__tooltip-icon" [matTooltip]="t('form.time-range.recent.tooltip')"
+        >info_outline</mat-icon
+      >
+      <br />
+      <span class="time-range-selection__selection__explanation">{{ t('form.time-range.recent.explanation') }}</span>
+    </mat-radio-button>
+  </div>
 
   @if ((historicalDateRanges$ | async)?.length === 0) {
-    <mat-radio-button value="historical" [disabled]="!(availableTimeRanges$ | async | includes: 'historical')">{{
-      t('form.time-range.historical')
-    }}</mat-radio-button>
+    @let isHistoricalInAvailableTimeRanges = availableTimeRanges | includes: 'historical';
+    <div
+      class="time-range-selection__selection"
+      [matTooltip]="t('form.selection-not-available')"
+      [matTooltipDisabled]="isHistoricalInAvailableTimeRanges"
+    >
+      <mat-radio-button value="historical" [disabled]="!isHistoricalInAvailableTimeRanges">{{
+        t('form.time-range.historical')
+      }}</mat-radio-button>
+    </div>
   } @else {
     <div class="time-range-selection__historical-explanation">
       <p>

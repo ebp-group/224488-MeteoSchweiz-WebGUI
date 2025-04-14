@@ -1,7 +1,7 @@
 import {Location} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {provideTranslocoScope, TranslocoModule} from '@jsverse/transloco';
+import {TranslocoModule} from '@jsverse/transloco';
 import {Subscription, tap} from 'rxjs';
 import {routeParamConstants} from '../../../shared/constants/route-param.constants';
 
@@ -10,7 +10,6 @@ import {routeParamConstants} from '../../../shared/constants/route-param.constan
   imports: [TranslocoModule],
   templateUrl: './fatal-error.component.html',
   styleUrl: './fatal-error.component.scss',
-  providers: [provideTranslocoScope('fatalError')],
 })
 export class FatalErrorComponent implements OnInit, OnDestroy {
   private readonly location = inject(Location);
