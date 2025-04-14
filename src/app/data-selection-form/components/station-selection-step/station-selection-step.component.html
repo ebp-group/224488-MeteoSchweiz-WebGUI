@@ -7,9 +7,11 @@
   @if (selectedStation$ | async) {
     <app-collection-selection></app-collection-selection>
   } @else {
-    <p>
-      <b>{{ t('form.station.selection-info.no-station-selected.title') }}</b>
-    </p>
-    <span>{{ t('form.station.selection-info.no-station-selected.explanation') }}</span>
+    <div class="station-selection-step__no-station-selected">
+      <p class="station-selection-step__no-station-selected__title">
+        {{ t('form.station.selection-info.no-station-selected.title') }}
+      </p>
+      <span>{{ t('form.station.selection-info.no-station-selected.explanation') }}</span>
+    </div>
   }
 </div>
