@@ -147,5 +147,41 @@ describe('AssetService', () => {
         ]),
       );
     });
+
+    it('should parse filenames with no timeRange (no-type)', async () => {
+      const collection = 'collection';
+      const stationId = 'stationId';
+      stacApiService.getAssets.and.resolveTo([
+        {filename: `${collection}_${stationId}_t.csv`, url: 'www.meteoschweiz.admin.ch'},
+        {filename: `${collection}_${stationId}_m.csv`, url: 'www.meteoschweiz.admin.ch'},
+        {filename: `${collection}_${stationId}_y.csv`, url: 'www.meteoschweiz.admin.ch'},
+      ]);
+
+      const result = await service.loadStationAssets(collection, stationId);
+
+      expect(result).toEqual([
+        {
+          filename: `${collection}_${stationId}_t.csv`,
+          url: 'www.meteoschweiz.admin.ch',
+          interval: 'ten-minutes',
+          timeRange: 'historical',
+          dateRange: undefined,
+        },
+        {
+          filename: `${collection}_${stationId}_m.csv`,
+          url: 'www.meteoschweiz.admin.ch',
+          interval: 'monthly',
+          timeRange: 'historical',
+          dateRange: undefined,
+        },
+        {
+          filename: `${collection}_${stationId}_y.csv`,
+          url: 'www.meteoschweiz.admin.ch',
+          interval: 'yearly',
+          timeRange: 'historical',
+          dateRange: undefined,
+        },
+      ] satisfies StationAsset[]);
+    });
   });
 });
