@@ -2,11 +2,13 @@ import {AsyncPipe} from '@angular/common';
 import {AfterViewInit, Component, inject, OnDestroy, ViewChild} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepper, MatStepperModule} from '@angular/material/stepper';
 import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {Subscription, tap} from 'rxjs';
+import {selectCombinedLoadingState} from '../state/collection/selectors/collection.selector';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
@@ -18,18 +20,19 @@ import {TimeRangeSelectionComponent} from './components/time-range-selection/tim
 @Component({
   selector: 'app-data-selection-form',
   imports: [
-    TranslocoModule,
-    MatButton,
-    IntervalSelectionComponent,
-    TimeRangeSelectionComponent,
-    SelectionReviewComponent,
-    DownloadAssetComponent,
-    MatStepperModule,
     AsyncPipe,
-    StationSelectionStepComponent,
-    MeasurementDataTypeSelectionComponent,
+    DownloadAssetComponent,
+    IntervalSelectionComponent,
+    MatButton,
     MatIcon,
+    MatProgressSpinnerModule,
+    MatStepperModule,
     MatTooltip,
+    MeasurementDataTypeSelectionComponent,
+    SelectionReviewComponent,
+    StationSelectionStepComponent,
+    TimeRangeSelectionComponent,
+    TranslocoModule,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
@@ -43,6 +46,8 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
+
+  protected readonly combinedLoadingState$ = this.store.select(selectCombinedLoadingState);
 
   public ngAfterViewInit(): void {
     this.subscriptions.add(

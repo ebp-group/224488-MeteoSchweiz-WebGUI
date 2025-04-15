@@ -12,4 +12,12 @@
       @include mat-mixins.mat-icon-override-size(0.75rem);
     }
   }
+
+  &__loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
 }
