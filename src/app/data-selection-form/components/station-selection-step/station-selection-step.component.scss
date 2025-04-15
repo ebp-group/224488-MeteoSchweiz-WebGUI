@@ -16,4 +16,14 @@
       width: 356px;
     }
   }
+
+  &__no-station-selected {
+    background-color: var(--mat-sys-inverse-primary);
+    padding: 20px 12px;
+    margin-top: 1.12em;
+
+    &__title {
+      margin-top: 0;
+    }
+  }
 }
