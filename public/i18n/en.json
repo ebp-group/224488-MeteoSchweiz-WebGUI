@@ -63,6 +63,7 @@
   "form.collection-selection.title": "Select measuring network",
   "station.load.error": "Missing value for 'station.load.error'",
   "stac.load.error": "Failed to get assets for collectionId '{{collectionId}}' and stationId '{{stationId}}'",
+  "stac.csv.error": "Failed loading '{{csvFile}}'",
   "parameter.load.error": "Error loading parameters",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",

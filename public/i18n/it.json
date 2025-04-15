@@ -63,6 +63,7 @@
   "form.collection-selection.title": "Missing value for 'form.collection-selection.title'",
   "station.load.error": "Missing value for 'station.load.error'",
   "stac.load.error": "Impossibile ottenere le risorse per collectionId '{{collectionId}}' e stationId '{{stationId}}'",
+  "stac.csv.error": "Caricamento fallito di '{{csvFile}}'",
   "parameter.load.error": "Errore durante il caricamento dei parametri",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",

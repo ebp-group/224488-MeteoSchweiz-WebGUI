@@ -63,6 +63,7 @@
   "form.collection-selection.title": "Messnetz wählen",
   "station.load.error": "Missing value for 'station.load.error'",
   "stac.load.error": "Es konnten keine Assets für collectionId '{{collectionId}}' und stationId '{{stationId}}' abgerufen werden",
+  "stac.csv.error": "Laden von '{{csvFile}}' fehlgeschlagen",
   "parameter.load.error": "Fehler beim Laden der Parameter",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",

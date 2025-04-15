@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import papa from 'papaparse';
-import {defaultStacClientConfig} from '../../shared/configs/stac.config';
-import {StacLoadError} from '../../shared/errors/stac.error';
+import {stacClientConfig} from '../../shared/configs/stac.config';
+import {StacCsvError, StacLoadError} from '../../shared/errors/stac.error';
 import {StacApiClient} from '../generated/stac-api.generated';
 import {StacAsset} from '../models/stac-asset';
 
@@ -9,13 +9,27 @@ import {StacAsset} from '../models/stac-asset';
   providedIn: 'root',
 })
 export class StacApiService {
-  private readonly stacApiClient = new StacApiClient({baseUrl: defaultStacClientConfig.baseUrl});
+  private readonly stacApiClient = new StacApiClient({baseUrl: stacClientConfig.baseUrl});
 
-  public fetchAndParseCsvFile<T>(url: string): Promise<T[]> {
+  private readonly decoder = new TextDecoder(stacClientConfig.encoding);
+
+  public async fetchAndParseCsvFile<T>(url: string): Promise<T[]> {
+    const fileResponse = await fetch(url);
+    if (!fileResponse.ok) {
+      throw new StacCsvError(url);
+    }
+
+    const fileContent = await fileResponse.arrayBuffer();
+    if (!fileContent) {
+      throw new StacCsvError(url);
+    }
+
+    const file = this.decoder.decode(fileContent);
+
     return new Promise<T[]>((resolve) => {
-      papa.parse<T>(url, {
-        download: true,
-        delimiter: defaultStacClientConfig.csvDelimiter,
+      papa.parse<T>(file, {
+        download: false,
+        delimiter: stacClientConfig.csvDelimiter,
         header: true,
         skipEmptyLines: true,
         transformHeader: (header) => {
