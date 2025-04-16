@@ -1,5 +1,6 @@
 @use 'material-mixins' as mat-mixins;
 @use 'design-variables' as variables;
+@use '@angular/material' as mat;
 
 .data-selection-form {
   width: 100%;
@@ -10,6 +11,36 @@
 
     &__tooltip-icon {
       @include mat-mixins.mat-icon-override-size(0.75rem);
+    }
+
+    &__step-control {
+      padding-top: 20px;
+
+      &__next-button,
+      &__back-button {
+        @include mat.button-overrides(
+          (
+            filled-container-shape: 0,
+            filled-label-text-color: variables.$white,
+          )
+        );
+      }
+
+      &__next-button {
+        @include mat.button-overrides(
+          (
+            filled-container-color: variables.$warn-red,
+          )
+        );
+      }
+
+      &__back-button {
+        @include mat.button-overrides(
+          (
+            filled-container-color: variables.$accent-grey,
+          )
+        );
+      }
     }
   }
 }
