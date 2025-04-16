@@ -1,10 +1,7 @@
-@use 'material-mixins' as mat-mixins;
 @use 'design-variables' as variables;
 @use '@angular/material' as mat;
 
 .data-selection-form {
-  width: 100%;
-
   &__stepper {
     padding-top: 40px;
     background-color: variables.$background-color;
@@ -18,10 +15,6 @@
         header-edit-state-icon-background-color: variables.$warn-red,
       )
     );
-
-    &__tooltip-icon {
-      @include mat-mixins.mat-icon-override-size(0.75rem);
-    }
 
     &__step-control {
       padding-top: 20px;
