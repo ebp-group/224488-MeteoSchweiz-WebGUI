@@ -12,10 +12,10 @@
     [matTooltip]="t('form.selection-not-available')"
     [matTooltipDisabled]="isNowInAvailableTimeRanges"
   >
-    <mat-radio-button value="now" [disabled]="!isNowInAvailableTimeRanges"
-      >{{ t('form.time-range.now') }}
+    <mat-radio-button value="now" [disabled]="!isNowInAvailableTimeRanges" [aria-label]="t('form.time-range.now')">
+      {{ t('form.time-range.now') }}
       <br />
-      <span class="time-range-selection__selection__explanation">{{ t('form.time-range.now.explanation') }}</span>
+      <small>{{ t('form.time-range.now.explanation') }}</small>
     </mat-radio-button>
   </div>
 
@@ -25,13 +25,19 @@
     [matTooltip]="t('form.selection-not-available')"
     [matTooltipDisabled]="isRecentInAvailableTimeRanges"
   >
-    <mat-radio-button value="recent" [disabled]="!isRecentInAvailableTimeRanges"
-      >{{ t('form.time-range.recent') }}
-      <mat-icon class="time-range-selection__selection__tooltip-icon" [matTooltip]="t('form.time-range.recent.tooltip')"
-        >info_outline</mat-icon
-      >
-      <br />
-      <span class="time-range-selection__selection__explanation">{{ t('form.time-range.recent.explanation') }}</span>
+    <mat-radio-button value="recent" [disabled]="!isRecentInAvailableTimeRanges" [aria-label]="t('form.time-range.recent')">
+      <div class="time-range-selection__selection__content">
+        <div class="time-range-selection__selection__content__label">
+          <span>{{ t('form.time-range.recent') }}</span>
+          <mat-icon
+            class="time-range-selection__selection__content__label__tooltip-icon"
+            [matTooltip]="t('form.time-range.recent.tooltip')"
+          >
+            info_outline
+          </mat-icon>
+        </div>
+        <small>{{ t('form.time-range.recent.explanation') }}</small>
+      </div>
     </mat-radio-button>
   </div>
 
