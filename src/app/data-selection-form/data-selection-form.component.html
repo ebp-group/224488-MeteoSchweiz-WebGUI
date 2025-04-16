@@ -4,9 +4,14 @@
     <ng-template matStepperIcon="edit">
       <mat-icon>check</mat-icon>
     </ng-template>
-    <mat-step [completed]="(selectedCollection$ | async) !== null">
+    @let selectedCollection = selectedCollection$ | async;
+    <mat-step [completed]="selectedCollection !== null">
       <ng-template matStepLabel>
-        {{ t('form.stepper.station.label') }}<br /><small>{{ t('form.stepper.station.label.explanation') }}</small>
+        <app-step-label
+          [title]="t('form.stepper.station.label')"
+          [description]="t('form.stepper.station.label.explanation')"
+          [currentValue]="(selectedStationForCollection$ | async)?.displayName"
+        ></app-step-label>
       </ng-template>
       <app-station-selection-step></app-station-selection-step>
       <div class="data-selection-form__stepper__step-control">
@@ -20,12 +25,15 @@
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedDataInterval$ | async) !== null">
+    @let selectedSelectedDataInterval = selectedSelectedDataInterval$ | async;
+    <mat-step [completed]="selectedSelectedDataInterval !== null">
       <ng-template matStepLabel>
-        {{ t('form.stepper.interval.label') }}<br /><small>{{ t('form.stepper.interval.label.explanation') }}</small>
-        <mat-icon class="data-selection-form__stepper__tooltip-icon" [matTooltip]="t('form.stepper.interval.label.tooltip')"
-          >info_outline</mat-icon
-        >
+        <app-step-label
+          [title]="t('form.stepper.interval.label')"
+          [description]="t('form.stepper.interval.label.explanation')"
+          [descriptionInfoTooltip]="t('form.stepper.interval.label.tooltip')"
+          [currentValue]="selectedSelectedDataInterval ? t('form.interval.' + selectedSelectedDataInterval) : undefined"
+        ></app-step-label>
       </ng-template>
       <app-interval-selection></app-interval-selection>
       <div class="data-selection-form__stepper__step-control">
@@ -42,8 +50,14 @@
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.time-range.label') }}</ng-template>
+    @let selectedSelectedTimeRange = selectedSelectedTimeRange$ | async;
+    <mat-step [completed]="selectedSelectedTimeRange !== null">
+      <ng-template matStepLabel>
+        <app-step-label
+          [title]="t('form.stepper.time-range.label')"
+          [currentValue]="selectedSelectedTimeRange ? t('form.time-range.' + selectedSelectedTimeRange) : undefined"
+        ></app-step-label>
+      </ng-template>
       <app-time-range-selection></app-time-range-selection>
       <div class="data-selection-form__stepper__step-control">
         <button class="data-selection-form__stepper__step-control__back-button" mat-flat-button matStepperPrevious>
@@ -59,12 +73,8 @@
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel
-        >{{ t('form.stepper.selection-review.label') }}<br /><small>{{
-          t('form.stepper.selection-review.label.explanation')
-        }}</small></ng-template
-      >
+    <mat-step [completed]="selectedSelectedTimeRange !== null">
+      <ng-template matStepLabel><app-step-label [title]="t('form.stepper.selection-review.label')"></app-step-label></ng-template>
       <app-selection-review></app-selection-review>
       <div class="data-selection-form__stepper__step-control">
         <button class="data-selection-form__stepper__step-control__back-button" mat-flat-button matStepperPrevious>
@@ -75,9 +85,9 @@
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.download.label') }}</ng-template>
-      <app-download-asset> </app-download-asset>
+    <mat-step [completed]="selectedSelectedTimeRange !== null">
+      <ng-template matStepLabel><app-step-label [title]="t('form.stepper.download.label')"></app-step-label></ng-template>
+      <app-download-asset></app-download-asset>
     </mat-step>
   </mat-vertical-stepper>
 </div>
