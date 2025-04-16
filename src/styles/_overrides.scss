@@ -17,6 +17,12 @@ a {
       container-shape: 0,
     )
   );
+
+  @include mat.radio-overrides(
+    (
+      label-text-size: 16px,
+    )
+  );
 }
 
 mat-tooltip-component .mat-mdc-tooltip-surface {
