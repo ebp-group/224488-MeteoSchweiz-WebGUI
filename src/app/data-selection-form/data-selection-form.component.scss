@@ -6,8 +6,18 @@
   width: 100%;
 
   &__stepper {
+    padding-top: 40px;
     background-color: variables.$background-color;
     color: variables.$white;
+
+    @include mat.stepper-overrides(
+      (
+        header-selected-state-icon-foreground-color: variables.$white,
+        header-selected-state-icon-background-color: variables.$warn-red,
+        header-edit-state-icon-foreground-color: variables.$white,
+        header-edit-state-icon-background-color: variables.$warn-red,
+      )
+    );
 
     &__tooltip-icon {
       @include mat-mixins.mat-icon-override-size(0.75rem);
