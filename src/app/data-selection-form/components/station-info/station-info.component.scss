@@ -1,15 +1,21 @@
+@use 'material-mixins' as mat-mixins;
 @use '@angular/material' as mat;
 
 .station-info {
   display: flex;
   flex-direction: column;
 
-  &__title {
-    font-size: unset;
-    margin: 0.5em 0;
+  &__title,
+  &__parameter-title {
+    margin-bottom: 0.5em;
+  }
+
+  &__parameter-title {
+    margin-top: 40px;
   }
 
   &__link {
+    margin-top: 10px;
     color: inherit;
   }
 
@@ -23,6 +29,11 @@
     &__item {
       padding: 0;
       align-items: center;
+      margin-bottom: 5px;
+
+      &__icon {
+        @include mat-mixins.mat-icon-override-size(48px);
+      }
     }
   }
 }
