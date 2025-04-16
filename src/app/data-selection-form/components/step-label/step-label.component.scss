@@ -1,0 +1,11 @@
+@use 'material-mixins' as mat-mixins;
+
+.step-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+
+  &__tooltip-icon {
+    @include mat-mixins.mat-icon-override-size(0.75rem);
+  }
+}
