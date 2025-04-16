@@ -18,6 +18,7 @@
   "form.stepper.download.label": "Die Daten herunterladen",
   "form.time-range.now": "Heute",
   "form.time-range.now.explanation": "Alle Werte seit Mitternacht",
+  "form.selection-not-available": "Nicht verfügbar für Ihre Auswahl",
   "form.time-range.recent": "Aktuelles Jahr",
   "form.time-range.recent.tooltip": "Enthält bis Ende Februar die Daten des Vorjahres",
   "form.time-range.recent.explanation": "Alle Werte bis gestern",
@@ -56,6 +57,7 @@
   "form.download.stations-explanation": "Liste aller Stationsabkürzungen mit Namen, Kanton, Wigos ID, Stationstyp, Höhe, Koordinaten, Ausrichtung und URL der Stationsdetailseiten",
   "form.download.inventory-explanation": "Liste aller Stationen und Parameter mit Start- und Enddatum der Messungen",
   "form.download.copy-url": "Permanenten Download-Link kopieren",
+  "form.download.copy-url.tooltip": "Missing value for 'form.download.copy-url.tooltip'",
   "form.download.download-programmatically-info": "Informationen, wie Sie Daten automatisch beziehen können",
   "form.download.download-programmatically-info.url": "Missing value for 'form.download.download-programmatically-info.url'",
   "form.collection-selection.title": "Messnetz wählen",
@@ -74,6 +76,5 @@
   "form.interval.hourly": "Stündlich",
   "form.interval.daily": "Täglich",
   "form.interval.monthly": "Monatlich",
-  "form.interval.yearly": "Jährlich",
-  "form.selection-not-available": "Nicht verfügbar für Ihre Auswahl"
+  "form.interval.yearly": "Jährlich"
 }
