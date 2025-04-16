@@ -18,6 +18,7 @@
   "form.stepper.download.label": "Download the data",
   "form.time-range.now": "Today",
   "form.time-range.now.explanation": "All values since midnight",
+  "form.selection-not-available": "Not available for your selection",
   "form.time-range.recent": "Current year",
   "form.time-range.recent.tooltip": "Contains the data of the previous year until the end of February",
   "form.time-range.recent.explanation": "All values up to yesterday",
@@ -56,6 +57,7 @@
   "form.download.stations-explanation": "List of all station abbreviations with name, Canton, Wigos ID, station type, altitude, coordinates, orientation and URL of the station details pages",
   "form.download.inventory-explanation": "List of all stations and parameters with start and end date of the measurements",
   "form.download.copy-url": "Copy permanent download link",
+  "form.download.copy-url.tooltip": "Copy to clipboard",
   "form.download.download-programmatically-info": "Information on how you can obtain data automatically",
   "form.download.download-programmatically-info.url": "Missing value for 'form.download.download-programmatically-info.url'",
   "form.collection-selection.title": "Select measuring network",
@@ -74,6 +76,5 @@
   "form.interval.hourly": "Hourly",
   "form.interval.daily": "Daily",
   "form.interval.monthly": "Monthly",
-  "form.interval.yearly": "Yearly",
-  "form.selection-not-available": "Not available for your selection"
+  "form.interval.yearly": "Yearly"
 }
