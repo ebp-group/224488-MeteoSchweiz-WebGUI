@@ -1,4 +1,5 @@
 @use 'material-mixins' as mat-mixins;
+@use '@angular/material' as mat;
 
 .time-range-selection {
   display: flex;
@@ -13,12 +14,20 @@
   &__selection {
     width: fit-content;
 
-    &__explanation {
-      font-size: 0.85em;
-    }
+    &__content {
+      display: flex;
+      flex-direction: column;
 
-    &__tooltip-icon {
-      @include mat-mixins.mat-icon-override-size(1rem);
+      &__label {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+
+        &__tooltip-icon {
+          @include mat-mixins.mat-icon-override-size(24px);
+        }
+      }
     }
   }
 
