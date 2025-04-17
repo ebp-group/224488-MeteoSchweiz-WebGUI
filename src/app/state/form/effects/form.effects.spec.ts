@@ -153,17 +153,7 @@ describe('FormEffects', () => {
   });
 
   describe('autoSelectCollection', () => {
-    it('should dispatch selectCollection if only a single station is left when filtered by parameter groups', (done: DoneFn) => {
-      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [testStation]);
-
-      actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
-      autoSelectFirstCollection(actions$, store).subscribe((action) => {
-        expect(action).toEqual(formActions.setSelectedCollection({collection: 'a'}));
-        done();
-      });
-    });
-
-    it('should dispatch selectCollection with the first station if multiple station are left when filtered by parameter groups', (done: DoneFn) => {
+    it('should dispatch selectCollection with the first station if some stations are left when filtered by parameter groups', (done: DoneFn) => {
       store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [
         {...testStation, collection: 'first'},
         {...testStation, collection: 'second'},
@@ -183,6 +173,24 @@ describe('FormEffects', () => {
       autoSelectFirstCollection(actions$, store).subscribe((action) => {
         expect(action).toEqual(formActions.setSelectedCollection({collection: null}));
         done();
+      });
+    });
+
+    it('should not dispatch selectCollection if a collection is already selected', (done: DoneFn) => {
+      store.overrideSelector(selectSelectedStationsFilteredBySelectedParameterGroup, [
+        {...testStation, collection: 'first'},
+        {...testStation, collection: 'second'},
+      ]);
+
+      actions$ = of(formActions.setSelectedStationId({stationId: '2'}));
+      store.overrideSelector(formFeature.selectSelectedCollection, 'alreadySelected');
+      autoSelectFirstCollection(actions$, store).subscribe({
+        next: (action) => {
+          fail(`Expected no action to be dispatched, but got: ${action.type}`);
+        },
+        complete: () => {
+          done();
+        },
       });
     });
   });
