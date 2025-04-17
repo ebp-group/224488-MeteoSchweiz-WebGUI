@@ -1,3 +1,4 @@
+import {FormStep} from '../../../shared/enums/form-step.enum';
 import {DateRange} from '../../../shared/models/date-range';
 import {DataInterval} from '../../../shared/models/interval';
 import {MeasurementDataType} from '../../../shared/models/measurement-data-type';
@@ -12,4 +13,5 @@ export interface FormState {
   selectedCollection: string | null;
   selectedHistoricalDateRange: DateRange | null;
   isParameterGroupStationAndCollectionInitialized: boolean;
+  initialStep: FormStep;
 }

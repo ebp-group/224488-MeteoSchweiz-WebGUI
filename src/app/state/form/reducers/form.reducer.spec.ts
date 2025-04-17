@@ -1,3 +1,4 @@
+import {FormStep} from '../../../shared/enums/form-step.enum';
 import {formActions} from '../actions/form.actions';
 import {FormState} from '../states/form.state';
 import {formFeature, initialState} from './form.reducer';
@@ -15,6 +16,7 @@ describe('Form Reducer', () => {
       selectedCollection: 'collection',
       selectedHistoricalDateRange: {start: new Date(), end: new Date()},
       isParameterGroupStationAndCollectionInitialized: false,
+      initialStep: FormStep.StationSelection,
     };
   });
 
@@ -59,7 +61,7 @@ describe('Form Reducer', () => {
     });
   });
 
-  it('should initialize parameter group and station ID and collection without changing anything else', () => {
+  it('should initialize parameter group and station ID, collection and initial step without changing anything else', () => {
     const action = formActions.initializeSelectedParameterGroupAndStationIdAndCollection({
       parameterGroupId: 'paramGroupTest',
       stationId: 'stationTest',
@@ -74,10 +76,11 @@ describe('Form Reducer', () => {
       selectedStationId: 'stationTest',
       selectedCollection: 'collectionTest',
       isParameterGroupStationAndCollectionInitialized: true,
+      initialStep: FormStep.IntervalSelection,
     });
   });
 
-  it('should initialize data interval, time range and historical date range without changing anything else', () => {
+  it('should initialize data interval, time range, historical date range and initial step without changing anything else', () => {
     const action = formActions.initializeSelectedDataIntervalAndTimeRange({
       dataInterval: 'monthly',
       timeRange: 'now',
@@ -91,6 +94,7 @@ describe('Form Reducer', () => {
       selectedDataInterval: 'monthly',
       selectedTimeRange: 'now',
       selectedHistoricalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
+      initialStep: FormStep.SelectionReview,
     });
   });
 
