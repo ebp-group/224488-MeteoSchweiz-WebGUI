@@ -18,6 +18,7 @@
   "form.stepper.download.label": "Die Daten herunterladen",
   "form.time-range.now": "Heute",
   "form.time-range.now.explanation": "Alle Werte seit Mitternacht",
+  "form.selection-not-available": "Nicht verfügbar für Ihre Auswahl",
   "form.time-range.recent": "Aktuelles Jahr",
   "form.time-range.recent.tooltip": "Enthält bis Ende Februar die Daten des Vorjahres",
   "form.time-range.recent.explanation": "Alle Werte bis gestern",
@@ -61,6 +62,7 @@
   "form.collection-selection.title": "Messnetz wählen",
   "station.load.error": "Missing value for 'station.load.error'",
   "stac.load.error": "Es konnten keine Assets für collectionId '{{collectionId}}' und stationId '{{stationId}}' abgerufen werden",
+  "stac.csv.error": "Laden von '{{csvFile}}' fehlgeschlagen",
   "parameter.load.error": "Fehler beim Laden der Parameter",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",
@@ -74,6 +76,5 @@
   "form.interval.hourly": "Stündlich",
   "form.interval.daily": "Täglich",
   "form.interval.monthly": "Monatlich",
-  "form.interval.yearly": "Jährlich",
-  "form.selection-not-available": "Nicht verfügbar für Ihre Auswahl"
+  "form.interval.yearly": "Jährlich"
 }

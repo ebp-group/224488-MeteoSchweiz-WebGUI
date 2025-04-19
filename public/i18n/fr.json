@@ -18,6 +18,7 @@
   "form.stepper.download.label": "Missing value for 'form.stepper.download.label'",
   "form.time-range.now": "Missing value for 'form.time-range.now'",
   "form.time-range.now.explanation": "Missing value for 'form.time-range.now.explanation'",
+  "form.selection-not-available": "Missing value for 'form.selection-not-available'",
   "form.time-range.recent": "Missing value for 'form.time-range.recent'",
   "form.time-range.recent.tooltip": "Missing value for 'form.time-range.recent.tooltip'",
   "form.time-range.recent.explanation": "Missing value for 'form.time-range.recent.explanation'",
@@ -61,6 +62,7 @@
   "form.collection-selection.title": "Missing value for 'form.collection-selection.title'",
   "station.load.error": "Missing value for 'station.load.error'",
   "stac.load.error": "Échec de la récupération des actifs pour collectionId '{{collectionId}}' et stationId '{{stationId}}'",
+  "stac.csv.error": "Échec du chargement de {{csvFile}}",
   "parameter.load.error": "Erreur lors du chargement des paramètres",
   "parameter-station-mapping.load.error": "Missing value for 'parameter-station-mapping.load.error'",
   "map.load.error": "Missing value for 'map.load.error'",
@@ -74,6 +76,5 @@
   "form.interval.hourly": "Missing value for 'form.interval.hourly'",
   "form.interval.daily": "Missing value for 'form.interval.daily'",
   "form.interval.monthly": "Missing value for 'form.interval.monthly'",
-  "form.interval.yearly": "Missing value for 'form.interval.yearly'",
-  "form.selection-not-available": "Missing value for 'form.selection-not-available'"
+  "form.interval.yearly": "Missing value for 'form.interval.yearly'"
 }
