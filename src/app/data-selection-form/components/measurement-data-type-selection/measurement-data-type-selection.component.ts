@@ -5,13 +5,14 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule} from '@jsverse/transloco';
 import {marker} from '@jsverse/transloco-keys-manager/marker';
 import {Store} from '@ngrx/store';
+import {ExternalLinkComponent} from '../../../shared/components/external-link/external-link.component';
 import {MeasurementDataType, measurementDataTypes} from '../../../shared/models/measurement-data-type';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
 
 @Component({
   selector: 'app-measurement-data-type-selection',
-  imports: [TranslocoModule, MatButtonToggleGroup, MatButtonToggle, MatStepperModule, AsyncPipe],
+  imports: [TranslocoModule, MatButtonToggleGroup, MatButtonToggle, MatStepperModule, AsyncPipe, ExternalLinkComponent],
   templateUrl: './measurement-data-type-selection.component.html',
   styleUrl: './measurement-data-type-selection.component.scss',
 })

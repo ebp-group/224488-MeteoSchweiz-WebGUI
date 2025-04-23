@@ -3,9 +3,7 @@
     <h5 class="station-info__title">{{ station().displayName }}</h5>
     <span> {{ station().elevation }} {{ t('form.station.selection-info.elevation-unit') }} </span>
     @if (station().url | translatableString: currentLanguage; as url) {
-      <a class="station-info__link" [href]="url" rel="noopener noreferrer" target="_blank">
-        {{ t('form.station.selection-info.more-info') }}
-      </a>
+      <app-external-link class="station-info__link" [href]="url" [text]="t('form.station.selection-info.more-info')"></app-external-link>
     }
     <h5 class="station-info__parameter-title">{{ t('form.collection-selection.parameter-groups') }}</h5>
     <mat-list class="station-info__parameter-groups">
