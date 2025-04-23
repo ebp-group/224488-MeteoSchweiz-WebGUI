@@ -13,3 +13,13 @@ export class StacLoadError extends FatalError {
     };
   }
 }
+
+export class StacCsvError extends FatalError {
+  public override message = marker('stac.csv.error');
+  public override translationArguments: Record<'csvFile', string>;
+
+  constructor(csvFile: string, originalError?: unknown) {
+    super(originalError);
+    this.translationArguments = {csvFile};
+  }
+}
