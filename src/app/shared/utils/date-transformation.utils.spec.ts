@@ -7,7 +7,7 @@ describe('transformDateToString', () => {
     expect(result).toBe('2010');
   });
 
-  it('returns a formatted date string for a date object ignoring time (HH:mm:ss...) data', () => {
+  it('returns a formatted date string for a date object ignoring days and months, as well as time (HH:mm:ss...) data', () => {
     const date = new Date(2023, 11, 31, 23, 59, 59);
     const result = transformDateToString(date);
     expect(result).toBe('2023');

@@ -1,5 +1,5 @@
 /**
- * Transforms a date object into a string in the format 'YYYYMMDD'.
+ * Transforms a date object into a string in the format 'YYYY'.
  */
 export function transformDateToString(date: Date): string {
   const year = date.getFullYear();
@@ -7,7 +7,7 @@ export function transformDateToString(date: Date): string {
 }
 
 /**
- * Transforms a string in the format 'YYYYMMDD' into a date object; returns undefined if the input is either undefined or incorrectly formatted.
+ * Transforms a string in the format 'YYYY' into a date object; returns undefined if the input is either undefined or incorrectly formatted.
  */
 export function transformStringToDate(date: string | undefined): Date | undefined {
   if (!date || date.length < 4) {
