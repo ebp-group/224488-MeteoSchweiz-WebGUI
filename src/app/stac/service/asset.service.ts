@@ -18,7 +18,7 @@ export class AssetService {
   private readonly errorHandler = inject(ErrorHandler);
 
   private readonly stationParseRegex =
-    /^(?<collectionId>[^_]+)_(?<stationId>[^_]+)_(?<interval>[^_]+)(?:_(?<timeRange>[^_]+)(?:_(?<fromDate>\d{8})_(?<toDate>\d{8}))?)?\.csv$/;
+    /^(?<collectionId>[^_]+)_(?<stationId>[^_]+)_(?<interval>[^_]+)(?:_(?<timeRange>[^_]+)(?:_(?<fromDate>\d{4})-(?<toDate>\d{4}))?)?\.csv$/;
 
   public async loadCollectionAssets(collections: string[]): Promise<CollectionAsset[]> {
     const assets = await Promise.all(

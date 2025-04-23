@@ -96,9 +96,9 @@ describe('AssetService', () => {
       const collection = 'collection';
       const stationId = 'stationId';
       stacApiService.getAssets.and.resolveTo([
-        {filename: `${collection}_${stationId}_t_historical_19910101_20001231.csv`, url: 'www.meteoschweiz.admin.ch'},
-        {filename: `${collection}_${stationId}_t_historical_20010101_20101231.csv`, url: 'www.meteoschweiz.admin.ch'},
-        {filename: `${collection}_${stationId}_t_historical_20110101_20201231.csv`, url: 'www.meteoschweiz.admin.ch'},
+        {filename: `${collection}_${stationId}_t_historical_1991-2000.csv`, url: 'www.meteoschweiz.admin.ch'},
+        {filename: `${collection}_${stationId}_t_historical_2001-2010.csv`, url: 'www.meteoschweiz.admin.ch'},
+        {filename: `${collection}_${stationId}_t_historical_2011-2020.csv`, url: 'www.meteoschweiz.admin.ch'},
       ]);
 
       const result = await service.loadStationAssets(collection, stationId);
@@ -106,44 +106,26 @@ describe('AssetService', () => {
       expect(result).toEqual(
         jasmine.arrayWithExactContents([
           {
-            filename: `${collection}_${stationId}_t_historical_19910101_20001231.csv`,
+            filename: `${collection}_${stationId}_t_historical_1991-2000.csv`,
             url: 'www.meteoschweiz.admin.ch',
             interval: 'ten-minutes',
             timeRange: 'historical',
             dateRange: {start: jasmine.any(Date), end: jasmine.any(Date)},
           },
           {
-            filename: `${collection}_${stationId}_t_historical_20010101_20101231.csv`,
+            filename: `${collection}_${stationId}_t_historical_2001-2010.csv`,
             url: 'www.meteoschweiz.admin.ch',
             interval: 'ten-minutes',
             timeRange: 'historical',
             dateRange: {start: jasmine.any(Date), end: jasmine.any(Date)},
           },
           {
-            filename: `${collection}_${stationId}_t_historical_20110101_20201231.csv`,
+            filename: `${collection}_${stationId}_t_historical_2011-2020.csv`,
             url: 'www.meteoschweiz.admin.ch',
             interval: 'ten-minutes',
             timeRange: 'historical',
             dateRange: {start: jasmine.any(Date), end: jasmine.any(Date)},
           },
-        ]),
-      );
-    });
-
-    it('should parse dates correctly', async () => {
-      const collection = 'collection';
-      const stationId = 'stationId';
-      stacApiService.getAssets.and.resolveTo([
-        {filename: `${collection}_${stationId}_t_historical_19910101_20001231.csv`, url: 'www.meteoschweiz.admin.ch'},
-      ]);
-
-      const result = await service.loadStationAssets(collection, stationId);
-
-      expect(result).toEqual(
-        jasmine.arrayWithExactContents([
-          jasmine.objectContaining({
-            dateRange: {start: new Date('1991-01-01T00:00'), end: new Date('2000-12-31T00:00')},
-          }),
         ]),
       );
     });

@@ -53,7 +53,7 @@
       </p>
     </div>
     @for (range of historicalDateRanges$ | async; track $index) {
-      <mat-radio-button [value]="range">{{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }}</mat-radio-button>
+      <mat-radio-button [value]="range">{{ range.start | date: 'yyyy' }} - {{ range.end | date: 'yyyy' }}</mat-radio-button>
     }
   }
 </mat-radio-group>
