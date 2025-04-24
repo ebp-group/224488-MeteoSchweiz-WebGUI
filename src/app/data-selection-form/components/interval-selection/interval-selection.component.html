@@ -1,7 +1,7 @@
 <mat-radio-group
   class="interval-selection"
   *transloco="let t"
-  [attr.aria-label]="t('form.interval.label')"
+  [attr.aria-label]="t('form.interval.aria-label')"
   [value]="selectedDataInterval$ | async"
   (change)="setSelectedInterval($event.value)"
 >
