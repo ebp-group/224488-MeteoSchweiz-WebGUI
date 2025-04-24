@@ -1,4 +1,4 @@
-import {FormStep} from '../../../shared/enums/form-step.enum';
+import {formStepConstants} from '../../../shared/constants/form-step.constant';
 import {formActions} from '../actions/form.actions';
 import {FormState} from '../states/form.state';
 import {formFeature, initialState} from './form.reducer';
@@ -16,7 +16,7 @@ describe('Form Reducer', () => {
       selectedCollection: 'collection',
       selectedHistoricalDateRange: {start: new Date(), end: new Date()},
       isParameterGroupStationAndCollectionInitialized: false,
-      initialStep: FormStep.StationSelection,
+      initialStep: formStepConstants.STATION_SELECTION,
     };
   });
 
@@ -76,7 +76,7 @@ describe('Form Reducer', () => {
       selectedStationId: 'stationTest',
       selectedCollection: 'collectionTest',
       isParameterGroupStationAndCollectionInitialized: true,
-      initialStep: FormStep.IntervalSelection,
+      initialStep: formStepConstants.INTERVAL_SELECTION,
     });
   });
 
@@ -94,7 +94,7 @@ describe('Form Reducer', () => {
       selectedDataInterval: 'monthly',
       selectedTimeRange: 'now',
       selectedHistoricalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
-      initialStep: FormStep.SelectionReview,
+      initialStep: formStepConstants.SELECTION_REVIEW,
     });
   });
 

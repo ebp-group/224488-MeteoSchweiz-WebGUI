@@ -1,6 +1,6 @@
 import {createFeature, createReducer, on} from '@ngrx/store';
 import {collectionConfig} from '../../../shared/configs/collections.config';
-import {FormStep} from '../../../shared/enums/form-step.enum';
+import {formStepConstants} from '../../../shared/constants/form-step.constant';
 import {formActions} from '../actions/form.actions';
 import {FormState} from '../states/form.state';
 
@@ -15,7 +15,7 @@ export const initialState: FormState = {
   selectedCollection: null,
   selectedHistoricalDateRange: null,
   isParameterGroupStationAndCollectionInitialized: false,
-  initialStep: FormStep.StationSelection,
+  initialStep: formStepConstants.STATION_SELECTION,
 };
 
 export const formFeature = createFeature({
@@ -34,15 +34,15 @@ export const formFeature = createFeature({
         selectedStationId: stationId,
         selectedCollection: collection,
         isParameterGroupStationAndCollectionInitialized: true,
-        initialStep: stationId != null && collection != null ? FormStep.IntervalSelection : FormStep.StationSelection,
+        initialStep: stationId != null && collection != null ? formStepConstants.INTERVAL_SELECTION : formStepConstants.STATION_SELECTION,
       }),
     ),
     on(formActions.initializeSelectedDataIntervalAndTimeRange, (state, {dataInterval, timeRange, historicalDateRange}): FormState => {
       let initialStep = state.initialStep;
       if (dataInterval != null && timeRange != null) {
-        initialStep = FormStep.SelectionReview;
+        initialStep = formStepConstants.SELECTION_REVIEW;
       } else if (dataInterval != null) {
-        initialStep = FormStep.TimeRangeSelection;
+        initialStep = formStepConstants.TIME_RANGE_SELECTION;
       }
       return {
         ...state,

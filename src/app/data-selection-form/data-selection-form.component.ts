@@ -7,7 +7,6 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {debounceTime, Subscription, tap} from 'rxjs';
-import {FormStep} from '../shared/enums/form-step.enum';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
@@ -15,6 +14,7 @@ import {MeasurementDataTypeSelectionComponent} from './components/measurement-da
 import {SelectionReviewComponent} from './components/selection-review/selection-review.component';
 import {StationSelectionStepComponent} from './components/station-selection-step/station-selection-step.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
+import type {FormStep} from '../shared/constants/form-step.constant';
 
 @Component({
   selector: 'app-data-selection-form',
