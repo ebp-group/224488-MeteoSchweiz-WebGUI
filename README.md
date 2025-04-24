@@ -57,13 +57,13 @@ ng test
 To extract all translation keys from the source code, run:
 
 ```bash
-ng i18n:extract
+npm run i18n:extract
 ```
 
 And if you want to check if all keys are used and none missing, run:
 
 ```bash
-ng i18n:find
+npm run i18n:find
 ```
 
 ### Formatting and linting
@@ -71,25 +71,25 @@ ng i18n:find
 To format the code, you can use the following commands:
 
 ```bash
-ng format
+npm run format
 ```
 
 And if you want to check for formatting issues, run:
 
 ```bash
-ng format:check
+npm run format:check
 ```
 
 To check the linting of the code, you can use the following command:
 
 ```bash
-ng lint
+npm run lint
 ```
 
 as well as
 
 ```bash
-type:check
+npm run type:check
 ```
 
 ### STAC type generation
@@ -97,7 +97,7 @@ type:check
 To generate the STAC types, you can use the following command:
 
 ```bash
-ng generate-stac-api
+npm run generate-stac-api
 ```
 
 This will generate the STAC types based on the current configuration. The generated types will be stored in the `src/app/stac/generated`
@@ -142,12 +142,16 @@ Our githooks check for both the branch name and the commit message, but they wil
 match. This is because there are times when you _might_ want to deviate from these rules.
 ES Lint is enabled in the precommit hook. This means that every commit will be checked for linting errors. If there are any, the commit will
 be rejected.
-Either fix the error (unused variable or import, etc.) or disable the rule for the specific line or file (`any` in `.spec.ts` files).
-In case of the latter, add a comment explaining why the rule was disabled. Example for such a case:
+Make sure to fix the error (unused variable or import, etc.) and try to commit again. In rare cases there might be a reason to disable the
+linter rule for a specific region of a file. This should only be done in exceptional cases, like a library behaving in a way that requires
+it, and should be avoided if possible. The linter is helping us keeping the code quality high, so disabling them introduces code smell. In
+case you have to disable a rule always add a comment explaining why.
+
+Example for such a rare case:
 
 ```typescript
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Allow "any" in test file
-const action = {} as any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- The interface definition of angular error-handlers defines `any` as an argument.
+public handleError(error: any): void {
 ```
 
 The rules are defined in the `.eslintrc.config.mjs` file.
