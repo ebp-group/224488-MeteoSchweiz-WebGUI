@@ -1,6 +1,6 @@
 <div class="data-selection-form" *transloco="let t">
   <app-measurement-data-type-selection></app-measurement-data-type-selection>
-  <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true" #stepper>
+  <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true">
     <ng-template matStepperIcon="edit">
       <mat-icon>check</mat-icon>
     </ng-template>
@@ -28,6 +28,7 @@
     @let selectedSelectedDataInterval = selectedSelectedDataInterval$ | async;
     <mat-step [completed]="selectedSelectedDataInterval !== null">
       <ng-template matStepLabel>
+        <!-- t(form.interval.ten-minutes, form.interval.hourly, form.interval.daily, form.interval.monthly, form.interval.yearly) -->
         <app-step-label
           [title]="t('form.stepper.interval.label')"
           [description]="t('form.stepper.interval.label.explanation')"
@@ -53,6 +54,7 @@
     @let selectedSelectedTimeRange = selectedSelectedTimeRange$ | async;
     <mat-step [completed]="selectedSelectedTimeRange !== null">
       <ng-template matStepLabel>
+        <!-- t(form.time-range.now, form.time-range.recent, form.time-range.historical) -->
         <app-step-label
           [title]="t('form.stepper.time-range.label')"
           [currentValue]="selectedSelectedTimeRange ? t('form.time-range.' + selectedSelectedTimeRange) : undefined"
