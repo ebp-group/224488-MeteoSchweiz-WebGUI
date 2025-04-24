@@ -76,7 +76,12 @@
       </div>
     </mat-step>
     <mat-step [completed]="selectedSelectedTimeRange !== null">
-      <ng-template matStepLabel><app-step-label [title]="t('form.stepper.selection-review.label')"></app-step-label></ng-template>
+      <ng-template matStepLabel>
+        <app-step-label
+          [title]="t('form.stepper.selection-review.label')"
+          [description]="t('form.stepper.selection-review.label.explanation')"
+        ></app-step-label>
+      </ng-template>
       <app-selection-review></app-selection-review>
       <div class="data-selection-form__stepper__step-control">
         <button class="data-selection-form__stepper__step-control__back-button" mat-flat-button matStepperPrevious>
