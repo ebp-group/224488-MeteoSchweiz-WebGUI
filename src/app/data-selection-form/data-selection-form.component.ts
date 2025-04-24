@@ -14,6 +14,7 @@ import {MeasurementDataTypeSelectionComponent} from './components/measurement-da
 import {SelectionReviewComponent} from './components/selection-review/selection-review.component';
 import {StationSelectionStepComponent} from './components/station-selection-step/station-selection-step.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
+import {dataSelectionFormConstants} from './constants/data-selection-form.constant';
 import type {FormStep} from '../shared/constants/form-step.constant';
 
 @Component({
@@ -42,7 +43,6 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
-  private readonly initialStepDebounceTimeInMs = 100 as const;
   private readonly subscriptions: Subscription = new Subscription();
 
   public ngAfterViewInit(): void {
@@ -58,7 +58,7 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
         .select(formFeature.selectInitialStep)
         .pipe(
           // wait for all collections/assets to be loaded
-          debounceTime(this.initialStepDebounceTimeInMs),
+          debounceTime(dataSelectionFormConstants.INITIAL_STEP_DEBOUNCE_TIME_IN_MS),
           tap((initialStep) => this.setSelectedStep(initialStep)),
         )
         .subscribe(),
