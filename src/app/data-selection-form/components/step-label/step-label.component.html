@@ -1,0 +1,15 @@
+<div class="step-label">
+  @if (currentValue()) {
+    <span>{{ title() }}: {{ currentValue() }}</span>
+  } @else {
+    <span>{{ title() }}</span>
+  }
+  @if (description()) {
+    <span>
+      <small>{{ description() }}</small>
+      @if (descriptionInfoTooltip()) {
+        <mat-icon class="step-label__tooltip-icon" [matTooltip]="descriptionInfoTooltip()">info_outline</mat-icon>
+      }
+    </span>
+  }
+</div>

@@ -1,57 +1,100 @@
 <div class="data-selection-form" *transloco="let t">
   <app-measurement-data-type-selection></app-measurement-data-type-selection>
-  <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true" #stepper>
-    <mat-step [completed]="(selectedCollection$ | async) !== null">
+  <mat-vertical-stepper class="data-selection-form__stepper" [linear]="true">
+    <ng-template matStepperIcon="edit">
+      <mat-icon>check</mat-icon>
+    </ng-template>
+    @let selectedCollection = selectedCollection$ | async;
+    <mat-step [completed]="selectedCollection !== null">
       <ng-template matStepLabel>
-        {{ t('form.stepper.station.label') }}<br /><small>{{ t('form.stepper.station.label.explanation') }}</small>
+        <app-step-label
+          [title]="t('form.stepper.station.label')"
+          [description]="t('form.stepper.station.label.explanation')"
+          [currentValue]="(selectedStationForCollection$ | async)?.displayName"
+        ></app-step-label>
       </ng-template>
       <app-station-selection-step></app-station-selection-step>
-      <div>
-        <button mat-button matStepperNext type="button" [disabled]="(selectedCollection$ | async) === null">
+      <div class="data-selection-form__stepper__step-control">
+        <button
+          class="data-selection-form__stepper__step-control__next-button"
+          mat-flat-button
+          matStepperNext
+          [disabled]="(selectedCollection$ | async) === null"
+        >
           {{ t('form.stepper.next') }}
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedDataInterval$ | async) !== null">
+    @let selectedSelectedDataInterval = selectedSelectedDataInterval$ | async;
+    <mat-step [completed]="selectedSelectedDataInterval !== null">
       <ng-template matStepLabel>
-        {{ t('form.stepper.interval.label') }}<br /><small>{{ t('form.stepper.interval.label.explanation') }}</small>
-        <mat-icon class="data-selection-form__stepper__tooltip-icon" [matTooltip]="t('form.stepper.interval.label.tooltip')"
-          >info_outline</mat-icon
-        >
+        <!-- t(form.interval.ten-minutes, form.interval.hourly, form.interval.daily, form.interval.monthly, form.interval.yearly) -->
+        <app-step-label
+          [title]="t('form.stepper.interval.label')"
+          [description]="t('form.stepper.interval.label.explanation')"
+          [descriptionInfoTooltip]="t('form.stepper.interval.label.tooltip')"
+          [currentValue]="selectedSelectedDataInterval ? t('form.interval.' + selectedSelectedDataInterval) : undefined"
+        ></app-step-label>
       </ng-template>
       <app-interval-selection></app-interval-selection>
-      <div>
-        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
-        <button mat-button matStepperNext type="button" [disabled]="(selectedSelectedDataInterval$ | async) === null">
+      <div class="data-selection-form__stepper__step-control">
+        <button class="data-selection-form__stepper__step-control__back-button" mat-flat-button matStepperPrevious>
+          {{ t('form.stepper.back') }}
+        </button>
+        <button
+          class="data-selection-form__stepper__step-control__next-button"
+          mat-flat-button
+          matStepperNext
+          [disabled]="(selectedSelectedDataInterval$ | async) === null"
+        >
           {{ t('form.stepper.next') }}
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.time-range.label') }}</ng-template>
+    @let selectedSelectedTimeRange = selectedSelectedTimeRange$ | async;
+    <mat-step [completed]="selectedSelectedTimeRange !== null">
+      <ng-template matStepLabel>
+        <!-- t(form.time-range.now, form.time-range.recent, form.time-range.historical) -->
+        <app-step-label
+          [title]="t('form.stepper.time-range.label')"
+          [currentValue]="selectedSelectedTimeRange ? t('form.time-range.' + selectedSelectedTimeRange) : undefined"
+        ></app-step-label>
+      </ng-template>
       <app-time-range-selection></app-time-range-selection>
-      <div>
-        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
-        <button mat-button matStepperNext type="button" [disabled]="(selectedSelectedTimeRange$ | async) === null">
+      <div class="data-selection-form__stepper__step-control">
+        <button class="data-selection-form__stepper__step-control__back-button" mat-flat-button matStepperPrevious>
+          {{ t('form.stepper.back') }}
+        </button>
+        <button
+          class="data-selection-form__stepper__step-control__next-button"
+          mat-flat-button
+          matStepperNext
+          [disabled]="(selectedSelectedTimeRange$ | async) === null"
+        >
           {{ t('form.stepper.next') }}
         </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel
-        >{{ t('form.stepper.selection-review.label') }}<br /><small>{{
-          t('form.stepper.selection-review.label.explanation')
-        }}</small></ng-template
-      >
+    <mat-step [completed]="selectedSelectedTimeRange !== null">
+      <ng-template matStepLabel>
+        <app-step-label
+          [title]="t('form.stepper.selection-review.label')"
+          [description]="t('form.stepper.selection-review.label.explanation')"
+        ></app-step-label>
+      </ng-template>
       <app-selection-review></app-selection-review>
-      <div>
-        <button mat-button matStepperPrevious type="button">{{ t('form.stepper.back') }}</button>
-        <button mat-button matStepperNext type="button">{{ t('form.stepper.next') }}</button>
+      <div class="data-selection-form__stepper__step-control">
+        <button class="data-selection-form__stepper__step-control__back-button" mat-flat-button matStepperPrevious>
+          {{ t('form.stepper.back') }}
+        </button>
+        <button class="data-selection-form__stepper__step-control__next-button" mat-flat-button matStepperNext>
+          {{ t('form.stepper.next') }}
+        </button>
       </div>
     </mat-step>
-    <mat-step [completed]="(selectedSelectedTimeRange$ | async) !== null">
-      <ng-template matStepLabel>{{ t('form.stepper.download.label') }}</ng-template>
-      <app-download-asset> </app-download-asset>
+    <mat-step [completed]="selectedSelectedTimeRange !== null">
+      <ng-template matStepLabel><app-step-label [title]="t('form.stepper.download.label')"></app-step-label></ng-template>
+      <app-download-asset></app-download-asset>
     </mat-step>
   </mat-vertical-stepper>
 </div>
