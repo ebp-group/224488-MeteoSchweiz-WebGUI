@@ -1,8 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {TranslocoService} from '@jsverse/transloco';
-import {routeParamConstants} from '../shared/constants/route-param.constants';
-import {Page} from '../shared/enums/page.enum';
+import {pageConstants} from '../shared/constants/page.constant';
+import {routeParamConstants} from '../shared/constants/route-param.constant';
 import {FatalError, RecoverableError, SilentError} from '../shared/errors/base.error';
 import {AngularDevModeService} from '../shared/services/angular-dev-mode.service';
 import {ErrorHandlerService} from './error-handler.service';
@@ -72,7 +72,7 @@ describe('ErrorHandlerService', () => {
 
     service.handleError(testError);
 
-    expect(routerSpy.navigate).toHaveBeenCalledOnceWith([Page.Error], {
+    expect(routerSpy.navigate).toHaveBeenCalledOnceWith([pageConstants.ERROR], {
       queryParams: {[routeParamConstants.ERROR]: testErrorMessage},
       skipLocationChange: true,
     });
@@ -84,7 +84,7 @@ describe('ErrorHandlerService', () => {
 
     service.handleError(testError);
 
-    expect(routerSpy.navigate).toHaveBeenCalledOnceWith([Page.Error], {
+    expect(routerSpy.navigate).toHaveBeenCalledOnceWith([pageConstants.ERROR], {
       queryParams: {[routeParamConstants.ERROR]: testErrorMessage},
       skipLocationChange: true,
     });

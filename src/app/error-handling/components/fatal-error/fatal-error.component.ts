@@ -3,7 +3,7 @@ import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Subscription, tap} from 'rxjs';
-import {routeParamConstants} from '../../../shared/constants/route-param.constants';
+import {routeParamConstants} from '../../../shared/constants/route-param.constant';
 
 @Component({
   selector: 'app-fatal-error',

@@ -6,7 +6,7 @@ import {MatStepper, MatStepperModule} from '@angular/material/stepper';
 import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
-import {Subscription, tap} from 'rxjs';
+import {debounceTime, Subscription, tap} from 'rxjs';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
@@ -14,6 +14,8 @@ import {MeasurementDataTypeSelectionComponent} from './components/measurement-da
 import {SelectionReviewComponent} from './components/selection-review/selection-review.component';
 import {StationSelectionStepComponent} from './components/station-selection-step/station-selection-step.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
+import {dataSelectionFormConstants} from './constants/data-selection-form.constant';
+import type {FormStep} from '../shared/constants/form-step.constant';
 
 @Component({
   selector: 'app-data-selection-form',
@@ -35,14 +37,13 @@ import {TimeRangeSelectionComponent} from './components/time-range-selection/tim
   styleUrl: './data-selection-form.component.scss',
 })
 export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
-  @ViewChild(MatStepper) private stepper: MatStepper | undefined;
-
   private readonly store = inject(Store);
-  private readonly subscriptions: Subscription = new Subscription();
 
+  @ViewChild(MatStepper) private readonly stepper: MatStepper | undefined;
   protected readonly selectedSelectedDataInterval$ = this.store.select(formFeature.selectSelectedDataInterval);
   protected readonly selectedSelectedTimeRange$ = this.store.select(formFeature.selectSelectedTimeRange);
   protected readonly selectedCollection$ = this.store.select(formFeature.selectSelectedCollection);
+  private readonly subscriptions: Subscription = new Subscription();
 
   public ngAfterViewInit(): void {
     this.subscriptions.add(
@@ -51,9 +52,27 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
         .pipe(tap(() => this.stepper?.reset()))
         .subscribe(),
     );
+
+    this.subscriptions.add(
+      this.store
+        .select(formFeature.selectInitialStep)
+        .pipe(
+          // wait for all collections/assets to be loaded
+          debounceTime(dataSelectionFormConstants.INITIAL_STEP_DEBOUNCE_TIME_IN_MS),
+          tap((initialStep) => this.setSelectedStep(initialStep)),
+        )
+        .subscribe(),
+    );
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private setSelectedStep(step: FormStep): void {
+    const stepper = this.stepper;
+    if (stepper) {
+      stepper.selectedIndex = step;
+    }
   }
 }
