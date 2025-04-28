@@ -1,5 +1,6 @@
 import {Location} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {MatButton} from '@angular/material/button';
 import {ActivatedRoute} from '@angular/router';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Subscription, tap} from 'rxjs';
@@ -7,7 +8,7 @@ import {routeParamConstants} from '../../../shared/constants/route-param.constan
 
 @Component({
   selector: 'app-fatal-error',
-  imports: [TranslocoModule],
+  imports: [TranslocoModule, MatButton],
   templateUrl: './fatal-error.component.html',
   styleUrl: './fatal-error.component.scss',
 })

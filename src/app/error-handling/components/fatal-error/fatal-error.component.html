@@ -1,10 +1,14 @@
 <div class="fatal-error-page" *transloco="let t">
   <h1>{{ t('fatal-error-page.title') }}</h1>
-  <p>
-    {{ t('fatal-error-page.info') }}
-  </p>
-  @if (errorMessage) {
-    <p class="fatal-error-page__error-message">{{ t('fatal-error-page.error-message', {errorMessage}) }}</p>
-  }
-  <button (click)="forceRefresh()">{{ t('fatal-error-page.home') }}</button>
+  <div class="fatal-error-page__content">
+    <p>
+      {{ t('fatal-error-page.info') }}
+    </p>
+    @if (errorMessage) {
+      <p class="fatal-error-page__content__error-message">{{ t('fatal-error-page.error-message', {errorMessage}) }}</p>
+    }
+    <button mat-flat-button class="fatal-error-page__content__return-home-button" (click)="forceRefresh()">
+      {{ t('fatal-error-page.home') }}
+    </button>
+  </div>
 </div>
