@@ -4,6 +4,7 @@ import {Component, inject} from '@angular/core';
 import {MatMiniFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatInput} from '@angular/material/input';
+import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {selectSelectedAsset} from '../../../state/assets/selectors/asset.selectors';
@@ -12,7 +13,17 @@ import {DownloadAssetLinkComponent} from '../download-asset-link/download-asset-
 
 @Component({
   selector: 'app-download-asset',
-  imports: [TranslocoModule, AsyncPipe, DownloadAssetLinkComponent, MatInput, MatFormField, MatIcon, MatMiniFabButton, ClipboardModule],
+  imports: [
+    TranslocoModule,
+    AsyncPipe,
+    DownloadAssetLinkComponent,
+    MatInput,
+    MatFormField,
+    MatIcon,
+    MatMiniFabButton,
+    ClipboardModule,
+    MatTooltip,
+  ],
   templateUrl: './download-asset.component.html',
   styleUrl: './download-asset.component.scss',
 })

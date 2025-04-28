@@ -17,9 +17,27 @@ a {
       container-shape: 0,
     )
   );
+
+  @include mat.radio-overrides(
+    (
+      label-text-size: 16px,
+    )
+  );
 }
 
 mat-tooltip-component .mat-mdc-tooltip-surface {
   padding: 15px;
   max-width: 500px;
+}
+
+h4 {
+  font-size: 18px;
+  margin-top: 40px;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: 500;
 }

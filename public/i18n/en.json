@@ -58,6 +58,7 @@
   "form.download.stations-explanation": "List of all station abbreviations with name, canton, Wigos ID, station type, altitude, coordinates, orientation and URL of the station details pages",
   "form.download.inventory-explanation": "List of all stations and parameters with start and end date of the measurements",
   "form.download.copy-url": "Copy permanent download link",
+  "form.download.copy-url.tooltip": "Copy to clipboard",
   "form.download.download-programmatically-info": "Information on how you can obtain data automatically",
   "form.download.download-programmatically-info.url": "https://opendatadocs.meteoswiss.ch/general/download",
   "form.collection-selection.title": "Select measuring network",

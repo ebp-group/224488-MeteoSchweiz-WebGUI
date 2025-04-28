@@ -13,8 +13,13 @@
         selected-state-text-color: variables.$white,
         text-color: variables.$white,
         label-text-weight: normal,
+        label-text-size: 18px,
       )
     );
+
+    mat-button-toggle {
+      padding: 10px;
+    }
   }
 
   &__description {
@@ -23,7 +28,12 @@
     gap: 5px;
     margin-top: 20px;
     background-color: var(--mat-sys-inverse-primary);
-    padding: 20px 12px;
+    padding: 20px;
     box-sizing: border-box;
+    font-size: 16px;
+
+    &__link {
+      margin-top: 10px;
+    }
   }
 }

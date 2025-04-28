@@ -58,6 +58,7 @@
   "form.download.stations-explanation": "Liste aller Stationsabkürzungen mit Namen, Kanton, Wigos ID, Stationstyp, Höhe, Koordinaten, Ausrichtung und URL der Stationsdetailseiten",
   "form.download.inventory-explanation": "Liste aller Stationen und Parameter mit Start- und Enddatum der Messungen",
   "form.download.copy-url": "Permanenten Download-Link kopieren",
+  "form.download.copy-url.tooltip": "In die Zwischenablage kopieren",
   "form.download.download-programmatically-info": "Informationen, wie Sie Daten automatisch beziehen können",
   "form.download.download-programmatically-info.url": "https://opendatadocs.meteoswiss.ch/de/general/download",
   "form.collection-selection.title": "Messnetz wählen",

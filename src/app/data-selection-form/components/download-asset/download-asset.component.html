@@ -35,13 +35,16 @@
         <mat-form-field appearance="fill" class="download-asset__section__copy-link__link-url">
           <input matInput type="text" [value]="asset.url" readonly />
         </mat-form-field>
-        <button class="download-asset__section__copy-link__copy-button" mat-mini-fab [cdkCopyToClipboard]="asset.url">
+        <button
+          class="download-asset__section__copy-link__copy-button"
+          mat-mini-fab
+          [cdkCopyToClipboard]="asset.url"
+          [matTooltip]="t('form.download.copy-url.tooltip')"
+        >
           <mat-icon>content_copy</mat-icon>
         </button>
       </div>
-      <p class="download-asset__explanation">
-        <a [href]="t('form.download.download-programmatically-info.url')">{{ t('form.download.download-programmatically-info') }}</a>
-      </p>
+      <a [href]="t('form.download.download-programmatically-info.url')">{{ t('form.download.download-programmatically-info') }}</a>
     </div>
   }
 </div>
