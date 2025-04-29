@@ -189,6 +189,7 @@ describe('FormEffects', () => {
           fail(`Expected no action to be dispatched, but got: ${action.type}`);
         },
         complete: () => {
+          expect().nothing();
           done();
         },
       });

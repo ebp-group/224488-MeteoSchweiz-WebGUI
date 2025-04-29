@@ -10,7 +10,7 @@ import {formActions} from '../../form/actions/form.actions';
 import {formFeature} from '../../form/reducers/form.reducer';
 import {FormState} from '../../form/states/form.state';
 import {assetActions} from '../actions/asset.actions';
-import {failLoadingAssets, loadAssetsForStation} from './asset.effects';
+import {failLoadingAssets, loadAssetsForStation, triggerAssetLoadOnCollectionSelection} from './asset.effects';
 
 describe('AssetEffects', () => {
   let actions$: Observable<Action>;
@@ -40,14 +40,10 @@ describe('AssetEffects', () => {
           interval: 'monthly',
         },
       ];
-      store.overrideSelector(formFeature.selectFormState, {
-        selectedStationId: 'testStationId',
-        selectedCollection: 'testCollection',
-      } as FormState);
       spyOn(assetService, 'loadStationAssets').and.resolveTo(assets);
-      actions$ = of(formActions.setSelectedCollection({collection: 'testCollection'}));
+      actions$ = of(assetActions.loadAssetsForStation({stationId: 'testStationId', collection: 'testCollection'}));
 
-      loadAssetsForStation(actions$, store, assetService).subscribe((action) => {
+      loadAssetsForStation(actions$, assetService).subscribe((action) => {
         expect(assetService.loadStationAssets).toHaveBeenCalledOnceWith('testCollection', 'testStationId');
         expect(action).toEqual(assetActions.setLoadedAssets({assets}));
         done();
@@ -57,19 +53,30 @@ describe('AssetEffects', () => {
     it('should dispatch setAssetLoadingError if the service throws an error during loading', (done: DoneFn) => {
       const error = new Error('test');
       spyOn(assetService, 'loadStationAssets').and.rejectWith(error);
+      actions$ = of(assetActions.loadAssetsForStation({stationId: 'testStationId', collection: 'testCollection'}));
+
+      loadAssetsForStation(actions$, assetService).subscribe((action) => {
+        expect(action).toEqual(assetActions.setAssetLoadingError({error}));
+        done();
+      });
+    });
+  });
+
+  describe('triggerAssetLoadOnCollectionSelection', () => {
+    it('should dispatch loadAssetsForStation if a collection is selected', (done) => {
       store.overrideSelector(formFeature.selectFormState, {
         selectedStationId: 'testStationId',
         selectedCollection: 'testCollection',
       } as FormState);
       actions$ = of(formActions.setSelectedCollection({collection: 'testCollection'}));
 
-      loadAssetsForStation(actions$, store, assetService).subscribe((action) => {
-        expect(action).toEqual(assetActions.setAssetLoadingError({error}));
+      triggerAssetLoadOnCollectionSelection(actions$, store).subscribe((action) => {
+        expect(action).toEqual(assetActions.loadAssetsForStation({stationId: 'testStationId', collection: 'testCollection'}));
         done();
       });
     });
 
-    it('should call the assetService if the given stationId is null', (done) => {
+    it('should not dispatch loadAssetsForStation if the given stationId is null', (done) => {
       spyOn(assetService, 'loadStationAssets');
       store.overrideSelector(formFeature.selectFormState, {
         selectedStationId: null,
@@ -77,15 +84,18 @@ describe('AssetEffects', () => {
       } as FormState);
       actions$ = of(formActions.setSelectedCollection({collection: 'testCollection'}));
 
-      loadAssetsForStation(actions$, store, assetService).subscribe({
+      triggerAssetLoadOnCollectionSelection(actions$, store).subscribe({
         complete: () => {
-          expect(assetService.loadStationAssets).not.toHaveBeenCalled();
+          expect().nothing();
           done();
+        },
+        next: (action) => {
+          fail(`Expected no action to be dispatched, but got: ${action.type}`);
         },
       });
     });
 
-    it('should call the assetService if the given collection is null', (done) => {
+    it('should not dispatch loadAssetsForStation if the given collection is null', (done) => {
       spyOn(assetService, 'loadStationAssets');
       store.overrideSelector(formFeature.selectFormState, {
         selectedStationId: 'testStationId',
@@ -93,28 +103,33 @@ describe('AssetEffects', () => {
       } as FormState);
       actions$ = of(formActions.setSelectedCollection({collection: null}));
 
-      loadAssetsForStation(actions$, store, assetService).subscribe({
+      triggerAssetLoadOnCollectionSelection(actions$, store).subscribe({
         complete: () => {
-          expect(assetService.loadStationAssets).not.toHaveBeenCalled();
+          expect().nothing();
           done();
+        },
+        next: (action) => {
+          fail(`Expected no action to be dispatched, but got: ${action.type}`);
         },
       });
     });
   });
 
-  it('should throw a AssetLoadError after dispatching setAssetLoadingError', (done: DoneFn) => {
-    const error = new Error('My cabbages!!!');
-    const expectedError = new AssetLoadError(error);
+  describe('failLoadingAssets', () => {
+    it('should throw a AssetLoadError after dispatching setAssetLoadingError', (done: DoneFn) => {
+      const error = new Error('My cabbages!!!');
+      const expectedError = new AssetLoadError(error);
 
-    actions$ = of(assetActions.setAssetLoadingError({error}));
-    failLoadingAssets(actions$)
-      .pipe(
-        catchError((caughtError: unknown) => {
-          OpendataExplorerRuntimeErrorTestUtil.expectToDeepEqual(caughtError, expectedError);
-          done();
-          return EMPTY;
-        }),
-      )
-      .subscribe();
+      actions$ = of(assetActions.setAssetLoadingError({error}));
+      failLoadingAssets(actions$)
+        .pipe(
+          catchError((caughtError: unknown) => {
+            OpendataExplorerRuntimeErrorTestUtil.expectToDeepEqual(caughtError, expectedError);
+            done();
+            return EMPTY;
+          }),
+        )
+        .subscribe();
+    });
   });
 });
