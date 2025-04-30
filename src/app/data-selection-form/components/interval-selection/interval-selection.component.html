@@ -1,18 +1,24 @@
-<mat-radio-group
-  class="interval-selection"
-  *transloco="let t"
-  [attr.aria-label]="t('form.interval.aria-label')"
-  [value]="selectedDataInterval$ | async"
-  (change)="setSelectedInterval($event.value)"
->
-  @for (dataInterval of allDataIntervals; track dataInterval.interval) {
-    @let isDataIntervalIncluded = availableDataIntervals$ | async | includes: dataInterval.interval;
-    <div
-      class="interval-selection__selection"
-      [matTooltip]="t('form.selection-not-available')"
-      [matTooltipDisabled]="isDataIntervalIncluded"
-    >
-      <mat-radio-button [value]="dataInterval.interval" [disabled]="!isDataIntervalIncluded">{{ t(dataInterval.label) }}</mat-radio-button>
-    </div>
-  }
-</mat-radio-group>
+@if ((assetLoadingState$ | async) !== 'loaded') {
+  <app-loading-spinner class="loading-indicator"></app-loading-spinner>
+} @else {
+  <mat-radio-group
+    class="interval-selection"
+    *transloco="let t"
+    [attr.aria-label]="t('form.interval.aria-label')"
+    [value]="selectedDataInterval$ | async"
+    (change)="setSelectedInterval($event.value)"
+  >
+    @for (dataInterval of allDataIntervals; track dataInterval.interval) {
+      @let isDataIntervalIncluded = availableDataIntervals$ | async | includes: dataInterval.interval;
+      <div
+        class="interval-selection__selection"
+        [matTooltip]="t('form.selection-not-available')"
+        [matTooltipDisabled]="isDataIntervalIncluded"
+      >
+        <mat-radio-button [value]="dataInterval.interval" [disabled]="!isDataIntervalIncluded">{{
+          t(dataInterval.label)
+        }}</mat-radio-button>
+      </div>
+    }
+  </mat-radio-group>
+}

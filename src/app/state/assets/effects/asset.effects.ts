@@ -9,8 +9,8 @@ import {formActions} from '../../form/actions/form.actions';
 import {formFeature} from '../../form/reducers/form.reducer';
 import {assetActions} from '../actions/asset.actions';
 
-export const loadAssetsForStation = createEffect(
-  (actions$ = inject(Actions), store = inject(Store), assetService = inject(AssetService)) => {
+export const triggerAssetLoadOnCollectionSelection = createEffect(
+  (actions$ = inject(Actions), store = inject(Store)) => {
     return actions$.pipe(
       ofType(formActions.setSelectedCollection, formActions.initializeSelectedParameterGroupAndStationIdAndCollection),
       concatLatestFrom(() => store.select(formFeature.selectFormState)),
@@ -20,8 +20,20 @@ export const loadAssetsForStation = createEffect(
         (prev, curr) => prev.selectedStationId === curr.selectedStationId && prev.selectedCollection === curr.selectedCollection,
       ),
       filter(({selectedStationId, selectedCollection}) => !!selectedStationId && !!selectedCollection),
-      switchMap(({selectedStationId, selectedCollection}) =>
-        from(assetService.loadStationAssets(selectedCollection!, selectedStationId!)).pipe(
+      map(({selectedStationId, selectedCollection}) =>
+        assetActions.loadAssetsForStation({stationId: selectedStationId!, collection: selectedCollection!}),
+      ),
+    );
+  },
+  {functional: true},
+);
+
+export const loadAssetsForStation = createEffect(
+  (actions$ = inject(Actions), assetService = inject(AssetService)) => {
+    return actions$.pipe(
+      ofType(assetActions.loadAssetsForStation),
+      switchMap(({stationId, collection}) =>
+        from(assetService.loadStationAssets(collection, stationId)).pipe(
           map((assets) => assetActions.setLoadedAssets({assets})),
           catchError((error: unknown) => of(assetActions.setAssetLoadingError({error}))),
         ),

@@ -189,6 +189,7 @@ describe('FormEffects', () => {
           fail(`Expected no action to be dispatched, but got: ${action.type}`);
         },
         complete: () => {
+          expect().nothing();
           done();
         },
       });
@@ -253,6 +254,33 @@ describe('FormEffects', () => {
           } as AppUrlParameter,
         }),
       );
+      initializeSelectedDataIntervalAndTimeRange(actions$, store).subscribe((action) => {
+        expect(action).toEqual(
+          formActions.initializeSelectedDataIntervalAndTimeRange({
+            dataInterval: null,
+            timeRange: null,
+            historicalDateRange: null,
+          }),
+        );
+        done();
+      });
+    });
+
+    it('should dispatch initializeSelectedDataIntervalAndTimeRange with values null if stationId or collectionId is null', (done) => {
+      actions$ = of(
+        appActions.initializeApp({
+          parameter: {
+            dataInterval: 'monthly',
+            timeRange: 'historical',
+            historicalDateRange: {start: startDate, end: endDate},
+          } as AppUrlParameter,
+        }),
+      );
+      store.overrideSelector(formFeature.selectFormState, {
+        isParameterGroupStationAndCollectionInitialized: true,
+        selectedStationId: 'not-null',
+        selectedCollection: null,
+      } as FormState);
       initializeSelectedDataIntervalAndTimeRange(actions$, store).subscribe((action) => {
         expect(action).toEqual(
           formActions.initializeSelectedDataIntervalAndTimeRange({

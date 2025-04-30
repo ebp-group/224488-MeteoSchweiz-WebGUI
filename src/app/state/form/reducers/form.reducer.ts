@@ -15,6 +15,7 @@ export const initialState: FormState = {
   selectedCollection: null,
   selectedHistoricalDateRange: null,
   isParameterGroupStationAndCollectionInitialized: false,
+  isDataIntervalAndTimeRangeInitialized: false,
   initialStep: formStepConstants.STATION_SELECTION,
 };
 
@@ -49,6 +50,7 @@ export const formFeature = createFeature({
         selectedDataInterval: dataInterval,
         selectedTimeRange: timeRange,
         selectedHistoricalDateRange: historicalDateRange,
+        isDataIntervalAndTimeRangeInitialized: true,
         initialStep,
       };
     }),
