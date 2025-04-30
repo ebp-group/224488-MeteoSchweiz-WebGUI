@@ -16,6 +16,7 @@ describe('Form Reducer', () => {
       selectedCollection: 'collection',
       selectedHistoricalDateRange: {start: new Date(), end: new Date()},
       isParameterGroupStationAndCollectionInitialized: false,
+      isDataIntervalAndTimeRangeInitialized: false,
       initialStep: formStepConstants.STATION_SELECTION,
     };
   });
@@ -95,6 +96,7 @@ describe('Form Reducer', () => {
       selectedTimeRange: 'now',
       selectedHistoricalDateRange: {start: new Date('2025-01-01T00:00Z'), end: new Date('2025-01-01T00:00Z')},
       initialStep: formStepConstants.SELECTION_REVIEW,
+      isDataIntervalAndTimeRangeInitialized: true,
     });
   });
 

@@ -13,5 +13,6 @@ export interface FormState {
   selectedCollection: string | null;
   selectedHistoricalDateRange: DateRange | null;
   isParameterGroupStationAndCollectionInitialized: boolean;
+  isDataIntervalAndTimeRangeInitialized: boolean;
   initialStep: FormStep;
 }

@@ -2,7 +2,7 @@ import {inject} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
-import {combineLatestWith, filter, map, take} from 'rxjs';
+import {combineLatestWith, filter, map, of, switchMap, take} from 'rxjs';
 import {collectionConfig} from '../../../shared/configs/collections.config';
 import {DateRange} from '../../../shared/models/date-range';
 import {appActions} from '../../app/actions/app.actions';
@@ -89,31 +89,35 @@ export const initializeSelectedDataIntervalAndTimeRange = createEffect(
           take(1),
         ),
       ),
-      filter(([_, {selectedStationId, selectedCollection}]) => !!selectedStationId && !!selectedCollection),
-      // we use `combineLatestWith` here to wait for all necessary station assets to finish loading
-      combineLatestWith(
-        store.select(assetFeature.selectAssetState).pipe(
+      switchMap(([{parameter}, formState]) => {
+        if (!formState.selectedStationId || !formState.selectedCollection) {
+          return of(
+            formActions.initializeSelectedDataIntervalAndTimeRange({dataInterval: null, timeRange: null, historicalDateRange: null}),
+          );
+        }
+        return store.select(assetFeature.selectAssetState).pipe(
+          // we wait for all necessary station assets to finish loading
           filter(({loadingState}) => loadingState === 'loaded'),
           take(1),
-        ),
-      ),
-      map(([[{parameter}], {assets}]) => {
-        const dataInterval = assets?.find((asset) => asset.interval === parameter.dataInterval)?.interval ?? null;
-        const timeRange = assets?.find((asset) => asset.timeRange === parameter.timeRange)?.timeRange ?? null;
-        let historicalDateRange: DateRange | null = null;
-        if (timeRange === 'historical' && parameter.historicalDateRange) {
-          historicalDateRange =
-            assets
-              ?.filter((asset) => asset.timeRange === 'historical')
-              .find(
-                (asset) =>
-                  asset.dateRange &&
-                  parameter.historicalDateRange &&
-                  asset.dateRange.start.getTime() === parameter.historicalDateRange.start.getTime() &&
-                  asset.dateRange.end.getTime() === parameter.historicalDateRange.end.getTime(),
-              )?.dateRange ?? null;
-        }
-        return formActions.initializeSelectedDataIntervalAndTimeRange({dataInterval, timeRange, historicalDateRange});
+          map(({assets}) => {
+            const dataInterval = assets?.find((asset) => asset.interval === parameter.dataInterval)?.interval ?? null;
+            const timeRange = assets?.find((asset) => asset.timeRange === parameter.timeRange)?.timeRange ?? null;
+            let historicalDateRange: DateRange | null = null;
+            if (timeRange === 'historical' && parameter.historicalDateRange) {
+              historicalDateRange =
+                assets
+                  ?.filter((asset) => asset.timeRange === 'historical')
+                  .find(
+                    (asset) =>
+                      asset.dateRange &&
+                      parameter.historicalDateRange &&
+                      asset.dateRange.start.getTime() === parameter.historicalDateRange.start.getTime() &&
+                      asset.dateRange.end.getTime() === parameter.historicalDateRange.end.getTime(),
+                  )?.dateRange ?? null;
+            }
+            return formActions.initializeSelectedDataIntervalAndTimeRange({dataInterval, timeRange, historicalDateRange});
+          }),
+        );
       }),
     );
   },

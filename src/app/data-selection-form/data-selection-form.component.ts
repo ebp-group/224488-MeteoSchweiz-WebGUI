@@ -1,21 +1,24 @@
+import {Overlay, OverlayRef} from '@angular/cdk/overlay';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {AsyncPipe} from '@angular/common';
 import {AfterViewInit, Component, inject, OnDestroy, ViewChild} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepper, MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
-import {debounceTime, Subscription, tap} from 'rxjs';
+import {filter, Subscription, switchMap, tap} from 'rxjs';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {selectSelectedStationForCollection} from '../state/form/selectors/form.selector';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
 import {IntervalSelectionComponent} from './components/interval-selection/interval-selection.component';
+import {LoadingSpinnerComponent} from './components/loading-spinner/loading-spinner.component';
 import {MeasurementDataTypeSelectionComponent} from './components/measurement-data-type-selection/measurement-data-type-selection.component';
 import {SelectionReviewComponent} from './components/selection-review/selection-review.component';
 import {StationSelectionStepComponent} from './components/station-selection-step/station-selection-step.component';
 import {StepLabelComponent} from './components/step-label/step-label.component';
 import {TimeRangeSelectionComponent} from './components/time-range-selection/time-range-selection.component';
-import {dataSelectionFormConstants} from './constants/data-selection-form.constant';
 import type {FormStep} from '../shared/constants/form-step.constant';
 
 @Component({
@@ -33,12 +36,16 @@ import type {FormStep} from '../shared/constants/form-step.constant';
     MeasurementDataTypeSelectionComponent,
     StepLabelComponent,
     MatIcon,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './data-selection-form.component.html',
   styleUrl: './data-selection-form.component.scss',
 })
 export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   private readonly store = inject(Store);
+  private readonly overlay = inject(Overlay);
+
+  private overlayRef: OverlayRef | null = null;
 
   @ViewChild(MatStepper) private readonly stepper: MatStepper | undefined;
   protected readonly selectedStationForCollection$ = this.store.select(selectSelectedStationForCollection);
@@ -48,6 +55,8 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
 
   public ngAfterViewInit(): void {
+    this.showLoadingIndicator();
+
     this.subscriptions.add(
       this.store
         .select(formFeature.selectSelectedMeasurementDataType)
@@ -57,11 +66,14 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
 
     this.subscriptions.add(
       this.store
-        .select(formFeature.selectInitialStep)
+        .select(formFeature.selectIsDataIntervalAndTimeRangeInitialized)
         .pipe(
-          // wait for all collections/assets to be loaded
-          debounceTime(dataSelectionFormConstants.INITIAL_STEP_DEBOUNCE_TIME_IN_MS),
-          tap((initialStep) => this.setSelectedStep(initialStep)),
+          filter((isInitialized) => isInitialized),
+          switchMap(() => this.store.select(formFeature.selectInitialStep)),
+          tap((initialStep) => {
+            this.setSelectedStep(initialStep);
+            this.hideLoadingIndicator();
+          }),
         )
         .subscribe(),
     );
@@ -74,7 +86,27 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   private setSelectedStep(step: FormStep): void {
     const stepper = this.stepper;
     if (stepper) {
-      stepper.selectedIndex = step;
+      setTimeout(() => (stepper.selectedIndex = step));
+    }
+  }
+
+  private showLoadingIndicator(): void {
+    if (!this.overlayRef) {
+      this.overlayRef = this.overlay.create({
+        hasBackdrop: true,
+        backdropClass: 'cdk-overlay-dark-backdrop',
+        positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      });
+
+      this.overlayRef.attach(new ComponentPortal(LoadingSpinnerComponent));
+    }
+  }
+
+  private hideLoadingIndicator(): void {
+    if (this.overlayRef) {
+      this.overlayRef.detach();
+      this.overlayRef.dispose();
+      this.overlayRef = null;
     }
   }
 }
