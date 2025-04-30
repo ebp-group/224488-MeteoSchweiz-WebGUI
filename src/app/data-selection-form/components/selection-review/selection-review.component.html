@@ -23,7 +23,7 @@
         @if (selectedTimeRange$ | async; as timeRange) {
           {{ t('form.time-range.' + timeRange) }}
           @if (selectedHistoricalDateRange$ | async; as range) {
-            ({{ range.start | date: 'dd.MM.YYYY' }} - {{ range.end | date: 'dd.MM.YYYY' }})
+            ({{ range.start | date: 'yyyy' }} - {{ range.end | date: 'yyyy' }})
           }
         }
       </div>
