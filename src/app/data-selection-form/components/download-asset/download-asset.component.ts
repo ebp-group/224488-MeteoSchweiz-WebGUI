@@ -7,6 +7,7 @@ import {MatFormField, MatInput} from '@angular/material/input';
 import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
+import {ExternalLinkComponent} from '../../../shared/components/external-link/external-link.component';
 import {selectSelectedAsset} from '../../../state/assets/selectors/asset.selectors';
 import {selectSelectedCollectionMetaAssets} from '../../../state/form/selectors/form.selector';
 import {DownloadAssetLinkComponent} from '../download-asset-link/download-asset-link.component';
@@ -23,6 +24,7 @@ import {DownloadAssetLinkComponent} from '../download-asset-link/download-asset-
     MatMiniFabButton,
     ClipboardModule,
     MatTooltip,
+    ExternalLinkComponent,
   ],
   templateUrl: './download-asset.component.html',
   styleUrl: './download-asset.component.scss',

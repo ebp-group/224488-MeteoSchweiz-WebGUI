@@ -16,15 +16,21 @@
       @switch (measurementDataType) {
         @case ('normal') {
           <span>{{ t('form.measurement-data-type.normal.explanation') }}</span>
-          <a class="measurement-data-type-selection__description__link" [href]="t('form.measurement-data-type.normal.info-url')">
-            {{ t('form.measurement-data-type.more-info-link') }}
-          </a>
+          <app-external-link
+            class="measurement-data-type-selection__description__link"
+            [href]="t('form.measurement-data-type.normal.info-url')"
+            [text]="t('form.measurement-data-type.more-info-link')"
+          >
+          </app-external-link>
         }
         @case ('homogenous') {
           <span>{{ t('form.measurement-data-type.homogenous.explanation') }}</span>
-          <a class="measurement-data-type-selection__description__link" [href]="t('form.measurement-data-type.homogenous.info-url')">
-            {{ t('form.measurement-data-type.more-info-link') }}
-          </a>
+          <app-external-link
+            class="measurement-data-type-selection__description__link"
+            [href]="t('form.measurement-data-type.homogenous.info-url')"
+            [text]="t('form.measurement-data-type.more-info-link')"
+          >
+          </app-external-link>
         }
       }
     }

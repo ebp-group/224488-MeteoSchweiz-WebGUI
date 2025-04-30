@@ -1,6 +1,4 @@
-<span class="download-asset-link"
-  ><span
-    ><a [href]="asset().url">{{ asset().filename }}</a> (CSV)</span
-  >
+<span class="download-asset-link">
+  <span><app-external-link [href]="asset().url" [text]="asset().filename"></app-external-link> (CSV)</span>
   <mat-icon>file_download</mat-icon>
 </span>

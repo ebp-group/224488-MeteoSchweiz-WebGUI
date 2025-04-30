@@ -3,7 +3,8 @@
     <div class="download-asset__section">
       <h4 class="download-asset__section__title">{{ t('form.download.data') }}</h4>
       <p>
-        {{ t('form.download.terms') }} <a [href]="t('form.download.terms.link')">{{ t('form.download.terms.link-name') }}</a>
+        {{ t('form.download.terms') }}
+        <app-external-link [href]="t('form.download.terms.link')" [text]="t('form.download.terms.link-name')"></app-external-link>
       </p>
       <div>
         <app-download-asset-link [asset]="asset" />
@@ -44,7 +45,10 @@
           <mat-icon>content_copy</mat-icon>
         </button>
       </div>
-      <a [href]="t('form.download.download-programmatically-info.url')">{{ t('form.download.download-programmatically-info') }}</a>
+      <app-external-link
+        [href]="t('form.download.download-programmatically-info.url')"
+        [text]="t('form.download.download-programmatically-info')"
+      ></app-external-link>
     </div>
   }
 </div>
