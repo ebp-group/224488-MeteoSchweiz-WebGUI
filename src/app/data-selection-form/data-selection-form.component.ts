@@ -7,8 +7,9 @@ import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatStepper, MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule} from '@jsverse/transloco';
+import {concatLatestFrom} from '@ngrx/operators';
 import {Store} from '@ngrx/store';
-import {filter, Subscription, switchMap, tap} from 'rxjs';
+import {filter, Subscription, take, tap} from 'rxjs';
 import {formFeature} from '../state/form/reducers/form.reducer';
 import {selectSelectedStationForCollection} from '../state/form/selectors/form.selector';
 import {DownloadAssetComponent} from './components/download-asset/download-asset.component';
@@ -45,7 +46,7 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   private readonly store = inject(Store);
   private readonly overlay = inject(Overlay);
 
-  private overlayRef: OverlayRef | null = null;
+  private overlayRef: OverlayRef | undefined = undefined;
 
   @ViewChild(MatStepper) private readonly stepper: MatStepper | undefined;
   protected readonly selectedStationForCollection$ = this.store.select(selectSelectedStationForCollection);
@@ -69,11 +70,12 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
         .select(formFeature.selectIsDataIntervalAndTimeRangeInitialized)
         .pipe(
           filter((isInitialized) => isInitialized),
-          switchMap(() => this.store.select(formFeature.selectInitialStep)),
-          tap((initialStep) => {
+          concatLatestFrom(() => this.store.select(formFeature.selectInitialStep)),
+          tap(([, initialStep]) => {
             this.setSelectedStep(initialStep);
             this.hideLoadingIndicator();
           }),
+          take(1),
         )
         .subscribe(),
     );
@@ -87,6 +89,8 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   private setSelectedStep(step: FormStep): void {
     const stepper = this.stepper;
     if (stepper) {
+      // If we write this value synchronously the stepper might not update in all cases
+      // Using setTImeout ensures it happens in the next UI update cycle and the stepper reacts to the value change
       setTimeout(() => (stepper.selectedIndex = step));
     }
   }
@@ -107,7 +111,7 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
     if (this.overlayRef) {
       this.overlayRef.detach();
       this.overlayRef.dispose();
-      this.overlayRef = null;
+      this.overlayRef = undefined;
     }
   }
 }
