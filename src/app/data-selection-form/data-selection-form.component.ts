@@ -80,6 +80,7 @@ export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.hideLoadingIndicator();
     this.subscriptions.unsubscribe();
   }
 
