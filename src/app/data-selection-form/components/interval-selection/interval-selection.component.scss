@@ -6,3 +6,12 @@
     width: fit-content;
   }
 }
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}

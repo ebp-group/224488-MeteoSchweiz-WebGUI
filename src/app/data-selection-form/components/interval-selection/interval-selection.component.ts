@@ -7,14 +7,16 @@ import {marker} from '@jsverse/transloco-keys-manager/marker';
 import {Store} from '@ngrx/store';
 import {dataIntervals} from '../../../shared/models/interval';
 import {IncludesPipe} from '../../../shared/pipes/includes.pipe';
+import {assetFeature} from '../../../state/assets/reducers/asset.reducer';
 import {selectAvailableDataIntervals} from '../../../state/assets/selectors/asset.selectors';
 import {formActions} from '../../../state/form/actions/form.actions';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
+import {LoadingSpinnerComponent} from '../loading-spinner/loading-spinner.component';
 import type {DataInterval} from '../../../shared/models/interval';
 
 @Component({
   selector: 'app-interval-selection',
-  imports: [TranslocoModule, AsyncPipe, IncludesPipe, MatRadioModule, MatTooltip],
+  imports: [TranslocoModule, AsyncPipe, IncludesPipe, MatRadioModule, MatTooltip, LoadingSpinnerComponent],
   templateUrl: './interval-selection.component.html',
   styleUrl: './interval-selection.component.scss',
 })
@@ -36,6 +38,7 @@ export class IntervalSelectionComponent {
     label: this.dataIntervalLabelMapping[interval],
   }));
   protected readonly availableDataIntervals$ = this.store.select(selectAvailableDataIntervals);
+  protected readonly assetLoadingState$ = this.store.select(assetFeature.selectLoadingState);
 
   protected setSelectedInterval(interval: DataInterval): void {
     this.store.dispatch(formActions.setSelectedDataInterval({dataInterval: interval}));
