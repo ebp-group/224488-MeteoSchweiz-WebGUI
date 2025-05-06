@@ -5,8 +5,11 @@ on:
     inputs:
       environment:
         required: true
-        type: environment
+        type: string
         description: 'The environment to deploy to'
+    secrets:
+      AZURE_STATIC_WEB_APPS_API_TOKEN:
+        required: true
 
 env:
   APP_LOCATION: '/' # location of your client code
