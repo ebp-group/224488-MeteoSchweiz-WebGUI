@@ -30,12 +30,12 @@ jobs:
           npm run build -- --base-href "/224488-MeteoSchweiz-WebGUI/"
           # Work around for SPAs on GitHub-Pages.
           # More info https://github.com/orgs/community/discussions/64096
-          cp ./dist/meteoschweiz-opendata-explorer/browser/index.html ./dist/meteoschweiz-opendata-explorer/browser/404.html
+          cp ./dist/browser/index.html ./dist/browser/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/meteoschweiz-opendata-explorer/browser
+          path: ./dist/browser
 
   deploy:
     name: Deploy to GitHub Pages

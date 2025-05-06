@@ -7,6 +7,7 @@ on:
         required: true
         type: environment
         description: 'The environment to deploy to'
+        default: 'azure-static-web-apps-test'
 
 jobs:
   deploy-github-pages:
@@ -20,3 +21,4 @@ jobs:
     uses: ./.github/workflows/deploy-to-azure.yml
     with:
       environment: ${{ inputs.environment }}
+    secrets: inherit
