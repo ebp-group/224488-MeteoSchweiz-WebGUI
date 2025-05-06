@@ -1,0 +1,22 @@
+name: Manual deploy a branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: environment
+        description: 'The environment to deploy to'
+
+jobs:
+  deploy-github-pages:
+    name: Deploy main branch to Github Pages
+    if: inputs.environment == 'github-pages'
+    uses: ./.github/workflows/deploy.yml
+
+  deploy-azure-static-web-apps:
+    name: Deploy main branch to Azure Static Web Apps
+    if: inputs.environment == 'azure-static-web-apps-test' || inputs.environment == 'azure-static-web-apps-production'
+    uses: ./.github/workflows/deploy-to-azure.yml
+    with:
+      environment: ${{ inputs.environment }}
