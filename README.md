@@ -293,6 +293,35 @@ to this action and then raises the appropriate error. In order to also have the 
 helper `errorProps()` can be used as `ActionProp` so you can pass along the original error for usage within the effect.
 For examples of this, see e.g. the `loadStations` effect.
 
+## Deployment
+
+### Trigger
+
+The deployment process is done using Github actions. There are two kinds of deployments:
+
+- **Automatic deployment** \
+  where the deployment is triggered by a push to the `main` branch. This will deploy the application to the dev environment.
+- **Manual deployment** \
+  where the deployment is triggered manually. One can decide to deploy to the dev, test or prod environment.
+
+### Environments
+
+The application is deployed to three different environments:
+
+- **Dev** \
+  This is the development environment. It is used for testing and development purposes and is hosted on Github Pages. \
+  URL: `https://ebp-group.github.io/224488-MeteoSchweiz-WebGUI`.
+- **Test** \
+  This is the test environment. It is used for testing/integration purposes and is hosted on Azure as Static Web App. \
+  URL: `https://ashy-moss-0dcda0103.6.azurestaticapps.net`.
+- **Prod** \
+  This is the production environment. It is used for production purposes only and is hosted on Azure as Static Web App. \
+  URL: `TBD`.
+
+### Azure Static Web App Setup
+
+There are Terraform scripts to setup the Azure Static Web App. The scripts are located in the `.terraform-config` folder. The scripts create the necessary resources and the Azure Static Web App itself for test and prod environments.
+
 ## Contributors
 
 The project was developed for the [Bundesamt für Meteorologie und Klimatologie MeteoSchweiz](https://www.meteoschweiz.admin.ch).
