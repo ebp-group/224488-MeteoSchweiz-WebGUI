@@ -18,6 +18,8 @@
     );
 
     &__step-control {
+      display: flex;
+      gap: 20px;
       padding-top: 20px;
 
       &__next-button,
@@ -28,6 +30,7 @@
             filled-label-text-color: variables.$white,
           )
         );
+        font-size: 18px;
       }
 
       &__next-button {
