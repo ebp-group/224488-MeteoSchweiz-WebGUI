@@ -72,7 +72,7 @@
   "collection.load.error": "Erreur lors du chargement de la collection",
   "asset.load.error": "Erreur lors du chargement des ressources",
   "asset.parse.error": "Erreur lors de l'analyse du fichier '{{filename}}''",
-  "form.measurement-data-type.normal": "Filtrer et télécharger manuellement des données",
+  "form.measurement-data-type.normal": "Données de mesures au sol",
   "form.measurement-data-type.homogenous": "Données homogénéisées",
   "form.interval.ten-minutes": "10 minutes",
   "form.interval.hourly": "Horaire",
