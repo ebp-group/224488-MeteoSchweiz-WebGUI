@@ -57,6 +57,7 @@
       <p>
         {{ t('form.time-range.historical') }}
       </p>
+      <small>{{ t('form.time-range.historical.explanation') }}</small>
     </div>
     @for (range of historicalDateRanges$ | async; track $index) {
       <mat-radio-button [value]="range">{{ range.start | date: 'yyyy' }} - {{ range.end | date: 'yyyy' }}</mat-radio-button>

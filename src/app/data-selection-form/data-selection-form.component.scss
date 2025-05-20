@@ -18,10 +18,13 @@
     );
 
     &__step-control {
+      display: flex;
+      gap: 20px;
       padding-top: 20px;
 
       &__next-button,
       &__back-button {
+        font-size: 18px;
         @include mat.button-overrides(
           (
             filled-container-shape: 0,
