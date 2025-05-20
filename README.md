@@ -293,6 +293,81 @@ to this action and then raises the appropriate error. In order to also have the 
 helper `errorProps()` can be used as `ActionProp` so you can pass along the original error for usage within the effect.
 For examples of this, see e.g. the `loadStations` effect.
 
+## Deployment
+
+### Trigger
+
+The deployment process is done using Github actions. There are two kinds of deployments:
+
+- **Automatic deployment** \
+  where the deployment is triggered by a push to the `main` branch. This will deploy the application to the dev environment.
+- **Manual deployment** \
+  where the deployment is triggered manually. One can decide to deploy to the dev, test or prod environment.
+
+### Environments
+
+The application is deployed to three different environments:
+
+- **Dev** \
+  This is the development environment. It is used for testing and development purposes and is hosted on Github Pages. \
+  URL: `https://ebp-group.github.io/224488-MeteoSchweiz-WebGUI`.
+- **Test** \
+  This is the test environment. It is used for testing/integration purposes and is hosted on Azure as Static Web App. \
+  URL: `https://ashy-moss-0dcda0103.6.azurestaticapps.net`.
+- **Prod** \
+  This is the production environment. It is used for production purposes only and is hosted on Azure as Static Web App. \
+  URL: `TBD`.
+
+### Terraform: Azure Static Web App setup
+
+There are Terraform scripts to setup the Azure Static Web App. The scripts are located in the `.terraform-config` folder. The scripts create or modify the necessary resources and the Azure Static Web App itself for test and prod environments.
+
+#### Prerequisites
+
+To deploy the application to Azure, you need to have the following prerequisites:
+
+- An Azure account with the necessary permissions to create resources.
+- Terraform installed on your machine - it's an executable that you can download from the [Terraform website](https://developer.hashicorp.com/terraform/install).
+- Azure CLI installed on your machine
+
+Before running the scripts, make sure to set the following subscription variables:
+
+- `/config/dev-backend.tfvars > subscription_id` / `/config/prod-backend.tfvars > subscription_id`: The ID of the Azure subscription where the global TF state is stored. It's the same for both test and prod environments.
+- `/config/prod.tfvars > subscription`: The ID of the productive Azure subscription where the resources and the Static Web App are created/modified. This is the productive environment. Proceed with caution.
+- `/config/test.tfvars > subscription`: The ID of the test Azure subscription where the resources and the Static Web App are created/modified. This is the test/integration environment.
+
+#### Usage
+
+To run the scripts, navigate to the `.terraform-config` folder and run the following command:
+
+```bash
+az login
+```
+
+This will open a browser window where you can log in to your Azure account.
+
+```bash
+terraform init --backend-config=config/dev-backend.tfvars -upgrade=true -reconfigure
+```
+
+This will initialize the Terraform environment and configure the backend for the **test** environment.
+
+To generate the plan for the **test** environment, run the following command:
+
+```bash
+terraform plan --var-file=config/test.tfvars
+```
+
+And finally, to create the resources and the Static Web App for the **test** environment, run the following command:
+
+```bash
+terraform apply -var-file=config/test.tfvars
+```
+
+You will be prompted to confirm the changes before they are applied.
+
+To run the scripts for the **prod** environment, just replace `test` (respectively `dev` in `dev-backend.tfvars`) with `prod` in the commands above.
+
 ## Contributors
 
 The project was developed for the [Bundesamt für Meteorologie und Klimatologie MeteoSchweiz](https://www.meteoschweiz.admin.ch).
