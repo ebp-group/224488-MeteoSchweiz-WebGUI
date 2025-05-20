@@ -15,7 +15,6 @@ const parameterGroupIcons = [
   {id: 'sunshine', path: 'icons/sonne.svg'},
   {id: 'evaporation', path: 'icons/taupunkt.svg'},
   {id: 'temperature', path: 'icons/temperatur.svg'},
-  {id: 'visual observation', path: 'icons/wetterkamera.svg'},
   {id: 'wind', path: 'icons/wind.svg'},
 ] as const satisfies IconConfig[];
 
