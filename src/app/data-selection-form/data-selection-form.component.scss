@@ -24,13 +24,13 @@
 
       &__next-button,
       &__back-button {
+        font-size: 18px;
         @include mat.button-overrides(
           (
             filled-container-shape: 0,
             filled-label-text-color: variables.$white,
           )
         );
-        font-size: 18px;
       }
 
       &__next-button {

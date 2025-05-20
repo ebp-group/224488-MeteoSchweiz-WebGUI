@@ -32,7 +32,9 @@
   }
 
   &__historical-explanation {
-    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     p {
       margin: 0;
     }
