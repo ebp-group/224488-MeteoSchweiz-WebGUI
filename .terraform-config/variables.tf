@@ -11,30 +11,30 @@ variable "cname_domain" {
 
 variable "location" {
   type    = string
-  default = "switzerlandnorth"
+  default = "westeurope"
 }
 
 variable "location_name_short" {
   type    = string
-  default = "chn"
+  default = "euw"
 }
 
 variable "environment" {
   type        = string
   default     = "test"
-  description = "Environment (e.g. dev, test, prod)"
+  description = "Environment (test, prod)"
 }
 
 variable "sku_tier" {
   type        = string
   default     = "Standard"
-  description = "The SKU tier for the Static Web App; can be Free or Standard."
+  description = "The SKU tier for the Static Web App (Free, Standard)"
 }
 
 variable "sku_size" {
   type        = string
   default     = "Standard"
-  description = "The SKU size for the Static Web App; can be Free or Standard."
+  description = "The SKU size for the Static Web App (Free, Standard)"
 }
 
 variable "subscription_name" {
