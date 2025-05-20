@@ -3,6 +3,12 @@ variable "subscription" {
   description = "ID of the subscription"
 }
 
+variable "cname_domain" {
+  type        = string
+  default     = "test.ogd-meteoswiss.ch"
+  description = "The domain for the CNAME record."
+}
+
 variable "location" {
   type    = string
   default = "switzerlandnorth"
@@ -17,6 +23,18 @@ variable "environment" {
   type        = string
   default     = "test"
   description = "Environment (e.g. dev, test, prod)"
+}
+
+variable "sku_tier" {
+  type        = string
+  default     = "Standard"
+  description = "The SKU tier for the Static Web App; can be Free or Standard."
+}
+
+variable "sku_size" {
+  type        = string
+  default     = "Standard"
+  description = "The SKU size for the Static Web App; can be Free or Standard."
 }
 
 variable "subscription_name" {
