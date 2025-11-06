@@ -61,6 +61,7 @@
   "form.download.data-explanation": "Parameterabkürzungen sind in den Parameter-Metadaten erklärt",
   "form.download.metadata": "Metadaten",
   "form.download.parameters-explanation": "Liste aller Parameterabkürzungen mit Erläuterung, Zeitintervall, Dezimalstellen, Datentyp und Masseinheit",
+  "form.download.additional-metadata": "Weitere Metadaten",
   "form.download.stations-explanation": "Liste aller Stationsabkürzungen mit Namen, Kanton, Wigos ID, Stationstyp, Höhe, Koordinaten, Ausrichtung und URL der Stationsdetailseiten",
   "form.download.inventory-explanation": "Liste aller Stationen und Parameter mit Start- und Enddatum der Messungen",
   "form.download.copy-url": "Permanenten Download-Link kopieren",

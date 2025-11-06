@@ -61,6 +61,7 @@
   "form.download.data-explanation": "Le abbreviazioni dei parametri sono spiegate nei metadati dei parametri",
   "form.download.metadata": "Metadati",
   "form.download.parameters-explanation": "Elenco di tutte le abbreviazioni dei parametri con spiegazione, intervallo di tempo, cifre decimali, tipo di dati e unità di misura",
+  "form.download.additional-metadata": "Missing value for 'form.download.additional-metadata'",
   "form.download.stations-explanation": "Elenco di tutte le abbreviazioni delle stazioni con nome, cantone, Wigos ID, tipo di stazione, altitudine, coordinate, orientamento e URL della pagina dei dettagli delle stazioni",
   "form.download.inventory-explanation": "Elenco di tutte le stazioni e dei parametri con la data di inizio e di fine delle misurazioni",
   "form.download.copy-url": "Copiare il link per il download permanente",
