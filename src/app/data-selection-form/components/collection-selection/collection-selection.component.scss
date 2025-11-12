@@ -19,16 +19,16 @@
       flex-direction: column;
       align-items: flex-start;
       width: 371px;
-      color: variables.$foreground-color;
+      color: var(--mat-sys-on-surface);
       background-color: variables.$accent-grey;
       padding: 20px;
 
       &__radio-button {
         @include mat.radio-overrides(
           (
-            selected-icon-color: variables.$foreground-color,
-            unselected-icon-color: variables.$foreground-color,
-            label-text-color: variables.$foreground-color,
+            selected-icon-color: var(--mat-sys-on-surface),
+            unselected-icon-color: var(--mat-sys-on-surface),
+            label-text-color: var(--mat-sys-on-surface),
             label-text-size: 18px,
           )
         );

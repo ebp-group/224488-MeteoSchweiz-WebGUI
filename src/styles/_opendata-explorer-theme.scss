@@ -204,3 +204,12 @@ $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);
     )
   );
 }
+
+@mixin custom-overrides() {
+  @include mat.theme-overrides(
+    (
+      surface: #1c2834,
+      on-surface: #ffffff,
+    )
+  );
+}
