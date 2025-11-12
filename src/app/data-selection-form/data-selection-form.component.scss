@@ -5,8 +5,8 @@
   padding-bottom: 100px;
   &__stepper {
     padding-top: 40px;
-    background-color: variables.$background-color;
-    color: variables.$white;
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
 
     @include mat.stepper-overrides(
       (
