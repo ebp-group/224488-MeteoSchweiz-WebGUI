@@ -1,5 +1,4 @@
-import {DOCUMENT} from '@angular/common';
-import {inject, Injectable} from '@angular/core';
+import {DOCUMENT, inject, Injectable} from '@angular/core';
 import {collectionConfig} from '../configs/collections.config';
 import {languageConfig} from '../configs/language.config';
 import {AppUrlParameter} from '../models/app-url-parameter';
