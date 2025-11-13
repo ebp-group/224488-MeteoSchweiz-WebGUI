@@ -1,4 +1,4 @@
-import {ErrorHandler, Injectable, NgZone} from '@angular/core';
+import {ErrorHandler, inject, Injectable, NgZone} from '@angular/core';
 import {Router} from '@angular/router';
 import {TranslocoService} from '@jsverse/transloco';
 import {pageConstants} from '../shared/constants/page.constant';
@@ -10,12 +10,10 @@ import {AngularDevModeService} from '../shared/services/angular-dev-mode.service
   providedIn: 'root',
 })
 export class ErrorHandlerService implements ErrorHandler {
-  constructor(
-    private readonly router: Router,
-    private readonly zone: NgZone,
-    private readonly angularDevModeService: AngularDevModeService,
-    private readonly translocoService: TranslocoService,
-  ) {}
+  private readonly router = inject(Router);
+  private readonly zone = inject(NgZone);
+  private readonly angularDevModeService = inject(AngularDevModeService);
+  private readonly translocoService = inject(TranslocoService);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- The interface definition of angular error-handlers defines any as an argument.
   public handleError(error: any): void {
