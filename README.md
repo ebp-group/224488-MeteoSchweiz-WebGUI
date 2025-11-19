@@ -310,13 +310,15 @@ The application is deployed to three different environments:
 
 - **Dev** \
   This is the development environment. It is used for testing and development purposes and is hosted on Github Pages. \
-  URL: `https://ebp-group.github.io/224488-MeteoSchweiz-WebGUI`.
+  URL: `https://ebp-group.github.io/224488-MeteoSchweiz-WebGUI`
 - **Test** \
   This is the test environment. It is used for testing/integration purposes and is hosted on Azure as Static Web App. \
-  URL: `https://ashy-moss-0dcda0103.6.azurestaticapps.net`.
+  Internal URL: `https://ashy-moss-0dcda0103.6.azurestaticapps.net` \
+  External URL `https://test.ogd-meteoswiss.ch`
 - **Prod** \
   This is the production environment. It is used for production purposes only and is hosted on Azure as Static Web App. \
-  URL: `TBD`.
+  Internal URL: `https://green-sand-015d49803.6.azurestaticapps.net` \
+  External URL `https://prod.ogd-meteoswiss.ch`
 
 ### Terraform: Azure Static Web App setup
 
