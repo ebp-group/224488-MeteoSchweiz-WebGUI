@@ -3,6 +3,7 @@ import {Component, inject} from '@angular/core';
 import {TranslocoModule} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {combineLatestWith, map} from 'rxjs';
+import {ExternalLinkComponent} from '../../../shared/components/external-link/external-link.component';
 import {TranslatableStringPipe} from '../../../shared/pipes/translatable-string.pipe';
 import {appFeature} from '../../../state/app/reducers/app.reducer';
 import {formFeature} from '../../../state/form/reducers/form.reducer';
@@ -10,7 +11,7 @@ import {selectSelectedStationForCollection} from '../../../state/form/selectors/
 
 @Component({
   selector: 'app-selection-review',
-  imports: [TranslocoModule, AsyncPipe, DatePipe, TranslatableStringPipe],
+  imports: [TranslocoModule, AsyncPipe, DatePipe, TranslatableStringPipe, ExternalLinkComponent],
   templateUrl: './selection-review.component.html',
   styleUrl: './selection-review.component.scss',
 })

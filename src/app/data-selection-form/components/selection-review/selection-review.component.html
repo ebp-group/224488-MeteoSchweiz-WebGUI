@@ -15,7 +15,8 @@
       <div class="selection-review-row">
         <span class="selection-review-row__title">{{ t('form.selection-review.interval') }}:</span>
         @if (selectedDataInterval$ | async; as interval) {
-          {{ t('form.interval.' + interval) }}
+          {{ t('form.interval.' + interval) }} ({{ t('form.selection-review.utc.prefix') }}
+          <app-external-link [href]="t('form.selection-review.utc.url')" [text]="t('form.selection-review.utc')"></app-external-link>)
         }
       </div>
       <div class="selection-review-row">
