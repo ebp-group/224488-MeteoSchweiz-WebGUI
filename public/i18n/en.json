@@ -58,7 +58,7 @@
   "form.measurement-data-type.homogenous.info-url": "https://opendatadocs.meteoswiss.ch/general/faq#what-about-the-quality-control-of-data",
   "form.interval.aria-label": "Choose time resolution",
   "form.download.data-and-parameter": "Data and parameter abbreviations",
-  "form.download.terms": "The Open Data from MeteoSwiss may be used without restriction; the source must be cited when reproducing or redistributing (\"Source: MeteoSwiss\")",
+  "form.download.terms": "The Open Data from MeteoSwiss may be used without restriction; <strong>the source must be cited</strong> when reproducing or redistributing (<strong>\"Source: MeteoSwiss\"</strong>)",
   "form.download.terms.link": "https://opendatadocs.meteoswiss.ch/general/terms-of-use",
   "form.download.terms.link-name": "Open Data terms of use",
   "form.download.parameters-explanation": "Parameter abbreviations with description, time interval, unit of measurement, etc.",

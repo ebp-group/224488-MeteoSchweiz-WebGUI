@@ -58,7 +58,7 @@
   "form.measurement-data-type.homogenous.info-url": "https://opendatadocs.meteoswiss.ch/de/general/faq#was-ist-im-zusammenhang-mit-der-qualit%C3%A4tskontrolle-der-daten-zu-beachten",
   "form.interval.aria-label": "Zeitliche Auflösung wählen",
   "form.download.data-and-parameter": "Daten und Parameterabkürzungen",
-  "form.download.terms": "Die Open Data von MeteoSchweiz dürfen uneingeschränkt weiterverwendet werden; bei der Wiedergabe oder Weiterverbreitung ist die Quelle anzugeben (\"Quelle: MeteoSchweiz\")",
+  "form.download.terms": "Die Open Data von MeteoSchweiz dürfen uneingeschränkt weiterverwendet werden; bei der Wiedergabe oder Weiterverbreitung ist <strong>die Quelle anzugeben</strong> (<strong>\"Quelle: MeteoSchweiz\"</strong>)",
   "form.download.terms.link": "https://opendatadocs.meteoswiss.ch/de/general/terms-of-use",
   "form.download.terms.link-name": "Open Data Nutzungsbedingungen",
   "form.download.parameters-explanation": "Parameterabkürzungen mit Beschrieb, Zeitintervall, Masseinheit etc.",

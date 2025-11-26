@@ -58,7 +58,7 @@
   "form.measurement-data-type.homogenous.info-url": "https://opendatadocs.meteoswiss.ch/fr/general/faq#quen-est-il-du-contr%C3%B4le-de-la-qualit%C3%A9-des-donn%C3%A9es-",
   "form.interval.aria-label": "Choisir la résolution temporelle",
   "form.download.data-and-parameter": "Données et abréviations des paramètres",
-  "form.download.terms": "Les Open Data de MétéoSuisse peuvent être réutilisées sans restriction; la source doit être mentionnée lors de la reproduction ou de la diffusion (\"Source: MétéoSuisse\")",
+  "form.download.terms": "Les Open Data de MétéoSuisse peuvent être réutilisées sans restriction; <strong>la source doit être mentionnée</strong> lors de la reproduction ou de la diffusion (<strong>\"Source: MétéoSuisse\"</strong>)",
   "form.download.terms.link": "https://opendatadocs.meteoswiss.ch/fr/general/terms-of-use",
   "form.download.terms.link-name": "Conditions d’utilisation Open Data",
   "form.download.parameters-explanation": "Abréviations des paramètres avec description, intervalle de temps, unité de mesure, etc.",
