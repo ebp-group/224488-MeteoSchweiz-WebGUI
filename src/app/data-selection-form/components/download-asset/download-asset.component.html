@@ -12,7 +12,7 @@
         </div>
       }
       <p>
-        {{ t('form.download.terms') }}
+        <span class="download-asset__terms" [innerHTML]="t('form.download.terms')"></span>
         <app-external-link [href]="t('form.download.terms.link')" [text]="t('form.download.terms.link-name')"></app-external-link>
       </p>
     </div>

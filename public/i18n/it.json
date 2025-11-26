@@ -55,7 +55,7 @@
   "form.measurement-data-type.homogenous.info-url": "https://opendatadocs.meteoswiss.ch/it/general/faq#cosa-bisogna-considerare-in-relazione-al-controllo-della-qualit%C3%A0-dei-dati",
   "form.interval.aria-label": "Scegliere la risoluzione temporale",
   "form.download.data-and-parameter": "Dati e abbreviazioni dei parametri",
-  "form.download.terms": "Gli Open Data di MeteoSvizzera possono essere utilizzati senza restrizioni; la fonte deve essere citata in caso di riproduzione o ridistribuzione (\"Fonte: MeteoSvizzera\")",
+  "form.download.terms": "Gli Open Data di MeteoSvizzera possono essere utilizzati senza restrizioni; <strong>la fonte deve essere citata</strong> in caso di riproduzione o ridistribuzione (<strong>\"Fonte: MeteoSvizzera\"</strong>)",
   "form.download.terms.link": "https://opendatadocs.meteoswiss.ch/it/general/terms-of-use",
   "form.download.terms.link-name": "Condizioni di utilizzo Open Data",
   "form.download.parameters-explanation": "Abbreviazioni dei parametri con descrizione, intervallo di tempo, unità di misura, ecc.",
