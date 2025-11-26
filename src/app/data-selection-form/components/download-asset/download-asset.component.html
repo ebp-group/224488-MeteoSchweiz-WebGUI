@@ -3,19 +3,18 @@
     <div class="download-asset__section">
       <h4 class="download-asset__section__title">{{ t('form.download.data-and-parameter') }}</h4>
       <p>
-        {{ t('form.download.terms') }}
-        <app-external-link [href]="t('form.download.terms.link')" [text]="t('form.download.terms.link-name')"></app-external-link>
-      </p>
-      <div>
         <app-download-asset-link [asset]="asset" />
-        <p class="download-asset__explanation">{{ t('form.download.data-explanation') }}</p>
-      </div>
+      </p>
       @if (selectedMetaAsset$ | async; as metaAssets) {
         <div>
           <app-download-asset-link [asset]="metaAssets.parameter" />
           <p class="download-asset__explanation">{{ t('form.download.parameters-explanation') }}</p>
         </div>
       }
+      <p>
+        {{ t('form.download.terms') }}
+        <app-external-link [href]="t('form.download.terms.link')" [text]="t('form.download.terms.link-name')"></app-external-link>
+      </p>
     </div>
 
     <div class="download-asset__section">
