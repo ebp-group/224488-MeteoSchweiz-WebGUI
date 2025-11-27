@@ -1,6 +1,18 @@
 @if (currentLanguage$ | async; as currentLanguage) {
   <div class="collection-selection" *transloco="let t">
     <h4>{{ t('form.collection-selection.title') }}</h4>
+    @if (allParameterGroupIds$ | async | includes: 'snow') {
+      <div class="collection-selection__snow-hint">
+        <span>{{ t('form.collection-selection.snow-hint.first-text') }}</span>
+        <app-external-link
+          class="collection-selection__snow-hint__link"
+          [href]="t('form.collection-selection.snow-hint.url')"
+          [text]="t('form.collection-selection.snow-hint.url-text')"
+        >
+        </app-external-link>
+        <span [innerHTML]="t('form.collection-selection.snow-hint.second-text')"></span>
+      </div>
+    }
     <mat-radio-group class="collection-selection__stations-list" [value]="selectedCollection$ | async">
       @for (station of stationParameterGroups$ | async; track $index) {
         <button matRipple (click)="setSelectedCollection(station.collection)" class="collection-selection__stations-list__station">
