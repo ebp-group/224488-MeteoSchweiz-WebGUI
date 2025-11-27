@@ -37,6 +37,14 @@ export const selectSelectedStationsFilteredBySelectedParameterGroup = createSele
   },
 );
 
+export const selectAllUniqueParameterGroupIdsForSelectedStationInLowerCase = createSelector(
+  selectSelectedStationWithParameterGroup,
+  (stations): string[] => {
+    const parameterGroupIds = new Set(stations.flatMap((station) => station.parameterGroups.map((group) => group.id.toLowerCase())));
+    return Array.from(parameterGroupIds);
+  },
+);
+
 export const selectSelectedStationForCollection = createSelector(
   selectSelectedStationsFilteredBySelectedParameterGroup,
   formFeature.selectSelectedStationId,

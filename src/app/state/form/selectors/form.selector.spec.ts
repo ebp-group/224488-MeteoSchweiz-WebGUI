@@ -4,6 +4,7 @@ import {ParameterGroupStationMapping} from '../../../shared/models/parameter-gro
 import {StationWithParameterGroups} from '../../../shared/models/station-with-parameter-groups';
 import {StationStateEntry} from '../../stations/states/station.state';
 import {
+  selectAllUniqueParameterGroupIdsForSelectedStationInLowerCase,
   selectSelectedCollectionMetaAssets,
   selectSelectedStationForCollection,
   selectSelectedStationsFilteredBySelectedParameterGroup,
@@ -71,7 +72,7 @@ describe('Form selectors', () => {
     });
   });
 
-  describe('selectSelectedStationWithParameterGroupFilteredBySelectedParameterGroup', () => {
+  describe('selectSelectedStationsFilteredBySelectedParameterGroup', () => {
     it('should filter the stations based on the selected parameter group', () => {
       const result = selectSelectedStationsFilteredBySelectedParameterGroup.projector(
         [
@@ -83,6 +84,34 @@ describe('Form selectors', () => {
       );
 
       expect(result).toEqual([{...stationAA, parameterGroups: [parameterGroupOne]}]);
+    });
+  });
+
+  describe('selectAllUniqueParameterGroupIdsForSelectedStationInLowerCase', () => {
+    it('should extract all unique parameter group IDs for the selected station', () => {
+      const result = selectAllUniqueParameterGroupIdsForSelectedStationInLowerCase.projector([
+        {...stationAA, parameterGroups: [{...parameterGroupOne, id: 'FIRE'}]},
+        {...stationAB, parameterGroups: [{...parameterGroupTwo, id: 'ice'}]},
+        {
+          ...stationAC,
+          parameterGroups: [
+            {...parameterGroupOne, id: 'FIRE'},
+            {...parameterGroupTwo, id: 'ice'},
+            {...parameterGroupThree, id: 'WaTeR'},
+          ],
+        },
+      ]);
+
+      expect(result).toEqual(['fire', 'ice', 'water']);
+    });
+
+    it('should return an empty array if there are no parameter groups', () => {
+      const result = selectAllUniqueParameterGroupIdsForSelectedStationInLowerCase.projector([
+        {...stationAA, parameterGroups: []},
+        {...stationAB, parameterGroups: []},
+      ]);
+
+      expect(result).toEqual([]);
     });
   });
 
