@@ -8,7 +8,23 @@ Original Repository: https://github.com/MeteoSwiss/opendata-explorer
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
 
+> # Table of Contents
+>
+> - [Development server](#development-server)
+> - [Update](#update)
+> - [Conventions](#conventions)
+> - [Code documentation](#code-documentation)
+> - [Deployment](#deployment)
+> - [Contributors](#contributors)
+
 ## Development server
+
+> - [Code scaffolding](#code-scaffolding)
+> - [Building](#building)
+> - [Running unit tests](#running-unit-tests)
+> - [i18n: Translation keys](#i18n-translation-keys)
+> - [Formatting and linting](#formatting-and-linting)
+> - [STAC type generation](#stac-type-generation)
 
 To start a local development server, run:
 
@@ -103,7 +119,27 @@ npm run generate-stac-api
 This will generate the STAC types based on the current configuration. The generated types will be stored in the `src/app/stac/generated`
 directory.
 
+## Update
+
+> - [Node](#node)
+
+### Node
+
+To update Node to the latest LTS version, you have to change the following files:
+
+- `.nvmrc`: Change the version number to the latest LTS version.
+- `package.json`: Change the `engines` field to the latest LTS version.
+- `.github/workflows/auto-deploy.yml`: Change the Node version in `env.NODE_VERSION` to the latest LTS version.
+- `.github/workflows/code-quality-checks.yml`: Change the Node version in `env.NODE_VERSION` to the latest LTS version.
+- `.github/workflows/deploy.yml`: Change the Node version in `env.NODE_VERSION` to the latest LTS version.
+
 ## Conventions
+
+> - [Naming conventions](#naming-conventions)
+> - [Angular conventions](#angular-conventions)
+> - [Branchname and commit message](#branchname-and-commit-message)
+> - [Testing](#testing)
+> - [(S)CSS structure](#scss-structure)
 
 ### Naming conventions
 
@@ -183,6 +219,11 @@ Basically there are three important elements to keep track of:
   How to use in SCSS: `&--disabled` (connect to a higher level _block_ or _element_ using two dashes)
 
 ## Code documentation
+
+> - [SCSS](#scss)
+> - [State](#state)
+> - [Configs](#configs)
+> - [Error handling](#error-handling)
 
 ### SCSS
 
@@ -295,6 +336,10 @@ For examples of this, see e.g. the `loadStations` effect.
 
 ## Deployment
 
+> - [Trigger](#trigger)
+> - [Environments](#environments)
+> - [Terraform: Azure Static Web App setup](#terraform-azure-static-web-app-setup)
+
 ### Trigger
 
 The deployment process is done using Github actions. There are two kinds of deployments:
@@ -310,15 +355,15 @@ The application is deployed to three different environments:
 
 - **Dev** \
   This is the development environment. It is used for testing and development purposes and is hosted on Github Pages. \
-  URL: `https://ebp-group.github.io/224488-MeteoSchweiz-WebGUI`
+  URL: https://ebp-group.github.io/224488-MeteoSchweiz-WebGUI
 - **Test** \
   This is the test environment. It is used for testing/integration purposes and is hosted on Azure as Static Web App. \
-  Internal URL: `https://ashy-moss-0dcda0103.6.azurestaticapps.net` \
-  External URL `https://test.ogd-meteoswiss.ch`
+  Internal URL: https://ashy-moss-0dcda0103.6.azurestaticapps.net \
+  External URL: https://test.ogd-meteoswiss.ch
 - **Prod** \
   This is the production environment. It is used for production purposes only and is hosted on Azure as Static Web App. \
-  Internal URL: `https://green-sand-015d49803.6.azurestaticapps.net` \
-  External URL `https://prod.ogd-meteoswiss.ch`
+  Internal URL: https://green-sand-015d49803.6.azurestaticapps.net \
+  External URL: https://prod.ogd-meteoswiss.ch
 
 ### Terraform: Azure Static Web App setup
 
