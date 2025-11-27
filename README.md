@@ -359,11 +359,11 @@ The application is deployed to three different environments:
 - **Test** \
   This is the test environment. It is used for testing/integration purposes and is hosted on Azure as Static Web App. \
   Internal URL: https://ashy-moss-0dcda0103.6.azurestaticapps.net \
-  External URL https://test.ogd-meteoswiss.ch
+  External URL: https://test.ogd-meteoswiss.ch
 - **Prod** \
   This is the production environment. It is used for production purposes only and is hosted on Azure as Static Web App. \
   Internal URL: https://green-sand-015d49803.6.azurestaticapps.net \
-  External URL https://prod.ogd-meteoswiss.ch
+  External URL: https://prod.ogd-meteoswiss.ch
 
 ### Terraform: Azure Static Web App setup
 
