@@ -14,26 +14,17 @@ export const appFeature = createFeature({
   name: appFeatureKey,
   reducer: createReducer(
     initialState,
-    on(
-      appActions.initializeLanguage,
-      (state, {language}): AppState => ({
-        ...state,
-        language,
-      }),
-    ),
-    on(
-      appActions.setLanguage,
-      (state, {language}): AppState => ({
-        ...state,
-        language,
-      }),
-    ),
-    on(
-      appActions.initializeApp,
-      (state): AppState => ({
-        ...state,
-        isInitialized: true,
-      }),
-    ),
+    on(appActions.initializeLanguage, (state, {language}): AppState => ({
+      ...state,
+      language,
+    })),
+    on(appActions.setLanguage, (state, {language}): AppState => ({
+      ...state,
+      language,
+    })),
+    on(appActions.initializeApp, (state): AppState => ({
+      ...state,
+      isInitialized: true,
+    })),
   ),
 });

@@ -109,10 +109,8 @@ export const initializeSelectedDataIntervalAndTimeRange = createEffect(
                   ?.filter((asset) => asset.timeRange === 'historical')
                   .find(
                     (asset) =>
-                      asset.dateRange &&
-                      parameter.historicalDateRange &&
-                      asset.dateRange.start.getTime() === parameter.historicalDateRange.start.getTime() &&
-                      asset.dateRange.end.getTime() === parameter.historicalDateRange.end.getTime(),
+                      asset.dateRange?.start.getTime() === parameter.historicalDateRange?.start.getTime() &&
+                      asset.dateRange?.end.getTime() === parameter.historicalDateRange?.end.getTime(),
                   )?.dateRange ?? null;
             }
             return formActions.initializeSelectedDataIntervalAndTimeRange({dataInterval, timeRange, historicalDateRange});

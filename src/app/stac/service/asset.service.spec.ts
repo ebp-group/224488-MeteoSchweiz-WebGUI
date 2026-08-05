@@ -31,14 +31,14 @@ describe('AssetService', () => {
 
   describe('loadCollectionAssets', () => {
     it('should get the collection assets from the stac API and transform the result', async () => {
-      const collection = ['collection'];
+      const collection = 'collection';
       stacApiService.getAssets.and.resolveTo([
         {filename: `${collection}_datainventory.csv`, url: 'www.meteoschweiz.admin.ch'},
         {filename: `${collection}_parameters.csv`, url: 'www.meteoschweiz.admin.ch'},
         {filename: `${collection}_stations.csv`, url: 'www.meteoschweiz.admin.ch'},
       ]);
 
-      const result = await service.loadCollectionAssets(collection);
+      const result = await service.loadCollectionAssets([collection]);
 
       expect(result).toEqual([
         {

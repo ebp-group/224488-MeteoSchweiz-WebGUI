@@ -531,12 +531,7 @@ export type ItemsSearchPostLinks = LinkPostSearch[];
 export type ItemId = string;
 
 export type ItemGeometry =
-  | GeoJsonPoint
-  | GeoJsonLineString
-  | GeoJsonPolygon
-  | GeoJsonMultiPoint
-  | GeoJsonMultiLineString
-  | GeoJsonMultiPolygon;
+  GeoJsonPoint | GeoJsonLineString | GeoJsonPolygon | GeoJsonMultiPoint | GeoJsonMultiLineString | GeoJsonMultiPolygon;
 
 /** GeoJSON Point */
 export interface GeoJsonPoint {
