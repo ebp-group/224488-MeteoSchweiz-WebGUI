@@ -7,11 +7,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class IncludesPipe implements PipeTransform {
   public transform<
     ContainerType extends
-      | string
-      | {includes(searchValue: ArgumentType): boolean}
-      | {has(searchValue: ArgumentType): boolean}
-      | null
-      | undefined,
+      string | {includes(searchValue: ArgumentType): boolean} | {has(searchValue: ArgumentType): boolean} | null | undefined,
     ArgumentType,
   >(container: ContainerType, searchValue: ArgumentType): boolean {
     if (container == null) {

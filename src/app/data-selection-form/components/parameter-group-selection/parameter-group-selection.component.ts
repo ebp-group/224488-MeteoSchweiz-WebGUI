@@ -46,7 +46,7 @@ export class ParameterGroupSelectionComponent extends AutocompleteSelectionCompo
     selectedId: string | null,
   ): LocalizedParameterGroup[] {
     const selectedParameterGroup = this.findDisplayItem(selectedId, allParameterGroups);
-    if (selectedParameterGroup && selectedParameterGroup.displayName === filterValue) {
+    if (selectedParameterGroup?.displayName === filterValue) {
       return allParameterGroups;
     }
 

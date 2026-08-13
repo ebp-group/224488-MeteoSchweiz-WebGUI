@@ -23,7 +23,7 @@ describe('IncludesPipe', () => {
     [{includes: (): boolean => true}, 'lol', true],
   ];
   testValues.forEach(([target, value, expected]) => {
-    it(`should return '${expected}' if '${JSON.stringify(value)}' is searched in '${target}'`, () => {
+    it(`should return '${expected}' if '${JSON.stringify(value)}' is searched in '${JSON.stringify(target)}'`, () => {
       const actual = pipe.transform(target, value);
       expect(actual).toBe(expected);
     });

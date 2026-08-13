@@ -32,9 +32,8 @@ export const selectSortedHistoricalDateRanges = createSelector(
       .map((dateRange) => ({
         ...dateRange,
         selected:
-          selectedHistoricalDateRange != null &&
-          selectedHistoricalDateRange.start.getTime() === dateRange.start.getTime() &&
-          selectedHistoricalDateRange.end.getTime() === dateRange.end.getTime(),
+          selectedHistoricalDateRange?.start.getTime() === dateRange.start.getTime() &&
+          selectedHistoricalDateRange?.end.getTime() === dateRange.end.getTime(),
       })) ?? [],
 );
 

@@ -21,10 +21,16 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
   {
     files: ['**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
       ...angular.configs.tsRecommended,
       prettierRecommended,
       ...ngrx.configs.all,
@@ -141,6 +147,13 @@ export default tseslint.config(
           allowNullOrUndefined: true,
         },
       ],
+    },
+  },
+  {
+    files: ['**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
 );
