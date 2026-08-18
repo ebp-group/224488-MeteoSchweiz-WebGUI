@@ -37,6 +37,7 @@ yarn-error.log
 testem.log
 /typings
 /.opencode
+/.playwright-cli
 
 # System files
 .DS_Store
