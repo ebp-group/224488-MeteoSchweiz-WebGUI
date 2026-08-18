@@ -22,9 +22,11 @@ import {mapActions} from '../../state/map/actions/map.action';
 import {MapViewport} from '../models/map-viewport';
 
 // maplibre-gl v6 no longer auto-detects its worker's URL under bundlers, since
-// import.meta.url doesn't reliably resolve inside a bundler's module graph.
+// import.meta.url doesn't reliably resolve inside a bundler's module graph. This
+// project's esbuild-based build needs the worker copied to `assets/maplibre-gl`
+// (see angular.json) and resolved via `document.baseURI` instead of import.meta.url.
 // See: https://github.com/maplibre/maplibre-gl-js/blob/v6.0.0/docs/guides/v5-to-v6-migration-guide.md
-setWorkerUrl(new URL('maplibre-gl/dist/maplibre-gl-worker.mjs', import.meta.url).toString());
+setWorkerUrl(new URL('assets/maplibre-gl/maplibre-gl-worker.mjs', document.baseURI).toString());
 
 @Injectable({
   providedIn: 'root',

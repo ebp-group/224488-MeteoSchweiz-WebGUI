@@ -16,6 +16,7 @@ components use Angular Material, and translations run through Transloco.
 - `npm run format` / `npm run format:check` — Prettier over `./src`
 - `npm run i18n:extract` then `npm run i18n:find` — regenerate/verify Transloco keys in `public/i18n`; `i18n:find` also runs in the pre-commit hook and fails the commit silently-ish (only prints a warning, doesn't block) if keys are missing/unused
 - `npm run generate-stac-api` — regenerates `src/app/stac/generated/stac-api.generated.ts` from the MeteoSwiss STAC OpenAPI spec; never hand-edit generated STAC types
+- `npm run build` — production build; output goes to `dist/browser/` (not `dist/<project-name>/browser/` — `outputPath` in `angular.json` is a plain string `"dist"`, and `@angular/build:application` writes straight into `dist/browser/` with no project-name segment). To verify the production build actually works locally (bypassing `ng serve`'s Vite dev-server, which can mask asset-resolution bugs that only reproduce in a real build): `npx http-server dist\browser -p 8080`, then open `http://localhost:8080`.
 - Node version is pinned via `.nvmrc`
 
 ## Git hooks (Husky) — non-blocking but noisy
