@@ -44,6 +44,7 @@ export default tseslint.config(
     ignores: ['src/app/stac/generated/**'],
     processor: angular.processInlineTemplates,
     rules: {
+      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
       'rxjs-angular-x/prefer-composition': 'error',
       '@typescript-eslint/ban-ts-comment': [
         'warn',
