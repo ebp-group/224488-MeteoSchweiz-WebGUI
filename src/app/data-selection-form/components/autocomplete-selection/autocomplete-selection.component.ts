@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {concatLatestFrom} from '@ngrx/operators';
 import {combineLatestWith, map, Observable, startWith, Subscription, tap} from 'rxjs';
 import {DisplayItem} from '../../../shared/models/display-item';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export abstract class AutocompleteSelectionComponent<T extends DisplayItem> implements OnInit, OnDestroy {

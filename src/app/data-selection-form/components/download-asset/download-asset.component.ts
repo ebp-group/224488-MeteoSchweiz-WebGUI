@@ -1,6 +1,6 @@
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatMiniFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatInput} from '@angular/material/input';
@@ -27,6 +27,7 @@ import {DownloadAssetLinkComponent} from '../download-asset-link/download-asset-
     ExternalLinkComponent,
   ],
   templateUrl: './download-asset.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './download-asset.component.scss',
 })
 export class DownloadAssetComponent {

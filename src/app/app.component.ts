@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {IconService} from './shared/services/icon.service';
 import '@iframe-resizer/child';
@@ -7,6 +7,7 @@ import '@iframe-resizer/child';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss',
 })
 export class AppComponent {

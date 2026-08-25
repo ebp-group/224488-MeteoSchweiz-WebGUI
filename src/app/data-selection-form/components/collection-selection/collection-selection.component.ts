@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatRipple} from '@angular/material/core';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {TranslocoModule} from '@jsverse/transloco';
@@ -30,6 +30,7 @@ import {StationInfoComponent} from '../station-info/station-info.component';
     IncludesPipe,
   ],
   templateUrl: './collection-selection.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './collection-selection.component.scss',
 })
 export class CollectionSelectionComponent {

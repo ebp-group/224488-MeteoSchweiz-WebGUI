@@ -1,4 +1,4 @@
-import {HttpClient, provideHttpClient} from '@angular/common/http';
+import {HttpClient, provideHttpClient, withXhr} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
 import {StyleSpecification} from '@maplibre/maplibre-gl-style-spec';
 import {provideMockStore} from '@ngrx/store/testing';
@@ -16,7 +16,7 @@ describe('MapService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MapService, provideHttpClient(), provideMockStore()],
+      providers: [MapService, provideHttpClient(withXhr()), provideMockStore()],
     });
 
     service = TestBed.inject(MapService);

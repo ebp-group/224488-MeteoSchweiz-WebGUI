@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatIconButton} from '@angular/material/button';
@@ -30,6 +30,7 @@ import {AutocompleteSelectionComponent} from '../autocomplete-selection/autocomp
     MatIconButton,
   ],
   templateUrl: './station-selection.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './station-selection.component.scss',
 })
 export class StationSelectionComponent extends AutocompleteSelectionComponent<Station> {
