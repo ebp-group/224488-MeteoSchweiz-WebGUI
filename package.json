@@ -20,6 +20,9 @@
     "generate-stac-api": "swagger-typescript-api generate -p https://sys-data.int.bgdi.ch/api/stac/static/spec/v1/openapi.yaml -o ./src/app/stac/generated -n stac-api.generated.ts --clean-output --extract-response-body --extract-request-body --extract-request-body --api-class-name StacApiClient && prettier --write ./src/app/stac/generated"
   },
   "private": true,
+  "engines": {
+    "node": "24.19.0"
+  },
   "dependencies": {
     "@angular/animations": "^21.2.19",
     "@angular/cdk": "^21.2.14",
