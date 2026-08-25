@@ -17,6 +17,8 @@ components use Angular Material, and translations run through Transloco.
 - `npm run i18n:extract` then `npm run i18n:find` — regenerate/verify Transloco keys in `public/i18n`; `i18n:find` also runs in the pre-commit hook and fails the commit silently-ish (only prints a warning, doesn't block) if keys are missing/unused
 - `npm run generate-stac-api` — regenerates `src/app/stac/generated/stac-api.generated.ts` from the MeteoSwiss STAC OpenAPI spec; never hand-edit generated STAC types
 - `npm run build` — production build; output goes to `dist/browser/` (not `dist/<project-name>/browser/` — `outputPath` in `angular.json` is a plain string `"dist"`, and `@angular/build:application` writes straight into `dist/browser/` with no project-name segment). To verify the production build actually works locally (bypassing `ng serve`'s Vite dev-server, which can mask asset-resolution bugs that only reproduce in a real build): `npx http-server dist\browser -p 8080`, then open `http://localhost:8080`.
+- `npm run e2e` — runs the Playwright end-to-end suite (`playwright.config.ts` at repo root, specs under `e2e/tests/`) against a dev server already running at `http://localhost:4200`; start it first with `npm start` in a separate terminal/process
+- `npm run e2e:update-snapshots` — deliberately regenerates the committed `*-snapshots/*.png` baseline images; only run this when a visual change is intentional, never as a way to make a failing e2e test pass
 - Node version is pinned via `.nvmrc`
 
 ## Git hooks (Husky) — non-blocking but noisy
@@ -38,6 +40,15 @@ components use Angular Material, and translations run through Transloco.
 
 - Per repo convention, **components are intentionally not unit-tested** (UI testing is considered too brittle) — keep component classes thin. Services and NgRx effects/reducers/selectors must be tested.
 - Coverage output goes to `coverage/meteoschweiz-opendata-explorer`.
+
+### E2E regression baseline (Playwright)
+
+- **Never run `npm run e2e:update-snapshots` (or otherwise overwrite files under any `*-snapshots/` folder) unless the user explicitly asks for it in that exact request.** These images are the fixed visual baseline and must not change as a side effect of running the suite, fixing a locator, or investigating a failure — a failing/flaky screenshot comparison must be reported and diagnosed, never "fixed" by regenerating the baseline on your own initiative.
+- `e2e/tests/wizard/main-wizard-baseline.spec.ts` records one full pass through the data-selection wizard (parameter/station/network pick, all stepper steps, the summary, reaching the final download step without downloading) and asserts URL query params, summary text, and a `toHaveScreenshot()` pixel diff at every step against the committed `main-wizard-baseline.spec.ts-snapshots/*.png` baseline images.
+- Prerequisite: the dev server must already be running and reachable at `http://localhost:4200` (`npm start`) before `npm run e2e` — the suite does not start it for you, and there's no OS-specific requirement here since it's just an HTTP check.
+- Snapshot filenames include a platform suffix (currently `-linux.png`, from Playwright's default `{name}-{platform}{ext}` template). Baselines were recorded on Linux; running the suite on a different OS (e.g. Windows) will look for a differently-suffixed file (e.g. `-win32.png`) that doesn't exist yet and fail with "snapshot doesn't exist" rather than a pixel diff — this isn't a regression, it just means that OS needs its own baseline generated once, and only with explicit user approval.
+- A genuine mismatch here can stem from either an actual app regression or an intentional dependency change (e.g. Angular Material revising a component's rendered ARIA roles/markup on a major version bump). **Never silently classify a mismatch as one of these on your own judgement — always report the diff (which files, pixel/ratio, screenshots) and ask the user which explanation applies before drawing a conclusion or taking any action.**
+- The `pw-01`/`pw-02`/`pw-03` steps show the MapLibre GL map, whose externally-served tile/marker content isn't under this repo's control and can shift by a few pixels between runs. These three steps use a **split-screenshot pattern**: `toHaveScreenshot()` on the full page with the map region (`getByRole('region', { name: 'Map' })`) passed to `mask` (0 tolerance for everything except the map, which gets blacked out), plus a second, separate `toHaveScreenshot()` scoped to just that map region with a pixel-diff tolerance option (the _only_ place in this suite with any pixel tolerance at all - see the spec for the current value). If you add further steps that show the map, follow the same two-assertion pattern rather than adding tolerance to the full-page screenshot.
 
 ## Architecture pointers
 
