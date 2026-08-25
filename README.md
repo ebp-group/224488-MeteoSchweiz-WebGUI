@@ -22,6 +22,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 > - [Code scaffolding](#code-scaffolding)
 > - [Building](#building)
 > - [Running unit tests](#running-unit-tests)
+> - [Running e2e tests](#running-e2e-tests)
 > - [i18n: Translation keys](#i18n-translation-keys)
 > - [Formatting and linting](#formatting-and-linting)
 > - [STAC type generation](#stac-type-generation)
@@ -67,6 +68,35 @@ To execute unit tests with the [Karma](https://karma-runner.github.io) test runn
 ```bash
 ng test
 ```
+
+### Running e2e tests
+
+To execute the end-to-end tests with [Playwright](https://playwright.dev), a local development server must already be running at
+`http://localhost:4200` (start it with `ng serve` respectively `npm start` in a separate terminal first). Once it's running, use the
+following command:
+
+```bash
+npm run e2e
+```
+
+The Playwright configuration is located at `playwright.config.ts` in the repository root, and the specs are located in `e2e/tests/`.
+
+One notable spec is `e2e/tests/wizard/main-wizard-baseline.spec.ts`, which walks through the full data-selection wizard (parameter,
+station and network selection, all stepper steps, the summary) and asserts URL query params, summary text, and pixel-diff screenshots at
+each step against the committed baseline images in `main-wizard-baseline.spec.ts-snapshots/`.
+
+Snapshot filenames include a platform suffix (e.g. `-linux.png`). The committed baselines were recorded on Linux, so running the suite on
+a different OS will look for a differently-suffixed file (e.g. `-win32.png`) that doesn't exist yet and fail with a "snapshot doesn't
+exist" error. This is not a regression - it just means that OS needs its own baseline generated once.
+
+If a visual change is intentional, the committed baseline images can be regenerated with the following command:
+
+```bash
+npm run e2e:update-snapshots
+```
+
+This must only be run when a visual change is intentional, and only with explicit approval - never as a way to make a failing e2e test
+pass.
 
 ### i18n: Translation keys
 
