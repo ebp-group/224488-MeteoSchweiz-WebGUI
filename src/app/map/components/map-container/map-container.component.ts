@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnDestroy, ViewChild} from '@angular/core';
 import {MatMiniFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {TranslocoDirective} from '@jsverse/transloco';
@@ -11,6 +11,7 @@ import {MapService} from '../../services/map.service';
   selector: 'app-map-container',
   imports: [MatIcon, MatMiniFabButton, TranslocoDirective],
   templateUrl: './map-container.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './map-container.component.scss',
 })
 export class MapContainerComponent implements AfterViewInit, OnDestroy {

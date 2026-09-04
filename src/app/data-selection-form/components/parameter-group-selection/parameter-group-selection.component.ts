@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatIconButton} from '@angular/material/button';
@@ -32,6 +32,7 @@ import {AutocompleteSelectionComponent} from '../autocomplete-selection/autocomp
     MatIconButton,
   ],
   templateUrl: './parameter-group-selection.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './parameter-group-selection.component.scss',
 })
 export class ParameterGroupSelectionComponent extends AutocompleteSelectionComponent<LocalizedParameterGroup> {

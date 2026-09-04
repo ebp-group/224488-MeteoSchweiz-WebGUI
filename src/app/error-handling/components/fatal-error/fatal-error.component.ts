@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {ActivatedRoute} from '@angular/router';
 import {TranslocoModule} from '@jsverse/transloco';
@@ -10,6 +10,7 @@ import {routeParamConstants} from '../../../shared/constants/route-param.constan
   selector: 'app-fatal-error',
   imports: [TranslocoModule, MatButton],
   templateUrl: './fatal-error.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './fatal-error.component.scss',
 })
 export class FatalErrorComponent implements OnInit, OnDestroy {

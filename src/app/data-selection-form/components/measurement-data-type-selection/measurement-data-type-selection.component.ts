@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
 import {TranslocoModule} from '@jsverse/transloco';
@@ -14,6 +14,7 @@ import {formFeature} from '../../../state/form/reducers/form.reducer';
   selector: 'app-measurement-data-type-selection',
   imports: [TranslocoModule, MatButtonToggleGroup, MatButtonToggle, MatStepperModule, AsyncPipe, ExternalLinkComponent],
   templateUrl: './measurement-data-type-selection.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './measurement-data-type-selection.component.scss',
 })
 export class MeasurementDataTypeSelectionComponent {
