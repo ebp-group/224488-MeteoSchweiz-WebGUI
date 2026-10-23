@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TranslocoDirective} from '@jsverse/transloco';
 import {Store} from '@ngrx/store';
 import {MapContainerComponent} from '../../../map/components/map-container/map-container.component';
@@ -19,6 +19,7 @@ import {StationSelectionComponent} from '../station-selection/station-selection.
     TranslocoDirective,
   ],
   templateUrl: './station-selection-step.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './station-selection-step.component.scss',
 })
 export class StationSelectionStepComponent {

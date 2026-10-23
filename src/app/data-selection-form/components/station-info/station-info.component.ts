@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatList, MatListItem} from '@angular/material/list';
 import {TranslocoDirective} from '@jsverse/transloco';
@@ -23,6 +23,7 @@ import {appFeature} from '../../../state/app/reducers/app.reducer';
     ExternalLinkComponent,
   ],
   templateUrl: './station-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './station-info.component.scss',
 })
 export class StationInfoComponent {

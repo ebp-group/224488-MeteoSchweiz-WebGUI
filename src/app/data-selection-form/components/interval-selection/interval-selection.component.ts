@@ -1,5 +1,5 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTooltip} from '@angular/material/tooltip';
 import {TranslocoModule} from '@jsverse/transloco';
@@ -18,6 +18,7 @@ import type {DataInterval} from '../../../shared/models/interval';
   selector: 'app-interval-selection',
   imports: [TranslocoModule, AsyncPipe, IncludesPipe, MatRadioModule, MatTooltip, LoadingSpinnerComponent],
   templateUrl: './interval-selection.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './interval-selection.component.scss',
 })
 export class IntervalSelectionComponent {

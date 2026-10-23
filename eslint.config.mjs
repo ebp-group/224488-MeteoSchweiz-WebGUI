@@ -11,7 +11,7 @@
  */
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import eslint from '@eslint/js';
-import ngrx from '@ngrx/eslint-plugin/v9';
+import ngrx from '@ngrx/eslint-plugin';
 import angular from 'angular-eslint';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import rxjsAngularX from 'eslint-plugin-rxjs-angular-x';
@@ -44,6 +44,7 @@ export default tseslint.config(
     ignores: ['src/app/stac/generated/**'],
     processor: angular.processInlineTemplates,
     rules: {
+      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
       'rxjs-angular-x/prefer-composition': 'error',
       '@typescript-eslint/ban-ts-comment': [
         'warn',

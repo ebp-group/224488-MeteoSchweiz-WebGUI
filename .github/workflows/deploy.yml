@@ -3,9 +3,6 @@ name: Deploy
 on:
   workflow_call:
 
-env:
-  NODE_VERSION: '22'
-
 jobs:
   build:
     name: Build production artifact
@@ -18,7 +15,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: 'npm'
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: '.nvmrc'
 
       - name: Setup Pages
         id: pages
