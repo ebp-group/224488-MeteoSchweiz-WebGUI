@@ -78,10 +78,8 @@ components use Angular Material, and translations run through Transloco.
 
 ## Node version updates
 
-Bumping Node requires changing all of the following together, or CI and local dev drift apart:
-
-- `.nvmrc`
-- `package.json` (`engines.node`)
-- `.github/workflows/auto-deploy.yml` (`env.NODE_VERSION`)
-- `.github/workflows/code-quality-checks.yml` (`env.NODE_VERSION`)
-- `.github/workflows/deploy.yml` (`env.NODE_VERSION`)
+`.nvmrc` is the single source of the exact Node version required for local
+development and CI. After checkout, GitHub Actions workflows use
+`actions/setup-node` with `node-version-file: '.nvmrc'`. Locally, select that
+version explicitly with your Node version manager; `.nvmrc` does not switch the
+active runtime by itself.
