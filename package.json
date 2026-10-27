@@ -38,16 +38,16 @@
     "@ngrx/router-store": "22.0.1",
     "@ngrx/store": "22.0.1",
     "@ngrx/store-devtools": "22.0.1",
-    "immer": "11.2.6",
-    "maplibre-gl": "^6.15.0",
+    "immer": "11.2.9",
+    "maplibre-gl": "^6.16.0",
     "papaparse": "^5.7.0",
     "rxjs": "~7.8.2",
     "tslib": "^2.8.1",
     "zone.js": "~0.16.3"
   },
   "devDependencies": {
-    "@angular/build": "^22.2.3",
-    "@angular/cli": "^22.2.3",
+    "@angular/build": "^22.2.4",
+    "@angular/cli": "^22.2.4",
     "@angular/compiler-cli": "^22.2.3",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
     "@eslint/compat": "^2.1.1",
@@ -76,6 +76,6 @@
     "prettier": "^3.9.10",
     "swagger-typescript-api": "^13.12.6",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.72.0"
+    "typescript-eslint": "^8.72.1"
   }
 }
