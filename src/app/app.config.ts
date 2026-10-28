@@ -1,4 +1,4 @@
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withXhr} from '@angular/common/http';
 import {ApplicationConfig, ErrorHandler, isDevMode, provideZoneChangeDetection} from '@angular/core';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideRouter} from '@angular/router';
@@ -34,7 +34,7 @@ export const appConfig: ApplicationConfig = {
       : []),
     provideEffects(effects),
     {provide: ErrorHandler, useClass: ErrorHandlerService},
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideTransloco({
       config: {
         availableLangs: [...languages],

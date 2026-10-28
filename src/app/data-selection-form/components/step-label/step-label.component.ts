@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatTooltip} from '@angular/material/tooltip';
 
@@ -6,6 +6,7 @@ import {MatTooltip} from '@angular/material/tooltip';
   selector: 'app-step-label',
   imports: [MatIcon, MatTooltip],
   templateUrl: './step-label.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './step-label.component.scss',
 })
 export class StepLabelComponent {

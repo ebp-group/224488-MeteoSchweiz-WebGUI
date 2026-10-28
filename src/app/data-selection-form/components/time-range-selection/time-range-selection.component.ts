@@ -1,5 +1,5 @@
 import {AsyncPipe, DatePipe} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTooltip} from '@angular/material/tooltip';
@@ -16,6 +16,7 @@ import type {TimeRange} from '../../../shared/models/time-range';
   selector: 'app-time-range-selection',
   imports: [TranslocoModule, AsyncPipe, DatePipe, IncludesPipe, MatRadioModule, MatIcon, MatTooltip],
   templateUrl: './time-range-selection.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './time-range-selection.component.scss',
 })
 export class TimeRangeSelectionComponent {

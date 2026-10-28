@@ -1,9 +1,10 @@
-import {Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 
 @Component({
   selector: 'app-external-link',
   imports: [],
   templateUrl: './external-link.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './external-link.component.scss',
 })
 export class ExternalLinkComponent {

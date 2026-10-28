@@ -1,4 +1,4 @@
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withXhr} from '@angular/common/http';
 import {TestBed} from '@angular/core/testing';
 import {Action} from '@ngrx/store';
 import {MockStore, provideMockStore} from '@ngrx/store/testing';
@@ -58,7 +58,7 @@ describe('MapEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideMockStore(), provideHttpClient()],
+      providers: [provideMockStore(), provideHttpClient(withXhr())],
     });
     store = TestBed.inject(MockStore);
     mapService = TestBed.inject(MapService);

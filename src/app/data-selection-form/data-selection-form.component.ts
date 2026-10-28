@@ -1,7 +1,7 @@
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {AsyncPipe} from '@angular/common';
-import {AfterViewInit, Component, inject, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, ViewChild} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -40,6 +40,7 @@ import type {FormStep} from '../shared/constants/form-step.constant';
     MatProgressSpinnerModule,
   ],
   templateUrl: './data-selection-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './data-selection-form.component.scss',
 })
 export class DataSelectionFormComponent implements AfterViewInit, OnDestroy {
